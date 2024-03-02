@@ -1,0 +1,60 @@
+@import "../.../../../../../../../style/variable.scss";
+
+.permissoesUsuario {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  width: 74%;
+  border: 1px solid $rosa;
+}
+.permissoesUsuario .form {
+  display: flex;
+  width: 100%;
+  background-color: $rosa;
+  align-items: center;
+  justify-content: center;
+}
+.permissoesUsuario .form label {
+  display: flex;
+  color: $white;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+}
+.permissoesUsuario .form input {
+  border: none;
+  padding: 5px;
+  font-size: 12pt;
+  border-radius: 7px;
+  width: 300px;
+  margin-top: 7px;
+}
+.permissoesUsuario .div-permissao {
+  display: flex;
+  width: 96%;
+  justify-content: space-between;
+  background-color: $sizaclaro;
+  padding: 0px 9px;
+  align-items: center;
+  text-align: left;
+  margin-top: 10px;
+}
+.permissoesUsuario .div-permissao div {
+  display: flex;
+}
+
+.permissoesUsuario .nome {
+  margin-top: 10px;
+}
+.permissoesUsuario button {
+  border: none;
+  background-color: transparent;
+}
+.permissoesUsuario p {
+  font-size: 12pt;
+  margin-left: 9px;
+  font-weight: 500;
+  font-family: Arial, Helvetica, sans-serif;
+  gap: 9px;
+}

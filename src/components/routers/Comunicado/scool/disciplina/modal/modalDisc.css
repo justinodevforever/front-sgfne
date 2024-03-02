@@ -1,0 +1,46 @@
+.modalDisciplina {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  max-width: 500rem;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  top: 10px;
+  left: 0%;
+  transform: translate(50%, 50%);
+  color: #000;
+  z-index: 2;
+}
+.overlayProf {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.modalDisciplina .barra {
+  display: flex;
+  justify-content: space-between;
+}
+.modalDisciplina .barra .close {
+  transition: 0.1s;
+}
+.modalDisciplina .barra .close:hover {
+  background-color: #b2afaf;
+  border-radius: 50%;
+}
+
+.tabela th {
+  background-color: #a31543;
+  padding: 10px;
+}
+.tabela td {
+  background-color: #000;
+  color: #fff;
+  font-size: 14pt;
+}

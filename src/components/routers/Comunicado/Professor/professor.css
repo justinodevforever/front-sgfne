@@ -1,0 +1,26 @@
+.container-professor {
+  display: flex;
+  width: 100%;
+  background-color: #a31543;
+  padding: 10px;
+  color: #fff;
+  justify-content: space-between;
+}
+.container-professor span {
+  display: flex;
+  width: 50%;
+  color: #fff;
+}
+.disciplina .dd {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 100%;
+  width: 100%;
+}
+
+.container-professor div {
+  margin-right: 20px;
+}
+.m {
+  background-color: #000;
+}

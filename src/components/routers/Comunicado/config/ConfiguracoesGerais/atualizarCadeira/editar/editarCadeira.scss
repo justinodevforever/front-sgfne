@@ -1,0 +1,114 @@
+@import "../../../../../../../style/variable.scss";
+
+.ovefloy {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: $preto;
+  opacity: 0.7;
+}
+
+.editarPropina {
+  display: flex;
+  position: fixed;
+  width: 70%;
+  left: 20%;
+  background-color: $white;
+  flex-direction: column;
+  z-index: 3;
+  border-radius: 10px;
+}
+.editarPropina .formBi {
+  display: flex;
+  width: 100%;
+  gap: 3px;
+  padding: 0px;
+  align-items: center;
+  flex-direction: column;
+}
+.editarPropina .opcoesEditar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+.editarPropina .opcoesEditar .closed {
+  padding: 2px;
+  background-color: $siza;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.editarPropina .opcoesEditar .closed:hover {
+  background-color: $houverM;
+}
+
+.editarPropina .formBi .cc {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $white;
+}
+.editarPropina .formBi div {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: $white;
+}
+.editarPropina .formBi div input {
+  width: 25%;
+  margin-left: 10px;
+  margin-top: 4px;
+  border-radius: 7px;
+}
+
+.editarPropina table {
+  margin: auto;
+  margin-top: 20px;
+  width: 98%;
+}
+.editarPropina th {
+  background-color: $rosa;
+  border: none;
+}
+
+.editarPropina button {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: $rosa;
+  cursor: pointer;
+  color: $white;
+  width: 30%;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 14pt;
+  gap: 10px;
+  border: none;
+  border-radius: 10px;
+  justify-content: center;
+}
+.editarPropina button:hover {
+  opacity: 0.7;
+}
+
+.editarPropina .formBi .cc div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.editarPropina .formBi .cc select {
+  width: 100px;
+}
+.editarPropina .formBi .cc label {
+  display: flex;
+  flex-direction: column;
+}

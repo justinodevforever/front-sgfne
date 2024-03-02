@@ -1,0 +1,30 @@
+.container-disciplina {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.container-disciplina .disciplina {
+  display: flex;
+  width: 100%;
+}
+.container-disciplina .disciplina .conteudo {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 2fr 50%;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+}
+.container-disciplina .disciplina .conteudo .s {
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: #a31543;
+  color: #fff;
+}
+.container-disciplina .disciplina .primeiro-semestre {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  left: 0;
+}

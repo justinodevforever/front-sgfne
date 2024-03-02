@@ -1,0 +1,49 @@
+.container-SearchPagw {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+}
+.container-SearchPagw form {
+  display: flex;
+  margin: auto;
+}
+
+.container-SearchPagw form input {
+  padding: 5px;
+  width: 100%;
+  font-size: 12pt;
+  font-weight: 500;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.container-SearchPagw form button {
+  font-size: 12pt;
+  padding: 5px;
+  background-color: #f74040;
+  color: #fff;
+  border: none;
+  right: 30px;
+}
+
+.container-SearchPagw .content-page {
+  width: 100%;
+  margin-top: 10px;
+}
+.container-SearchPagw .content-page .page {
+  display: flex;
+  margin: auto;
+  margin-top: 10px;
+  width: 90%;
+  color: #00f;
+  padding: 10px;
+  gap: 5;
+  border-radius: 10px;
+  align-items: center;
+  border: 2px solid #fff;
+}
+.container-SearchPagw .content-page a {
+  font-size: 20pt;
+  color: #00f;
+}

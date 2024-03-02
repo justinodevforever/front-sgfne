@@ -1,0 +1,141 @@
+.container-declaracao {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.container-declaracao .conteudo {
+  display: flex;
+  flex-direction: column;
+  width: 98%;
+  margin: auto;
+  align-items: center;
+  margin-top: 20px;
+
+  padding-bottom: 20px;
+}
+.conteudo .formBi {
+  display: flex;
+  width: 100%;
+  background-color: #a31543;
+  padding-top: 4px;
+  align-items: center;
+  justify-content: center;
+}
+.conteudo .formBi input {
+  display: flex;
+  width: 40%;
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 2px 4px;
+  color: #000;
+}
+.conteudo .form {
+  width: 100%;
+  margin: auto;
+}
+.conteudo .imprimir {
+  display: flex;
+  width: 100px;
+  padding: 10px;
+  /* background-color: #a31543; */
+  position: fixed;
+  right: 20px;
+  bottom: 10px;
+  border-radius: 20px;
+  gap: 10;
+  cursor: pointer;
+}
+.conteudo .imprimir span {
+  margin-left: 5px;
+}
+.conteudo hr {
+  width: 80%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.conteudo .pagamento-co.conteudo {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: auto;
+  margin-top: 10px;
+}
+.cc {
+  display: flex;
+  margin: auto;
+}
+.conteudo h1,
+h2 {
+  color: #a31543;
+  margin-bottom: 20px;
+}
+.conteudo h1,
+input,
+select {
+  margin-bottom: 10px;
+}
+.conteudo select {
+  width: 190px;
+  height: 24px;
+  font-size: 14pt;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 2px solid #a31543;
+  margin-top: 10px;
+}
+.conteudo label {
+  display: flex;
+  font-size: 14pt;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.search {
+  width: 300px;
+  height: 30px;
+  margin-right: 10px;
+  margin-left: 10px;
+  color: #000;
+}
+.conteudo .pagamento-co.conteudo input::placeholder {
+  margin-left: 20px;
+  font-size: 14pt;
+}
+.conteudo .dados-estudante {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  margin: auto;
+  margin-top: 10px;
+}
+.conteudo .dados-estudante label {
+  font-size: 14pt;
+}
+
+.conteudo .input {
+  width: 400px;
+  height: 30px;
+  margin-right: 10px;
+  margin: auto;
+  margin-bottom: 10px;
+  font-size: 14pt;
+  margin-left: 10px;
+}
+.conteudo .btn {
+  width: 30%;
+  padding: 10px;
+  border: none;
+  color: #fff;
+  background-color: #a31543;
+  font-size: 14pt;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+.conteudo .btn:hover {
+  opacity: 1;
+}

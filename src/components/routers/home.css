@@ -1,0 +1,158 @@
+.homeC {
+  width: 100%;
+  position: relative;
+}
+
+.container-home {
+  width: 100%;
+  margin: auto;
+}
+
+.homeC .grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 2fr 50%;
+}
+
+.esquerda {
+  display: flex;
+
+  flex-direction: column;
+  width: 100%;
+
+  padding-top: 90px;
+}
+
+.esquerda textarea {
+  width: 300px;
+  height: 200px;
+  border: 2px solid #a31543;
+  resize: none;
+  border-radius: 20px;
+  padding: 10px;
+}
+
+.container-home a {
+  color: #0a18e5;
+  font-size: 14pt;
+}
+
+.container-home .anuncios .remove {
+  color: #d30404;
+}
+
+.container-home .buttons {
+  display: flex;
+  position: fixed;
+  width: 300px;
+  float: left;
+  opacity: 1;
+  left: -100px;
+  transition: 0.7s;
+}
+.container-home .container-button {
+  display: flex;
+  background-color: #000;
+}
+.container-home .buttons button {
+  background-color: #000;
+  border: none;
+  color: #fff;
+  font-size: 20pt;
+  text-align: center;
+  margin: auto;
+  cursor: pointer;
+}
+
+.container-home .comentario {
+  resize: none;
+  padding: 10px;
+  font-size: 20pt;
+  width: 80%;
+  margin: 15px auto;
+  border-radius: 50px;
+  height: 50px;
+}
+.container-home .aba {
+  background-color: #fff;
+  text-align: center;
+  align-items: center;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 0px 10px 10px 0px;
+}
+.container-home .esconder {
+  display: flex;
+  visibility: hidden;
+  z-index: 1;
+  opacity: 1;
+}
+
+.container-home .aba img {
+  width: 10px;
+  height: 10px;
+  font-size: 20pt;
+}
+
+.container-home .exibir {
+  left: 0px !important;
+  z-index: 1;
+  opacity: 1;
+}
+.container-home .link {
+  color: #fff;
+  opacity: 1;
+}
+
+@media (max-width: 500px) {
+  .container-home .container-button {
+    flex-direction: column;
+    background-color: #000;
+  }
+  .container-home .buttons {
+    left: -95px;
+    transition: 0.7s;
+  }
+  .container-home .aba {
+    height: 30px;
+    padding: 0px;
+  }
+  .container-home .buttons .div-rolar {
+    border: 3px solid #fff;
+    width: 20px;
+    height: 50px;
+    margin-left: 20px;
+    text-align: center;
+    border-radius: 15px;
+    padding: 0px 2px;
+    margin-top: 5px;
+  }
+
+  .container-home .buttons .div-rolar .rolar {
+    background-color: #fff;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 30px auto 0px auto;
+  }
+  .container-home .buttons .div-rolar .baixo {
+    margin-top: 30px;
+    transition: 0.5s;
+  }
+  .container-home .buttons .div-rolar .cima {
+    margin-top: 2px;
+    transition: 0.5s;
+  }
+
+  .container-home .buttons button {
+    border-bottom: 1px solid #f00;
+    color: #fff;
+    font-size: 12pt;
+    font-weight: 500;
+    opacity: 1;
+    text-align: center;
+    margin: auto;
+    cursor: pointer;
+    margin-top: 5px;
+  }
+}

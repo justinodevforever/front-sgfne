@@ -1,0 +1,51 @@
+.container-criaPpagina {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+.container-criaPpagina form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 40%;
+  margin: auto;
+}
+
+.container-criaPpagina form input {
+  width: 90%;
+  font-size: 14pt;
+  padding: 10px;
+  border: none;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: #3c3a3a;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+}
+
+.container-criaPpagina form button {
+  width: 50%;
+  font-size: 14pt;
+  padding: 10px;
+  border: none;
+  background-color: #ee0505;
+  border-radius: 10px;
+  color: #fff;
+  margin-top: 50px;
+  cursor: pointer;
+}
+.container-criaPpagina h1 {
+  margin-bottom: 50px;
+}
+@media (max-height: 480px) {
+  .container-criaPpagina form {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+  .container-criaPpagina form {
+    width: 100%;
+  }
+}

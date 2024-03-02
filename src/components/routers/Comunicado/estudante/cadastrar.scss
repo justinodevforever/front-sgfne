@@ -1,0 +1,86 @@
+@import "../../../../style/variable.scss";
+.container-cadastrar {
+  display: flex;
+  width: 80%;
+  margin: auto;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid $rosa;
+  border-right: 1px solid $rosa;
+  border-bottom: 1px solid $rosa;
+  padding-bottom: 20px;
+  margin-top: 10px;
+}
+.container-cadastrar .form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.container-cadastrar .pesquisa {
+  display: flex;
+  width: 100%;
+  background-color: $rosa;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 0px;
+  color: $white;
+}
+.container-cadastrar .pesquisa input {
+  width: 30%;
+  border-radius: 10px;
+  border: none;
+  padding: 5px;
+  margin-right: 10px;
+}
+.container-cadastrar form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.container-cadastrar form fieldset {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+  padding: 20px 0px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.container-cadastrar form input {
+  width: 70%;
+  font-size: 14pt;
+  padding: 4px;
+  height: 40px;
+  border: 2px solid $rosa;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.container-cadastrar form button {
+  width: 50%;
+  background-color: $rosa;
+  border-radius: 10px;
+  color: $white;
+  padding: 10px;
+  font-size: 14pt;
+  cursor: pointer;
+  border: none;
+  margin-top: 20px;
+}
+.container-cadastrar form button:hover {
+  opacity: 0.7;
+}
+.container-cadastrar .pesquisa select {
+  width: 17%;
+  border-radius: 10px;
+  border: none;
+  font-size: 13pt;
+  padding: 5px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-top: 10px;
+}

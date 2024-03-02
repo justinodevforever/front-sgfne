@@ -1,0 +1,172 @@
+.propina {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.propina .conteudoProp {
+  display: flex;
+  flex-direction: column;
+  width: 97%;
+  margin: auto;
+  align-items: center;
+  margin-top: 20px;
+  /* border-right: 1px solid #000;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000; */
+}
+.conteudoProp .formBi {
+  display: flex;
+  width: 100%;
+  background-color: #a31543;
+  padding-top: 4px;
+  align-items: center;
+  justify-content: center;
+}
+.conteudoProp .formBi input {
+  display: flex;
+  width: 40%;
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 2px 4px;
+  color: #000;
+}
+.propina .form {
+  width: 100%;
+  margin: auto;
+}
+.propina .imprimirPropina {
+  display: flex;
+  width: 100px;
+  position: fixed;
+  padding: 10px;
+  background-color: #a31543;
+  right: 80px;
+  border-radius: 20px;
+  gap: 10;
+  cursor: pointer;
+  bottom: 80px;
+}
+.propina .imprimirPropina span {
+  margin-left: 5px;
+  color: #fff;
+}
+.propina hr {
+  width: 99%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.propina .pagamento-propina {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: auto;
+  margin-top: 10px;
+}
+.cc {
+  display: flex;
+  width: 100%;
+  margin: auto;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+}
+.propina h1,
+h2 {
+  color: #a31543;
+}
+.propina h1,
+input,
+select {
+  margin-bottom: 10px;
+}
+
+.propina .pagamento-propina select {
+  width: 130px;
+  height: 30px;
+  font-size: 14pt;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 2px solid #a31543;
+}
+.propina .pagamento-propina input {
+  width: 270px;
+  height: 30px;
+  font-size: 14pt;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 2px solid #a31543;
+  padding: 0px 8px;
+  border-radius: 5px;
+}
+.propina .pagamento-propina label {
+  display: flex;
+  flex-direction: column;
+  font-size: 12pt;
+  align-items: center;
+  justify-content: center;
+}
+.search {
+  width: 300px;
+  height: 30px;
+  margin-right: 10px;
+  margin-left: 10px;
+  color: #000;
+}
+.propina .pagamento-propina input::placeholder {
+  margin-left: 20px;
+  font-size: 14pt;
+}
+.propina .dados-estudante {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  margin: auto;
+  margin-top: 10px;
+}
+.propina .dados-estudante label {
+  font-size: 14pt;
+}
+
+.propina .dados-estudante input {
+  width: 400px;
+  height: 30px;
+  margin-right: 10px;
+  margin: auto;
+  margin-bottom: 10px;
+  font-size: 14pt;
+  margin-left: 10px;
+}
+.propina .btn {
+  width: 30%;
+  padding: 10px;
+  border: none;
+  color: #fff;
+  background-color: #a31543;
+  font-size: 14pt;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+.propina .btn:hover {
+  opacity: 1;
+}
+
+.tabela table {
+  border-collapse: collapse;
+  width: 98%;
+  margin: auto;
+}
+.tabela th,
+td {
+  border: none;
+  border-bottom: 1px solid #000;
+}
+.tabela td {
+  background-color: #fff;
+  color: #000;
+}

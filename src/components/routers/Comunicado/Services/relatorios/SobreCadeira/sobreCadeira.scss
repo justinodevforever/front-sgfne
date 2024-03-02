@@ -1,0 +1,190 @@
+@import "../../../../../../style/variable.scss";
+.overley {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: $preto;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+  z-index: 2;
+}
+.extra div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.extra {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.relatorioCadeira {
+  display: flex;
+  position: fixed;
+  margin: auto;
+  flex-direction: column;
+  width: 70%;
+  height: 600px;
+  background-color: #fff;
+  top: 40px;
+  z-index: 3;
+  left: 15%;
+  border-radius: 20px;
+  overflow-y: auto;
+}
+.relatorioCadeira .opcoes {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 40px;
+  width: 66%;
+  padding: 10px;
+  z-index: 3;
+}
+.relatorioCadeira .h2 {
+  margin-top: 20px;
+}
+
+.relatorioCadeira .closed:hover {
+  padding: 2px;
+  background-color: $sizaclaro;
+  border-radius: 50%;
+}
+.relatorioCadeira .closed {
+  padding: 2px;
+  background-color: $siza;
+  border-radius: 50%;
+}
+.tabelaSobreCadeira table {
+  border-collapse: collapse;
+  width: 78%;
+  margin: auto;
+  margin-top: 7px;
+}
+.tabelaSobreCadeira .assinar {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.tabelaSobreCadeira .assinar div {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+.tabelaSobreCadeira hr {
+  border-top: 2px solid $preto;
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+}
+.tabelaSobreCadeira th {
+  background-color: $rosa;
+  border: none;
+  border-left: 1px solid $preto;
+  border-right: 1px solid $preto;
+}
+.tabelaSobreCadeira .estudante {
+  border: none;
+  border-bottom: 1px solid $siza;
+}
+.tabelaSobreCadeira td {
+  background-color: #fff;
+  color: $preto;
+  border: none;
+  border: 1px solid $preto;
+}
+.relatorioCadeira .opcoes a {
+  color: #a31543;
+  opacity: 1;
+  position: relative;
+  padding: 0px;
+  margin: auto;
+  top: -10px;
+}
+.relatorioCadeira .opcoes a:hover::before {
+  content: "";
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #a31543;
+  animation: outline 0.7s ease-out;
+}
+
+@keyframes outline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+.relatorioCadeira .imprimir {
+  display: flex;
+  padding: 20px;
+  position: fixed;
+  z-index: 1;
+  bottom: 60px;
+  right: 180px;
+  align-items: center;
+  justify-content: center;
+}
+.relatorioCadeira .tipo {
+  display: flex;
+  margin-top: 30px;
+  margin: auto;
+}
+.relatorioCadeira .imprimir a {
+  display: flex;
+  background-color: #a31543;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  border-radius: 10px;
+  padding: 5px;
+  text-align: center;
+  justify-content: center;
+  gap: 10px;
+}
+.relatorioCadeira .formBi {
+  display: flex;
+  width: 100%;
+  background-color: #a31543;
+  padding-top: 4px;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+.relatorioCadeira .formBi input {
+  display: flex;
+  width: 20%;
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 2px 4px;
+  color: $preto;
+}
+.relatorioCadeira .form {
+  width: 100%;
+  margin: auto;
+}
+.relatorioCadeira select {
+  width: 100px;
+  height: 30px;
+  font-size: 14pt;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 2px solid #a31543;
+}
+.relatorioCadeira label {
+  display: flex;
+  font-size: 12pt;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}

@@ -1,0 +1,23 @@
+.ano-curso {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.ano {
+  display: flex;
+  width: 100%;
+}
+.ano ul {
+  display: flex;
+  width: 100%;
+  box-shadow: 10px 4px 4px 4px #a31543;
+
+  color: #a31543;
+  padding: 10px;
+  font-size: 14pt;
+  justify-content: space-between;
+}
+.ano ul a {
+  color: #a31543;
+}

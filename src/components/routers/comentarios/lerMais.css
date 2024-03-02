@@ -1,0 +1,5 @@
+.lerMais a {
+  display: flex;
+  cursor: pointer;
+  overflow-y: auto;
+}

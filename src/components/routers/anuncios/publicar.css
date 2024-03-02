@@ -1,0 +1,61 @@
+.container-publicar {
+  padding-top: 50px;
+}
+.container-publicar form button {
+  margin-top: 10px;
+  font-size: 14pt;
+  color: #fff;
+  background-color: #f7040f;
+  border-radius: 10px;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+}
+.container-publicar form {
+  display: flex;
+  background-color: #2a2929;
+  align-items: center;
+  width: 46%;
+  margin: auto;
+  padding-top: 30px;
+  border-radius: 20px;
+  flex-direction: column;
+  padding-bottom: 40px;
+}
+.container-publicar form textarea {
+  width: 90%;
+  height: 200px;
+  border-radius: 10px;
+  background-color: #000;
+  color: #fff;
+  font-size: 14pt;
+  resize: none;
+  padding: 10px;
+  border: none;
+}
+.container-publicar .imagePublicar {
+  width: 70px;
+  height: 70px;
+  cursor: pointer;
+}
+.container-publicar .imojiPublicar {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+}
+.container-publicar .container-emojiPublicar {
+  margin-top: 20px;
+}
+.container-publicar .abrirEmoji {
+  margin-top: 10px;
+  position: fixed;
+}
+@media (max-width: 730px) {
+  .container-publicar {
+    width: 100%;
+  }
+  .container-publicar form {
+    width: 99%;
+  }
+}

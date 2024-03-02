@@ -1,0 +1,70 @@
+@import "../../../../style/variable.scss";
+
+.container-definicoes {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 100%;
+  padding-left: 50px;
+}
+.definicoes {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  flex-direction: column;
+}
+
+.opcoes {
+  display: flex;
+  width: 100%;
+  margin: auto;
+}
+
+.definicoes .opcoes ul {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+}
+.definicoes .opcoes ul li .noative {
+  display: flex;
+  background-color: $siza;
+  padding: 10px;
+  font-size: 11pt;
+  cursor: pointer;
+  border-radius: 4px;
+  color: #000;
+  margin-right: 4px;
+  color: $rosa;
+  opacity: 1;
+  margin-bottom: 14px;
+  opacity: 1;
+  font-weight: 500;
+}
+.definicoes .opcoes ul li a:hover {
+  scale: 0.9;
+}
+.definicoes .opcoes ul li .ative {
+  background-color: $rosa;
+  color: $white;
+  display: flex;
+  padding: 10px;
+  font-size: 11pt;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 4px;
+  opacity: 1;
+  margin-bottom: 14px;
+  opacity: 1;
+  font-weight: 500;
+}
+
+.definicoes .conteudo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid $rosa;
+  margin: auto;
+  margin-top: -20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

@@ -1,0 +1,197 @@
+.container-pagina {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.container-pagina nav {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  opacity: 1;
+  z-index: 1;
+  background-color: #000;
+  justify-content: space-between;
+}
+.container-pagina nav ul {
+  display: flex;
+  padding: 20px 100px;
+  background-color: #000;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+}
+.container-pagina nav ul li {
+  color: #f74044;
+}
+.container-pagina .publicarPagia {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  margin: auto;
+  margin-top: 60px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  z-index: 1;
+}
+.container-pagina .publicarPagia a {
+  width: 100%;
+}
+.container-pagina .container-conteudos img {
+  width: 100%;
+  height: 300px;
+}
+.container-pagina .publicarPagia textarea {
+  display: flex;
+  width: 50%;
+  font-size: 14pt;
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
+  border: 3px solid #a31543;
+  border-radius: 30px;
+  resize: none;
+  margin-bottom: 40px;
+}
+.container-pagina .container-conteudos {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin-top: 50px;
+  padding-top: 70px;
+}
+
+.container-pagina .container-conteudos .conteudos {
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  margin: auto;
+  width: 100%;
+  padding: 5px 0px;
+  border-top: 2px solid #fff;
+}
+.container-pagina .container-conteudos .conteudos ul {
+  text-align: left;
+  padding: 10px;
+  color: #fff;
+  font-weight: 100;
+  font-size: 14pt;
+  font-family: Arial, Helvetica, sans-serif;
+  opacity: 1;
+  word-wrap: break-word;
+}
+
+.container-conteudos .conteudos .check {
+  display: flex;
+  width: 99%;
+  margin: auto;
+  background-color: #a31543;
+  align-items: center;
+  text-align: center;
+  opacity: 1;
+  justify-content: space-between;
+  color: #fff;
+}
+.container-conteudos .conteudos .check div {
+  display: flex;
+}
+.container-pagina .container-conteudos .conteudos .footer-pagina {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+.container-conteudos .conteudos .border {
+  display: flex;
+  align-items: center;
+  width: auto;
+}
+
+@media (max-width: 2000px) {
+  .container-pagina .container-conteudos .conteudos {
+    width: 30%;
+  }
+  .container-pagina .container-conteudos {
+    margin-top: 80px;
+  }
+  .container-pagina .publicarPagia textarea {
+    display: flex;
+    width: 30%;
+    font-size: 14pt;
+    padding: 10px;
+    background-color: #000;
+    color: #fff;
+    border: 3px solid #a31543;
+    border-radius: 30px;
+    resize: none;
+    margin-bottom: 50px;
+    margin-top: 20px;
+  }
+}
+@media (max-width: 1200px) {
+  .container-pagina .container-conteudos .conteudos {
+    width: 50%;
+  }
+}
+@media (max-width: 849px) {
+  .container-pagina .container-conteudos {
+    margin-top: 24px;
+  }
+  .container-pagina .container-conteudos {
+    margin-top: 94px;
+  }
+  .container-pagina .publicarPagia textarea {
+    display: flex;
+    width: 40%;
+  }
+}
+@media (max-width: 789px) {
+  .container-pagina .container-conteudos {
+    margin-top: 90px;
+  }
+  .container-pagina nav ul {
+    padding: 20px;
+  }
+  .container-pagina .container-conteudos .conteudos {
+    width: 60%;
+  }
+}
+
+@media (max-width: 740px) {
+  .container-pagina .container-conteudos .conteudos {
+    width: 70%;
+  }
+}
+@media (max-width: 500px) {
+  .container-pagina .container-conteudos {
+    margin-top: 94px;
+  }
+  .container-pagina .publicarPagia textarea {
+    margin-top: 20px;
+    width: 80%;
+  }
+
+  .container-pagina .container-conteudos .conteudos {
+    width: 97%;
+  }
+}
+
+@media (max-width: 436px) {
+  .container-pagina nav ul {
+    padding: 20px;
+  }
+}
+@media (max-width: 320px) {
+}
+@media (max-height: 1000px) {
+  .container-pagina .container-conteudos {
+    padding-top: 70px;
+    padding-bottom: 20px;
+  }
+}
+@media (max-height: 480px) {
+  .container-pagina .container-conteudos {
+    padding-top: 90px;
+  }
+}

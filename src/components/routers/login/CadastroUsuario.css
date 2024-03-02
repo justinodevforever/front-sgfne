@@ -1,0 +1,248 @@
+.container-cadastro {
+  display: flex;
+  width: 100%;
+  color: #a31543;
+}
+.form-cadastro {
+  background-color: #fff;
+  margin: auto;
+  padding: 15px;
+  text-align: center;
+  margin-top: 40px;
+  width: 400px;
+  border-radius: 20px;
+  box-shadow: 4px 4px rgb(91, 4, 30);
+  border: 2px solid #a31543;
+}
+.form-cadastro .img {
+  display: flex;
+  background-color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: auto;
+  padding: 5px;
+}
+.form-cadastro .img img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.container-cadastro .input input {
+  width: 93%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 10px;
+}
+.container-cadastro select {
+  width: 95%;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 10px;
+  font-size: 14pt;
+}
+.form-cadastro .valid {
+  display: flex;
+  margin: auto;
+  margin-top: 20px;
+  padding: 15px;
+  font-size: 24pt;
+  background-color: #a31543;
+  border: none;
+  border-radius: 10px;
+  width: 50%;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form-cadastro .invalid {
+  display: none;
+}
+
+.form-cadastro .errorPasswordConf {
+  margin-top: 10px;
+  color: #f40404;
+  font-size: 20pt;
+}
+
+.form-cadastro .inputPassword {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.form-cadastro .inputEmail {
+  display: flex;
+  flex-direction: column;
+  width: 99%;
+  position: relative;
+}
+
+.form-cadastro .showScreen {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  text-align: left;
+  width: 300px;
+  background-color: #c0bbbb;
+  color: #000;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+  position: absolute;
+}
+.form-cadastro .showScreen div {
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+.form-cadastro .offScreen {
+  display: none;
+}
+.form-cadastro .checked {
+  display: none;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+}
+.form-cadastro .checkedValid {
+  display: flex;
+  position: absolute;
+  right: 8px;
+  bottom: 20px;
+}
+
+.form-cadastro .checkedValidScreen {
+  display: flex;
+}
+.form-cadastro label {
+  color: #a31543;
+  margin-bottom: -20px;
+  margin-top: 10px;
+}
+.form-cadastro .input {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+.form-cadastro .valido {
+  border: 3px solid green;
+}
+.form-cadastro .invalido {
+  border: 3px solid red;
+}
+
+.form-cadastro .checkPassword {
+  display: flex;
+  width: 100%;
+}
+.form-cadastro .checkPassword p {
+  margin-left: 0.2rem;
+}
+.form-cadastro .checkPassword .inputCheck {
+  width: 60px;
+  cursor: pointer;
+  background-color: #a31543;
+  border: 1px solid #a31543;
+}
+
+@media (max-width: 520px) {
+  .form-cadastro {
+    width: 90%;
+    padding: 5px;
+    padding-top: 10px;
+  }
+  .form-cadastro .showScreen {
+    width: 80%;
+  }
+  .container-cadastro button {
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 14pt;
+    margin-bottom: 7px;
+    width: 50%;
+  }
+  .form-cadastro .errorPasswordConf {
+    margin-top: 10px;
+    color: #f40404;
+    font-size: 20pt;
+  }
+  .form-cadastro .errorPasswordConf {
+    margin-top: 10px;
+    color: #f40404;
+    font-size: 14pt;
+    font-style: italic;
+  }
+}
+
+@media (max-width: 425px) {
+  .form-cadastro .valid {
+    font-size: 24px;
+    width: 60%;
+  }
+}
+@media (max-width: 300px) {
+  .container-cadastro .input input {
+    width: 88%;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #fa0505;
+    border-radius: 10px;
+  }
+  .form-cadastro .img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: auto;
+    padding: 5px;
+    margin-top: 10px;
+  }
+  .form-cadastro .img img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+}
+
+@media (max-width: 395px) {
+  .container-cadastro h3 {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 395px) {
+  .container-cadastro h3 {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 395px) {
+  .container-cadastro h3 {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 395px) {
+  .container-cadastro h3 {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 395px) {
+  .container-cadastro h3 {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 395px) {
+  .container-cadastro h3 {
+    font-size: 0.7rem;
+  }
+}
+@media (max-width: 395px) {
+  .container-cadastro h3 {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 282px) {
+  .form-cadastro .valid {
+    font-size: 14px;
+    width: 50%;
+  }
+}

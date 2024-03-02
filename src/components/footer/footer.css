@@ -1,0 +1,10 @@
+.container-footer {
+  display: flex;
+  background-color: #fff;
+  color: #000;
+  flex-flow: row nowrap;
+  height: 20px;
+
+  overflow: hidden;
+  justify-content: space-between;
+}

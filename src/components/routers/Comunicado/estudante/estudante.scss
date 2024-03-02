@@ -1,0 +1,47 @@
+@import "../../../../style/variable.scss";
+.container-estudante {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin: auto;
+}
+
+.container-estudante ul {
+  display: flex;
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+}
+.container-estudante .focus {
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14pt;
+  background-color: #a31543;
+  opacity: 2;
+}
+
+.container-estudante ul li a {
+  display: flex;
+  color: #a31543;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14pt;
+  position: relative;
+  list-style: none;
+  margin-bottom: -7px;
+  background-color: $siza;
+  opacity: 1;
+}
+.container-estudante ul li a:hover {
+  scale: 0.9;
+}
+
+@keyframes meuHover {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 100%;
+  }
+}

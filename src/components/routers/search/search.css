@@ -1,0 +1,25 @@
+.search {
+  width: 100%;
+  color: #fff;
+}
+.search ul {
+  display: flex;
+  background-color: #000;
+  padding: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search ul li a {
+  color: #fff;
+  font-size: 14pt;
+  position: relative;
+}
+.search ul li a:hover::before {
+  content: "";
+  width: 100%;
+  background-color: red;
+  height: 4px;
+  bottom: 0;
+  position: absolute;
+}

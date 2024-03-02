@@ -1,0 +1,182 @@
+.container-ComentPublicationPage {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  color: #fff;
+}
+
+.container-ComentPublicationPage .allContent {
+  margin-top: 50px;
+  width: 100%;
+  height: 80%;
+  overflow-x: hidden;
+}
+
+.container-ComentPublicationPage .allContent .publicationPage {
+  display: flex;
+  margin: auto;
+  width: 52%;
+  padding: 20px 10px;
+  background-color: #161414;
+  text-align: left;
+  border-radius: 10px;
+  font-size: 16pt;
+  border: 1px solid #a31543;
+  color: #fff;
+  word-wrap: break-word;
+  top: -20px;
+}
+.container-ComentPublicationPage .div-comentPublicationPage {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 120px;
+  margin: auto;
+  background-color: #000;
+  color: #fff;
+  padding: 2px 0px 10px 0px;
+}
+.container-ComentPublicationPage .div-comentPublicationPage textarea {
+  width: 90%;
+
+  background-color: #000;
+  border-radius: 10px;
+  resize: none;
+  padding: 5px 60px 5px 5px;
+  font-size: 14pt;
+  color: #fff;
+  scroll-behavior: smooth;
+  border: 1px solid #a31543;
+}
+.container-ComentPublicationPage .div-comentPublicationPage .sendComent {
+  margin-top: 20px;
+  opacity: 1;
+}
+.container-ComentPublicationPage section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px 0px 90px 0px;
+}
+
+.container-ComentPublicationPage section .allComent {
+  width: 50%;
+  margin: auto;
+  margin-top: 5px;
+  background-color: #000;
+  text-align: left;
+  padding: 10px;
+  border-radius: 5px;
+}
+.container-ComentPublicationPage .allComent .border {
+  width: 50px;
+  margin: 7px 0px 0px 0px;
+  border-radius: 10px;
+}
+.container-ComentPublicationPage .allComent ul {
+  background-color: #000;
+  border-radius: 4px;
+  word-wrap: break-word;
+}
+.feicharEmoji {
+  display: none;
+}
+.abrirEmoji {
+  position: absolute;
+  margin-top: -470px;
+  margin-left: -200px;
+  display: block;
+}
+
+.container-ComentPublicationPage .allComent a {
+  color: #00f;
+  font-size: 14pt;
+  opacity: 1;
+  word-wrap: break-word;
+}
+.container-ComentPublicationPage .allComent .barra-coment {
+  display: flex;
+  justify-content: space-between;
+  opacity: 1;
+}
+.fechar {
+  visibility: hidden;
+}
+.container-emoji {
+  position: absolute;
+  margin-left: 1270px;
+  margin-top: 20px;
+}
+@media (max-width: 1500px) {
+  .container-ComentPublicationPage .allContent .allComent {
+    width: 40%;
+  }
+  .container-ComentPublicationPage .allContent .publicationPage {
+    display: flex;
+    width: 42%;
+  }
+
+  .container-ComentPublicationPage .div-comentPublicationPage .container-emoji {
+    left: -20px;
+  }
+}
+@media (max-width: 1144px) {
+  .container-ComentPublicationPage .div-comentPublicationPage .container-emoji {
+    margin-left: 80%;
+  }
+}
+
+@media (max-width: 700px) {
+  .container-ComentPublicationPage section {
+    padding-bottom: 70px;
+  }
+  .container-ComentPublicationPage .allContent .allComent {
+    width: 90%;
+  }
+  .container-ComentPublicationPage .allContent .publicationPage {
+    width: 92%;
+  }
+}
+
+@media (max-width: 650px) {
+  .container-ComentPublicationPage
+    .allContent
+    .div-comentPublicationPage
+    .container-emoji
+    .abrirEmoji {
+    margin-left: -300px;
+  }
+  .container-ComentPublicationPage .allContent .allComent {
+    width: 90%;
+  }
+  .container-ComentPublicationPage .allContent .publicationPage {
+    width: 90%;
+  }
+}
+@media (max-height: 714px) {
+  .container-ComentPublicationPage .allContent .div-comentPublicationPage {
+    margin-top: 165%;
+    padding: 5px 0px 0px 4px;
+  }
+}
+@media (max-height: 480px) {
+  .container-ComentPublicationPage .allContent .div-comentPublicationPage {
+    margin-top: 87%;
+    padding: 5px 0px 0px 4px;
+  }
+  .container-ComentPublicationPage
+    .allContent
+    .div-comentPublicationPage
+    .container-emoji
+    .abrirEmoji {
+    margin-left: -260px;
+  }
+  .container-ComentPublicationPage
+    .allContent
+    .div-comentPublicationPage
+    .container-emoji {
+    margin-left: 75%;
+    margin-top: 20px;
+  }
+}

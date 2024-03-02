@@ -1,0 +1,185 @@
+@import "../../../../../../style/variable.scss";
+.overley {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  top: 0;
+  left: 0;
+  opacity: 0.6;
+  z-index: 2;
+}
+.extra div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.extra {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.relatorioReconformacao {
+  display: flex;
+  position: fixed;
+  margin: auto;
+  flex-direction: column;
+  width: 70%;
+  height: 500px;
+  background-color: #fff;
+  top: 40px;
+  z-index: 3;
+  left: 15%;
+  border-radius: 20px;
+  overflow-y: auto;
+}
+.relatorioReconformacao .opcoes {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  top: 40px;
+  width: 66%;
+  padding: 10px;
+  z-index: 3;
+}
+.relatorioReconformacao .h2 {
+  margin-top: 20px;
+}
+
+.relatorioReconformacao .closed:hover {
+  padding: 2px;
+  background-color: $sizaclaro;
+  border-radius: 50%;
+}
+.relatorioReconformacao .closed {
+  padding: 2px;
+  background-color: $siza;
+  border-radius: 50%;
+}
+.tabelaReconfirmacao table {
+  border-collapse: collapse;
+  width: 78%;
+  margin: auto;
+  margin-top: 20px;
+}
+.tabelaReconfirmacao .assinar {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.tabelaReconfirmacao .assinar div {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+.tabelaReconfirmacao hr {
+  border-top: 2px solid #000;
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+}
+.tabelaReconfirmacao th {
+  background-color: #a31543;
+  border: none;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+.tabelaReconfirmacao .estudante {
+  border: none;
+  border-bottom: 1px solid #ddd;
+}
+.tabelaReconfirmacao td {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border: 1px solid #000;
+}
+.relatorioReconformacao .opcoes a {
+  color: #a31543;
+  opacity: 1;
+  position: relative;
+  padding: 0px;
+  margin: auto;
+  top: -10px;
+}
+.relatorioReconformacao .opcoes a:hover::before {
+  content: "";
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #a31543;
+  animation: outline 0.7s ease-out;
+}
+
+@keyframes outline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+.relatorioReconformacao .imprimir {
+  display: flex;
+  position: absolute;
+  z-index: 1;
+  bottom: 3px;
+  right: 4px;
+  justify-content: right;
+}
+.relatorioReconformacao .tipo {
+  display: flex;
+  margin-top: 30px;
+  margin: auto;
+}
+.relatorioReconformacao .imprimir a {
+  display: flex;
+  background-color: #a31543;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+}
+.relatorioReconformacao .formBi {
+  display: flex;
+  width: 100%;
+  background-color: #a31543;
+  padding-top: 4px;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+}
+.relatorioReconformacao .formBi input {
+  display: flex;
+  width: 20%;
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 2px 4px;
+  color: #000;
+}
+.relatorioReconformacao .form {
+  width: 100%;
+  margin: auto;
+}
+.relatorioReconformacao select {
+  width: 100px;
+  height: 30px;
+  font-size: 14pt;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 2px solid #a31543;
+}
+.relatorioReconformacao label {
+  display: flex;
+  font-size: 12pt;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}

@@ -1,0 +1,203 @@
+.comunicado {
+  display: flex;
+  color: #fff;
+  width: 100%;
+  height: auto;
+  padding-top: 50px;
+  color: #000;
+}
+.comunicado .Propina {
+  width: 100%;
+}
+
+.comunicado .gavetaMenu {
+  display: none;
+  flex-direction: column;
+  background-color: #a31543;
+  top: 0px;
+  left: 0;
+  height: 99%;
+  width: 70px;
+  padding-top: 50px;
+  align-items: center;
+  position: fixed;
+  z-index: 0;
+}
+.comunicado .openMenu a {
+  color: #ffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14pt;
+  width: 100%;
+  text-align: left;
+  transition: 0.8s;
+}
+.comunicado .openMenu a:hover {
+  color: #fff;
+  background-color: #b5617c;
+}
+
+.comunicado .openMenu {
+  display: flex;
+  margin-right: 40px;
+}
+
+.comunicado .barra-comunicado ul {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  padding: 7px 20px 7px 7px;
+  box-shadow: 4px 4px 4px 4px #521e4d;
+  background-color: #a31543;
+  z-index: 1;
+}
+.comunicado .barra-comunicado ul li {
+  color: #fff;
+  position: relative;
+}
+.comunicado .barra-comunicado ul .logo {
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+.comunicado .barra-comunicado img {
+  width: 50px;
+  height: 50px;
+}
+.comunicado .barra-comunicado .menu {
+  display: none;
+  margin-right: 20px;
+}
+
+.comunicado .barra-comunicado ul li a {
+  font-size: 20pt;
+  color: #fff;
+  background-color: #521e4d;
+  padding: 5px 7px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.comunicado .container-comunicado {
+  display: flex;
+  width: 100%;
+  margin-top: 90px;
+  margin-bottom: 20px;
+}
+.comunicado .cadastrar {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid #a31543;
+  color: #a31543;
+  width: 50%;
+  height: 90%;
+  opacity: 1;
+  border-radius: 20px;
+  padding: 10px;
+  justify-content: center;
+  opacity: 2;
+  font-weight: 500;
+  align-items: center;
+}
+.comunicado .cadastrar a {
+  background-color: #521e4d;
+  color: #fff;
+  font-size: 14pt;
+  width: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 70px;
+}
+.comunicado .consulta {
+  display: flex;
+  border: 3px solid #521e4d;
+  color: #a31543;
+  flex-direction: column;
+  width: 50%;
+  margin-left: 10px;
+  height: 90%;
+  border-radius: 20px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+.comunicado .consulta a {
+  background-color: #a31543;
+  width: 200px;
+  color: #fff;
+  font-size: 14pt;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 70px;
+}
+.comunicado .area-Login {
+  display: flex;
+  width: 100%;
+}
+
+.comunicado .login {
+  display: flex;
+  border: 3px solid #521e4d;
+  color: #a31543;
+  flex-direction: column;
+  width: 50%;
+  margin-left: 10px;
+  border-radius: 20px;
+  align-items: center;
+  padding: 7px;
+  opacity: 1;
+}
+
+.comunicado .login input {
+  width: 100%;
+  padding: 7px 3px;
+  border-radius: 10px;
+  outline: none;
+  opacity: 1;
+  font-size: 12pt;
+  border: 1px solid #8b052f;
+}
+.comunicado .login label {
+  font-size: 13pt;
+  font-weight: 500;
+  color: #a31543;
+}
+.comunicado .login button {
+  width: 200px;
+  padding: 9px;
+  background-color: #a31543;
+  color: #fff;
+  font-size: 14pt;
+  font-weight: 500;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.comunicado .criar {
+  display: flex;
+  flex-direction: column;
+}
+.comunicado .verSenha {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-align: left;
+  justify-content: start;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: #000;
+  cursor: pointer;
+}
+.comunicado .verSenha p {
+  color: #000;
+}
+.comunicado .verSenha .check {
+  display: flex;
+  margin-top: 0px;
+  cursor: pointer;
+  width: 60px;
+}

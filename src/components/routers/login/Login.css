@@ -1,0 +1,155 @@
+.container-login {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 300px;
+  padding: 15px 0px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 2px solid #a31543;
+  box-shadow: 4px 4px rgb(91, 4, 30);
+  align-items: center;
+  color: #000;
+  position: relative;
+}
+.container-login .inputPassword {
+  display: flex;
+  position: relative;
+}
+.container-login .inputEmail {
+  display: flex;
+  position: relative;
+}
+
+.container-login img {
+  width: 70px;
+  height: 70px;
+}
+.container-login .img {
+  width: 70px;
+  height: 70px;
+  padding: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+.container-conteudo1 {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  width: 40%;
+}
+.container-conteudo1 .form {
+  width: 100%;
+}
+
+.container-login input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.container-login button {
+  background-color: #a31543;
+  color: #fff;
+  padding: 10px;
+  font-size: 20pt;
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  border: none;
+}
+
+.container-login .sms {
+  color: #f20505;
+  font-size: 12pt;
+}
+.container-login a {
+  font-size: 14pt;
+  color: #000;
+  flex-direction: column;
+  opacity: 1;
+  font-weight: 500;
+}
+.container-login .link {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+.image_login {
+  margin-top: 20px;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+.container-login .mostrarSenha {
+  display: flex;
+  position: relative;
+  text-align: center;
+}
+.container-login .mostrarSenha p {
+  margin-top: 10px;
+}
+.container-login .inputCheck {
+  width: 50px;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .container-login {
+    width: 60%;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 500px) {
+  .container-login {
+    width: 88%;
+  }
+}
+@media (max-height: 500px) {
+  .container-login {
+    width: 98%;
+  }
+}
+@media (max-width: 400px) {
+  .container-login img {
+    width: 50px;
+    height: 50px;
+  }
+  .container-login .img {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #fff;
+  }
+}
+@media (max-height: 480px) {
+  .container-login {
+    margin-top: 10px;
+  }
+}
+@media (max-width: 313px) {
+  .container-login button {
+    font-size: 11pt;
+  }
+  .container-conteudo1 {
+    width: 70%;
+  }
+  .container-login a {
+    font-size: 14pt;
+  }
+  .container-login img {
+    width: 40px;
+    height: 40px;
+  }
+  .container-login .img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #fff;
+  }
+}

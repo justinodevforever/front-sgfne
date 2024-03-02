@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+}
+.cancelar {
+  display: none;
+}
+.container-RemoverConfirm {
+  display: flex;
+  margin: auto;
+  width: 160px;
+  height: 128px;
+  background-color: #000;
+  flex-direction: column;
+  font-size: 11pt;
+  padding: 3px 7px;
+  border-radius: 5px;
+  margin-top: 180px;
+}
+.container-RemoverConfirm .div-removerConfirm {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.container-RemoverConfirm .div-removerConfirm .btnCancelar {
+  background-color: #eee4;
+  border: 0.5px solid #fff;
+  padding: 5px;
+  font-size: 14pt;
+  color: #fff;
+  cursor: pointer;
+}
+.container-RemoverConfirm .div-removerConfirm .btnRemover {
+  background-color: #00f;
+  font-size: 14px;
+  padding: 5px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+.container-RemoverConfirm p {
+  margin-top: 10px;
+  text-align: left;
+}
+.container-RemoverConfirm h4 {
+  text-align: left;
+}

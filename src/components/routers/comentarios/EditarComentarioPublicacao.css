@@ -1,0 +1,35 @@
+.container-editarComentarioPublicacao {
+  width: 100%;
+  padding: 70px 0px 0px 0px;
+}
+
+.container-editarComentarioPublicacao form {
+  width: 90%;
+  background-color: #000;
+  margin: auto;
+  padding: 4px;
+}
+.container-editarComentarioPublicacao form textarea {
+  width: 90%;
+  height: 200px;
+  background-color: #000;
+  color: #fff;
+  font-size: 14pt;
+  resize: none;
+  border-radius: 10px;
+}
+.container-editarComentarioPublicacao form button {
+  width: 50%;
+  margin-top: 10px;
+  color: #fff;
+  background-color: #0f0;
+  border-radius: 10px;
+  font-size: 17pt;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.container-editarComentarioPublicacao form button:hover {
+  background-color: rgb(2, 81, 2);
+  scale: 1.1;
+  transition: 1.5s;
+}

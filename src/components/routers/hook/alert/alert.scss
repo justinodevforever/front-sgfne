@@ -1,0 +1,88 @@
+.sucess {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  width: 200px;
+  padding: 10px 0px;
+  background-color: green;
+  right: 0px;
+  top: 48px;
+  color: #fff;
+  align-items: start;
+  z-index: 1;
+  border-radius: 4px 0px;
+}
+.exist {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  width: 200px;
+  padding: 10px;
+  background-color: #eeee31;
+  right: 0px;
+  top: 48px;
+  color: #000;
+  align-items: center;
+  z-index: 1;
+  border-radius: 4px 0px;
+}
+
+.sucess::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #000;
+  animation: outline 3s ease-in-out;
+}
+.exist::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #000;
+  animation: outline 3s ease-in-out;
+}
+.error {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  width: 200px;
+  padding: 10px 4px;
+  background-color: #e992a8;
+  right: 0px;
+  top: 48px;
+  color: #fff;
+  align-items: center;
+  z-index: 1;
+  border-radius: 10px 10px 0px 0px;
+}
+.co {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 12pt;
+}
+
+.error::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: #000;
+  animation: outline 3s ease-in-out;
+}
+@keyframes outline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}

@@ -1,0 +1,42 @@
+.editarPublicacaoPagina {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.editarPublicacaoPagina form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  padding: 10px;
+  border-radius: 20px;
+  text-align: center;
+  margin: auto;
+
+  align-items: center;
+  background-color: #000;
+}
+.editarPublicacaoPagina form textarea {
+  width: 90%;
+  height: 200px;
+  background-color: #000;
+  color: #fff;
+  font-size: 14pt;
+  resize: none;
+}
+.editarPublicacaoPagina form button {
+  width: 50%;
+  background-color: #f74040;
+  color: #fff;
+  font-size: 14pt;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.editarPublicacaoPagina form button:hover {
+  background-color: red;
+  transition: 0.5s;
+}

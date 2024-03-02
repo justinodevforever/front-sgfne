@@ -1,0 +1,45 @@
+@import "../../../../../style/variable.scss";
+
+.confirmar {
+  display: flex;
+  position: fixed;
+  width: 180px;
+  height: 150px;
+  top: 200px;
+  left: 47%;
+  z-index: 5;
+  background-color: $white;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  scale: 1.4;
+  animation: animar 2s ease-in-out;
+}
+.ovefloyConfirmar {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  background-color: $preto;
+  opacity: 0.6;
+}
+.confirmar .check {
+  scale: 1.2;
+  animation: animar 3s ease-in-out;
+}
+.confirmar h2 {
+  color: green;
+  margin-bottom: -20px;
+}
+@keyframes animar {
+  from {
+    scale: 0;
+  }
+  to {
+    scale: 1.4;
+  }
+}

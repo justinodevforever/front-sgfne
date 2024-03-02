@@ -1,0 +1,93 @@
+.declaracoes {
+  display: flex;
+  width: 100%;
+  color: #000;
+  flex-direction: column;
+}
+.declaracoes .textarea form {
+  display: flex;
+  width: 100%;
+}
+.declaracoes .contactar {
+  display: flex;
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+}
+
+.declaracoes .textarea {
+  display: flex;
+  background-image: linear-gradient(90deg, rgb(80, 9, 9), rgb(22, 0, 49));
+  width: 100%;
+  height: 78px;
+  padding: 9px;
+  align-items: end;
+}
+.declaracoes .textarea textarea {
+  background-color: #000;
+  color: #fff;
+  font-size: 12pt;
+  height: 70px;
+  width: 80%;
+  border: none;
+  resize: none;
+  margin-top: 20px;
+  border-radius: 10px;
+  padding: 5px;
+}
+.declaracoes .textarea button {
+  width: 30%;
+  padding: 10px 0px;
+  height: 50px;
+  border-radius: 10px;
+  background: rgb(80, 9, 9);
+  border: 2px solid red;
+  color: #fff;
+  font-size: 12pt;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 40px;
+  cursor: pointer;
+}
+.table {
+  margin: auto;
+  margin-left: 0px;
+  width: 100%;
+}
+table {
+  margin: auto;
+  margin-left: 0px;
+  width: 100%;
+}
+
+.table table,
+td {
+  border: 1px solid #000;
+  background-color: #fff;
+  color: #000;
+  text-align: left;
+  font-weight: 500;
+}
+
+.table table td .x {
+  display: flex;
+  margin: auto;
+  align-items: center;
+  text-align: center;
+  color: red;
+  cursor: pointer;
+  width: 30px;
+  transition: 0.7s;
+}
+.table table td .x:hover {
+  margin: auto;
+  color: #fff;
+  scale: 2;
+}
+.table table,
+th {
+  border: 1px solid #000;
+  background-color: rgb(80, 9, 9);
+  color: #fff;
+  text-align: center;
+}

@@ -1,0 +1,118 @@
+.modal {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  max-width: 500rem;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 1rem;
+  transform: translate(50%, 50%);
+  top: 50%;
+  left: 50%;
+  color: #000;
+  z-index: 2;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.8;
+  z-index: 1;
+}
+.modal input {
+  width: 90%;
+  padding: 0.6rem;
+  border: 1px solid #a31543;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.modal button {
+  width: 200px;
+  padding: 7px;
+  background: #a31543;
+  color: #fff;
+  font-size: 14pt;
+  border: none;
+  border-radius: 1rem;
+  margin-top: 10px;
+}
+.modal .input {
+  text-align: left;
+}
+.modal label {
+  color: #a31543;
+  font-size: 14pt;
+  margin-top: 10px;
+}
+.modal .barra {
+  display: flex;
+  justify-content: space-between;
+}
+.modal .barra .close {
+  transition: 0.1s;
+}
+.modal .barra .close:hover {
+  background-color: #b2afaf;
+  border-radius: 50%;
+}
+.modal .verSenhaj {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  text-align: left;
+  justify-content: start;
+}
+.modal .check {
+  display: flex;
+  margin-top: 0px;
+  cursor: pointer;
+  width: 60px;
+}
+
+@media (max-width: 2000px) {
+  .modal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    max-width: 500rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    top: 0;
+    left: 10%;
+    transform: translate(50%, 50%);
+    z-index: 2;
+  }
+}
+@media (max-width: 1200px) {
+  .modal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    max-width: 500rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    top: 20%;
+    left: 20%;
+    transform: none;
+    z-index: 2;
+  }
+}
+@media (max-width: 600px) {
+  .modal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    max-width: 90%;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    top: 10%;
+    left: 0;
+    z-index: 2;
+  }
+}

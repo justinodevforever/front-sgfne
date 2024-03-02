@@ -1,0 +1,24 @@
+.tiposServicos {
+  display: flex;
+}
+.tiposServicos .lbltipos {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  margin-right: 20px;
+}
+.tiposServicos .lblvalor {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+.tiposServicos select {
+  font-weight: 500;
+  font-size: 14pt;
+}
+.tiposServicos input {
+  width: 70px;
+  opacity: 1;
+  font-weight: 500;
+  font-size: 14pt;
+}

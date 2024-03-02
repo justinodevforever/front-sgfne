@@ -1,0 +1,19 @@
+.container-likePublicacao {
+  display: flex;
+  padding: 20px;
+}
+.container-likePublicacao .likePublicacao {
+  display: flex;
+  justify-content: left;
+  padding: 1px;
+  background-color: #a31543;
+  border-radius: 10px;
+  width: 40px;
+}
+.container-likePublicacao .likePublicacao span {
+  color: white;
+  font-size: 12pt;
+  opacity: 1;
+  font-weight: 10;
+  border-radius: 50%;
+}

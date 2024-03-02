@@ -1,0 +1,47 @@
+.container-EditComentPage {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  padding-top: 50px;
+}
+
+.container-EditComentPage form {
+  width: 80%;
+  margin: auto;
+}
+.container-EditComentPage form textarea {
+  width: 90%;
+  height: 100px;
+  background-color: #000;
+  resize: none;
+  border: none;
+  border-radius: 10px;
+  font-size: 14pt;
+  padding: 9px;
+  color: #fff;
+}
+
+.container-EditComentPage .feicharEditEmoji {
+  display: none;
+}
+.container-EditComentPage .abrirEditEmoji {
+  display: flex;
+  position: absolute;
+}
+.container-EditComentPage form button {
+  width: 40%;
+  background-color: rgb(16, 71, 16);
+  padding: 5px;
+  color: #fff;
+  font-size: 14pt;
+  border: none;
+  margin-top: 8px;
+  border-radius: 5px;
+  transition: 0.7s;
+}
+
+.container-EditComentPage form button:hover {
+  background-color: rgb(84, 159, 117);
+  cursor: pointer;
+}

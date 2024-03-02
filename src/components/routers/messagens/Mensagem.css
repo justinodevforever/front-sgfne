@@ -1,0 +1,163 @@
+.content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  padding-top: 30px;
+  padding-bottom: 100px;
+  flex-direction: column;
+}
+.mens {
+  width: 40%;
+  height: 100%;
+  margin: auto;
+  background-image: url(Textura2.png);
+  background-size: 70px;
+}
+.container-mensagem {
+  display: flex;
+  flex-direction: column;
+  width: 97.3%;
+  height: 97vh;
+}
+
+.container-mensagem .container-conteudo {
+  display: flex;
+  padding: 10px;
+  flex-flow: column;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow-x: hidden;
+  padding-top: 90px;
+}
+.container-mensagem .container-conteudo .send {
+  width: 300px;
+  position: relative;
+  margin: auto;
+  background-color: #521e4d;
+  border-radius: 20px 0px 20px 20px;
+  text-align: left;
+  padding: 10px 7px;
+  color: #fff;
+  margin-bottom: 10px;
+  justify-content: left;
+  right: -40px;
+  word-wrap: break-word;
+}
+.container-mensagem .container-conteudo .send::first-letter {
+  text-transform: uppercase;
+}
+.container-mensagem .container-conteudo .receive::first-letter {
+  text-transform: uppercase;
+}
+.container-mensagem .container-conteudo .receive {
+  width: 300px;
+  position: relative;
+  margin: auto;
+  background-color: #a31543;
+  color: #fff;
+  margin-bottom: 10px;
+  text-align: left;
+  padding: 10px 7px;
+  border-radius: 0px 20px 20px 20px;
+  left: -40px;
+  justify-content: left;
+  word-wrap: break-word;
+}
+.container-mensagem .container-conteudo li {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14pt;
+  margin-bottom: 20px;
+}
+.container-mensagem .container-conteudo .spanDate {
+  font-size: 11pt;
+  color: #fff;
+  opacity: 1;
+  font-weight: 500;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.container-mensagem .container-conteudo .spanHour {
+  position: absolute;
+  width: 94%;
+  right: 6px;
+  bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+/* .container-mensagem .container-conteudo .receive::before {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 1.5rem;
+  position: absolute;
+  right: 82%;
+  top: -1.5rem;
+  background-color: #151313;
+} */
+
+.container-mensagem h1 {
+  margin-bottom: 10px;
+}
+.container-mensagem form {
+  display: flex;
+  background-image: linear-gradient(90deg, #a31543, #521e4d);
+  width: 100%;
+  align-items: center;
+  padding: 5px 5px 8px 5px;
+}
+
+.container-mensagem textarea {
+  width: 40%;
+  resize: none;
+  font-size: 14pt;
+  border-radius: 10px;
+  color: #fff;
+  padding: 5px;
+  background-color: transparent;
+}
+.container-mensagem button {
+  padding: 10px;
+  background-color: rgb(80, 9, 9);
+  font-size: 14pt;
+  color: #fff;
+  border-radius: 10px;
+  margin-top: 50px;
+  border: none;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.container-mensagem .imojiMessage {
+  display: flex;
+  position: absolute;
+  left: 57%;
+}
+.container-mensagem .spanReceiver {
+  display: flex;
+  margin-bottom: 10px;
+  color: green;
+  opacity: 1;
+}
+.container-mensagem .spanSender {
+  display: flex;
+  margin-bottom: 10px;
+  color: blue;
+  opacity: 1;
+}
+
+@media (max-width: 500px) {
+  .content {
+    height: 370px;
+  }
+  .container-mensagem form {
+    width: 100%;
+  }
+  .container-mensagem textarea {
+    width: 70%;
+
+    height: 80px;
+  }
+  .container-mensagem button {
+    margin-top: 40px;
+  }
+}

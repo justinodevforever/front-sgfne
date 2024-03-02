@@ -1,0 +1,21 @@
+.containar-notify {
+  height: 100%;
+  padding-top: 100px;
+  text-align: center;
+  align-items: center;
+  margin: auto;
+}
+.containar-notify .notify {
+  display: flex;
+  flex-direction: column;
+  background-color: #434141;
+  width: 90%;
+  margin: auto;
+  margin-top: 10px;
+  border-radius: 20px;
+  padding: 10px;
+  text-align: left;
+}
+.containar-notify h2 {
+  font-size: 28pt;
+}

@@ -1,0 +1,60 @@
+.div-menu {
+  display: flex;
+  background-color: #000;
+  width: auto;
+  height: 90px;
+  text-align: center;
+  justify-content: center;
+  position: absolute;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 5px;
+  z-index: 1;
+}
+.div-menu ul {
+  width: 100%;
+  text-align: justify;
+}
+.div-menu ul li {
+  width: 100%;
+  margin: 10px 0px 5px 15px;
+}
+.div-menu ul a {
+  display: flex;
+  width: 82%;
+  text-decoration: none;
+  padding: 5px 5px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 100%;
+  font-size: 14pt;
+  position: relative;
+}
+.div-menu ul a:hover {
+  background-color: rgb(183, 103, 103);
+}
+.div-menu a:hover::before {
+  content: "";
+  background-color: #0f0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 100%;
+}
+
+@media (max-width: 600px) {
+  .div-menu {
+    right: 20px;
+    height: auto;
+
+    padding: 2px;
+  }
+  .div-menu ul li a {
+    margin: auto;
+    width: 90%;
+    font-size: 14pt;
+    opacity: 1;
+    font-weight: 500;
+  }
+}

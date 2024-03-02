@@ -1,0 +1,197 @@
+.overley {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.relatorioPropina {
+  display: flex;
+  position: fixed;
+  margin: auto;
+  flex-direction: column;
+  width: 70%;
+  max-height: 550px;
+  background-color: #fff;
+  top: 40px;
+  z-index: 3;
+  left: 15%;
+  border-radius: 20px;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+.relatorioPropina .opcoes {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  margin: auto;
+  padding: 10px;
+  margin-top: 0px;
+  opacity: 1;
+}
+.relatorioPropina .closed:hover {
+  padding: 2px;
+  background-color: #ddd;
+  border-radius: 50%;
+}
+.relatorioPropina .closed {
+  padding: 2px;
+  background-color: #d1c9c9;
+  border-radius: 50%;
+}
+.tabelaPropina table {
+  border-collapse: collapse;
+  width: 98%;
+  margin: auto;
+  margin-top: 20px;
+}
+.tabelaPropina th {
+  background-color: #a31543;
+}
+.tabelaPropina th,
+td {
+  border: none;
+  border-bottom: 1px solid #000;
+}
+.tabelaPropina td {
+  background-color: #fff;
+  color: #000;
+}
+.relatorioPropina h3 {
+  margin-bottom: 10px;
+  margin-top: 0px;
+  color: #a31543;
+}
+.relatorioPropina .input {
+  display: flex;
+  width: 50%;
+}
+.relatorioPropina .opcoes .link {
+  color: #a31543;
+  opacity: 1;
+  position: relative;
+  padding: 0px;
+  margin: auto;
+  top: -10px;
+  font-size: 14pt;
+  cursor: pointer;
+}
+.relatorioPropina .opcoes .link:hover::before {
+  content: "";
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #a31543;
+  animation: outline 0.7s ease-out;
+}
+
+@keyframes outline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+.relatorioPropina .imprimir {
+  display: flex;
+  padding: 20px;
+  position: fixed;
+  z-index: 1;
+  bottom: 70px;
+  right: 200px;
+  align-items: center;
+  justify-content: center;
+}
+.relatorioPropina .imprimir span {
+  display: flex;
+  background-color: #a31543;
+  width: 100%;
+  height: 80%;
+  color: #fff;
+  border-radius: 10px;
+  padding: 5px;
+  text-align: center;
+  justify-content: center;
+  gap: 10px;
+}
+.relatorioPropina .formBi {
+  display: flex;
+  width: 98%;
+  margin: auto;
+
+  background-color: #a31543;
+  padding: 5px;
+  justify-content: space-between;
+}
+.relatorioPropina .formBi input {
+  display: flex;
+  /* width: 60%; */
+  background-color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 2px 4px;
+  color: #000;
+}
+.relatorioPropina .form {
+  width: 100%;
+}
+.relatorioPropina select {
+  width: 100px;
+  height: 30px;
+  font-size: 14pt;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 2px solid #a31543;
+}
+.relatorioPropina label {
+  display: flex;
+  font-size: 12pt;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.relatorioPropina button {
+  background-color: transparent;
+  border: none;
+}
+.relatorioPropina .clic {
+  opacity: 1;
+  position: relative;
+  padding: 0px;
+  margin: auto;
+  top: -10px;
+  font-size: 14pt;
+  cursor: pointer;
+  padding: 4px;
+  background-color: #a31543;
+  color: #fff;
+  border-radius: 5px;
+}
+.tabelaPropina .assinar div {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
+.tabelaPropina hr {
+  border-top: 2px solid #000;
+  width: 90%;
+  margin: auto;
+  margin-top: 40px;
+}
+.extra div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+.extra {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}

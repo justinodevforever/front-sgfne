@@ -1,0 +1,35 @@
+.container-ispm {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #000;
+  flex-direction: column;
+}
+.container-ispm .conteudo-ispm {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  z-index: 1;
+  gap: 10px;
+}
+
+.container-ispm .conteudo-ispm .letras h1 {
+  font-size: 38pt;
+  color: transparent;
+}
+.container-ispm .carregar {
+  display: flex;
+  background-color: #242324;
+  width: 0px;
+  height: 30px;
+  margin-top: 40px;
+  border-radius: 10px;
+}

@@ -1,0 +1,37 @@
+@import "../../../../../style/variable.scss";
+.configuracoes {
+  display: flex;
+  width: 100%;
+}
+.configuracoes .menu {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  padding: 10px 0px;
+  background-color: $houverM;
+  height: auto;
+  text-align: left;
+  border-bottom: 1px solid $rosa;
+  height: 300px;
+  gap: 10px;
+}
+.configuracoes .menu a {
+  color: $preto;
+  margin-top: 0px;
+}
+.configuracoes .menu .ativo {
+  color: $white;
+  background-color: $rosa;
+  font-size: 12pt;
+  width: 96%;
+  padding: 5px;
+}
+.configuracoes .menu .ativo a {
+  color: $white;
+}
+.configuracoes .menu div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 5px;
+}

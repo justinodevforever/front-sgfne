@@ -1,0 +1,133 @@
+.container-lerComentario {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  color: #000;
+  overflow-y: auto;
+}
+.container-lerComentario .conteudos-comentarios {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  position: relative;
+  flex-direction: column;
+  text-align: left;
+  font-size: 20pt;
+  text-justify: distribute;
+  background-image: url(Textura1.png);
+  background-size: 70px;
+  border: 3px solid #eadcdc;
+  margin-top: 4px;
+}
+.container-lerComentario .publicacao-comentarios {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-top: 40px;
+}
+
+.container-lerComentario .publicacao-comentarios .publicacao_user {
+  width: 93%;
+  border: 2px solid #eadcdc;
+  margin-top: 20px;
+  text-align: left;
+  font-size: 18pt;
+  word-wrap: break-word;
+  color: #000;
+}
+
+.container-lerComentario .barra {
+  display: flex;
+  gap: 10;
+}
+
+a {
+  opacity: 1;
+  color: #00f;
+  font-size: 14pt;
+  margin-top: 10px;
+}
+.container-lerComentario .conteudos-comentarios p {
+  flex-shrink: 1;
+  font-size: 14pt;
+  word-wrap: break-word;
+}
+.footer-comentarA {
+  display: flex;
+  position: relative;
+  width: 100%;
+  background-color: #000;
+}
+.div-comentar {
+  width: 100%;
+  padding: 0px;
+}
+.footer-comentarA .comentarA {
+  margin: auto;
+  width: 85%;
+  resize: none;
+  padding: 10px 20px;
+
+  background-color: #000;
+  color: #fff;
+
+  font-size: 14pt;
+}
+.container-lerComentario .div-publicacao {
+  display: flex;
+}
+
+.container-lerComentario .container-emoji {
+  position: absolute;
+  margin-left: 82%;
+  margin-top: 20px;
+}
+
+.feicharEmoji {
+  display: none;
+}
+.abrirEmoji {
+  position: fixed;
+  left: 200px;
+  bottom: 70px;
+}
+.div-icon {
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .container-lerComentario .conteudos-comentarios {
+    width: 100%;
+  }
+  .container-lerComentario .publicacao-comentarios {
+    padding: 0px;
+    font-size: 14pt;
+  }
+  .container-lerComentario .publicacao-comentarios .publicacao_user {
+    width: 93%;
+    font-size: 14pt;
+  }
+  .container-lerComentario .div-send {
+    margin-right: -40px;
+  }
+}
+
+@media (max-height: 714px) {
+  .footer-comentarA .div-comentar .comentarA {
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+  }
+}
+@media (max-height: 480px) {
+  .footer-comentarA .div-comentar .comentarA {
+    width: 100%;
+    padding: 10px 0px 10px 0px;
+  }
+}

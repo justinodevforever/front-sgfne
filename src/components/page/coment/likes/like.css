@@ -1,0 +1,18 @@
+.container-like {
+  display: flex;
+  padding: 20px;
+}
+.container-like .like {
+  display: flex;
+  justify-content: left;
+  padding: 5px;
+  border-radius: 10px;
+  width: 40px;
+}
+.container-like .like span {
+  color: white;
+  font-size: 12pt;
+  opacity: 1;
+  font-weight: 10;
+  border-radius: 50%;
+}
