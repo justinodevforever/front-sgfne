@@ -82,7 +82,7 @@ export default function Login() {
               <input
                 type="text"
                 name="email"
-                placeholder="Digite o seu número de email"
+                placeholder="Digite o seu email"
                 required
                 value={email}
                 onChange={(e) => {

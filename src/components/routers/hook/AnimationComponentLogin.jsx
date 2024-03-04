@@ -44,7 +44,7 @@ const AnimationComponentLogin = ({ setClick, click }) => {
 
   return (
     <div className="container-animator">
-      <img src="./public/image/ISP_MOXICO/Logo.png" alt="log" />
+      <img src="./image/ISP_Moxico/Logo.png" alt="Logo do ISPM" />
       <div className="anima">
         <div className="animator primeiro" id="primeiro"></div>
         <div className="animator segundo" id="segundo"></div>
