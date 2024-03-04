@@ -1,4 +1,4 @@
-import "./menu.css";
+import "./menu.scss";
 import { forwardRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import useRefMenu from "../../hook/useRefMenu";

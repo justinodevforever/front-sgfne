@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { api } from "../../../../auth/auth";
-import { BiWinkSmile } from "react-icons/bi";
+import { BiSolidSend, BiWinkSmile } from "react-icons/bi";
 import { io } from "socket.io-client";
 import { formaHouser, formatDate } from "../hook/timeout";
 import Ispm from "../hook/Ispm";
@@ -217,13 +217,15 @@ function Mensagem() {
           </div>
 
           {messagem && (
-            <button
-              type="submit"
-              onClick={(e) => {
-                hendleSubmitEnviada(e);
-              }}>
-              Enviar
-            </button>
+            <div className="divEnviar">
+              <BiSolidSend
+                onClick={(e) => {
+                  hendleSubmitEnviada(e);
+                }}
+                color="00f"
+                size={25}
+              />
+            </div>
           )}
         </form>
       </div>

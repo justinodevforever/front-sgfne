@@ -3,6 +3,7 @@ import "./definicoes.scss";
 import { Link } from "react-router-dom";
 import { RiUserSettingsFill } from "react-icons/ri";
 import ConfiguracoesGerais from "./ConfiguracoesGerais/ConfiguracoesGerais";
+import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
 
 const Definicoes = () => {
   const [permissao, setPermissao] = useState(true);
@@ -24,11 +25,13 @@ const Definicoes = () => {
         <div className="opcoes">
           <ul>
             <li>
-              <Link
-                onClick={(e) => togglePermissoes(e)}
-                className={permissao ? "ative" : "noative"}>
-                <RiUserSettingsFill /> Configurações Gerais
-              </Link>
+              <PegarPermissoes permissoes={["admin", "edição"]}>
+                <Link
+                  onClick={(e) => togglePermissoes(e)}
+                  className={permissao ? "ative" : "noative"}>
+                  <RiUserSettingsFill /> Configurações Gerais
+                </Link>
+              </PegarPermissoes>
             </li>
             <li>
               <Link
@@ -39,6 +42,7 @@ const Definicoes = () => {
             </li>
           </ul>
         </div>
+
         <div className="conteudo">{permissao && <ConfiguracoesGerais />}</div>
       </div>
     </div>

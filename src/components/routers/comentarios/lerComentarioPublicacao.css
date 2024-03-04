@@ -57,26 +57,28 @@ a {
   flex-shrink: 1;
   font-size: 14pt;
   word-wrap: break-word;
+  white-space: break-spaces;
 }
 .footer-comentarA {
   display: flex;
   position: relative;
   width: 100%;
   background-color: #000;
+  padding: 4px 0px 10px 0px;
 }
 .div-comentar {
   width: 100%;
   padding: 0px;
 }
 .footer-comentarA .comentarA {
-  margin: auto;
-  width: 85%;
+  display: flex;
+  width: 50%;
+  margin-left: 3px;
+  height: 80px;
   resize: none;
   padding: 10px 20px;
-
   background-color: #000;
   color: #fff;
-
   font-size: 14pt;
 }
 .container-lerComentario .div-publicacao {
@@ -85,7 +87,7 @@ a {
 
 .container-lerComentario .container-emoji {
   position: absolute;
-  margin-left: 82%;
+  margin-left: 72%;
   margin-top: 20px;
 }
 
@@ -98,11 +100,64 @@ a {
   bottom: 70px;
 }
 .div-icon {
+  position: absolute;
   margin-top: 20px;
   cursor: pointer;
+  right: 20px;
+}
+@media (max-width: 740px) {
+  .footer-comentarA {
+    padding-bottom: 10px;
+    padding-top: 4px;
+  }
+  .footer-comentarA .comentarA {
+    width: 50%;
+    margin-left: 3px;
+    height: 80px;
+    resize: none;
+    padding: 5px;
+    background-color: #000;
+    color: #fff;
+    font-size: 14pt;
+  }
+  .container-lerComentario .container-emoji {
+    display: none;
+    position: absolute;
+    margin-left: 57%;
+    margin-top: 42px;
+  }
+  .div-icon {
+    margin-top: 42px;
+    position: absolute;
+    cursor: pointer;
+    right: 20px;
+  }
 }
 
 @media (max-width: 500px) {
+  .footer-comentarA {
+    padding-bottom: 10px;
+    padding-top: 4px;
+  }
+  .footer-comentarA .comentarA {
+    width: 50%;
+    margin-left: 3px;
+    height: 80px;
+    resize: none;
+    padding: 5px;
+    background-color: #000;
+    color: #fff;
+    font-size: 14pt;
+  }
+  .container-lerComentario .container-emoji {
+    position: absolute;
+    margin-left: 57%;
+    margin-top: 42px;
+  }
+  .div-icon {
+    margin-top: 42px;
+    cursor: pointer;
+  }
   .container-lerComentario .conteudos-comentarios {
     width: 100%;
   }
@@ -113,21 +168,13 @@ a {
   .container-lerComentario .publicacao-comentarios .publicacao_user {
     width: 93%;
     font-size: 14pt;
-  }
-  .container-lerComentario .div-send {
-    margin-right: -40px;
+    right: 0;
   }
 }
 
-@media (max-height: 714px) {
-  .footer-comentarA .div-comentar .comentarA {
-    width: 100%;
-    padding: 10px 0px 10px 0px;
-  }
-}
-@media (max-height: 480px) {
-  .footer-comentarA .div-comentar .comentarA {
-    width: 100%;
-    padding: 10px 0px 10px 0px;
+@media (max-width: 324px) {
+  .footer-comentarA .div-comentar .abrirEmoji {
+    width: 40%;
+    left: 0;
   }
 }

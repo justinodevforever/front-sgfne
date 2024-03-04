@@ -18,10 +18,6 @@ import { useNavigate } from "react-router-dom";
 const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
   const [meses, setMeses] = useState([]);
   const [anos, setAnos] = useState([]);
-  const [mes, setMes] = useState("");
-
-  const [fk_mes, setFk_mes] = useState("");
-  const [fk_ano, setFk_ano] = useState("");
   const [ano, setAno] = useState("");
   const [rupe, setRupe] = useState("");
   const [message, setMessage] = useState("");
@@ -29,37 +25,31 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
-  const [disciplina, setDisciplina] = useState("");
-  const [fk_estudante, setFk_estudante] = useState(0);
   const [fk_user, setFk_user] = useState(0);
-  const [fk_curso, setFk_curso] = useState(0);
-  const [fk_semestre, setFk_semestre] = useState(0);
-  const [fk_frequencia, setFk_frequencia] = useState(0);
-  const [fk_disciplina, setFk_disciplina] = useState(0);
+  const [disciplina, setDisciplina] = useState("");
   const [semestres, setSemestres] = useState([]);
   const [frequencias, setFrequencias] = useState([]);
   const [frequencia, setFrequencia] = useState([]);
   const [disciplinas, setDisciplinas] = useState([]);
   const [semestre, setSemestre] = useState("");
-  const [valor, setValor] = useState(0);
-  const [ativar, setAtivar] = useState(false);
-  const [visivel, setVisivel] = useState(false);
-  const [type, setType] = useState("");
-  const [id, setId] = useState(0);
 
   const navigate = useNavigate();
   const { isVisible } = useSelector((state) => state.ui.ModalEdit);
-  const { isVisibleConfirmar } = useSelector(
-    (state) => state.ui.ModalConfirmar
-  );
-  const { isVisibleError } = useSelector((state) => state.ui.ModalError);
-  const { isVisibleWarning } = useSelector((state) => state.ui.ModalWarning);
+
   const dispatchConfirmar = useDispatch();
   const dispatchError = useDispatch();
   const dispatchWarning = useDispatch();
 
   useEffect(() => {
     setRupe(cadeiraAtraso?.rupe);
+    setFrequencia(
+      cadeiraAtraso?.AnoFrequencia?.ano + "," + cadeiraAtraso?.fk_frequencia
+    );
+    setAno(cadeiraAtraso?.AnoLetivo?.ano + "," + cadeiraAtraso?.fk_ano);
+    setSemestre(
+      cadeiraAtraso?.Semestre?.nome + "," + cadeiraAtraso?.fk_semestre
+    );
+    setCurso(cadeiraAtraso?.Curso?.curso + "," + cadeiraAtraso?.fk_curso);
   }, [cadeiraAtraso]);
 
   useEffect(() => {
@@ -68,9 +58,7 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
     setFk_user(sessionStorage.getItem("id"));
     getAno();
   }, []);
-  useEffect(() => {
-    buscaSemestre();
-  }, [semestre]);
+
   useEffect(() => {
     if (bi === "") {
       setNome("");
@@ -79,12 +67,6 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
   }, [bi]);
 
   useEffect(() => {
-    buscaAnoLeivo();
-  }, [ano]);
-  useEffect(() => {
-    buscaAnoLeivo();
-  }, [fk_curso && frequencia]);
-  useEffect(() => {
     getDisplina();
   }, [
     cadeiraAtraso?.AnoFrequencia?.ano,
@@ -92,35 +74,12 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
     cadeiraAtraso?.Semestre?.nome,
     cadeiraAtraso?.Curso?.curso,
   ]);
-  useEffect(() => {
-    buscaFrequencia();
-  }, [frequencia]);
-  useEffect(() => {
-    buscarDisciplina();
-  }, [disciplina]);
+
   function close(e) {
     e.preventDefault();
     dispatch(toggleModalEdit(!isVisible));
   }
-  const buscarEstudante = async (e) => {
-    e.preventDefault();
-    await api
-      .post("/search/estudante/bi", {
-        bi,
-        frequencia,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setCurso(data.data.Curso.curso);
-        setFk_curso(data.data.Curso.id);
-        setNome(data.data.nome);
-        setFk_estudante(data.data.id);
-      })
-      .catch((err) => console.log(err));
-  };
+
   const getSemestre = async () => {
     await api
       .get("/semestre")
@@ -129,23 +88,8 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
           navigate("/login");
           return;
         }
-        setSemestre(data.data[0].nome);
-        setSemestres(data.data);
-      })
-      .catch((err) => console.log(err));
-  };
-  const buscarDisciplina = async () => {
-    await api
-      .post("/search/disciplina", {
-        nome: disciplina,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
 
-        setFk_disciplina(data.data.id);
+        setSemestres(data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -160,7 +104,6 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
         }
 
         setAnos(data.data);
-        setAno(data.data[0].ano);
       })
       .catch((err) => console.log(err));
   };
@@ -185,7 +128,7 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
         semestre: cadeiraAtraso?.Semestre?.nome,
         ano: cadeiraAtraso?.AnoFrequencia?.ano,
         curso: cadeiraAtraso?.Curso?.curso,
-        anoLetivo: cadeiraAtraso?.AnoLetivo.ano,
+        anoLetivo: cadeiraAtraso?.AnoLetivo?.ano,
       })
 
       .then((data) => {
@@ -198,64 +141,14 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
       })
       .catch((err) => console.log(err));
   };
-  const buscaFrequencia = async () => {
-    await api
-      .post("/search/frequencia", {
-        frequencia,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        setFk_frequencia(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const buscaSemestre = async () => {
-    await api
-      .post("/search/semestre", {
-        nome: semestre,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_semestre(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const buscaAnoLeivo = async () => {
-    await api
-      .post("/search/letivo", {
-        ano,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_ano(data.data.id);
-      })
-      .catch((err) => console.log(err));
-  };
 
   const hendleExameEspecial = async (e) => {
     e.preventDefault();
-    if (
-      ano === "Escolha" ||
-      semestre === "Escolha" ||
-      frequencia === "Escolha" ||
-      disciplina === "Escolha" ||
-      !ano ||
-      !semestre ||
-      !frequencia ||
-      !disciplina
-    ) {
+    const [fkm, newsemestre] = semestre.split(",");
+    const [fkf, newfrequencia] = frequencia.split(",");
+    const [fka, newano] = ano.split(",");
+    const [fkd, newdisciplina] = disciplina.split(",");
+    if (!newano || !newsemestre || !newfrequencia || !newdisciplina) {
       setMessage("Exite Um Campo Vazio!");
       dispatchWarning(toggleModalWarning(true));
 
@@ -263,10 +156,10 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
     }
     await api
       .put(`/exame/especial/${cadeiraAtraso.id}`, {
-        fk_disciplina,
-        fk_frequencia,
-        fk_semestre,
-        fk_ano,
+        fk_disciplina: newdisciplina,
+        fk_frequencia: newfrequencia,
+        fk_semestre: newsemestre,
+        fk_ano: newano,
         rupe,
       })
       .then((data) => {
@@ -291,16 +184,11 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
 
   const hendleCadeiraAtrazo = async (e) => {
     e.preventDefault();
-    if (
-      ano === "Escolha" ||
-      semestre === "Escolha" ||
-      frequencia === "Escolha" ||
-      disciplina === "Escolha" ||
-      !ano ||
-      !semestre ||
-      !frequencia ||
-      !disciplina
-    ) {
+    const [fkm, newsemestre] = semestre.split(",");
+    const [fkf, newfrequencia] = frequencia.split(",");
+    const [fka, newano] = ano.split(",");
+    const [fkd, newdisciplina] = disciplina.split(",");
+    if (!newano || !newsemestre || !newfrequencia || !newdisciplina) {
       setMessage("Exite Um Campo Vazio!");
       dispatchWarning(toggleModalWarning(true));
 
@@ -308,10 +196,10 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
     }
     await api
       .put(`/cadeira/atraso/${cadeiraAtraso.id}`, {
-        fk_disciplina,
-        fk_frequencia,
-        fk_semestre,
-        fk_ano,
+        fk_disciplina: newdisciplina,
+        fk_frequencia: newfrequencia,
+        fk_semestre: newsemestre,
+        fk_ano: newano,
         rupe,
       })
       .then((data) => {
@@ -335,16 +223,12 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
   };
   const hendleRecurso = async (e) => {
     e.preventDefault();
-    if (
-      ano === "Escolha" ||
-      semestre === "Escolha" ||
-      frequencia === "Escolha" ||
-      disciplina === "Escolha" ||
-      !ano ||
-      !semestre ||
-      !frequencia ||
-      !disciplina
-    ) {
+    const [fkm, newsemestre] = semestre.split(",");
+    const [fkf, newfrequencia] = frequencia.split(",");
+    const [fka, newano] = ano.split(",");
+    const [fkd, newdisciplina] = disciplina.split(",");
+    console.log(newdisciplina, newsemestre);
+    if (!newano || !newsemestre || !newfrequencia || !newdisciplina) {
       setMessage("Exite Um Campo Vazio!");
       dispatchWarning(toggleModalWarning(true));
 
@@ -352,10 +236,10 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
     }
     await api
       .put(`/recurso/${cadeiraAtraso.id}`, {
-        fk_disciplina,
-        fk_frequencia,
-        fk_semestre,
-        fk_ano,
+        fk_disciplina: newdisciplina,
+        fk_frequencia: newfrequencia,
+        fk_semestre: newsemestre,
+        fk_ano: newano,
         rupe,
       })
       .then((data) => {
@@ -403,10 +287,15 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                 <label htmlFor="cadeira">
                   Ano Lectivo
                   <select onChange={(e) => setAno(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
+                    <option
+                      value={
+                        cadeiraAtraso.AnoLetivo.ano + "," + cadeiraAtraso.fk_ano
+                      }>
+                      {cadeiraAtraso.AnoLetivo.ano}
+                    </option>
 
                     {anos.map((s) => (
-                      <option value={s.ano} key={s.id}>
+                      <option value={s.ano + "," + s.id} key={s.id}>
                         {s.ano}
                       </option>
                     ))}
@@ -418,10 +307,17 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                     nome="frequencia"
                     id="frequencia"
                     onChange={(e) => setFrequencia(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
+                    <option
+                      value={
+                        cadeiraAtraso.AnoFrequencia.ano +
+                        "," +
+                        cadeiraAtraso.fk_frequencia
+                      }>
+                      {cadeiraAtraso.AnoFrequencia.ano}
+                    </option>
 
                     {frequencias.map((f) => (
-                      <option value={f.ano} key={f.id}>
+                      <option value={f.ano + "," + f.id} key={f.id}>
                         {f.ano}
                       </option>
                     ))}
@@ -430,10 +326,17 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                 <label htmlFor="semestre">
                   Semestre
                   <select onChange={(e) => setSemestre(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
+                    <option
+                      value={
+                        cadeiraAtraso.Semestre.nome +
+                        "," +
+                        cadeiraAtraso.fk_semestre
+                      }>
+                      {cadeiraAtraso.Semestre.nome}
+                    </option>
 
                     {semestres.map((s) => (
-                      <option value={s.nome} key={s.id}>
+                      <option value={s.nome + "," + s.id} key={s.id}>
                         {s.nome}
                       </option>
                     ))}
@@ -442,10 +345,17 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                 <label htmlFor="cadeira">
                   Cadeira
                   <select onChange={(e) => setDisciplina(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
+                    <option
+                      value={
+                        cadeiraAtraso.Disciplina.nome +
+                        "," +
+                        cadeiraAtraso.fk_disciplina
+                      }>
+                      {cadeiraAtraso.Disciplina.nome}
+                    </option>
 
                     {disciplinas.map((s) => (
-                      <option value={s.nome} key={s.id}>
+                      <option value={s.nome + "," + s.id} key={s.id}>
                         {s.nome}
                       </option>
                     ))}

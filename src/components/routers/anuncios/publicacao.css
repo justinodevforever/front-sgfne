@@ -4,7 +4,6 @@
   height: 100%;
   position: relative;
   flex-wrap: wrap;
-  margin-left: 30px;
 }
 .container-publicacao1 .publicacao a {
   cursor: pointer;
@@ -68,7 +67,7 @@ a {
 }
 @keyframes animate-outline {
   from {
-    outline: 2px solid #521e4d;
+    outline: 2px solid #c5b8c4;
   }
   to {
     outline: 7px solid #521e4d;
@@ -194,122 +193,19 @@ a {
     justify-content: center;
   }
 }
-@media (max-width: 1141px) {
-  /* .container-publicacao1 .publicacao {
-    display: flex;
-    margin: auto;
-    margin-right: 10px;
-  } */
-}
 
-/* @media (max-width: 1141px) {
-  .div-publicar {
-    margin-top: -100px;
-    z-index: 1;
-  }
-}
-@media (max-width: 1141px) {
-  .container-publicacao .container-imagePublicacao {
-    width: 100%;
-  }
-}
-
-@media (max-width: 1070px) {
-  .div-publicar {
-    margin-top: -90px;
-  }
-}
-
-@media (max-width: 1000px) {
-  .container-publicacao .container-imagePublicacao img {
-    width: 99%;
-    height: 300px;
-  }
-  .publicar {
-    margin-top: 20px;
-    height: 20px;
-    width: 50%;
-  }
-  .container-publicacao1 .container-publicacao {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-} */
-/* 
-@media (max-width: 668px) {
-  .mostrar {
-    margin-left: 450px;
-  }
-}
 @media (max-width: 604px) {
-  .container-publicacao1 .container-publicacao {
-    display: flex;
-    flex-direction: column;
-    width: 80%;
-  }
-  .mostrar {
-    margin-left: 250px;
-  }
   .container-publicacao1 .publicacao {
-    display: flex;
     width: 97%;
   }
-  .container-publicacao1 .publicacao .opcoes {
-    width: 100%;
-  }
-  .container-publicacao1 .publicacao .opcoesBarra {
-    width: 100%;
-  }
-  .container-publicacao1 .publicacao .opcoesBarra a {
-    font-size: 12pt;
-  }
 }
 
-@media (max-width: 500px) {
-  .container-publicacao1 .container-publicacao {
-    display: flex;
-
-    flex-direction: column;
-    width: 100%;
-  }
-  .container-publicacao .container-imagePublicacao img {
-    width: 99%;
-    height: 200px;
-  }
-  .publicar {
-    height: 20px;
-    width: 80%;
-    margin-top: 0px;
-  }
-}
-@media (max-width: 368px) {
-  .mostrar {
-    margin-left: 200px;
+@media (max-width: 2008px) {
+  .div-publicar {
+    right: 0;
+    bottom: 4px;
   }
   .username {
     font-size: 10pt;
   }
 }
-@media (max-width: 310px) {
-  .mostrar {
-    margin-left: 150px;
-  }
-}
-@media (max-width: 260px) {
-  .mostrar {
-    margin-right: 100px;
-  }
-  .username {
-    font-size: 1pt;
-  }
-}
-
-@media (max-height: 480px) {
-  .publicar {
-    height: 10px;
-  }
-  .div-publicar {
-    margin-top: -110px;
-  }
-} */

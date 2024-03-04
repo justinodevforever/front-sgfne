@@ -109,6 +109,7 @@ const EditarEstudante = ({ estudante }) => {
             <form className="formBi">
               <div className="cc">
                 <div>
+                  Nome:{""}
                   <input
                     type="text"
                     onChange={(e) => setNome(e.target.value)}

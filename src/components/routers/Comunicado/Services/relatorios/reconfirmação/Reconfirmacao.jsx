@@ -27,7 +27,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
       ".extra {display: flex; flex-direction: column; align-items: center; margin: auto;}";
     estilo +=
       "table th,td { padding: 8px;text-align: center;padding-right: 20px; }";
-    estilo += "table td ,th {border: 1px solid #000;}";
+    estilo += "table td ,th {border: 1px solid #000; font-size: 10pt;}";
     estilo += "table th {background-color: #a31543; }";
     estilo +=
       " .assinar { display: flex;margin: auto;width: 100%;justify-content: space-between;margin-top: 20px;}";
@@ -35,6 +35,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
       ".assinar div{ display: flex;flex-direction: column;width: 40%;align-items:center; }";
     estilo +=
       " hr{ border-top: 2px solid #000;width: 90%;margin: auto;margin-top: 40px; }";
+    estilo += " img{width: 50px;height: 50px;position: absolute; right: 0;}";
     estilo += "</style>";
 
     const win = window.open();
@@ -92,6 +93,73 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
             {abrir && (
               <>
                 <div className="tabelaReconfirmacao" id="tabela">
+                  <img src="./Logo.png" alt="ISPM" />
+                  <div className="extra">
+                    <div>
+                      <span>{reconfirmacao?.Curso?.curso}</span>
+                      <span>Ano Lectivo: {reconfirmacao?.AnoLetivo?.ano}</span>
+                      <span>Recibo Nº: {reconfirmacao?.id}</span>
+                    </div>
+                    <br />
+                    <span className="tipo">{tipo} </span>
+                  </div>
+
+                  <table>
+                    <thead>
+                      <tr className="estudante">
+                        <th colSpan={6}> Dados de Estudante</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr>
+                        <td>Estudante</td>
+                        <td>{reconfirmacao?.Estudante?.nome}</td>
+                      </tr>
+                      <tr>
+                        <td>Bilhete de Identidade</td>
+                        <td>{reconfirmacao?.Estudante?.bi}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table>
+                    <thead>
+                      <tr className="estudante">
+                        <th colSpan={6}> Dados de Reconfirmação</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr>
+                        <td>Semestre</td>
+
+                        <td>{reconfirmacao?.Semestre?.nome}</td>
+                      </tr>
+                      <tr>
+                        <td>Total Pago</td>
+                        <td>{reconfirmacao?.valor} Kz</td>
+                      </tr>
+                      <tr>
+                        <td>Ano de Frquência</td>
+                        <td>{reconfirmacao?.AnoFrequencia?.ano}</td>
+                      </tr>
+                      <tr>
+                        <td>Solicitado</td>
+                        <td>{formatDate(reconfirmacao?.createdAt)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="assinar">
+                    <div>
+                      <hr />
+                      <span>{"(Assinatura do Estudante)"}</span>
+                    </div>
+                    <div>
+                      <hr />
+                      <span>{"(Assinatura do Operador)"}</span>
+                    </div>
+                  </div>
+                  <hr />
                   <div className="extra">
                     <div>
                       <span>{reconfirmacao?.Curso?.curso}</span>

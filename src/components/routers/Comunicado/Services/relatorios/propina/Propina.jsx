@@ -19,7 +19,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [anual, setAnual] = useState(false);
   const [mensal, setMensal] = useState(true);
   const [dados, setDados] = useState({});
-  const [clicAnual, setclicAnual] = useState([]);
+  const [userName, setUserName] = useState("");
+  const [dividas, setDividas] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +32,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
     e.preventDefault();
     const con = document.getElementById("tabela").innerHTML;
     let estilo = "<style>";
-    estilo += "table { border-collapse: collapse; width: 100%}";
+    estilo +=
+      "table { border-collapse: collapse; width: 100%; margin-bottom: 10px;}";
     estilo +=
       ".extra div{display: flex; flex-direction: column; align-items: center; margin: auto; width:100%;}";
     estilo +=
@@ -39,14 +41,18 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
     estilo +=
       "table th,td { padding: 8px;text-align: center; padding-right: 20px; border-bottom: 1px solid #ddd;border-right: none;border-left: none;border-top: none;}";
     estilo +=
-      "table th,td { padding: 8px;text-align: center; border: 1px solid #000; }";
+      "table th,td { padding: 8px;text-align: center; border: 1px solid #000;}";
     estilo +=
       " .assinar { display: flex;margin: auto;width: 100%;justify-content: space-between;margin-top: 20px;}";
     estilo +=
       ".assinar div{ display: flex;flex-direction: column;width: 40%;align-items:center; }";
     estilo += ".opc{ display: none; }";
     estilo +=
-      " hr{ border-top: 2px solid #000;width: 90%;margin: auto;margin-top: 40px; }";
+      " hr{ border-top: 2px solid #000;width: 90%;margin: auto;margin-top: 40px;margin-bottom: 20px; }";
+    estilo += "td,th{font-size: 10pt;}";
+    estilo +=
+      ".dividas{display: flex; gap: 20px; margin-top: 20px; font-size: 10pt;}";
+    estilo += " img{width: 50px;height: 50px;position: absolute; right: 0;}";
     estilo += "</style>";
 
     const win = window.open();
@@ -97,6 +103,9 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
 
   const buscaPropinaMensal = async (e) => {
     e.preventDefault();
+    const { data } = await api.post("/ver/divida", { bi });
+    setDividas(data.dividas);
+
     await api
       .post("/propina/mensal", {
         mes,
@@ -110,6 +119,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
         }
 
         if (data.data) {
+          setUserName(data.data?.Usuario?.nome);
           setDados(data.data);
           setPropinasMensal([...propinasMensal, data.data]);
         }
@@ -119,6 +129,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
 
   const buscaPropina = async (e) => {
     e.preventDefault();
+    const { data } = await api.post("/ver/divida", { bi });
+    setDividas(data.dividas);
     await api
       .post("/propina/anual", {
         ano,
@@ -131,6 +143,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           return;
         }
         if (data.data) {
+          setUserName(data.data?.Usuario?.nome);
           setDados(data.data[0]);
           setPropinasAnual(data.data);
         }
@@ -215,6 +228,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                 </form>
 
                 <div className="tabelaPropina" id="tabela">
+                  <img src="./Logo.png" alt="ISPM" />
                   {propinasAnual.length >= 1 && (
                     <>
                       <div className="extra">
@@ -222,12 +236,10 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <div>
                             <span>Curso: {dados?.Curso?.curso}</span>
                             <span>Ano Lectivo: {dados?.AnoLetivo?.ano}</span>
-                            <span>Nº B.I: {dados?.Usuario?.bi}</span>
                           </div>
                           <br />
                           <span className="tipo">Tipo de Serviço: {tipo} </span>
                         </div>
-                        <img src={"./Logo.png"} alt="" srcset="" />
                       </div>
                       <table>
                         <thead>
@@ -237,6 +249,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                             <th>Mês</th>
                             <th>Valor</th>
                             <th>Solicitado</th>
+                            <th>Operador</th>
                           </tr>
                         </thead>
 
@@ -248,22 +261,22 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                               <td>{prop?.Me?.mes}</td>
                               <td>{prop?.valor} Kz</td>
                               <td>{formatDate(prop?.createdAt)}</td>
+                              <td>{prop?.Usuario.nome} </td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                       <div className="assinar">
                         <div>
+                          <span className="operador">{"O Operador"}</span>
                           <hr />
-                          <span>{"(Assinatura do Operador)"}</span>
                         </div>
                       </div>
-                      <hr />
+                      <hr className="divisao" />
                       <div className="extra">
                         <div>
                           <span>Curso: {dados?.Curso?.curso}</span>
                           <span>Ano Lectivo: {dados?.AnoLetivo?.ano}</span>
-                          <span>Nº B.I: {dados?.Usuario?.bi}</span>
                         </div>
                         <br />
                         <span className="tipo">Tipo de Serviço: {tipo} </span>
@@ -277,6 +290,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                               <th>Mês</th>
                               <th>Valor</th>
                               <th>Solicitado</th>
+                              <th>Operador</th>
                             </tr>
                           </thead>
                         )}
@@ -288,14 +302,29 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                               <td>{prop?.Me?.mes}</td>
                               <td>{prop?.valor} Kz</td>
                               <td>{formatDate(prop?.createdAt)}</td>
+                              <td>{prop?.Usuario?.nome}</td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
+                      <div className="dividas">
+                        <strong>Nº B.I:</strong>
+                        <span>{bi}</span>
+                      </div>
+                      <div className="dividas">
+                        <strong>Dívidas:</strong>
+                        {dividas?.length > 0 ? (
+                          dividas?.map((d, index) => (
+                            <span key={index}>{d},</span>
+                          ))
+                        ) : (
+                          <span>Sem Dívidas!</span>
+                        )}
+                      </div>
                       <div className="assinar">
                         <div>
+                          <span className="operador">{"O Operador"}</span>
                           <hr />
-                          <span>{"(Assinatura do Operador)"}</span>
                         </div>
                       </div>
                     </>
@@ -351,6 +380,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                 <div className="tabelaPropina" id="tabela">
                   {propinasMensal.length >= 1 && (
                     <>
+                      <img src="./Logo.png" alt="ISPM" />
                       <div className="extra">
                         <div>
                           <span>Curso: {dados?.Curso?.curso}</span>
@@ -364,9 +394,10 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <tr>
                             <th>Contribuinte</th>
                             <th>Nº RUPE</th>
-                            <th>Mês</th>
+                            <th>Mês Pago</th>
                             <th>Valor</th>
                             <th>Solicitado</th>
+                            <th>OPerador</th>
 
                             <th className="opc">Opções</th>
                           </tr>
@@ -380,6 +411,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                               <td>{prop?.Me?.mes}</td>
                               <td>{prop?.valor} Kz</td>
                               <td>{formatDate(prop?.createdAt)}</td>
+                              <td>{prop?.Usuario.nome}</td>
 
                               <td className="opc">
                                 <BiX
@@ -393,13 +425,14 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           ))}
                         </tbody>
                       </table>
+
                       <div className="assinar">
                         <div>
+                          <span className="operador">{"O Operador"}</span>
                           <hr />
-                          <span>{"(Assinatura do Operador)"}</span>
                         </div>
                       </div>
-                      <hr />
+                      <hr className="divisao" />
                       <div className="extra">
                         <div>
                           <span>Curso: {dados?.Curso?.curso}</span>
@@ -414,10 +447,10 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                             <tr>
                               <th>Contribuinte</th>
                               <th>Nº RUPE</th>
-                              <th>Mês</th>
+                              <th>Mês Pago</th>
                               <th>Valor</th>
                               <th>Solicitado</th>
-
+                              <th>Operador</th>
                               <th className="opc">Opções</th>
                             </tr>
                           </thead>
@@ -430,6 +463,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                               <td>{prop?.Me?.mes}</td>
                               <td>{prop?.valor} Kz</td>
                               <td>{formatDate(prop?.createdAt)}</td>
+                              <td>{prop?.Usuario?.nome}</td>
 
                               <td className="opc">
                                 <BiX
@@ -443,10 +477,25 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           ))}
                         </tbody>
                       </table>
+                      <div className="dividas">
+                        <strong>Nº B.I:</strong>
+
+                        <span>{bi}</span>
+                      </div>
+                      <div className="dividas">
+                        <strong>Dívidas:</strong>
+                        {dividas?.length > 0 ? (
+                          dividas?.map((d, index) => (
+                            <span key={index}>{d},</span>
+                          ))
+                        ) : (
+                          <span>Sem Dívidas!</span>
+                        )}
+                      </div>
                       <div className="assinar">
                         <div>
+                          <span className="operador">{"O Operador"}</span>
                           <hr />
-                          <span>{"(Assinatura do Operador)"}</span>
                         </div>
                       </div>
                     </>
@@ -454,12 +503,17 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                 </div>
               </>
             )}
-            <div className="imprimir">
-              <span onClick={(e) => imprimir(e)} className="b">
-                <BiPrinter size={40} color="#fff" />
-                Imprimir
-              </span>
-            </div>
+
+            {propinasAnual.length > 0 || propinasMensal.length > 0 ? (
+              <div className="imprimir">
+                <span onClick={(e) => imprimir(e)} className="b">
+                  <BiPrinter size={40} color="#fff" />
+                  Imprimir
+                </span>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="overley"></div>
         </>

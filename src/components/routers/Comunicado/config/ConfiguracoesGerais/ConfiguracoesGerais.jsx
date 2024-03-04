@@ -17,6 +17,7 @@ import { PiStudent } from "react-icons/pi";
 import AtualizarPropina from "./atualizarPropina/AtualizarPropina";
 import AtualizarEstudante from "./atualizarEstudante/AtualizarEstudante";
 import AtualizarCadeira from "./atualizarCadeira/AtualizarCadeira";
+import PegarPermissoes from "../../../../../configs/permissoes/PegarPermissoes";
 // import pegarPermissoes from "../../../../../configs/permissoes/pegarPermissoes";
 
 const ConfiguracoesGerais = () => {
@@ -54,13 +55,15 @@ const ConfiguracoesGerais = () => {
     setClicPropina(false);
   }
   return (
-    <PegarRoles roles={"admin"}>
-      <div className="configuracoes">
-        <div className="menu">
+    <div className="configuracoes">
+      <div className="menu">
+        <PegarPermissoes permissoes={["admin"]}>
           <div className={clic ? "ativo" : "inativo"}>
             <FaLock />
             <Link onClick={(e) => toggleClic(e)}>Permissões</Link>
           </div>
+        </PegarPermissoes>
+        <PegarPermissoes permissoes={["edição", "admin"]}>
           <div className={clicEstudante ? "ativo" : "inativo"}>
             <PiStudent size={20} />
             <Link onClick={(e) => toggleClicEstudante(e)}>
@@ -75,13 +78,15 @@ const ConfiguracoesGerais = () => {
             <FaBook />
             <Link onClick={(e) => toggleClicCadeira(e)}>Atualizar Cadeira</Link>
           </div>
-        </div>
-        {clic && <PermissoesUSuario />}
-        {clicPropina && <AtualizarPropina />}
-        {clicEstudante && <AtualizarEstudante />}
-        {clicCadeira && <AtualizarCadeira />}
+        </PegarPermissoes>
       </div>
-    </PegarRoles>
+      <PegarPermissoes permissoes={["admin"]}>
+        {clic && <PermissoesUSuario />}
+      </PegarPermissoes>
+      {clicPropina && <AtualizarPropina />}
+      {clicEstudante && <AtualizarEstudante />}
+      {clicCadeira && <AtualizarCadeira />}
+    </div>
   );
 };
 

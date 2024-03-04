@@ -89,8 +89,15 @@ const Cadastrar = () => {
 
   const hendleEstudante = async (e) => {
     e.preventDefault();
-    if (!fk_curso || !nome || !bi || !contato || !fk_user) {
-      setMessage("Campo Vazio!");
+    if (
+      !fk_curso ||
+      !nome ||
+      !bi ||
+      !contato ||
+      !fk_user ||
+      curso === "Escolha"
+    ) {
+      setMessage("Existe Campo Vazio!");
       dispatchWarning(toggleModalWarning(true));
       return;
     }
@@ -147,6 +154,7 @@ const Cadastrar = () => {
             />
             Curso:
             <select onChange={(e) => setCurso(e.target.value)}>
+              <option value="Escolha">Escolha Curso...</option>
               {cursos.map((curso) => (
                 <option value={curso.curso}>{curso.curso}</option>
               ))}

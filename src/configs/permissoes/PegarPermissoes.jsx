@@ -30,7 +30,6 @@ const usePegarPermissoes = () => {
 
 const PegarPermissoes = ({ children, permissoes }) => {
   const usePermissoes = usePegarPermissoes();
-  console.log(usePermissoes);
 
   if (
     permissoes.some((permissoes) => {

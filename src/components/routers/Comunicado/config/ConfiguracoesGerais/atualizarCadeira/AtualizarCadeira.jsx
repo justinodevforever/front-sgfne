@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import EditarCadeira from "./editar/EditarCadeira";
+import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
 
 const AtualizarCadeira = () => {
   const [isClick, setIsClick] = useState(false);
@@ -276,11 +277,11 @@ const AtualizarCadeira = () => {
       .catch((err) => console.log(err));
   };
 
-  function deletePropina(e) {
+  function deleteCadeira(e) {
     e.preventDefault();
     setIsClick(true);
   }
-  function editarPropina(e) {
+  function editarCadeira(e) {
     e.preventDefault();
     dispatch(toggleModalEdit(!isVisible));
   }
@@ -418,7 +419,10 @@ const AtualizarCadeira = () => {
                     <th>Ano Letivo</th>
                     <th>Curso</th>
                     <th>Semestre</th>
-                    <th colSpan={2}>Opções</th>
+                    <PegarPermissoes
+                      permissoes={["admin", "remover", "edição"]}>
+                      <th colSpan={2}>Opções</th>
+                    </PegarPermissoes>
                   </tr>
                 </thead>
                 <tbody>
@@ -430,23 +434,29 @@ const AtualizarCadeira = () => {
                     <td>{cadeiraAtraso?.AnoLetivo?.ano}</td>
                     <td>{cadeiraAtraso?.Curso?.curso}</td>
                     <td>{cadeiraAtraso?.Semestre?.nome}</td>
-                    <td>
-                      <BiEdit
-                        title="Editar"
-                        cursor={"pointer"}
-                        color="blue"
-                        onClick={(e) => editarPropina(e)}
-                      />
-                    </td>
-                    <td>
-                      <BiX
-                        title="Eliminar"
-                        color="red"
-                        cursor={"pointer"}
-                        size={20}
-                        onClick={(e) => deletePropina(e)}
-                      />
-                    </td>
+                    <PegarPermissoes
+                      permissoes={["admin", "remover", "edição"]}>
+                      <td>
+                        <BiEdit
+                          title="Editar"
+                          cursor={"pointer"}
+                          color="blue"
+                          onClick={(e) => editarCadeira(e)}
+                        />
+                      </td>
+                    </PegarPermissoes>
+                    <PegarPermissoes
+                      permissoes={["admin", "remover", "edição"]}>
+                      <td>
+                        <BiX
+                          title="Eliminar"
+                          color="red"
+                          cursor={"pointer"}
+                          size={20}
+                          onClick={(e) => deleteCadeira(e)}
+                        />
+                      </td>
+                    </PegarPermissoes>
                   </tr>
                 </tbody>
               </table>

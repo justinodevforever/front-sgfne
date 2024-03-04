@@ -5,6 +5,7 @@ import { api } from "../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import { BiEdit, BiX } from "react-icons/bi";
 import { PiPrinter } from "react-icons/pi";
+import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
 
 const Buscar = () => {
   const [bi, setBi] = useState("");
@@ -90,7 +91,10 @@ const Buscar = () => {
                 <th>Curso</th>
                 <th>Contacto</th>
                 <th>BI</th>
-                <th colSpan={2}>Opções</th>
+
+                <PegarPermissoes permissoes={["admin", "remover", "edição"]}>
+                  <th colSpan={2}>Opções</th>
+                </PegarPermissoes>
               </tr>
             </thead>
             <tbody>
@@ -99,12 +103,16 @@ const Buscar = () => {
                 <td>{curso}</td>
                 <td>{contacto}</td>
                 <td>{userBi}</td>
-                <td>
-                  <BiX color="red" size={20} cursor={"pointer"} />
-                </td>
-                <td>
-                  <BiEdit color="blue" cursor={"pointer"} />
-                </td>
+                <PegarPermissoes permissoes={["admin", "remover"]}>
+                  <td>
+                    <BiX color="red" size={20} cursor={"pointer"} />
+                  </td>
+                </PegarPermissoes>
+                <PegarPermissoes permissoes={["admin", "edição"]}>
+                  <td>
+                    <BiEdit color="blue" cursor={"pointer"} />
+                  </td>
+                </PegarPermissoes>
               </tr>
             </tbody>
           </table>

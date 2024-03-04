@@ -11,6 +11,7 @@ import LikePublicacao from "./likes/Like";
 import { ProfilePublication } from "./ProfilePublication";
 import Modal from "./modal/Modal";
 import PegarRoles from "../../../configs/roles/Roles";
+import PegarPermissoes from "../../../configs/permissoes/PegarPermissoes";
 
 let clicou = false;
 let id1;
@@ -27,7 +28,7 @@ export const deletePublicacao = async (id) => {
     })
     .catch((err) => console.log(err));
 };
-const Publicacao = ({ mostrar }) => {
+const Publicacao = () => {
   const navigate = useNavigate();
 
   const [publicacao, setPublicacao] = useState([]);
@@ -98,21 +99,19 @@ const Publicacao = ({ mostrar }) => {
       <Modal />
 
       <div className="container-publicacao1">
-        <PegarRoles roles={"admin"}>
+        <PegarPermissoes permissoes={["admin"]}>
           <div>
-            {!mostrar && (
-              <div className="div-publicar">
-                <Link
-                  className="publicar"
-                  name="publicacao"
-                  id="publicacao"
-                  to={"/publicar"}>
-                  Comunicar
-                </Link>
-              </div>
-            )}
+            <div className="div-publicar">
+              <Link
+                className="publicar"
+                name="publicacao"
+                id="publicacao"
+                to={"/publicar"}>
+                Comunicar
+              </Link>
+            </div>
           </div>
-        </PegarRoles>
+        </PegarPermissoes>
 
         {/* */}
 

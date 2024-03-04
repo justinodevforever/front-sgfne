@@ -41,7 +41,7 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
     estilo +=
       ".extra {display: flex; flex-direction: column; align-items: center; margin: auto;}";
     estilo +=
-      "table th,td { padding: 4px;text-align: center;padding-right: 10px; }";
+      "table th,td { padding: 4px;text-align: center;padding-right: 10px; font-size: 10pt;}";
     estilo += "table td ,th {border: 1px solid #000;}";
     estilo += "table th {background-color: #a31543; }";
     estilo +=
@@ -50,6 +50,7 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
       ".assinar div{ display: flex;flex-direction: column;width: 40%;align-items:center; }";
     estilo +=
       " hr{ border-top: 2px solid #000;width: 90%;margin: auto;margin-top: 40px; }";
+    estilo += " img{width: 50px;height: 50px;position: absolute; right: 0;}";
     estilo += "</style>";
 
     const win = window.open();
@@ -144,6 +145,7 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
             <>
               <div className="tabelaSobreCadeira" id="tabela">
                 <div className="extra">
+                  <img src="./Logo.png" alt="hhsjd" />
                   <div>
                     <span>{cadeira?.Curso?.curso}</span>
                     <span>Ano Lectivo: {cadeira?.AnoLetivo?.ano}</span>
@@ -287,10 +289,7 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
               </div>
 
               <div className="imprimir">
-                <Link onClick={(e) => imprimir(e)}>
-                  <BiPrinter size={40} color="#fff" />
-                  Imprimir
-                </Link>
+                <Link onClick={(e) => imprimir(e)}>Imprimir</Link>
               </div>
             </>
           </div>

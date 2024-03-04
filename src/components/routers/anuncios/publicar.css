@@ -1,11 +1,8 @@
-.container-publicar {
-  padding-top: 50px;
-}
 .container-publicar form button {
-  margin-top: 10px;
+  /* margin-top: 10px; */
   font-size: 14pt;
   color: #fff;
-  background-color: #f7040f;
+  background-color: #a31543;
   border-radius: 10px;
   padding: 10px;
   border: none;
@@ -14,7 +11,7 @@
 }
 .container-publicar form {
   display: flex;
-  background-color: #2a2929;
+  background-color: white;
   align-items: center;
   width: 46%;
   margin: auto;
@@ -27,12 +24,12 @@
   width: 90%;
   height: 200px;
   border-radius: 10px;
-  background-color: #000;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #000;
   font-size: 14pt;
   resize: none;
   padding: 10px;
-  border: none;
 }
 .container-publicar .imagePublicar {
   width: 70px;
@@ -56,6 +53,26 @@
     width: 100%;
   }
   .container-publicar form {
-    width: 99%;
+    width: 90%;
+  }
+}
+@media (max-width: 630px) {
+  .container-publicar form {
+    margin-top: 4px;
+    background-color: white;
+    width: 90%;
+    height: 200px;
+    padding-bottom: 0px;
+  }
+  .container-publicar button {
+    margin-top: 20px;
+  }
+}
+@media (max-width: 330px) {
+  .container-publicar .imagePublicar {
+    display: none;
+  }
+  .container-publicar .container-emojiPublicar {
+    display: none;
   }
 }

@@ -40,19 +40,14 @@ const EditarPropina = ({ propinas }) => {
     getAnoLetivo();
   }, []);
   useEffect(() => {
-    setMes(propinas?.Me?.mes + " " + propinas?.fk_mes);
-    setAno(propinas?.AnoLetivo?.ano + " " + propinas?.fk_ano);
+    setMes(propinas?.Me?.mes + "," + propinas?.fk_mes);
+    setAno(propinas?.AnoLetivo?.ano + "," + propinas?.fk_ano);
     setRupe(propinas?.rupe);
   }, [propinas]);
 
   function close(e) {
     e.preventDefault();
     dispatch(toggleModalEdit(!isVisible));
-  }
-  function confirmar(e) {
-    e.preventDefault();
-    // dispatchConfirmar(toggleModalConfirmar(!isVisibleConfirmar));
-    dispatchError(toggleModalError(!isVisibleError));
   }
 
   const getMes = async () => {
@@ -85,8 +80,8 @@ const EditarPropina = ({ propinas }) => {
   };
   const atualizarPropina = async (e) => {
     e.preventDefault();
-    const [a, newAno] = ano.split(" ");
-    const [b, newMes] = mes.split(" ");
+    const [a, newAno] = ano.split(",");
+    const [b, newMes] = mes.split(",");
 
     if (!newAno || !newMes || !rupe) {
       setMessage("Existe Um Campo Vazio!");
@@ -137,12 +132,12 @@ const EditarPropina = ({ propinas }) => {
                 <div>
                   Mês{" "}
                   <select onChange={(e) => setMes(e.target.value)}>
-                    <option value={propinas.Me.mes + " " + propinas.fk_mes}>
+                    <option value={propinas.Me.mes + "," + propinas.fk_mes}>
                       {propinas.Me.mes}
                     </option>
                     {meses.map((m) => (
                       <>
-                        <option value={m.mes + " " + m.id} key={m.id}>
+                        <option value={m.mes + "," + m.id} key={m.id}>
                           {m.mes}
                         </option>
                       </>
@@ -153,11 +148,11 @@ const EditarPropina = ({ propinas }) => {
                   Ano{" "}
                   <select onChange={(e) => setAno(e.target.value)}>
                     <option
-                      value={propinas.AnoLetivo.ano + " " + propinas.fk_ano}>
+                      value={propinas.AnoLetivo.ano + "," + propinas.fk_ano}>
                       {propinas.AnoLetivo.ano}
                     </option>
                     {anos.map((ano) => (
-                      <option value={ano.ano + " " + ano.id} key={ano.id}>
+                      <option value={ano.ano + "," + ano.id} key={ano.id}>
                         {ano.ano}
                       </option>
                     ))}

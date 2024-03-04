@@ -19,14 +19,19 @@
   flex-direction: column;
   margin: auto;
 }
-
+.relatorioCadeira img {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 20px;
+}
 .relatorioCadeira {
   display: flex;
   position: fixed;
   margin: auto;
   flex-direction: column;
   width: 70%;
-  height: 600px;
+  height: 550px;
   background-color: #fff;
   top: 40px;
   z-index: 3;

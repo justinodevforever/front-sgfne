@@ -20,7 +20,7 @@
   top: 40px;
   z-index: 3;
   left: 15%;
-  border-radius: 20px;
+  border-radius: 10px;
   overflow-y: auto;
   padding-bottom: 20px;
 }
@@ -37,6 +37,11 @@
   padding: 2px;
   background-color: #ddd;
   border-radius: 50%;
+}
+.dividas {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
 }
 .relatorioPropina .closed {
   padding: 2px;
@@ -104,10 +109,16 @@ td {
   padding: 20px;
   position: fixed;
   z-index: 1;
-  bottom: 70px;
+  bottom: 4px;
   right: 200px;
   align-items: center;
   justify-content: center;
+}
+.relatorioPropina img {
+  width: 50px;
+  height: 50px;
+  // position: absolute;
+  right: 20px;
 }
 .relatorioPropina .imprimir span {
   display: flex;
@@ -177,12 +188,19 @@ td {
 .tabelaPropina .assinar div {
   display: flex;
   flex-direction: column;
-  width: 40%;
+  width: 30%;
 }
 .tabelaPropina hr {
   border-top: 2px solid #000;
   width: 90%;
   margin: auto;
+}
+
+.tabelaPropina .operador {
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+.tabelaPropina .divisao {
   margin-top: 40px;
 }
 .extra div {

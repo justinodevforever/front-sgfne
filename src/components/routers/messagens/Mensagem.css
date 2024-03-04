@@ -8,7 +8,7 @@
   flex-direction: column;
 }
 .mens {
-  width: 40%;
+  width: 60%;
   height: 100%;
   margin: auto;
   background-image: url(Textura2.png);
@@ -32,7 +32,7 @@
   padding-top: 90px;
 }
 .container-mensagem .container-conteudo .send {
-  width: 300px;
+  width: 50%;
   position: relative;
   margin: auto;
   background-color: #521e4d;
@@ -52,7 +52,7 @@
   text-transform: uppercase;
 }
 .container-mensagem .container-conteudo .receive {
-  width: 300px;
+  width: 50%;
   position: relative;
   margin: auto;
   background-color: #a31543;
@@ -85,16 +85,6 @@
   display: flex;
   justify-content: space-between;
 }
-/* .container-mensagem .container-conteudo .receive::before {
-  content: "";
-  display: block;
-  width: 2rem;
-  height: 1.5rem;
-  position: absolute;
-  right: 82%;
-  top: -1.5rem;
-  background-color: #151313;
-} */
 
 .container-mensagem h1 {
   margin-bottom: 10px;
@@ -115,6 +105,7 @@
   color: #fff;
   padding: 5px;
   background-color: transparent;
+  border: 1px solid #fff;
 }
 .container-mensagem button {
   padding: 10px;
@@ -147,17 +138,97 @@
 
 @media (max-width: 500px) {
   .content {
+    width: 100%;
     height: 370px;
+  }
+  .mens {
+    width: 100%;
   }
   .container-mensagem form {
     width: 100%;
   }
   .container-mensagem textarea {
     width: 70%;
-
     height: 80px;
   }
   .container-mensagem button {
     margin-top: 40px;
+  }
+}
+@media (max-width: 800px) {
+  .content {
+    width: 100%;
+    height: 370px;
+  }
+  .mens {
+    width: 100%;
+  }
+  .container-mensagem form {
+    width: 100%;
+    padding-bottom: 30px;
+  }
+  .container-mensagem textarea {
+    width: 70%;
+    height: 70px;
+  }
+  .container-mensagem button {
+    margin-top: 40px;
+  }
+}
+@media (max-width: 320px) {
+  .content {
+    width: 98%;
+    height: 370px;
+  }
+  .mens {
+    width: 100%;
+  }
+  .container-mensagem .container-conteudo .receive {
+    left: -10px;
+    width: 80%;
+    font-size: 10pt;
+  }
+  .container-mensagem .container-conteudo .receive li {
+    font-size: 10pt;
+  }
+  .container-mensagem .container-conteudo .send li {
+    font-size: 10pt;
+  }
+  .container-mensagem .container-conteudo .send {
+    width: 80%;
+    right: -10px;
+    font-size: 10pt;
+  }
+  .container-mensagem form {
+    position: relative;
+    width: 100%;
+    padding-bottom: 30px;
+  }
+
+  .container-mensagem .divEnviar {
+    display: flex;
+    position: absolute;
+    right: 4px;
+  }
+  .container-mensagem .imojiMessage {
+    display: none;
+  }
+  .container-mensagem form {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding-top: 4px;
+    padding-bottom: 10px;
+  }
+
+  .container-mensagem textarea {
+    width: 80%;
+    height: 60px;
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid #fff;
+  }
+  .container-mensagem {
+    height: 300px;
   }
 }

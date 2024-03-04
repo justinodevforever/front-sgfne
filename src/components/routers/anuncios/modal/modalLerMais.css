@@ -1,13 +1,13 @@
 .modalLerMaisA {
   display: flex;
-  flex-direction: column;
+
   position: fixed;
   max-width: 500px;
-  max-height: 600px;
-  padding: 1rem;
+  max-height: 800px;
+  /* padding: 1rem; */
   background-color: #fff;
   border-radius: 1rem;
-  transform: translate(50%, 50%);
+  /* transform: translate(50%, 50%); */
   top: -120px;
   left: 0;
   color: #000;
@@ -45,6 +45,10 @@
 .modalLerMaisA .barra {
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  background-color: #fff;
+  top: 30px;
+  right: 20px;
 }
 .modalLerMaisA .barra .close {
   transition: 0.1s;
@@ -68,7 +72,7 @@
 }
 
 @media (max-width: 2000px) {
-  .modalLerMais {
+  .modalLerMaisA {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -80,7 +84,7 @@
     top: -100px;
     left: 0;
     transform: translate(50%, 50%);
-    z-index: 2;
+    z-index: 3;
     overflow-y: auto;
   }
 }
@@ -97,6 +101,26 @@
     left: 0;
     transform: none;
     z-index: 2;
+  }
+}
+@media (max-width: 900px) {
+  .modalLerMaisA {
+    display: flex;
+    transform: none;
+    margin: auto;
+    position: fixed;
+    max-width: 88%;
+    border-radius: 0px;
+    word-wrap: break-word;
+    top: 1rem;
+    left: 10px;
+    z-index: 3;
+  }
+  .publi p {
+    text-align: left;
+    white-space: break-spaces;
+    font-size: 12pt;
+    word-wrap: break-word;
   }
 }
 @media (max-width: 600px) {

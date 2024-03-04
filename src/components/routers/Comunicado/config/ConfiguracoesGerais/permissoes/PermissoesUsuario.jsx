@@ -3,8 +3,12 @@ import "./permissoesUsuario.scss";
 import { FaUserClock, FaUserLock } from "react-icons/fa";
 import { CiSearch } from "react-icons/ci";
 import { api } from "../../../../../../../auth/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CgSmileSad } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
+import UseWarning from "../../../../hook/massege/warning/UseWarning";
+import { useDispatch } from "react-redux";
+import { toggleModalWarning } from "../../../../../../store/ui-slice";
 
 const PermissoesUSuario = () => {
   const [nome, setNome] = useState("");
@@ -14,46 +18,418 @@ const PermissoesUSuario = () => {
   const [listar, setListar] = useState(false);
   const [actualizar, setActualizar] = useState(false);
   const [sms, setSms] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [fk_user, setFk_user] = useState(0);
   const [todos, setTodos] = useState(false);
+  const [permissoes, setPermissoes] = useState([]);
+  const [permissoesSalvar, setPermissoesSalvar] = useState([]);
+  const [permissoesListar, setPermissoesListar] = useState([]);
+  const [permissoesRemover, setPermissoesRemover] = useState([]);
+  const [permissoesMessage, setPermissoesMessage] = useState([]);
+  const [permissoesTodos, setPermissoesTodos] = useState([]);
+  const [edicaoId, setEdicaoId] = useState(0);
+  const [removerId, setRemoverId] = useState(0);
+  const [salverId, setSalverId] = useState(0);
+  const [messageId, setMessageId] = useState(0);
+  const [todosId, setTodosId] = useState(0);
+  const [listarId, setListarId] = useState(0);
+  const navigate = useNavigate();
+  const dispatchWarning = useDispatch();
 
-  const toggleRemove = (e) => {
-    e.preventDefault();
-    setRemover(!remover);
-  };
-  const toggleupDate = (e) => {
-    e.preventDefault();
-    setActualizar(!actualizar);
-  };
-  const toggleSave = (e) => {
-    e.preventDefault();
-    setSalvar(!salvar);
-  };
-  const toggleTodos = async (e) => {
-    e.preventDefault();
+  useEffect(() => {
+    pegarPermissoes();
+  }, []);
+  useEffect(() => {
+    pegarPermissoesUsuario();
+  }, [bi]);
+  useEffect(() => {
+    pegarPermissoesUsuarioListar();
+  }, [bi]);
+  useEffect(() => {
+    pegarPermissoesUsuarioRemover();
+  }, [bi]);
+  useEffect(() => {
+    pegarPermissoesUsuarioTodos();
+  }, [bi]);
+  useEffect(() => {
+    pegarPermissoesUsuarioSalvar();
+  }, [bi]);
+  useEffect(() => {
+    pegarPermissoesUsuarioMensagem();
+  }, [bi]);
+
+  const pegarPermissoes = async (e) => {
     await api
-      .post("/user/permissao", {
-        bi,
+      .get("permissao")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+
+        setPermissoes(data.data);
+      })
+      .catch((error) => console.log(error));
+  };
+  const pegarPermissoesUsuario = async () => {
+    await api
+      .get("/permissaousuario")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+
+        const permissao = data.data.filter(
+          (p) => p?.permissao?.permissao === "edição" && p.Usuario?.bi === bi
+        );
+        if (bi !== permissao[0]?.Usuario?.bi) {
+          setActualizar(false);
+          return;
+        }
+        if (
+          permissao[0]?.permissao?.permissao === "edição" &&
+          bi === permissao[0]?.Usuario?.bi
+        ) {
+          setActualizar(true);
+          setEdicaoId(permissao[0].id);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  const pegarPermissoesUsuarioSalvar = async (e) => {
+    await api
+      .get("/permissaousuario")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+
+        const permissao = data.data.filter(
+          (p) => p?.permissao?.permissao === "salvar" && p?.Usuario?.bi === bi
+        );
+
+        // console.log(permissao[0].Usuario.bi);
+        if (bi === permissao[0]?.Usuario?.bi) {
+          if (permissao[0]?.permissao?.permissao === "salvar") {
+            setSalvar(true);
+            setSalverId(permissao[0].id);
+          }
+        } else {
+          setSalvar(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  const pegarPermissoesUsuarioListar = async (e) => {
+    await api
+      .get("/permissaousuario")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+
+        const permissao = data.data.filter(
+          (p) => p?.permissao?.permissao === "listar" && p?.Usuario?.bi === bi
+        );
+
+        // console.log(permissao[0].Usuario.bi);
+        if (bi === permissao[0]?.Usuario.bi) {
+          if (permissao[0]?.permissao?.permissao === "listar") {
+            setListar(true);
+            setListarId(permissao[0].id);
+          }
+        } else {
+          setListar(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  const pegarPermissoesUsuarioRemover = async (e) => {
+    await api
+      .get("/permissaousuario")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+
+        const permissao = data.data.filter(
+          (p) => p?.permissao?.permissao === "remover" && p?.Usuario?.bi === bi
+        );
+
+        console.log(permissao[0]);
+        // console.log(data.data, "fd");
+        if (bi === permissao[0]?.Usuario.bi) {
+          if (permissao[0]?.permissao?.permissao === "remover") {
+            setRemover(true);
+            setRemoverId(permissao[0].id);
+          }
+        } else {
+          setRemover(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  const pegarPermissoesUsuarioMensagem = async (e) => {
+    await api
+      .get("/permissaousuario")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+
+        const permissao = data.data.filter(
+          (p) => p?.permissao?.permissao === "conversa" && p?.Usuario?.bi === bi
+        );
+
+        // console.log(permissao[0]);
+        if (bi === permissao[0]?.Usuario.bi) {
+          if (permissao[0]?.permissao?.permissao === "conversa") {
+            setSms(true);
+            setMessageId(permissao[0].id);
+          }
+        } else {
+          setSms(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  const pegarPermissoesUsuarioTodos = async (e) => {
+    await api
+      .get("/permissaousuario")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+
+        const permissao = data.data.filter(
+          (p) => p?.permissao?.permissao === "admin" && p?.Usuario?.bi === bi
+        );
+
+        // console.log(permissao[0].Usuario.bi);
+        if (bi === permissao[0]?.Usuario?.bi) {
+          if (permissao[0]?.permissao?.permissao === "admin") {
+            setTodos(true);
+            setTodosId(permissao[0]?.id);
+          }
+        } else {
+          setTodos(false);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  const toggleupDate = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes.filter((d) => d?.permissao === "edição");
+    if (edicaoId !== 0 && permissao[0]?.permissao && fk_user !== 0) {
+      await api.delete(`/permissaousuario/${edicaoId}`);
+
+      setActualizar(false);
+    }
+  };
+  const toggleupDateTrue = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes.filter((d) => d?.permissao === "edição");
+
+    if (fk_user === 0 && !permissao[0]?.id) {
+      setMessage("Sem Usuário Selecionado");
+      dispatchWarning(toggleModalWarning(true));
+      return;
+    }
+    setActualizar(true);
+    setFk_user(0);
+    await api
+      .post("/permissaousuario", {
+        fk_user,
+        fk_permissao: permissao[0].id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        console.log(data.data);
-        setNome(data.data.nome);
-        setBi("");
       })
 
       .catch((err) => console.log(err));
-    setTodos(!todos);
   };
-  const toggleList = (e) => {
+  const toggleSaveTrue = async (e) => {
     e.preventDefault();
-    setListar(!listar);
+    const permissao = permissoes.filter((d) => d.permissao === "salvar");
+
+    if (fk_user === 0 || !permissao[0].id) {
+      setMessage("Sem Usuário Selecionado");
+      dispatchWarning(toggleModalWarning(true));
+      return;
+    }
+
+    setSalvar(true);
+    await api
+      .post("/permissaousuario", {
+        fk_user,
+        fk_permissao: permissao[0].id,
+      })
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+      })
+
+      .catch((err) => console.log(err));
   };
-  const toggleSms = (e) => {
+  const toggleSave = async (e) => {
     e.preventDefault();
-    setSms(!sms);
+    const permissao = permissoes.filter((d) => d?.permissao === "salvar");
+    if (salverId !== 0 && permissao[0]?.permissao && fk_user !== 0) {
+      await api.delete(`/permissaousuario/${salverId}`);
+
+      setSalvar(false);
+    }
+  };
+  const toggleTodosTrue = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes.filter((d) => d.permissao === "admin");
+
+    if (fk_user === 0 || !permissao[0].id) {
+      setMessage("Sem Usuário Selecionado");
+      dispatchWarning(toggleModalWarning(true));
+      return;
+    }
+
+    setTodos(true);
+
+    await api
+      .post("/permissaousuario", {
+        fk_user,
+        fk_permissao: permissao[0].id,
+      })
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+      })
+
+      .catch((err) => console.log(err));
+  };
+  const toggleTodos = async (e) => {
+    const permissao = permissoes.filter((d) => d?.permissao === "admin");
+    if (todosId !== 0 && permissao[0]?.permissao && fk_user !== 0) {
+      await api.delete(`/permissaousuario/${todosId}`);
+
+      setTodos(false);
+    }
+  };
+
+  const toggleListTrue = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes.filter((d) => d.permissao === "listar");
+
+    if (fk_user === 0 || !permissao[0]?.id) {
+      setMessage("Sem Usuário Selecionado");
+      dispatchWarning(toggleModalWarning(true));
+      return;
+    }
+
+    setListar(true);
+    await api
+      .post("/permissaousuario", {
+        fk_user,
+        fk_permissao: permissao[0].id,
+      })
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+      })
+
+      .catch((err) => console.log(err));
+  };
+  const toggleList = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes?.filter((d) => d?.permissao === "listar");
+    if (listarId !== 0 && permissao[0].permissao && fk_user !== 0) {
+      await api.delete(`/permissaousuario/${listarId}`);
+
+      setListar(false);
+    }
+  };
+  const toggleSmsTrue = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes.filter((d) => d.permissao === "conversa");
+
+    if (fk_user === 0 || !permissao[0].id) {
+      setMessage("Sem Usuário Selecionado");
+      dispatchWarning(toggleModalWarning(true));
+      return;
+    }
+
+    setSms(true);
+
+    await api
+      .post("/permissaousuario", {
+        fk_user,
+        fk_permissao: permissao[0].id,
+      })
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+      })
+
+      .catch((err) => console.log(err));
+  };
+  const toggleSms = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes.filter((d) => d.permissao === "conversa");
+    if (messageId !== 0 && permissao[0]?.permissao && fk_user !== 0) {
+      await api.delete(`/permissaousuario/${messageId}`);
+
+      setSms(false);
+    }
+  };
+  const toggleRemoveTrue = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes.filter((d) => d.permissao === "remover");
+
+    if (fk_user === 0 || !permissao[0].id) {
+      setMessage("Sem Usuário Selecionado");
+      dispatchWarning(toggleModalWarning(true));
+      return;
+    }
+
+    await api
+      .post("/permissaousuario", {
+        fk_user,
+        fk_permissao: permissao[0].id,
+      })
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+        setRemover(true);
+        alert(permissao[0].id);
+      })
+
+      .catch((err) => console.log(err));
+  };
+
+  const toggleRemove = async (e) => {
+    e.preventDefault();
+    const permissao = permissoes.filter((d) => d.permissao === "remover");
+    if (removerId !== 0 && permissao[0].permissao && fk_user !== 0) {
+      await api.delete(`/permissaousuario/${removerId}`);
+
+      setRemover(false);
+    }
   };
   const pegarUSuario = async (e) => {
     e.preventDefault();
@@ -68,7 +444,7 @@ const PermissoesUSuario = () => {
         }
 
         setNome(data.data.nome);
-        setBi("");
+        setFk_user(data.data.id);
       })
 
       .catch((err) => console.log(err));
@@ -76,183 +452,186 @@ const PermissoesUSuario = () => {
 
   const hendlePermissions = async () => {};
   return (
-    <div className="permissoesUsuario">
-      <form className="form" onSubmit={(e) => pegarUSuario(e)}>
-        <label htmlFor="bi">
-          Nº B.I
-          <input
-            type="search"
-            placeholder="Digite o Número do B.I"
-            value={bi}
-            onChange={(e) => setBi(e.target.value)}
-            autoFocus
-            maxLength={14}
-          />
-          <button type="submit">
-            <CiSearch size={30} color="fff" cursor={"pointer"} />
-          </button>
-        </label>
-      </form>
-      <div className="nome">{nome && <h2>Nome do Usuário: {nome}</h2>}</div>
-      <div className="div-permissao">
-        <div>
-          <FaUserLock />
+    <>
+      <UseWarning message={message} />
+      <div className="permissoesUsuario">
+        <form className="form" onSubmit={(e) => pegarUSuario(e)}>
+          <label htmlFor="bi">
+            Nº B.I
+            <input
+              type="search"
+              placeholder="Digite o Número do B.I"
+              value={bi}
+              onChange={(e) => setBi(e.target.value)}
+              autoFocus
+              maxLength={14}
+            />
+            <button type="submit">
+              <CiSearch size={30} color="fff" cursor={"pointer"} />
+            </button>
+          </label>
+        </form>
+        <div className="nome">{nome && <h2>Nome do Usuário: {nome}</h2>}</div>
+        <div className="div-permissao">
+          <div>
+            <FaUserLock />
 
-          <p>
-            Permitir <strong>Todos acessos</strong> para usuário básico
-          </p>
+            <p>
+              Permitir <strong>Todos acessos</strong> para usuário básico
+            </p>
+          </div>
+
+          {!todos && (
+            <BiSolidToggleLeft
+              size={50}
+              color="#cfcfcf"
+              cursor={"pointer"}
+              onClick={(e) => toggleTodosTrue(e)}
+            />
+          )}
+
+          {todos && (
+            <BiSolidToggleRight
+              size={50}
+              color="#a31543"
+              onClick={(e) => toggleTodos(e)}
+              cursor={"pointer"}
+            />
+          )}
         </div>
+        <div className="div-permissao">
+          <div>
+            <FaUserClock />
+            <p>
+              Permitir o <strong>acesso</strong> de <strong>Eliminar</strong> o
+              estudante para usuário básico
+            </p>
+          </div>
+          {!remover && (
+            <BiSolidToggleLeft
+              size={50}
+              color="#cfcfcf"
+              cursor={"pointer"}
+              onClick={(e) => toggleRemoveTrue(e)}
+            />
+          )}
 
-        {!todos && (
-          <BiSolidToggleLeft
-            size={50}
-            color="#cfcfcf"
-            cursor={"pointer"}
-            onClick={(e) => toggleTodos(e)}
-          />
-        )}
-
-        {todos && (
-          <BiSolidToggleRight
-            size={50}
-            color="#a31543"
-            onClick={(e) => toggleTodos(e)}
-            cursor={"pointer"}
-          />
-        )}
-      </div>
-      <div className="div-permissao">
-        <div>
-          <FaUserClock />
-          <p>
-            Permitir o <strong>acesso</strong> de <strong>Eliminar</strong> o
-            estudante para usuário básico
-          </p>
+          {remover && (
+            <BiSolidToggleRight
+              size={50}
+              color="red"
+              onClick={(e) => toggleRemove(e)}
+              cursor={"pointer"}
+            />
+          )}
         </div>
-        {!remover && (
-          <BiSolidToggleLeft
-            size={50}
-            color="#cfcfcf"
-            cursor={"pointer"}
-            onClick={(e) => toggleRemove(e)}
-          />
-        )}
+        <div className="div-permissao">
+          <div>
+            <FaUserLock />
+            <p>
+              Permitir o <strong>acesso</strong> de <strong>Listar</strong> o
+              estudante para usuário básico
+            </p>
+          </div>
+          {!listar && (
+            <BiSolidToggleLeft
+              size={50}
+              color="#cfcfcf"
+              cursor={"pointer"}
+              onClick={(e) => toggleListTrue(e)}
+            />
+          )}
 
-        {remover && (
-          <BiSolidToggleRight
-            size={50}
-            color="red"
-            onClick={(e) => toggleRemove(e)}
-            cursor={"pointer"}
-          />
-        )}
-      </div>
-      <div className="div-permissao">
-        <div>
-          <FaUserLock />
-          <p>
-            Permitir o <strong>acesso</strong> de <strong>Listar</strong> o
-            estudante para usuário básico
-          </p>
+          {listar && (
+            <BiSolidToggleRight
+              size={50}
+              color="blue"
+              onClick={(e) => toggleList(e)}
+              cursor={"pointer"}
+            />
+          )}
         </div>
-        {!listar && (
-          <BiSolidToggleLeft
-            size={50}
-            color="#cfcfcf"
-            cursor={"pointer"}
-            onClick={(e) => toggleList(e)}
-          />
-        )}
+        <div className="div-permissao">
+          <div>
+            <FaUserLock />
+            <p>
+              Permitir o <strong>acesso</strong> de <strong>Salvar</strong> o
+              estudante para usuário básico
+            </p>
+          </div>
+          {!salvar && (
+            <BiSolidToggleLeft
+              size={50}
+              color="#cfcfcf"
+              cursor={"pointer"}
+              onClick={(e) => toggleSaveTrue(e)}
+            />
+          )}
 
-        {listar && (
-          <BiSolidToggleRight
-            size={50}
-            color="blue"
-            onClick={(e) => toggleList(e)}
-            cursor={"pointer"}
-          />
-        )}
-      </div>
-      <div className="div-permissao">
-        <div>
-          <FaUserLock />
-          <p>
-            Permitir o <strong>acesso</strong> de <strong>Salvar</strong> o
-            estudante para usuário básico
-          </p>
+          {salvar && (
+            <BiSolidToggleRight
+              size={50}
+              color="green"
+              onClick={(e) => toggleSave(e)}
+              cursor={"pointer"}
+            />
+          )}
         </div>
-        {!salvar && (
-          <BiSolidToggleLeft
-            size={50}
-            color="#cfcfcf"
-            cursor={"pointer"}
-            onClick={(e) => toggleSave(e)}
-          />
-        )}
+        <div className="div-permissao">
+          <div>
+            <FaUserLock />
+            <p>
+              Permitir a <strong>acesso</strong> de{" "}
+              <strong>Troca de Mensagem</strong> entre{" "}
+              <strong>Administrador</strong> e usuário básico
+            </p>
+          </div>
+          {!sms && (
+            <BiSolidToggleLeft
+              size={50}
+              color="#cfcfcf"
+              cursor={"pointer"}
+              onClick={(e) => toggleSmsTrue(e)}
+            />
+          )}
 
-        {salvar && (
-          <BiSolidToggleRight
-            size={50}
-            color="green"
-            onClick={(e) => toggleSave(e)}
-            cursor={"pointer"}
-          />
-        )}
-      </div>
-      <div className="div-permissao">
-        <div>
-          <FaUserLock />
-          <p>
-            Permitir a <strong>acesso</strong> de{" "}
-            <strong>Troca de Mensagem</strong> entre{" "}
-            <strong>Administrador</strong> e usuário básico
-          </p>
+          {sms && (
+            <BiSolidToggleRight
+              size={50}
+              color="#a31543"
+              onClick={(e) => toggleSms(e)}
+              cursor={"pointer"}
+            />
+          )}
         </div>
-        {!sms && (
-          <BiSolidToggleLeft
-            size={50}
-            color="#cfcfcf"
-            cursor={"pointer"}
-            onClick={(e) => toggleSms(e)}
-          />
-        )}
+        <div className="div-permissao">
+          <div>
+            <FaUserLock />
+            <p>
+              Permitir o <strong>acesso</strong> de <strong>Actualizar</strong>{" "}
+              o estudante para usuário básico
+            </p>
+          </div>
+          {!actualizar && (
+            <BiSolidToggleLeft
+              size={50}
+              color="#cfcfcf"
+              cursor={"pointer"}
+              onClick={(e) => toggleupDateTrue(e)}
+            />
+          )}
 
-        {sms && (
-          <BiSolidToggleRight
-            size={50}
-            color="#a31543"
-            onClick={(e) => toggleSms(e)}
-            cursor={"pointer"}
-          />
-        )}
-      </div>
-      <div className="div-permissao">
-        <div>
-          <FaUserLock />
-          <p>
-            Permitir o <strong>acesso</strong> de <strong>Actualizar</strong> o
-            estudante para usuário básico
-          </p>
+          {actualizar && (
+            <BiSolidToggleRight
+              size={50}
+              color="orange"
+              onClick={(e) => toggleupDate(e)}
+              cursor={"pointer"}
+            />
+          )}
         </div>
-        {!actualizar && (
-          <BiSolidToggleLeft
-            size={50}
-            color="#cfcfcf"
-            cursor={"pointer"}
-            onClick={(e) => toggleupDate(e)}
-          />
-        )}
-
-        {actualizar && (
-          <BiSolidToggleRight
-            size={50}
-            color="orange"
-            onClick={(e) => toggleupDate(e)}
-            cursor={"pointer"}
-          />
-        )}
       </div>
-    </div>
+    </>
   );
 };
 

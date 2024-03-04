@@ -77,7 +77,7 @@ const Publicar = () => {
             <BiWinkSmile
               cursor={"pointer"}
               size={"30px"}
-              color="#fff"
+              color="#000"
               onClick={() => {
                 setIsPick(!isPick);
               }}
@@ -91,7 +91,6 @@ const Publicar = () => {
                 previewPosition="fixed"
                 onEmojiSelect={(e) => {
                   setPublicacao(publicacao + e.native);
-                  setIsPick(!isPick);
                 }}
                 className="emoji"
               />

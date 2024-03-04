@@ -50,22 +50,7 @@ function Perfil() {
 
         setUser(data.data);
         setEmail(data.data.email);
-      })
-      .catch((err) => console.log(err));
-  }
-  async function hendleGetPublicacao() {
-    await api
-      .post(`/publicacao/perfil`, {
-        fk_user: id,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        setPublicacoes(data.data.publicacao);
-        setPaginacao(data.data.pagination);
+        console.log(data.data);
       })
       .catch((err) => console.log(err));
   }
@@ -94,7 +79,6 @@ function Perfil() {
   useEffect(() => {
     hendleGetUser();
     hendleGetImage();
-    hendleGetPublicacao();
   }, []);
   return (
     <div className="container-perfil">
@@ -132,56 +116,6 @@ function Perfil() {
           <br />
           <span>email: {user.email}</span>
           <br />
-        </div>
-        {paginacao.prev_page && (
-          <Link
-            to={`/home?page=${Number(page.get("page") - Number(1))}`}
-            className="pagePublicacao anterior">
-            Publicacão Anteriores
-          </Link>
-        )}
-        <div className="publicacaoPerfil">
-          {publicacoes.map((publ) => (
-            <div key={publ.id} className="publicacao-perfil">
-              <div className="opcoes1">
-                <Link
-                  to={`/perfil/${publ.Usuario.id}`}
-                  className="usernamePerfil">
-                  {publ.Usuario.nome}
-                </Link>
-                {publ.Usuario.id === Number(sessionStorage.getItem("id")) ? (
-                  <>
-                    <Link to={`/editar/publicacao/perfil/${publ.id}`}>
-                      <CiEdit size={"25px"} cursor={"pointer"} color="#fff" />
-                    </Link>
-
-                    <UseBtnRemovePerfil
-                      pu={publ}
-                      id1={id1}
-                      publicacoes={publicacoes}
-                      setPublicacoes={setPublicacoes}
-                    />
-                  </>
-                ) : (
-                  <></>
-                )}
-              </div>
-              <p>{publ.publicacao}</p>
-              <ProfilePublication id_publicacao={publ.id} publicacao={publ} />
-              <div className="opcoes" id="opcoes">
-                <LikePublicacao publ={publ} />
-
-                <Comentario publ={publ} id={publ.id} />
-              </div>
-            </div>
-          ))}
-          {paginacao.next_page && (
-            <Link
-              to={`/home?page=${Number(page.get("page")) + Number(1)}`}
-              className="pagepublicacao ">
-              Próximas Publicacão
-            </Link>
-          )}
         </div>
       </div>
     </div>

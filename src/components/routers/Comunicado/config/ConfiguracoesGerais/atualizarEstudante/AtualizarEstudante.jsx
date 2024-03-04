@@ -7,6 +7,7 @@ import UseRemoverConfirm from "./remover/UseRemoverConfirm";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import EditarEstudante from "./editar/EditarEstudante";
+import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
 
 const AtualizarEstudante = () => {
   const [isClick, setIsClick] = useState(false);
@@ -48,11 +49,11 @@ const AtualizarEstudante = () => {
       .catch((err) => console.log(err));
   };
 
-  function deletePropina(e) {
+  function deleteEstudante(e) {
     e.preventDefault();
     setIsClick(true);
   }
-  function editarPropina(e) {
+  function editarEstudante(e) {
     e.preventDefault();
     dispatch(toggleModalEdit(!isVisible));
   }
@@ -91,8 +92,10 @@ const AtualizarEstudante = () => {
                     <th>E-mail</th>
                     <th>Conacto</th>
                     <th>Curso</th>
-
-                    <th colSpan={2}>Opções</th>
+                    <PegarPermissoes
+                      permissoes={["admin", "remover", "edição"]}>
+                      <th colSpan={2}>Opções</th>
+                    </PegarPermissoes>
                   </tr>
                 </thead>
                 <tbody>
@@ -102,23 +105,29 @@ const AtualizarEstudante = () => {
                     <td>{estudante?.Usuario.email}</td>
                     <td>{estudante?.contato}</td>
                     <td>{estudante?.Curso?.curso}</td>
-                    <td>
-                      <BiEdit
-                        title="Editar Este Mês"
-                        cursor={"pointer"}
-                        color="blue"
-                        onClick={(e) => editarPropina(e)}
-                      />
-                    </td>
-                    <td>
-                      <BiX
-                        title="Eliminar Este Mês"
-                        color="red"
-                        cursor={"pointer"}
-                        size={20}
-                        onClick={(e) => deletePropina(e)}
-                      />
-                    </td>
+                    <PegarPermissoes
+                      permissoes={["admin", "remover", "edição"]}>
+                      <td>
+                        <BiEdit
+                          title="Editar Este Mês"
+                          cursor={"pointer"}
+                          color="blue"
+                          onClick={(e) => editarEstudante(e)}
+                        />
+                      </td>
+                    </PegarPermissoes>
+                    <PegarPermissoes
+                      permissoes={["admin", "remover", "edição"]}>
+                      <td>
+                        <BiX
+                          title="Eliminar Este Mês"
+                          color="red"
+                          cursor={"pointer"}
+                          size={20}
+                          onClick={(e) => deleteEstudante(e)}
+                        />
+                      </td>
+                    </PegarPermissoes>
                   </tr>
                 </tbody>
               </table>

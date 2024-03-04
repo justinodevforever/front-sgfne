@@ -124,7 +124,7 @@ export default function LerComentarioPublicacao() {
           socketInstance.current.emit("comentpublication", newComent);
 
           setComentario("");
-          setComentarios([...comentarios, data.data.response[0]]);
+          // setComentarios([...comentarios, data.data.response[0]]);
         })
         .catch((err) => console.log(err));
     } catch (error) {
@@ -294,8 +294,8 @@ export default function LerComentarioPublicacao() {
             {comentario && (
               <BiSolidSend
                 onClick={() => hendleComentar()}
-                size={"20px"}
-                color="#00f"
+                size={"30px"}
+                color="#fff"
                 cursor={"pointer"}
               />
             )}

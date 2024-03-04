@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./EditarComentarioPublicacao.css";
+import "./EditarComentarioPublicacao.scss";
 import MenuBack from "../../page/coment/Menu-Back/MenuBack";
 import { api } from "../../../../auth/auth";
 import { useNavigate, useParams } from "react-router-dom";

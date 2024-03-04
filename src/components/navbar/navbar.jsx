@@ -27,6 +27,7 @@ import { PiCurrencyCircleDollar, PiStudentBold } from "react-icons/pi";
 import { AiFillContacts, AiOutlineSetting } from "react-icons/ai";
 import PegarRoles from "../../configs/roles/Roles";
 import { useSelector } from "react-redux";
+import PegarPermissoes from "../../configs/permissoes/PegarPermissoes";
 
 function NavBar({ setMostrar, setIsVisible }) {
   const [nome, setNome] = useState();
@@ -190,7 +191,7 @@ function NavBar({ setMostrar, setIsVisible }) {
   return (
     <nav className="container-nav">
       <div>
-        <h3>ISPMCHAT</h3>
+        <h3 className="title">SGFNE</h3>
       </div>
       <div className="pesquisa"></div>
 
@@ -251,9 +252,17 @@ function NavBar({ setMostrar, setIsVisible }) {
             {notify.length > 0 ? (
               <div className="div-noitify">
                 {notify.length < 10 ? (
-                  <span className="menor">{notify.length}</span>
+                  <span
+                    className="menor"
+                    onClick={(e) => toggleLerNotificacao(e)}>
+                    {notify.length}
+                  </span>
                 ) : (
-                  <span className="maior">+10</span>
+                  <span
+                    className="maior"
+                    onClick={(e) => toggleLerNotificacao(e)}>
+                    +10
+                  </span>
                 )}
               </div>
             ) : null}
@@ -268,7 +277,7 @@ function NavBar({ setMostrar, setIsVisible }) {
                 onClick={toggleOpen}
                 cursor={"pointer"}
                 className=" barra link-nav"
-                title="Ver nossos serviços"
+                title="Ver o Menu"
               />
             </Link>
           </div>
@@ -329,32 +338,37 @@ function NavBar({ setMostrar, setIsVisible }) {
               className={clic && "ativado"}
             />
           </Link>
-          <Link
-            to={"/estudante"}
-            title="Estudantes"
-            id="p"
-            onClick={(e) => toggle1(e)}>
-            <PiStudentBold
-              className={clic1 && "ativado"}
-              color={clic1 ? "#fff" : "#a31543"}
-              size={40}
-              id="icPr"
-              cursor={"pointer"}
-            />
-          </Link>
-          <Link to={`/servicos`} id="pro">
-            <PiCurrencyCircleDollar
-              color={clic2 ? "#fff" : "#a31543"}
-              title="Pagamentos"
-              size={40}
-              id="icPr"
-              cursor={"pointer"}
-              onClick={(e) => toggle2(e)}
-              className={clic2 && "ativado"}
-            />
-          </Link>
 
-          <PegarRoles roles={"admin"}>
+          <PegarPermissoes permissoes={["admin", "listar", "salvar"]}>
+            <Link
+              to={"/estudante"}
+              title="Estudantes"
+              id="p"
+              onClick={(e) => toggle1(e)}>
+              <PiStudentBold
+                className={clic1 && "ativado"}
+                color={clic1 ? "#fff" : "#a31543"}
+                size={40}
+                id="icPr"
+                cursor={"pointer"}
+              />
+            </Link>
+          </PegarPermissoes>
+          <PegarPermissoes permissoes={["salvar", "admin"]}>
+            <Link to={`/servicos`} id="pro">
+              <PiCurrencyCircleDollar
+                color={clic2 ? "#fff" : "#a31543"}
+                title="Pagamentos"
+                size={40}
+                id="icPr"
+                cursor={"pointer"}
+                onClick={(e) => toggle2(e)}
+                className={clic2 && "ativado"}
+              />
+            </Link>
+          </PegarPermissoes>
+
+          <PegarPermissoes permissoes={["edição", "admin"]}>
             <Link to={`/definicoes`}>
               <AiOutlineSetting
                 color={clic3 ? "#fff" : "#a31543"}
@@ -365,7 +379,7 @@ function NavBar({ setMostrar, setIsVisible }) {
                 className={clic3 && "ativado"}
               />
             </Link>
-          </PegarRoles>
+          </PegarPermissoes>
           <br />
 
           <div className="sair">
