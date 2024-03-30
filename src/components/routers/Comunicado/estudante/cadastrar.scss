@@ -17,6 +17,32 @@
   flex-direction: row;
   justify-content: center;
 }
+.container-cadastrar .form label {
+  display: flex;
+}
+.container-cadastrar form .novos {
+  display: flex;
+  width: 70%;
+  justify-content: space-between;
+  border: 1px solid $preto;
+  padding: 10px;
+  border-radius: 7px;
+  align-items: center;
+}
+.container-cadastrar form .periodo div {
+  display: flex;
+  gap: 10px;
+}
+.container-cadastrar form .novos div input {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+.container-cadastrar form .novos select {
+  border: 1px solid $preto;
+  font-size: 12pt;
+  padding: 5px;
+}
 
 .container-cadastrar .pesquisa {
   display: flex;
@@ -50,12 +76,12 @@
   border-radius: 10px;
   margin-top: 20px;
 }
-.container-cadastrar form input {
-  width: 70%;
+.container-cadastrar form input:not(input[type="radio"]) {
+  width: 50%;
   font-size: 14pt;
   padding: 4px;
   height: 40px;
-  border: 2px solid $rosa;
+  border: 0.7px solid $rosa;
   border-radius: 10px;
   margin-top: 10px;
 }

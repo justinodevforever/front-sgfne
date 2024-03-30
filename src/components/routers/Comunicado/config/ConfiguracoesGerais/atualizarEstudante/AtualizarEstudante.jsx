@@ -92,6 +92,7 @@ const AtualizarEstudante = () => {
                     <th>E-mail</th>
                     <th>Conacto</th>
                     <th>Curso</th>
+                    <th>Período</th>
                     <PegarPermissoes
                       permissoes={["admin", "remover", "edição"]}>
                       <th colSpan={2}>Opções</th>
@@ -105,6 +106,7 @@ const AtualizarEstudante = () => {
                     <td>{estudante?.Usuario.email}</td>
                     <td>{estudante?.contato}</td>
                     <td>{estudante?.Curso?.curso}</td>
+                    <td>{estudante?.periodo}</td>
                     <PegarPermissoes
                       permissoes={["admin", "remover", "edição"]}>
                       <td>

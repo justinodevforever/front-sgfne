@@ -44,11 +44,18 @@ import Estudante from "./Comunicado/estudante/Estudante.jsx";
 import Propina from "./Comunicado/Services/propinas/Propinas.jsx";
 import MenuPagamento from "./Comunicado/Services/menu pagamentos/MenuPagamento.jsx";
 import Definicoes from "./Comunicado/config/Definicoes.jsx";
+import TipoServico from "./Comunicado/config/configuracoes/cadastrarServicos/TipoServico.jsx";
+import Ano from "./Comunicado/config/configuracoes/cadastrarAnoLetivo/Ano.jsx";
+import Frequencia from "./Comunicado/config/configuracoes/cadastrarFrequencia/Frequencia.jsx";
+import Semestre from "./Comunicado/config/configuracoes/cadastrarSemestre/Semestre.jsx";
+import Cadeira from "./Comunicado/config/configuracoes/cadastrarCadeiras/Cadeira.jsx";
+import Estudos from "../estudos/Estudos.jsx";
 
 const Routeting = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route exact path="/es" element={<Estudos />} />
         <Route exact path="/login" element={<Login />} />
 
         <Route
@@ -354,7 +361,60 @@ const Routeting = () => {
           </Route>
         </Route>
 
-        <Route exact path="/professor/:id" element={<Professor />} />
+        <Route
+          exact
+          path="/professor/:id"
+          element={
+            <ProtectRouter>
+              <Professor />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path="/tiposervico"
+          element={
+            <ProtectRouter>
+              <TipoServico />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path="/ano"
+          element={
+            <ProtectRouter>
+              <Ano />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path="/frequencia"
+          element={
+            <ProtectRouter>
+              <Frequencia />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path="/semestre"
+          element={
+            <ProtectRouter>
+              <Semestre />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path="/cadeiras"
+          element={
+            <ProtectRouter>
+              <Cadeira />
+            </ProtectRouter>
+          }
+        />
         {/* <Route exact path="/anos/:ano/:idcurso" element={<AnoCurso />} /> */}
 
         <Route path="*" Component={() => <h1>Page not Found</h1>} />

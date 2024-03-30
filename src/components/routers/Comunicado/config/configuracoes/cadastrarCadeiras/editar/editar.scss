@@ -1,0 +1,26 @@
+@import "../../../../../../../style/variable.scss";
+
+.overflay {
+  display: flex;
+  background-color: $preto;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.7;
+  z-index: 2;
+}
+.editar {
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  background-color: $white;
+  position: fixed;
+  z-index: 3;
+  top: 10px;
+}
+.opcoes {
+  display: flex;
+  justify-content: space-between;
+}

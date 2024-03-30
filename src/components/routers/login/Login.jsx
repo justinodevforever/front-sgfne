@@ -17,6 +17,7 @@ export default function Login() {
   const [check, setCheck] = useState(false);
   const refEmail = useRef();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   async function hendleLogar(e) {
     e.preventDefault();
@@ -28,30 +29,17 @@ export default function Login() {
         password,
       })
       .then((data) => {
-        console.log(data.data);
         if (data.data?.mensage !== "email ou senha Errada") {
           localStorage.setItem("refreshToken", data?.data?.refreshToken);
           localStorage.setItem(
-            `token${data.data?.User?.dataValues.id}`,
+            `token${data.data?.User?.id}`,
             data.data?.token
           );
-          sessionStorage.setItem("user", data.data?.User?.dataValues.nome);
-          sessionStorage.setItem("id", data.data?.User?.dataValues.id);
-          dispatch(setId(data.data?.User?.dataValues.id));
-
-          let idT = null;
-          idT = setTimeout(() => {
-            setClick(false);
-            clearTimeout(idT);
-            navigate(`/comunicado`);
-          }, 6000);
-        } else {
-          let idT = null;
-          idT = setTimeout(() => {
-            setClick(false);
-            clearTimeout(idT);
-          }, 6000);
-          setSms("Emial ou Senha inválidos");
+          sessionStorage.setItem("user", data.data?.User?.nome);
+          sessionStorage.setItem("id", data.data?.User?.id);
+          dispatch(setId(data.data?.User?.id));
+          setClick(false);
+          navigate("/comunicado");
         }
       })
       .catch((error) => console.log(error));

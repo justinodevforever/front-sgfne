@@ -1,21 +1,17 @@
 import { useEffect } from "react";
 import "./animationComponentLogin.css";
 
-const AnimationComponentLogin = ({ setClick, click }) => {
+const AnimationComponentLogin = ({ click }) => {
   useEffect(() => {
     function animacao() {
       const primeiro = document.getElementById("primeiro");
       const segundo = document.getElementById("segundo");
       const terceiro = document.getElementById("terceiro");
       let ani = null;
-      clearInterval(ani);
       let pos = 0;
       ani = setInterval(() => {
         pos++;
         if (click) {
-          // segundo.style.border = "1px solid #a31543";
-          // primeiro.style.border = "1px solid #a31543";
-          // terceiro.style.border = "1px solid #a31543";
           if (pos === Number(1)) {
             primeiro.style.background = "#a31543";
           } else if (pos === Number(2)) {
@@ -28,16 +24,16 @@ const AnimationComponentLogin = ({ setClick, click }) => {
             terceiro.style.background = "#fff";
             pos = 0;
           }
+        } else {
+          clearInterval(ani);
         }
-
-        console.log(click);
       }, 500);
 
-      let time = null;
-      time = setTimeout(() => {
-        clearInterval(ani);
-        clearTimeout(time);
-      }, 6000);
+      // let time = null;
+      // time = setTimeout(() => {
+      //   clearInterval(ani);
+      //   clearTimeout(time);
+      // }, 6000);
     }
     animacao();
   }, []);

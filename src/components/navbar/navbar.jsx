@@ -28,6 +28,7 @@ import { AiFillContacts, AiOutlineSetting } from "react-icons/ai";
 import PegarRoles from "../../configs/roles/Roles";
 import { useSelector } from "react-redux";
 import PegarPermissoes from "../../configs/permissoes/PegarPermissoes";
+import MenuPerfil from "./Menu Perfil/MenuPerfil";
 
 function NavBar({ setMostrar, setIsVisible }) {
   const [nome, setNome] = useState();
@@ -46,6 +47,7 @@ function NavBar({ setMostrar, setIsVisible }) {
   const [clic2, setClic2] = useState(false);
   const [clic3, setClic3] = useState(false);
   const { isClic } = useSelector((state) => state.ui.pagou);
+  const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
   const url = import.meta.env.VITE_VERCEL_URL_SOCKET;
@@ -106,14 +108,6 @@ function NavBar({ setMostrar, setIsVisible }) {
     getM();
   }, [atualizar]);
 
-  function logaut(e) {
-    e.preventDefault();
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("id");
-    sessionStorage.removeItem("user");
-    navigate("/login");
-  }
-
   const toggleOpen = () => {
     setVisible(!visible);
   };
@@ -160,9 +154,9 @@ function NavBar({ setMostrar, setIsVisible }) {
     setClic3(false);
     navigate(`/comunicado?${1}`);
   }
-  // useEffect(() => {
-  //   if (clic) navigate(`/comunicado?${1}`);
-  // }, [clic === true]);
+  useEffect(() => {
+    if (clic) navigate(`/comunicado?${1}`);
+  }, [clic === true]);
   function toggle1(e) {
     e.preventDefault();
     setClic1(true);
@@ -188,9 +182,13 @@ function NavBar({ setMostrar, setIsVisible }) {
     setClic(false);
     navigate("/definicoes");
   }
+  function MenuOpen(e) {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  }
   return (
     <nav className="container-nav">
-      <div>
+      <div className="titlediv">
         <h3 className="title">SGFNE</h3>
       </div>
       <div className="pesquisa"></div>
@@ -303,16 +301,12 @@ function NavBar({ setMostrar, setIsVisible }) {
 
       <div className="image">
         {image == undefined || null || image.length == 0 ? (
-          <Link
-            className="perfil img"
-            to={`/perfil/${sessionStorage.getItem("id")}`}>
+          <Link className="perfil img" onClick={(e) => MenuOpen(e)}>
             <img src={`../../../image/emptyImage.jpg`} alt={""} />
           </Link>
         ) : (
           <div>
-            <Link
-              className="perfil"
-              to={`/perfil/${sessionStorage.getItem("id")}?page=${1}`}>
+            <Link className="perfil" onClick={(e) => MenuOpen(e)}>
               <img
                 src={`http://localhost:3001/files/users/${image.nome}`}
                 alt={""}
@@ -321,6 +315,8 @@ function NavBar({ setMostrar, setIsVisible }) {
             </Link>
           </div>
         )}
+
+        {isOpen && <MenuPerfil />}
       </div>
 
       <div className={visible ? "open" : "closed"} id="menu-mobile">
@@ -381,10 +377,6 @@ function NavBar({ setMostrar, setIsVisible }) {
             </Link>
           </PegarPermissoes>
           <br />
-
-          <div className="sair">
-            <Link onClick={(e) => logaut(e)}>Sair</Link>
-          </div>
         </div>
       </div>
     </nav>

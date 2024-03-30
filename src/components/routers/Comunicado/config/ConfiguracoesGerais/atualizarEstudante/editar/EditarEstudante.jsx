@@ -18,16 +18,12 @@ const EditarEstudante = ({ estudante }) => {
   const [cursos, setCursos] = useState([]);
   const [curso, setCurso] = useState("");
   const [nome, setNome] = useState("");
-  const [fk_curso, setFk_curso] = useState("");
+  const [periodo, setPeriodo] = useState("");
   const [contato, setcontato] = useState("");
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const { isVisible } = useSelector((state) => state.ui.ModalEdit);
-  const { isVisibleConfirmar } = useSelector(
-    (state) => state.ui.ModalConfirmar
-  );
-  const { isVisibleError } = useSelector((state) => state.ui.ModalError);
-  const { isVisibleWarning } = useSelector((state) => state.ui.ModalWarning);
+
   const dispatchConfirmar = useDispatch();
   const dispatchError = useDispatch();
   const dispatchWarning = useDispatch();
@@ -39,6 +35,7 @@ const EditarEstudante = ({ estudante }) => {
     setCurso(estudante?.fk_curso + " " + estudante?.Curso?.curso);
     setcontato(estudante?.contato);
     setNome(estudante?.nome);
+    setPeriodo(estudante.periodo);
   }, [estudante]);
 
   function close(e) {
@@ -68,7 +65,12 @@ const EditarEstudante = ({ estudante }) => {
       return;
     }
     await api
-      .put(`/estudante/${estudante.id}`, { nome, fk_curso: newCurso, contato })
+      .put(`/estudante/${estudante.id}`, {
+        nome,
+        fk_curso: newCurso,
+        contato,
+        periodo,
+      })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
@@ -115,6 +117,14 @@ const EditarEstudante = ({ estudante }) => {
                     onChange={(e) => setNome(e.target.value)}
                     value={nome}
                   />
+                </div>
+                <div>
+                  Período:{""}
+                  <select onChange={(e) => setPeriodo(e.target.value)}>
+                    <option value={periodo}>{periodo}</option>
+                    <option value={"Pós-Laboral"}>Pós-Laboral</option>
+                    <option value={"Diúrno"}>Diúrno</option>
+                  </select>
                 </div>
                 <div>
                   Curso:{" "}

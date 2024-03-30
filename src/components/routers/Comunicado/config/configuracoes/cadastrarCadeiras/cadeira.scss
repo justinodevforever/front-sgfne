@@ -1,0 +1,64 @@
+@import "../../../../../../style/variable.scss";
+
+.cadeira {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid $rosa;
+  margin-top: 4px;
+}
+.menuCadeira {
+  display: flex;
+  width: 50%;
+}
+.cadeira .opcoes {
+  display: flex;
+  margin: auto;
+  width: 80%;
+}
+.cadeira form div {
+  display: flex;
+}
+.cadeira form {
+  display: flex;
+  flex-direction: column;
+}
+.cadeira form button {
+  display: flex;
+  width: 20%;
+  margin: auto;
+  padding: 10px;
+  font-size: 14pt;
+  color: $white;
+  background-color: $rosa;
+  text-align: center;
+  border: none;
+  border-radius: 7px;
+  gap: 4px;
+}
+.menuCadeira li {
+  margin-right: 10px;
+}
+.menuCadeira .ativo {
+  display: flex;
+  width: 90%;
+  background-color: $rosa;
+  color: $white;
+  padding: 7px;
+  border-radius: 5px;
+}
+.menuCadeira .link {
+  display: flex;
+  width: 90%;
+  background-color: $siza;
+  color: $rosa;
+  padding: 7px;
+  border-radius: 5px;
+}
+.cadeira input {
+  padding: 3px;
+  border: 2px solid $rosa;
+  margin-left: 10px;
+  margin-top: 10px;
+}

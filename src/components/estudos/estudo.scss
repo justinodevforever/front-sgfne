@@ -1,0 +1,40 @@
+@import "../../style/variable.scss";
+
+.main {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-color: $preto;
+  padding: 30px;
+}
+.main .nav {
+  display: flex;
+  margin: auto;
+  width: 100%;
+  background: $rosa;
+  padding: 20px;
+  top: 0;
+  position: fixed;
+  z-index: 4;
+}
+.inf {
+  display: flex;
+  height: 80px;
+  font-size: 14pt;
+  color: #0f0f;
+  //   flex-direction: column;
+}
+.divInf {
+  display: flex;
+  margin-bottom: 140px;
+  padding: 20px;
+}
+.main .inp {
+  width: 300px;
+}
+.main .c {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  background-color: $preto;
+}

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { RiUserSettingsFill } from "react-icons/ri";
 import ConfiguracoesGerais from "./ConfiguracoesGerais/ConfiguracoesGerais";
 import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
+import Config from "./configuracoes/Config";
 
 const Definicoes = () => {
   const [permissao, setPermissao] = useState(true);
@@ -23,7 +24,7 @@ const Definicoes = () => {
     <div className="container-definicoes">
       <div className="definicoes">
         <div className="opcoes">
-          <ul>
+          <ul className="ul">
             <li>
               <PegarPermissoes permissoes={["admin", "edição"]}>
                 <Link
@@ -33,17 +34,28 @@ const Definicoes = () => {
                 </Link>
               </PegarPermissoes>
             </li>
-            <li>
-              <Link
-                onClick={(e) => toggleConfig(e)}
-                className={config ? "ative" : "noative"}>
-                Configurações
-              </Link>
-            </li>
+            <PegarPermissoes permissoes={["admin"]}>
+              <li>
+                <Link
+                  onClick={(e) => toggleConfig(e)}
+                  className={config ? "ative" : "noative"}>
+                  Configurações
+                </Link>
+              </li>
+            </PegarPermissoes>
           </ul>
         </div>
 
-        <div className="conteudo">{permissao && <ConfiguracoesGerais />}</div>
+        {permissao && (
+          <div className="conteudo">
+            <ConfiguracoesGerais />
+          </div>
+        )}
+        {config && (
+          <div className="conteudo">
+            <Config />
+          </div>
+        )}
       </div>
     </div>
   );

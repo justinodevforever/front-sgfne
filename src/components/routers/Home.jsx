@@ -5,6 +5,7 @@ import Publicacao from "./anuncios/publicacao";
 import Ispm from "./hook/Ispm";
 import Principal from "./Comunicado/Principal";
 import "dotenv";
+import Draw from "./draws/Draw";
 
 function Home() {
   const [mostrar, setMostrar] = useState(false);
@@ -19,10 +20,16 @@ function Home() {
     <>
       <div className="homeC">
         {isVisible && <Ispm />}
+
         <NavBar setMostrar={setMostrar} setIsVisible={setIsVisible} />
 
-        <div className="container-home" id="c">
-          <Principal />
+        <div className="container-home">
+          <div className="menu">
+            <Draw />
+          </div>
+          <div className="container-hom" id="c">
+            <Principal />
+          </div>
         </div>
       </div>
     </>

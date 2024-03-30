@@ -13,6 +13,7 @@ import {
   toggleModalConfirmar,
   toggleModalWarning,
 } from "../../../../../store/ui-slice";
+import Loader from "../../../hook/load/Loader";
 
 const SobreCadeiras = ({ tipo }) => {
   const [tipos, setTipos] = useState([]);
@@ -541,9 +542,12 @@ const SobreCadeiras = ({ tipo }) => {
               </label>
             )}
             {nome && curso && tipo === "Recurso" && (
-              <button onClick={(e) => hendleRecurso(e)} className="btn">
-                Fazer Pagamento
-              </button>
+              <>
+                <button onClick={(e) => hendleRecurso(e)} className="btn">
+                  Fazer Pagamento
+                </button>
+                <Loader />
+              </>
             )}
             {nome && curso && tipo === "Cadeira em Atrazo" && (
               <button onClick={(e) => hendleCadeiraAtrazo(e)} className="btn">

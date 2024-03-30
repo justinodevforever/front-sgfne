@@ -1,0 +1,78 @@
+@import "../../../../../../../style/variable.scss";
+// .container {
+//   display: flex;
+//   width: 100%;
+//   height: 100%;
+//   position: fixed;
+//   align-items: center;
+//   justify-content: center;
+//   opacity: 1;
+//   z-index: 1;
+//   top: 0px;
+//   left: 0px;
+// }
+
+.ovefloy {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: $preto;
+  opacity: 0.3;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.cancelar {
+  display: none;
+}
+.container-RemoverConfirm {
+  display: flex;
+  position: fixed;
+  width: 300px;
+  height: 200px;
+  align-items: center;
+  top: 10%;
+  left: 40%;
+  background-color: $white;
+  flex-direction: column;
+  font-size: 11pt;
+  padding: 3px 7px;
+  border-radius: 5px;
+  z-index: 3;
+}
+.container-RemoverConfirm .div-removerConfirm {
+  display: flex;
+  width: 70%;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding: 0px 40px;
+}
+
+.container-RemoverConfirm .div-removerConfirm .btnCancelar {
+  background-color: $siza;
+  border: 0.5px solid #fff;
+  padding: 5px 10px;
+  font-size: 14pt;
+  color: $preto;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.container-RemoverConfirm .div-removerConfirm .btnRemover {
+  background-color: $rosa;
+  font-size: 14px;
+  padding: 5px 10px;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.container-RemoverConfirm p {
+  margin-top: 20px;
+  text-align: left;
+  font-size: 14pt;
+}
+.container-RemoverConfirm h2 {
+  text-align: left;
+}

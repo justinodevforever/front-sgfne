@@ -11,11 +11,18 @@
   text-align: center;
   flex-shrink: 1;
   color: #a31543;
-  // padding: 0px 20px;
+  position: relative;
   justify-content: space-between;
   opacity: 1;
-  right: 0;
+  z-index: 3;
 }
+
+.container-nav .titlediv {
+  display: flex;
+  position: absolute;
+  left: 10px;
+}
+
 .container-nav .barra-menu {
   display: flex;
   // gap: 1rem;
@@ -29,6 +36,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  border: 1px solid #000;
 }
 .container-nav .imgP {
   display: flex;
@@ -269,6 +277,8 @@
     display: flex;
   }
 }
+@media (max-width: 900px) {
+}
 @media (max-width: 600px) {
   .container-nav .botaoMenu {
     display: flex;
@@ -276,14 +286,16 @@
   .container-nav .closed {
     display: none;
   }
+  .container-nav .titlediv {
+    display: flex;
+    position: static;
+    left: 10px;
+  }
 }
+
 @media (max-width: 400px) {
   .container-nav .title {
     display: none;
-  }
-  .container-nav {
-    justify-content: space-between;
-    padding: 0px;
   }
 }
 @media (max-height: 320px) {

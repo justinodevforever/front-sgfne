@@ -19,19 +19,14 @@ const Cadastrar = () => {
   const [userBi, setUserBi] = useState("");
   const [nome, setNome] = useState("");
   const [contato, setContato] = useState("");
-  const [type, setType] = useState("");
+  const [periodo, setPeriodo] = useState("");
   const [ativar, setAtivar] = useState(false);
   const [message, setMessage] = useState("");
   const [curso, setCurso] = useState("");
   const [cursos, setCursos] = useState([]);
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
-  const { isVisible } = useSelector((state) => state.ui.ModalEdit);
-  const { isVisibleConfirmar } = useSelector(
-    (state) => state.ui.ModalConfirmar
-  );
-  const { isVisibleError } = useSelector((state) => state.ui.ModalError);
-  const { isVisibleWarning } = useSelector((state) => state.ui.ModalWarning);
+
   const dispatchConfirmar = useDispatch();
   const dispatchError = useDispatch();
   const dispatchWarning = useDispatch();
@@ -95,7 +90,8 @@ const Cadastrar = () => {
       !bi ||
       !contato ||
       !fk_user ||
-      curso === "Escolha"
+      curso === "Escolha" ||
+      periodo === ""
     ) {
       setMessage("Existe Campo Vazio!");
       dispatchWarning(toggleModalWarning(true));
@@ -108,6 +104,7 @@ const Cadastrar = () => {
         bi: userBi,
         contato,
         fk_user,
+        periodo,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -152,13 +149,6 @@ const Cadastrar = () => {
               autoFocus
               maxLength={14}
             />
-            Curso:
-            <select onChange={(e) => setCurso(e.target.value)}>
-              <option value="Escolha">Escolha Curso...</option>
-              {cursos.map((curso) => (
-                <option value={curso.curso}>{curso.curso}</option>
-              ))}
-            </select>
             <BiSearch
               color="#fff"
               cursor={"pointer"}
@@ -169,6 +159,39 @@ const Cadastrar = () => {
         </div>
         <form>
           <h2>Cadastro do Estudante</h2>
+          <div className="novos">
+            <label htmlFor="curso">
+              Curso:
+              <select onChange={(e) => setCurso(e.target.value)} id="curso">
+                <option value="Escolha">Escolha Curso...</option>
+                {cursos.map((curso) => (
+                  <option value={curso.curso}>{curso.curso}</option>
+                ))}
+              </select>
+            </label>
+            <div className="periodo">
+              <div>
+                <input
+                  type="radio"
+                  id="diurno"
+                  name="periodo"
+                  value={"Diúrno"}
+                  onChange={(e) => setPeriodo(e.target.value)}
+                />
+                <label htmlFor="diurno">Diúrno</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  id="posLaboral"
+                  name="periodo"
+                  value={"Pós-Laboral"}
+                  onChange={(e) => setPeriodo(e.target.value)}
+                />
+                <label htmlFor="posLaboral">Pós-Laboral</label>
+              </div>
+            </div>
+          </div>
           <input
             type="text"
             id="nome"
@@ -194,7 +217,6 @@ const Cadastrar = () => {
             value={contato}
             onChange={(e) => setContato(e.target.value)}
           />
-
           {nome && bi && contato && fk_curso && fk_user && (
             <button onClick={(e) => hendleEstudante(e)}>Cadastrar</button>
           )}

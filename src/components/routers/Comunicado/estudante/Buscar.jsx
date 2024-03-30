@@ -13,7 +13,7 @@ const Buscar = () => {
   const [nome, setNome] = useState("");
   const [contacto, setContacto] = useState("");
   const [fk_user, setFk_user] = useState("");
-  const [email, setEmail] = useState("");
+  const [periodo, setPeriodo] = useState("");
   const [curso, setCurso] = useState("");
   const navigete = useNavigate();
 
@@ -32,6 +32,7 @@ const Buscar = () => {
         setContacto(data.data.contato);
         setNome(data.data.nome);
         setUserBi(data.data.bi);
+        setPeriodo(data.data.periodo);
       })
 
       .catch((err) => console.log(err));
@@ -91,10 +92,7 @@ const Buscar = () => {
                 <th>Curso</th>
                 <th>Contacto</th>
                 <th>BI</th>
-
-                <PegarPermissoes permissoes={["admin", "remover", "edição"]}>
-                  <th colSpan={2}>Opções</th>
-                </PegarPermissoes>
+                <th>Período</th>
               </tr>
             </thead>
             <tbody>
@@ -103,16 +101,7 @@ const Buscar = () => {
                 <td>{curso}</td>
                 <td>{contacto}</td>
                 <td>{userBi}</td>
-                <PegarPermissoes permissoes={["admin", "remover"]}>
-                  <td>
-                    <BiX color="red" size={20} cursor={"pointer"} />
-                  </td>
-                </PegarPermissoes>
-                <PegarPermissoes permissoes={["admin", "edição"]}>
-                  <td>
-                    <BiEdit color="blue" cursor={"pointer"} />
-                  </td>
-                </PegarPermissoes>
+                <td>{periodo}</td>
               </tr>
             </tbody>
           </table>

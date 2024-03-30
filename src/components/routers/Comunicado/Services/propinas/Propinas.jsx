@@ -15,8 +15,6 @@ import UseSucess from "../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../hook/massege/Error/UseErro";
 
 const Propina = ({ tipo }) => {
-  const [tipos, setTipos] = useState([]);
-
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
@@ -36,16 +34,10 @@ const Propina = ({ tipo }) => {
   const [semestre, setSemestre] = useState("");
   const [visivel, setVisivel] = useState(false);
   const navigate = useNavigate();
-  const tipoS = useParams();
-  const [ativar, setAtivar] = useState(false);
+  const [periodo, setPeriodo] = useState("");
   const [id, setId] = useState("");
   const [message, setMessage] = useState("");
-  const { isClic } = useSelector((state) => state.ui.pagou);
-  const { isVisibleConfirmar } = useSelector(
-    (state) => state.ui.ModalConfirmar
-  );
-  const { isVisibleError } = useSelector((state) => state.ui.ModalError);
-  const { isVisibleWarning } = useSelector((state) => state.ui.ModalWarning);
+
   const dispatch = useDispatch();
   const dispatchError = useDispatch();
   const dispatchConfirmar = useDispatch();
@@ -56,7 +48,7 @@ const Propina = ({ tipo }) => {
     getSemestre();
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
-    tiposServicos();
+    // tiposServicos();
   }, []);
   useEffect(() => {
     buscaSemestre();
@@ -74,21 +66,21 @@ const Propina = ({ tipo }) => {
     buscaAnoLeivo();
   }, [ano]);
 
-  const tiposServicos = async () => {
-    await api
-      .post("/tipo/servico/especifico", {
-        tipo,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
+  // const tiposServicos = async () => {
+  //   await api
+  //     .post("/tipo/servico/especifico", {
+  //       tipo,
+  //     })
+  //     .then((data) => {
+  //       if (data.data === "Token Invalid") {
+  //         navigate("/login");
+  //         return;
+  //       }
 
-        setValor(data.data.valor);
-      })
-      .catch((err) => console.log(err));
-  };
+  //       setValor(data.data.valor);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
   const buscarEstudante = async (e) => {
     e.preventDefault();
     await api
@@ -104,6 +96,9 @@ const Propina = ({ tipo }) => {
         setFk_curso(data.data.Curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
+        setPeriodo(data?.data?.periodo);
+        if (data.data.periodo === "Diúrno") setValor(1900);
+        else if (data.data.periodo === "Pós-Laboral") setValor(15000);
       })
       .catch((err) => console.log(err));
   };
@@ -262,6 +257,23 @@ const Propina = ({ tipo }) => {
               color="fff"
               cursor={"pointer"}
               onClick={(e) => buscarEstudante(e)}
+              className="space"
+            />
+            Valor:{""}
+            <input
+              type="number"
+              className="inpform"
+              disabled
+              value={valor}
+              onChange={(e) => setValor(e.target.value)}
+            />
+            Período:{""}
+            <input
+              type="text"
+              disabled
+              value={periodo}
+              onChange={(e) => setPeriodo(e.target.value)}
+              className="inpform"
             />
           </form>
           <form className="form" onSubmit={(e) => hendlePagamento(e)}>
