@@ -30,18 +30,19 @@ export default function Login() {
       })
       .then((data) => {
         console.log(data.data);
-        if (data.data?.mensage !== "email ou senha Errada") {
-          localStorage.setItem("refreshToken", data?.data?.refreshToken);
-          localStorage.setItem(`token${data.data?.User?.id}`, data.data?.token);
-          sessionStorage.setItem("user", data.data?.User?.nome);
-          sessionStorage.setItem("id", data.data?.User?.id);
-          dispatch(setId(data.data?.User?.id));
-          setClick(false);
-          navigate("/comunicado");
-        } else {
+        if (data.data?.mensage === "email ou senha Errada") {
           setCheck(false);
           setSms("Senha ou Email Inválido!");
+
+          return;
         }
+        localStorage.setItem("refreshToken", data?.data?.refreshToken);
+        localStorage.setItem(`token${data.data?.User?.id}`, data.data?.token);
+        sessionStorage.setItem("user", data.data?.User?.nome);
+        sessionStorage.setItem("id", data.data?.User?.id);
+        dispatch(setId(data.data?.User?.id));
+        setClick(false);
+        navigate("/comunicado");
       })
       .catch((error) => console.log(error));
   }
