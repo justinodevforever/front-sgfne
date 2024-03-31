@@ -31,13 +31,10 @@ export default function Login() {
       .then((data) => {
         if (data.data?.mensage !== "email ou senha Errada") {
           localStorage.setItem("refreshToken", data?.data?.refreshToken);
-          localStorage.setItem(
-            `token${data.data?.Usuario?.id}`,
-            data.data?.token
-          );
-          sessionStorage.setItem("user", data.data?.Usuario?.nome);
-          sessionStorage.setItem("id", data.data?.Usuario?.id);
-          dispatch(setId(data.data?.Usuario?.id));
+          localStorage.setItem(`token${data.data?.User?.id}`, data.data?.token);
+          sessionStorage.setItem("user", data.data?.User?.nome);
+          sessionStorage.setItem("id", data.data?.User?.id);
+          dispatch(setId(data.data?.User?.id));
           setClick(false);
           navigate("/comunicado");
         }
