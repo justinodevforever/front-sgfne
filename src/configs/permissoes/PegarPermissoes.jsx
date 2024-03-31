@@ -19,7 +19,7 @@ const usePegarPermissoes = () => {
           return;
         }
         for (let index = 0; index < data.data.length; index++) {
-          user.push(data.data[index].permissao.permissao);
+          user.push(data.data[index].permissions.permission.permissao);
         }
       })
       .catch((error) => console.log(error));
