@@ -18,7 +18,7 @@ const usePegarPermissoes = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
+        console.log(data.data, "permissao");
         for (let index = 0; index < data.data.length; index++) {
           user.push(data.data[index].permissions.permission.permissao);
         }
