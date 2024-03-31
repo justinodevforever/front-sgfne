@@ -229,7 +229,7 @@ function NavBar({ setMostrar, setIsVisible }) {
 
         <li className="focus">
           <div className="nos">
-            {notify.length > 0 ? (
+            {notify?.length > 0 ? (
               <Link className="notify-li focus" title="Ver Notifições">
                 <BiSolidBell
                   size={"20px"}
@@ -247,9 +247,9 @@ function NavBar({ setMostrar, setIsVisible }) {
                 />
               </Link>
             )}
-            {notify.length > 0 ? (
+            {notify?.length > 0 ? (
               <div className="div-noitify">
-                {notify.length < 10 ? (
+                {notify?.length < 10 ? (
                   <span
                     className="menor"
                     onClick={(e) => toggleLerNotificacao(e)}>
@@ -288,7 +288,7 @@ function NavBar({ setMostrar, setIsVisible }) {
               ) : (
                 <p>Estás a Dever os Meses de: </p>
               )}
-              {notify.map((n, index) => (
+              {notify?.map((n, index) => (
                 <span key={index}>
                   {index + Number(1) + " - "}
                   {n}

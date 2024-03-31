@@ -35,9 +35,9 @@ export const ProfilePublication = ({
 
         setImage(data.data);
 
-        data.data.map((m) => {
-          if (m.fk_publicacao === id_publicacao) {
-            if (m.nome !== "") {
+        data.data?.map((m) => {
+          if (m?.fk_publicacao === id_publicacao) {
+            if (m?.nome !== "") {
               setIsImage(true);
             } else {
               setIsImage(false);
@@ -49,11 +49,11 @@ export const ProfilePublication = ({
   };
   return (
     <>
-      {image.map((img) => (
-        <div key={img.id}>
-          {Number(id_publicacao) === img.fk_publicacao ? (
+      {image?.map((img) => (
+        <div key={img?.id}>
+          {Number(id_publicacao) === img?.fk_publicacao ? (
             <div className="container-imagePublicacao">
-              {img.nome !== undefined && img.nome !== "" ? (
+              {img?.nome !== undefined && img?.nome !== "" ? (
                 <>
                   <LerMais
                     publ={publicacao}
@@ -62,19 +62,19 @@ export const ProfilePublication = ({
                   />
 
                   <img
-                    src={`http://localhost:3001/files/imagePublication/${img.nome}`}
+                    src={`http://localhost:3001/files/imagePublication/${img?.nome}`}
                     alt=""
                   />
                 </>
               ) : (
                 <div className="publicacoes">
-                  {publicacao.publicacao.length > 300 ? (
+                  {publicacao?.publicacao?.length > 300 ? (
                     <>
-                      <p>{publicacao.publicacao.slice(0, 300)}...</p>
+                      <p>{publicacao?.publicacao.slice(0, 300)}...</p>
                       <Link onClick={(e) => toggle(e)}>Ler Mais</Link>
                     </>
                   ) : (
-                    <>{publicacao.publicacao}</>
+                    <>{publicacao?.publicacao}</>
                   )}
                 </div>
               )}

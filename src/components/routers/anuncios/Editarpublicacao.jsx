@@ -17,9 +17,9 @@ export function EditarPublicacao() {
 
   async function getPublicacao() {
     const response = await api.get(`publicacao/${id}`);
-    setPublicacao(response.data.publicacao);
-    setLike(response.data.like);
-    setFk_user(response.data.fk_user);
+    setPublicacao(response?.data?.publicacao);
+    setLike(response?.data?.like);
+    setFk_user(response?.data?.fk_user);
   }
   async function hendleSbmit(e) {
     e.preventDefault();

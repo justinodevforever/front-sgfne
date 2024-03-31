@@ -80,10 +80,10 @@ const Publicacao = () => {
           return;
         }
 
-        setRoles(data.data.UsuarioRoles);
+        setRoles(data.data?.UsuarioRoles);
       })
       .catch((err) => console.log(err));
-    // data.UsuarioRoles.map((role) => {
+    // data.UsuarioRoles?.map((role) => {
     //   setRoles(role);
     // });
   }
@@ -123,7 +123,7 @@ const Publicacao = () => {
           </Link>
         )}
         <div className="container-publicacao">
-          {publicacao.map((publ) => (
+          {publicacao?.map((publ) => (
             <div className="container-conteudo" key={publ?.id}>
               <div className="publicacao" id="publicacao">
                 <div className="opcoesBarra">

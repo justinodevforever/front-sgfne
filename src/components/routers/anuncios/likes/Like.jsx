@@ -22,7 +22,7 @@ const LikePublicacao = ({ publ }) => {
   const countLikePublicacao = async () => {
     await api
       .post("/like/publicacao/count", {
-        fk_publicacao: publ.id,
+        fk_publicacao: publ?.id,
         like: clickLike,
       })
       .then((data) => {
@@ -38,7 +38,7 @@ const LikePublicacao = ({ publ }) => {
     await api
       .post("/like/publicacao/specific", {
         fk_user: id,
-        fk_publicacao: publ.id,
+        fk_publicacao: publ?.id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -56,9 +56,9 @@ const LikePublicacao = ({ publ }) => {
     e.preventDefault();
     const sms = {
       userId: id,
-      adId: publ.id,
+      adId: publ?.id,
     };
-    socketInstance.current.emit("clicLikePublicacao", sms);
+    socketInstance?.current.emit("clicLikePublicacao", sms);
 
     if (Number(likes.fk_user) === Number(id)) {
       await api
@@ -80,13 +80,13 @@ const LikePublicacao = ({ publ }) => {
     e.preventDefault();
     const sms = {
       userId: id,
-      adId: publ.id,
+      adId: publ?.id,
     };
-    socketInstance.current.emit("clicLikePublicacao", sms);
+    socketInstance?.current.emit("clicLikePublicacao", sms);
 
-    if (Number(likes.fk_user) === Number(id)) {
+    if (Number(likes?.fk_user) === Number(id)) {
       await api
-        .put(`/like/publicacao/${likes.id}`, {
+        .put(`/like/publicacao/${likes?.id}`, {
           like: true,
         })
         .then((data) => {
@@ -102,7 +102,7 @@ const LikePublicacao = ({ publ }) => {
       await api
         .post(`/like/publicacao`, {
           like: true,
-          fk_publicacao: publ.id,
+          fk_publicacao: publ?.id,
           fk_user: id,
         })
         .then((data) => {
@@ -122,18 +122,18 @@ const LikePublicacao = ({ publ }) => {
     const LikeP = (data) => {
       setReceive(data);
     };
-    socketInstance.current.on("receiveClickPublicacao", LikeP);
+    socketInstance?.current.on("receiveClickPublicacao", LikeP);
     countLikePublicacao();
     getLikes();
     return () => {
-      socketInstance.current.off("receiveClickPublicacao", LikeP);
+      socketInstance?.current.off("receiveClickPublicacao", LikeP);
     };
   }, [receive]);
 
   return (
     <div className="container-likePublicacao">
       <Link className="likePublicacao">
-        {likes.like && (
+        {likes?.like && (
           <FcLike
             onClick={(e) => {
               updateLike(e);
@@ -141,7 +141,7 @@ const LikePublicacao = ({ publ }) => {
             size={"20px"}
           />
         )}
-        {!likes.like && (
+        {!likes?.like && (
           <FcDislike
             onClick={(e) => {
               updateLikeFalse(e);
@@ -150,7 +150,7 @@ const LikePublicacao = ({ publ }) => {
           />
         )}
 
-        {like.count === 0 ? <div></div> : <span>{like.count}</span>}
+        {like?.count === 0 ? <div></div> : <span>{like?.count}</span>}
       </Link>
     </div>
   );

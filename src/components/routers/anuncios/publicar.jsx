@@ -33,15 +33,15 @@ const Publicar = () => {
       fk_user: sessionStorage.getItem("id"),
     });
     formData.append("file", file);
-    formData.append("fk_publicacao", response.data.id);
+    formData.append("fk_publicacao", response.data?.id);
 
     if (file !== null || file !== "" || file !== " ") {
       const { data } = await apiMultForm.post(
-        "http://localhost:3001/image/publication",
+        `${url}/image/publication`,
         formData
       );
     }
-    socketInstance.current.emit("publication", response);
+    socketInstance?.current.emit("publication", response);
 
     setPublicacao("");
     navigate(`/comunicado?page=${1}`);

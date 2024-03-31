@@ -36,7 +36,7 @@ const LerMais = ({ publ, id }) => {
     <>
       <div className="lerMais">
         <div>
-          {publ?.publicacao.length > 30 ? (
+          {publ?.publicacao?.length > 30 ? (
             <div>
               {noId === id ? (
                 <div>

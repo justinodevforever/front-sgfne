@@ -11,7 +11,7 @@ function Comentario({ publ }) {
   async function hendleCount() {
     await api
       .post("/count/publicacao", {
-        fk_publicacao: publ.id,
+        fk_publicacao: publ?.id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -36,14 +36,14 @@ function Comentario({ publ }) {
             to={`/coment/publication/${publ.id}?page=${1}`}
             className="border2">
             <AiOutlineComment size={"20px"} color="#fff" />
-            {count.count === 0 ? (
+            {count?.count === 0 ? (
               <div></div>
             ) : (
               <div>
-                {count.count >= 1000 ? (
+                {count?.count >= 1000 ? (
                   <span>+100</span>
                 ) : (
-                  <span>{count.count}</span>
+                  <span>{count?.count}</span>
                 )}
               </div>
             )}
