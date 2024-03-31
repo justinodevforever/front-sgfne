@@ -128,11 +128,13 @@ const Publicacao = () => {
             <div className="container-conteudo" key={publ?.id}>
               <div className="publicacao" id="publicacao">
                 <div className="opcoesBarra">
-                  <Link to={`/perfil/${publ?.usuario.id}`} className="username">
-                    {publ?.usuario.nome}
+                  <Link
+                    to={`/perfil/${publ?.usuario?.id}`}
+                    className="username">
+                    {publ?.usuario?.nome}
                   </Link>
-                  {publ?.usuario.nome === sessionStorage.getItem("user") ? (
-                    <BtnMenu id={publ?.id} nameUser={publ?.usuario.nome} />
+                  {publ?.usuario?.nome === sessionStorage.getItem("user") ? (
+                    <BtnMenu id={publ?.id} nameUser={publ?.usuario?.nome} />
                   ) : (
                     <section></section>
                   )}

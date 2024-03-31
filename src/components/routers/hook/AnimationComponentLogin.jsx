@@ -36,7 +36,7 @@ const AnimationComponentLogin = ({ click }) => {
       // }, 6000);
     }
     animacao();
-  }, []);
+  }, [click]);
 
   return (
     <div className="container-animator">
