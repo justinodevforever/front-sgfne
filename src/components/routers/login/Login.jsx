@@ -41,7 +41,6 @@ export default function Login() {
         } else {
           setCheck(false);
           setSms("Senha ou Email Inválido!");
-          return;
         }
       })
       .catch((error) => console.log(error));
