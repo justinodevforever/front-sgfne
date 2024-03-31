@@ -127,7 +127,7 @@ const Publicacao = () => {
           {publicacao.map((publ) => (
             <div className="container-conteudo" key={publ?.id}>
               <div className="publicacao" id="publicacao">
-                <div className="opcoesBarra">
+                {/* <div className="opcoesBarra">
                   <Link
                     to={`/perfil/${publ?.usuario?.id}`}
                     className="username">
@@ -138,7 +138,7 @@ const Publicacao = () => {
                   ) : (
                     <section></section>
                   )}
-                </div>
+                </div> */}
 
                 <ProfilePublication
                   id_publicacao={publ?.id}
