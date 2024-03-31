@@ -38,6 +38,10 @@ export default function Login() {
           dispatch(setId(data.data?.User?.id));
           setClick(false);
           navigate("/comunicado");
+        } else {
+          setCheck(false);
+          setSms("Senha ou Email Inválido!");
+          return;
         }
       })
       .catch((error) => console.log(error));
