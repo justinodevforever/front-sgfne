@@ -81,15 +81,15 @@ const PermissoesUSuario = () => {
         }
 
         const permissao = data.data.filter(
-          (p) => p?.permissao?.permissao === "edição" && p.Usuario?.bi === bi
+          (p) => p?.permission?.permissao === "edição" && p.user?.bi === bi
         );
-        if (bi !== permissao[0]?.Usuario?.bi) {
+        if (bi !== permissao[0]?.user?.bi) {
           setActualizar(false);
           return;
         }
         if (
-          permissao[0]?.permissao?.permissao === "edição" &&
-          bi === permissao[0]?.Usuario?.bi
+          permissao[0]?.permission?.permissao === "edição" &&
+          bi === permissao[0]?.user?.bi
         ) {
           setActualizar(true);
           setEdicaoId(permissao[0].id);
@@ -107,12 +107,12 @@ const PermissoesUSuario = () => {
         }
 
         const permissao = data.data.filter(
-          (p) => p?.permissao?.permissao === "salvar" && p?.Usuario?.bi === bi
+          (p) => p?.permission?.permissao === "salvar" && p?.user?.bi === bi
         );
 
         // console.log(permissao[0].Usuario.bi);
-        if (bi === permissao[0]?.Usuario?.bi) {
-          if (permissao[0]?.permissao?.permissao === "salvar") {
+        if (bi === permissao[0]?.user?.bi) {
+          if (permissao[0]?.permission?.permissao === "salvar") {
             setSalvar(true);
             setSalverId(permissao[0].id);
           }
@@ -132,12 +132,12 @@ const PermissoesUSuario = () => {
         }
 
         const permissao = data.data.filter(
-          (p) => p?.permissao?.permissao === "listar" && p?.Usuario?.bi === bi
+          (p) => p?.permission?.permissao === "listar" && p?.user?.bi === bi
         );
 
         // console.log(permissao[0].Usuario.bi);
-        if (bi === permissao[0]?.Usuario.bi) {
-          if (permissao[0]?.permissao?.permissao === "listar") {
+        if (bi === permissao[0]?.user.bi) {
+          if (permissao[0]?.permission?.permissao === "listar") {
             setListar(true);
             setListarId(permissao[0].id);
           }
@@ -157,13 +157,13 @@ const PermissoesUSuario = () => {
         }
 
         const permissao = data.data.filter(
-          (p) => p?.permissao?.permissao === "remover" && p?.Usuario?.bi === bi
+          (p) => p?.permission?.permissao === "remover" && p?.user?.bi === bi
         );
 
         console.log(permissao[0]);
         // console.log(data.data, "fd");
-        if (bi === permissao[0]?.Usuario.bi) {
-          if (permissao[0]?.permissao?.permissao === "remover") {
+        if (bi === permissao[0]?.user.bi) {
+          if (permissao[0]?.permission?.permissao === "remover") {
             setRemover(true);
             setRemoverId(permissao[0].id);
           }
@@ -183,12 +183,12 @@ const PermissoesUSuario = () => {
         }
 
         const permissao = data.data.filter(
-          (p) => p?.permissao?.permissao === "conversa" && p?.Usuario?.bi === bi
+          (p) => p?.permission?.permissao === "conversa" && p?.user?.bi === bi
         );
 
         // console.log(permissao[0]);
-        if (bi === permissao[0]?.Usuario.bi) {
-          if (permissao[0]?.permissao?.permissao === "conversa") {
+        if (bi === permissao[0]?.user.bi) {
+          if (permissao[0]?.permission?.permissao === "conversa") {
             setSms(true);
             setMessageId(permissao[0].id);
           }
@@ -208,12 +208,12 @@ const PermissoesUSuario = () => {
         }
 
         const permissao = data.data.filter(
-          (p) => p?.permissao?.permissao === "admin" && p?.Usuario?.bi === bi
+          (p) => p?.permission?.permissao === "admin" && p?.user?.bi === bi
         );
 
         // console.log(permissao[0].Usuario.bi);
-        if (bi === permissao[0]?.Usuario?.bi) {
-          if (permissao[0]?.permissao?.permissao === "admin") {
+        if (bi === permissao[0]?.user?.bi) {
+          if (permissao[0]?.permission?.permissao === "admin") {
             setTodos(true);
             setTodosId(permissao[0]?.id);
           }
@@ -246,7 +246,7 @@ const PermissoesUSuario = () => {
     await api
       .post("/permissaousuario", {
         fk_user,
-        fk_permissao: permissao[0].id,
+        fk_permission: permissao[0].id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -271,7 +271,7 @@ const PermissoesUSuario = () => {
     await api
       .post("/permissaousuario", {
         fk_user,
-        fk_permissao: permissao[0].id,
+        fk_permission: permissao[0].id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -306,7 +306,7 @@ const PermissoesUSuario = () => {
     await api
       .post("/permissaousuario", {
         fk_user,
-        fk_permissao: permissao[0].id,
+        fk_permission: permissao[0].id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -340,7 +340,7 @@ const PermissoesUSuario = () => {
     await api
       .post("/permissaousuario", {
         fk_user,
-        fk_permissao: permissao[0].id,
+        fk_permission: permissao[0].id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -375,7 +375,7 @@ const PermissoesUSuario = () => {
     await api
       .post("/permissaousuario", {
         fk_user,
-        fk_permissao: permissao[0].id,
+        fk_permission: permissao[0].id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -408,7 +408,7 @@ const PermissoesUSuario = () => {
     await api
       .post("/permissaousuario", {
         fk_user,
-        fk_permissao: permissao[0].id,
+        fk_permission: permissao[0].id,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
