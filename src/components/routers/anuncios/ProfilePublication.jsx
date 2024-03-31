@@ -64,7 +64,7 @@ export const ProfilePublication = ({
                       />
 
                       <img
-                        src={`${import.meta.env.VITE_API_URL}+/${img?.nome}`}
+                        src={`${import.meta.env.VITE_API_URL}/${img?.nome}`}
                         alt=""
                       />
                     </>

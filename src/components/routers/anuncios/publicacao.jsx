@@ -140,18 +140,18 @@ const Publicacao = () => {
                   )}
                 </div>
 
-                <ProfilePublication
+                {/* <ProfilePublication
                   id_publicacao={publ?.id}
                   setIsImage={setIsImage}
                   isImage={isImage}
                   publicacao={publ}
-                />
+                /> */}
 
-                <div className="opcoes" id="opcoes">
+                {/* <div className="opcoes" id="opcoes">
                   <LikePublicacao publ={publ} />
 
-                  <Comentario publ={publ} id={publ?.id} verC={verComentarios} />
-                </div>
+                  <Comentario publ={publ} id={publ?.id} verC={verComentarios} /> */}
+                {/* </div> */}
               </div>
             </div>
           ))}
