@@ -29,17 +29,18 @@ const Publicar = () => {
 
     const response = await api.post("/publicacao", {
       publicacao,
-      like,
       fk_user: sessionStorage.getItem("id"),
     });
-    formData.append("file", file);
-    formData.append("fk_publicacao", response.data?.id);
+    if (file || file !== null) {
+      formData.append("file", file);
+      formData.append("fk_publicacao", response.data?.id);
 
-    if (file !== null || file !== "" || file !== " ") {
-      const { data } = await apiMultForm.post(
-        `${url}/image/publication`,
-        formData
-      );
+      if (file !== null || file !== "" || file !== " ") {
+        const { data } = await apiMultForm.post(
+          `${url}/image/publication`,
+          formData
+        );
+      }
     }
     socketInstance?.current.emit("publication", response);
 

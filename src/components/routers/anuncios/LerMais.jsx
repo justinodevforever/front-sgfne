@@ -20,6 +20,7 @@ const LerMais = ({ publ, id }) => {
     dispetch(setIdPublicacao(id));
   };
   useEffect(() => {
+    console.log(publ, "ddddddddddddddddddddddddddd");
     function clic(e) {
       try {
         if (!clikRef.current.contains(e.target)) return;

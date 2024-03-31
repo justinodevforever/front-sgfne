@@ -66,8 +66,9 @@ const Publicacao = () => {
           navigate("/login");
           return;
         }
+        console.log(data.data);
         setPaginacao(data.data?.pagination);
-        setPublicacao(data.data?.publicacao);
+        setPublicacao(data.data);
       })
       .catch((err) => console.log(err));
   }
@@ -80,10 +81,10 @@ const Publicacao = () => {
           return;
         }
 
-        setRoles(data.data?.UsuarioRoles);
+        setRoles(data.data?.usuarioRoles);
       })
       .catch((err) => console.log(err));
-    // data.UsuarioRoles?.map((role) => {
+    // data.usuarioRoles?.map((role) => {
     //   setRoles(role);
     // });
   }
@@ -115,23 +116,23 @@ const Publicacao = () => {
 
         {/* */}
 
-        {paginacao?.prev_page && (
-          <Link
+        {/* {paginacao?.prev_page && ( */}
+        {/* <Link
             to={`/home?page=${Number(page.get("page") - Number(1))}`}
             className="pagePublicacao anterior">
             Publicacão Anteriores
           </Link>
-        )}
+        )} */}
         <div className="container-publicacao">
           {publicacao?.map((publ) => (
             <div className="container-conteudo" key={publ?.id}>
               <div className="publicacao" id="publicacao">
                 <div className="opcoesBarra">
-                  <Link to={`/perfil/${publ?.Usuario.id}`} className="username">
-                    {publ?.Usuario.nome}
+                  <Link to={`/perfil/${publ?.usuario.id}`} className="username">
+                    {publ?.usuario.nome}
                   </Link>
-                  {publ?.Usuario.nome === sessionStorage.getItem("user") ? (
-                    <BtnMenu id={publ?.id} nameUser={publ?.Usuario.nome} />
+                  {publ?.usuario.nome === sessionStorage.getItem("user") ? (
+                    <BtnMenu id={publ?.id} nameUser={publ?.usuario.nome} />
                   ) : (
                     <section></section>
                   )}
@@ -152,13 +153,13 @@ const Publicacao = () => {
               </div>
             </div>
           ))}
-          {paginacao?.next_page && (
+          {/* {paginacao?.next_page && (
             <Link
               to={`/home?page=${Number(page.get("page")) + Number(1)}`}
               className="pagepublicacao ">
               Próximas Publicacão
             </Link>
-          )}
+          )} */}
         </div>
       </div>
     </>
