@@ -1,10 +1,12 @@
 import { useSelector } from "react-redux";
 import { api } from "../../../auth/auth";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 let user = [];
 const usePegarPermissoes = () => {
   const id = sessionStorage.getItem("id");
   const [permissao, setPermissao] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     pegarUsuario();
@@ -18,9 +20,8 @@ const usePegarPermissoes = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data, "permissao");
         for (let index = 0; index < data.data.length; index++) {
-          user.push(data.data[index].permissions.permission.permissao);
+          user.push(data.data[index].permission.permissao);
         }
       })
       .catch((error) => console.log(error));

@@ -21,12 +21,8 @@ function Home() {
       <div className="homeC">
         {isVisible && <Ispm />}
 
-        <NavBar setMostrar={setMostrar} setIsVisible={setIsVisible} />
-
         <div className="container-home">
-          <div className="menu">
-            <Draw />
-          </div>
+          <NavBar setMostrar={setMostrar} setIsVisible={setIsVisible} />
           <div className="container-hom" id="c">
             <Principal />
           </div>

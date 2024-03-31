@@ -442,7 +442,7 @@ const PermissoesUSuario = () => {
           navigate("/login");
           return;
         }
-
+        console.log(data.data, "dnjd");
         setNome(data.data.nome);
         setFk_user(data.data.id);
       })

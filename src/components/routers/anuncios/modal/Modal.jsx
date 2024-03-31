@@ -4,12 +4,14 @@ import { BiX } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../../store/ui-slice";
 import { api } from "../../../../../auth/auth";
+import { useNavigate } from "react-router-dom";
 const Modal = () => {
   const [check, setCheck] = useState(false);
   const { isVisible } = useSelector((state) => state.ui.Modal);
   const { idPublicacao } = useSelector((state) => state.ui.Publicacao);
   const dispatch = useDispatch();
   const [publicacao, setPublicacao] = useState({});
+  const navigate = useNavigate();
 
   function Toggle(e) {
     e.preventDefault();

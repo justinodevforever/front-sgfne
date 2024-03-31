@@ -29,6 +29,7 @@ export default function Login() {
         password,
       })
       .then((data) => {
+        console.log(data.data);
         if (data.data?.mensage !== "email ou senha Errada") {
           localStorage.setItem("refreshToken", data?.data?.refreshToken);
           localStorage.setItem(`token${data.data?.User?.id}`, data.data?.token);
