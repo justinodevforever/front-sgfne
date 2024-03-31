@@ -3,6 +3,7 @@ import Loader from "../routers/hook/load/Loader";
 import "./estudo.scss";
 import { Button, Input, Slider, Drawer, Popconfirm, Modal, Alert } from "antd";
 import { Link } from "react-router-dom";
+import { SearchOutlined } from "@ant-design/icons";
 import { BiMenu, BiUser } from "react-icons/bi";
 
 const Estudos = () => {
@@ -57,12 +58,20 @@ const Estudos = () => {
             placeholder="dkdkd"
             type="email"
             variant="outlined"
-            slot="append">
+            slot="append"
+            addonBefore={
+              <SearchOutlined
+                style={{
+                  fontSize: 16,
+                  color: "#00f",
+                }}
+              />
+            }>
             {/* <BiUser /> */}
           </Input>
         </div>
 
-        <Button size="100" className="inp" onClick={(e) => p(e)}>
+        <Button size="100" className="button is-large" onClick={(e) => p(e)}>
           Cadastrar
         </Button>
       </div>
