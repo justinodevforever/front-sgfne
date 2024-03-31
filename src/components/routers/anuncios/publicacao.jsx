@@ -66,7 +66,7 @@ const Publicacao = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
+
         setPaginacao(data.data?.pagination);
         setPublicacao(data.data);
       })

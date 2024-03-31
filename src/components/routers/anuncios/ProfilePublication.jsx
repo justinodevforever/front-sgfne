@@ -35,7 +35,7 @@ export const ProfilePublication = ({
 
         setImage(data.data);
 
-        data.data.map((m) => {
+        data.data?.map((m) => {
           if (m.fk_publicacao === id_publicacao) {
             if (m.nome !== "") {
               setIsImage(true);
@@ -51,7 +51,7 @@ export const ProfilePublication = ({
     <>
       {image.length > 0 ? (
         <>
-          {image.map((img) => (
+          {image?.map((img) => (
             <div key={img.id}>
               {Number(id_publicacao) === img.fk_publicacao ? (
                 <div className="container-imagePublicacao">
