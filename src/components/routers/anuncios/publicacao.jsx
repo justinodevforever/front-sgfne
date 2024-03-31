@@ -98,6 +98,7 @@ const Publicacao = () => {
   return (
     <>
       <Modal />
+
       <div className="container-publicacao1">
         <PegarPermissoes permissoes={["admin"]}>
           <div>
@@ -122,8 +123,8 @@ const Publicacao = () => {
             Publicacão Anteriores
           </Link>
         )} */}
-        {/* <div className="container-publicacao"> */}
-        {/* {publicacao?.map((publ) => (
+        <div className="container-publicacao">
+          {publicacao.map((publ) => (
             <div className="container-conteudo" key={publ?.id}>
               <div className="publicacao" id="publicacao">
                 <div className="opcoesBarra">
@@ -137,31 +138,31 @@ const Publicacao = () => {
                   ) : (
                     <section></section>
                   )}
-                </div> */}
+                </div>
 
-        {/* <ProfilePublication
+                <ProfilePublication
                   id_publicacao={publ?.id}
                   setIsImage={setIsImage}
                   isImage={isImage}
                   publicacao={publ}
-                /> */}
+                />
 
-        {/* <div className="opcoes" id="opcoes">
+                <div className="opcoes" id="opcoes">
                   <LikePublicacao publ={publ} />
 
-                  <Comentario publ={publ} id={publ?.id} verC={verComentarios} /> */}
-        {/* </div> */}
-        {/* </div>
-      </div>
-      ))} */}
-        {/* {paginacao?.next_page && (
+                  <Comentario publ={publ} id={publ?.id} verC={verComentarios} />
+                </div>
+              </div>
+            </div>
+          ))}
+          {/* {paginacao?.next_page && (
             <Link
               to={`/home?page=${Number(page.get("page")) + Number(1)}`}
               className="pagepublicacao ">
               Próximas Publicacão
             </Link>
           )} */}
-        {/* </div> */}
+        </div>
       </div>
     </>
   );
