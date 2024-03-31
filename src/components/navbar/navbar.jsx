@@ -50,7 +50,7 @@ function NavBar({ setMostrar, setIsVisible }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
-  const url = import.meta.env.VITE_VERCEL_URL_SOCKET;
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
     socketInstance.current = io(`${url}`);
@@ -308,7 +308,7 @@ function NavBar({ setMostrar, setIsVisible }) {
           <div>
             <Link className="perfil" onClick={(e) => MenuOpen(e)}>
               <img
-                src={`http://localhost:3001/files/users/${image.nome}`}
+                src={`${import.meta.env.VITE_API_URL}+/users/${image?.nome}`}
                 alt={""}
                 className="perfil-image"
               />

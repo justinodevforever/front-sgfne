@@ -13,7 +13,7 @@ const LikePublicacao = ({ publ }) => {
   const id = sessionStorage.getItem("id");
   const socketInstance = useRef();
   const [receive, setReceive] = useState({});
-  const url = import.meta.env.VITE_VERCEL_URL_SOCKET;
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
     socketInstance.current = io(`${url}`);

@@ -17,7 +17,7 @@ const Publicar = () => {
   const navigate = useNavigate();
   const [isPick, setIsPick] = useState(false);
   const socketInstance = useRef();
-  const url = import.meta.env.VITE_VERCEL_URL_SOCKET;
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
     socketInstance.current = io(`${url}`);
