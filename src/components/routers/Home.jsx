@@ -19,10 +19,8 @@ function Home() {
   return (
     <>
       <div className="homeC">
-        {isVisible && <Ispm />}
-
+        <NavBar setMostrar={setMostrar} setIsVisible={setIsVisible} />
         <div className="container-home">
-          <NavBar setMostrar={setMostrar} setIsVisible={setIsVisible} />
           <div className="container-hom" id="c">
             <Principal />
           </div>

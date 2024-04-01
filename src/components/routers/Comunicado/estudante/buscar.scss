@@ -60,3 +60,10 @@ td {
 .container-buscar th {
   background-color: $rosa;
 }
+
+@media (max-width: 800px) {
+  .container-buscar {
+    display: flex;
+    width: 100%;
+  }
+}

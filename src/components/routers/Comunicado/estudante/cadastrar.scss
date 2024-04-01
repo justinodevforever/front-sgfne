@@ -110,3 +110,13 @@
   margin-left: 10px;
   margin-top: 10px;
 }
+
+@media (max-width: 800px) {
+  .container-cadastrar {
+    display: flex;
+    width: 96%;
+  }
+  .container-cadastrar form input:not(input[type="radio"]) {
+    width: 90%;
+  }
+}

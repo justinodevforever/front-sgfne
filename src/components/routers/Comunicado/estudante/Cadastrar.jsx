@@ -74,7 +74,7 @@ const Cadastrar = () => {
             navigete("/login");
             return;
           }
-
+          console.log(data);
           setFk_curso(data.data?.id);
         })
         .catch((err) => console.log(err));
