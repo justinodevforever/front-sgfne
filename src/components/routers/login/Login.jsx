@@ -29,7 +29,6 @@ export default function Login() {
         password,
       })
       .then((data) => {
-        console.log(data.data);
         if (data.data?.mensage === "email ou senha Errada") {
           setCheck(false);
           setSms("Senha ou Email Inválido!");

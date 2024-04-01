@@ -60,12 +60,13 @@ const Publicacao = () => {
 
   async function getPublicacao() {
     await api
-      .get(`/publicacao?page=${page.get("page") || 1}`)
+      .get(`/publicacao`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
+        console.log(data.data);
 
         setPaginacao(data.data?.pagination);
         setPublicacao(data.data);
@@ -127,7 +128,7 @@ const Publicacao = () => {
           {publicacao.map((publ) => (
             <div className="container-conteudo" key={publ?.id}>
               <div className="publicacao" id="publicacao">
-                {/* <div className="opcoesBarra">
+                <div className="opcoesBarra">
                   <Link
                     to={`/perfil/${publ?.usuario?.id}`}
                     className="username">
@@ -138,7 +139,7 @@ const Publicacao = () => {
                   ) : (
                     <section></section>
                   )}
-                </div> */}
+                </div>
 
                 <ProfilePublication
                   id_publicacao={publ?.id}
