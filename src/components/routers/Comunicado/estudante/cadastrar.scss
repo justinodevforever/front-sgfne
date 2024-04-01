@@ -119,4 +119,8 @@
   .container-cadastrar form input:not(input[type="radio"]) {
     width: 90%;
   }
+  .container-cadastrar form .novos {
+    display: flex;
+    width: 96%;
+  }
 }

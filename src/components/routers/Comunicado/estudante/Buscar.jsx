@@ -19,10 +19,24 @@ const Buscar = () => {
 
   const getBi = async (e) => {
     e.preventDefault();
-    await api.post("http://localhost:3001/api/v1/search/estudante/bi", {
-      bi,
-    });
-    console.log(bi);
+    await api
+      .post("/search/estudante/bi", {
+        bi,
+      })
+      .then((data) => {
+        console.log(data.data);
+        if (data.data === "Token Invalid") {
+          navigete("/login");
+          return;
+        }
+        setCurso(data.data.Curso.curso);
+        setContacto(data.data.contato);
+        setNome(data.data.nome);
+        setUserBi(data.data.bi);
+        setPeriodo(data.data.periodo);
+      })
+
+      .catch((err) => console.log(err));
   };
   const imprimir = async (e) => {
     e.preventDefault();
