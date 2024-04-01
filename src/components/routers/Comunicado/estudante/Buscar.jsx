@@ -3,9 +3,9 @@ import "./buscar.scss";
 import { useEffect, useState } from "react";
 import { api } from "../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
-import { BiEdit, BiX } from "react-icons/bi";
-import { PiPrinter } from "react-icons/pi";
-import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
+// import { BiEdit, BiX } from "react-icons/bi";
+// import { PiPrinter } from "react-icons/pi";
+// import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
 
 const Buscar = () => {
   const [bi, setBi] = useState("");
@@ -19,23 +19,10 @@ const Buscar = () => {
 
   const getBi = async (e) => {
     e.preventDefault();
-    await api
-      .post("/search/estudante/bi", {
-        bi,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setCurso(data.data.Curso.curso);
-        setContacto(data.data.contato);
-        setNome(data.data.nome);
-        setUserBi(data.data.bi);
-        setPeriodo(data.data.periodo);
-      })
-
-      .catch((err) => console.log(err));
+    await api.post("http://localhost:3001/api/v1/search/estudante/bi", {
+      bi,
+    });
+    console.log(bi);
   };
   const imprimir = async (e) => {
     e.preventDefault();

@@ -6,6 +6,7 @@
   position: absolute;
   background-color: #000;
   flex-direction: column;
+  opacity: 0.7;
 }
 .container-ispm .conteudo-ispm {
   display: flex;

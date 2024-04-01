@@ -61,7 +61,6 @@ export default function Login() {
       {clik && <AnimationComponentLogin setClick={setClick} click={clik} />}
       {!clik && (
         <div className="container-login">
-          <h1>Login</h1>
           <div className="img">
             <img src="./image/ISP_Moxico/Logo.png" alt="Logo do ISPM" />
           </div>

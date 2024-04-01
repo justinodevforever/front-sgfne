@@ -97,7 +97,7 @@ const Routeting = () => {
             exact
             path="definicoes"
             element={
-              <ProtectRouter roles={"admin"}>
+              <ProtectRouter>
                 <Definicoes />
               </ProtectRouter>
             }

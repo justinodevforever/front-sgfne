@@ -12,6 +12,8 @@ import { ProfilePublication } from "./ProfilePublication";
 import Modal from "./modal/Modal";
 import PegarRoles from "../../../configs/roles/Roles";
 import PegarPermissoes from "../../../configs/permissoes/PegarPermissoes";
+import Ispm from "../hook/Ispm";
+import { Skeleton } from "antd";
 
 let clicou = false;
 let id1;
@@ -36,6 +38,7 @@ const Publicacao = () => {
   const [nome, setNome] = useState("");
   const [verComentarios, setVerComentario] = useState(false);
   const [isImage, setIsImage] = useState(false);
+  const [isClic, setIsClic] = useState(false);
   let btn = document.querySelector("#btnpublicacao");
   const [page] = useSearchParams();
   const socketInstance = useRef();
@@ -47,6 +50,7 @@ const Publicacao = () => {
   const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
+    setIsClic(true);
     socketInstance.current = io(`${url}`);
     socketInstance.current.emit("connectedPublication", idPublicacao);
   }, []);
@@ -60,15 +64,14 @@ const Publicacao = () => {
 
   async function getPublicacao() {
     await api
-      .get(`/publicacao`)
+      .get("/publicacao")
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        console.log(data.data);
 
-        setPaginacao(data.data?.pagination);
+        setIsClic(false);
         setPublicacao(data.data);
       })
       .catch((err) => console.log(err));
@@ -91,80 +94,71 @@ const Publicacao = () => {
   }
 
   useEffect(() => {
-    getPublicacao();
     setNome(sessionStorage.getItem("user"));
     getUser();
-  }, [page.get("page") || token, isImage]);
+  }, []);
+  useEffect(() => {
+    getPublicacao();
+  }, []);
 
   return (
     <>
-      <Modal />
-
-      <div className="container-publicacao1">
-        <PegarPermissoes permissoes={["admin"]}>
-          <div>
-            <div className="div-publicar">
-              <Link
-                className="publicar"
-                name="publicacao"
-                id="publicacao"
-                to={"/publicar"}>
-                Comunicar
-              </Link>
-            </div>
-          </div>
-        </PegarPermissoes>
-
-        {/* */}
-
-        {/* {paginacao?.prev_page && ( */}
-        {/* <Link
-            to={`/home?page=${Number(page.get("page") - Number(1))}`}
-            className="pagePublicacao anterior">
-            Publicacão Anteriores
-          </Link>
-        )} */}
-        <div className="container-publicacao">
-          {publicacao.map((publ) => (
-            <div className="container-conteudo" key={publ?.id}>
-              <div className="publicacao" id="publicacao">
-                <div className="opcoesBarra">
-                  <Link
-                    to={`/perfil/${publ?.usuario?.id}`}
-                    className="username">
-                    {publ?.usuario?.nome}
-                  </Link>
-                  {publ?.usuario?.nome === sessionStorage.getItem("user") ? (
-                    <BtnMenu id={publ?.id} nameUser={publ?.usuario?.nome} />
-                  ) : (
-                    <section></section>
-                  )}
-                </div>
-
-                <ProfilePublication
-                  id_publicacao={publ?.id}
-                  setIsImage={setIsImage}
-                  isImage={isImage}
-                  publicacao={publ}
-                />
-
-                <div className="opcoes" id="opcoes">
-                  <LikePublicacao publ={publ} />
-
-                  <Comentario publ={publ} id={publ?.id} verC={verComentarios} />
-                </div>
+      <Skeleton loading={isClic} active avatar={{ shape: "circle" }}>
+        <Modal />
+        <div className="container-publicacao1">
+          <PegarPermissoes permissoes={["admin"]}>
+            <div>
+              <div className="div-publicar">
+                <Link
+                  className="publicar"
+                  name="publicacao"
+                  id="publicacao"
+                  to={"/publicar"}>
+                  Comunicar
+                </Link>
               </div>
             </div>
-          ))}
-          {/* {paginacao?.next_page && (
-            <Link
-              to={`/home?page=${Number(page.get("page")) + Number(1)}`}
-              className="pagepublicacao ">
-              Próximas Publicacão
-            </Link>
-          )} */}
+          </PegarPermissoes>
+
+          <div className="container-publicacao">
+            {publicacao.map((publ) => (
+              <div className="container-conteudo" key={publ?.id}>
+                <div className="publicacao" id="publicacao">
+                  <div className="opcoesBarra">
+                    <Link
+                      to={`/perfil/${publ?.usuario?.id}`}
+                      className="username">
+                      {publ?.usuario?.nome}
+                    </Link>
+                    {publ?.usuario?.nome === sessionStorage.getItem("user") ? (
+                      <BtnMenu id={publ?.id} nameUser={publ?.usuario?.nome} />
+                    ) : (
+                      <section></section>
+                    )}
+                  </div>
+
+                  <ProfilePublication
+                    id_publicacao={publ?.id}
+                    setIsImage={setIsImage}
+                    isImage={isImage}
+                    publicacao={publ}
+                  />
+
+                  <div className="opcoes" id="opcoes">
+                    <LikePublicacao publ={publ} />
+
+                    <Comentario
+                      publ={publ}
+                      id={publ?.id}
+                      verC={verComentarios}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </Skeleton>
     </>
   );
 };

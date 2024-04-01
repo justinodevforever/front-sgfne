@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import "./ispm.css";
 
-const Ispm = () => {
+const Ispm = ({ isClic }) => {
   useEffect(() => {
     function animacao() {
       let an = null;
@@ -14,31 +14,36 @@ const Ispm = () => {
       const cr1 = document.getElementById("cr1");
       const cr2 = document.getElementById("cr2");
       const cr3 = document.getElementById("cr3");
+      let anim = 0;
+      if (isClic) {
+        let leng = 0;
+        anim = setInterval(() => {
+          pos++;
+          leng++;
 
-      let leng = 0;
-      setInterval(() => {
-        pos++;
-        leng++;
+          if (pos === 1) {
+            i.style.color = "#a31543";
+          } else if (pos === 2) {
+            s.style.color = "#d18aa1";
+          } else if (pos === 3) {
+            p.style.color = "#fff";
+          } else if (pos === 4) {
+            m.style.color = "#a88ea6";
+          } else {
+            pos = 0;
+            m.style.color = "transparent";
+            i.style.color = "transparent";
+            p.style.color = "transparent";
+            s.style.color = "transparent";
+          }
+        }, 500);
+        return;
+      }
 
-        if (pos === 1) {
-          i.style.color = "#a31543";
-        } else if (pos === 2) {
-          s.style.color = "#d18aa1";
-        } else if (pos === 3) {
-          p.style.color = "#521e4d";
-        } else if (pos === 4) {
-          m.style.color = "#a88ea6";
-        } else {
-          pos = 0;
-          m.style.color = "transparent";
-          i.style.color = "transparent";
-          p.style.color = "transparent";
-          s.style.color = "transparent";
-        }
-      }, 500);
+      clearTimeout(anim);
     }
     animacao();
-  }, []);
+  }, [isClic]);
   return (
     <div className="container-ispm">
       <div className="carregar" id="cr"></div>

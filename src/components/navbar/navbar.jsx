@@ -152,11 +152,9 @@ function NavBar({ setMostrar, setIsVisible }) {
     setClic1(false);
     setClic2(false);
     setClic3(false);
-    navigate(`/comunicado?${1}`);
+    // navigate(`/comunicado`);
   }
-  useEffect(() => {
-    if (clic) navigate(`/comunicado?${1}`);
-  }, [clic === true]);
+
   function toggle1(e) {
     e.preventDefault();
     setClic1(true);
@@ -321,11 +319,7 @@ function NavBar({ setMostrar, setIsVisible }) {
 
       <div className={visible ? "open" : "closed"} id="menu-mobile">
         <div className="barra-mobile">
-          <Link
-            to={`/comunicado?${1}`}
-            title="Página Inicial"
-            id="p"
-            onClick={(e) => toggle0(e)}>
+          <Link to={`/comunicado`} title="Página Inicial" id="p">
             <BiHome
               color={clic ? "#fff" : "#a31543"}
               size={40}
