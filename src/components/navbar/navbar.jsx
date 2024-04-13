@@ -109,7 +109,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible }) {
   }, [atualizar]);
 
   const toggleOpen = () => {
-    setVisible(!visible);
+    setIsVisible(!isVisible);
   };
   const closedMenu = () => {
     try {
@@ -147,9 +147,10 @@ function NavBar({ setMostrar, setIsVisible, isVisible }) {
     setLerNotificacao(!lerNotificacao);
   };
 
+
   function MenuOpen(e) {
     e.preventDefault();
-    setIsVisible(!isVisible);
+    setIsOpen(!isOpen);
   }
   return (
     <nav className="container-nav">
