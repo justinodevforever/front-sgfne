@@ -176,7 +176,7 @@ export default function LerComentarioPublicacao() {
               <>
                 {!lerMais && (
                   <div>
-                    {publicacoes.slice(0, 100) + "..."}
+                    {publicacoes?.slice(0, 100) + "..."}
                     <LerMais toggleLerMais={toggleLerMais} />
                   </div>
                 )}
@@ -191,23 +191,25 @@ export default function LerComentarioPublicacao() {
               Comentários Anteriores
             </Link>
           )}
-          {comentarios.map((comentario) => (
-            <div className="conteudos-comentarios" key={comentario.id}>
+          {comentarios?.map((comentario) => (
+            <div className="conteudos-comentarios" key={comentario?.id}>
               <div className="barra">
-                <ProfileComentPublication idUser={comentario.Usuario.id} />
-                <Link to={`/perfil/${comentario.Usuario.id}`}>
+                <ProfileComentPublication idUser={comentario?.Usuario?.id} />
+                <Link to={`/perfil/${comentario?.Usuario?.id}`}>
                   {" "}
-                  {comentario.Usuario.nome.length > 12 ? (
-                    <span>{comentario.Usuario.nome.slice(0, 12) + "..."}</span>
+                  {comentario?.Usuario?.nome?.length > 12 ? (
+                    <span>
+                      {comentario?.Usuario?.nome?.slice(0, 12) + "..."}
+                    </span>
                   ) : (
-                    <span>{comentario.Usuario.nome}</span>
+                    <span>{comentario?.Usuario?.nome}</span>
                   )}
                 </Link>
 
-                {comentario.Usuario.id ===
+                {comentario?.Usuario?.id ===
                 Number(sessionStorage.getItem("id")) ? (
                   <div>
-                    <Link to={`/edit/coment/publication/${comentario.id}`}>
+                    <Link to={`/edit/coment/publication/${comentario?.id}`}>
                       <BiSolidEditAlt
                         size={"20px"}
                         color="00f"
@@ -220,19 +222,19 @@ export default function LerComentarioPublicacao() {
                       color="#f74044"
                       cursor={"pointer"}
                       onClick={(e) => {
-                        removerComentarioPublicacao(e, comentario.id);
+                        removerComentarioPublicacao(e, comentario?.id);
                       }}
                     />
                   </div>
                 ) : (
                   <div>
-                    {user.id === Number(sessionStorage.getItem("id")) ? (
+                    {user?.id === Number(sessionStorage.getItem("id")) ? (
                       <BiTrash
                         size={"20px"}
                         color="#f74044"
                         cursor={"pointer"}
                         onClick={(e) => {
-                          removerComentarioPublicacao(e, comentario.id);
+                          removerComentarioPublicacao(e, comentario?.id);
                         }}
                       />
                     ) : (
@@ -242,18 +244,17 @@ export default function LerComentarioPublicacao() {
                 )}
               </div>
               <div className="profile"></div>
-              <p>{comentario.comentario}</p>
+              <p>{comentario?.comentario}</p>
               <LikeComentarioPublicacao coment={comentario} />
             </div>
           ))}
-          {pagination.next_page && (
-            <Link
-              to={`/coment/publication/${id}?page=${
-                Number(page.get("page")) + Number(1)
-              }`}>
-              Comentários Posteriores
-            </Link>
-          )}
+
+          <Link
+            to={`/coment/publication/${id}?page=${
+              Number(page.get("page")) + Number(1)
+            }`}>
+            Comentários Posteriores
+          </Link>
         </div>
         <footer className="footer-comentarA">
           <textarea

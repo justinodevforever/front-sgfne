@@ -121,8 +121,8 @@ const Principal = ({ isVisible }) => {
               display: "flex",
               flexDirection: "column",
               width: "170px",
-
               alignItems: "center",
+              background: "#fff",
             }}
             items={[
               {
@@ -178,7 +178,8 @@ const Principal = ({ isVisible }) => {
                 key: "/definicoes",
                 icon: <SettingOutlined />,
               },
-            ]}></Menu>
+            ]}
+          />
         )}
         <div className="gavetaMenu" id="menu" ref={clickRef}>
           <Link to={"#"} title="Estudantes" id="p" className="">

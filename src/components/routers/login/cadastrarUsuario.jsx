@@ -266,7 +266,11 @@ function CadastrarUsuario() {
               }}>
               <Button
                 type="primary"
-                style={{ padding: "10px" }}
+                style={{
+                  padding: "10px",
+                  display: "flex",
+                  textAlign: "center",
+                }}
                 onClick={(e) => avancar(e)}
                 disabled={
                   email && validEmail && bi && nome && bi.length === 14
@@ -467,13 +471,19 @@ function CadastrarUsuario() {
                 justifyContent: "space-between",
               }}>
               <Button
-                style={{ padding: "10px" }}
+                style={{
+                  display: "flex",
+                  textAlign: "center",
+                  padding: "10px",
+                }}
                 type="default"
                 onClick={(e) => voltar(e)}>
                 Voltar
               </Button>
               <Button
                 style={{
+                  display: "flex",
+                  textAlign: "center",
                   padding: "10px",
                 }}
                 type="primary"
