@@ -187,6 +187,7 @@ function CadastrarUsuario() {
                 style={{
                   border: "1px solid #000",
                   marginTop: "10px",
+                  padding: "10px",
                 }}
                 allowClear
               />
@@ -212,10 +213,12 @@ function CadastrarUsuario() {
                       ? {
                           marginTop: "10px",
                           border: "1px solid green",
+                          padding: "10px",
                         }
                       : {
                           marginTop: "10px",
                           border: "1px solid red",
+                          padding: "10px",
                         }
                   }
                   allowClear
@@ -240,10 +243,12 @@ function CadastrarUsuario() {
                       ? {
                           marginTop: "10px",
                           border: "1px solid green",
+                          padding: "10px",
                         }
                       : {
                           marginTop: "10px",
                           border: "1px solid red",
+                          padding: "10px",
                         }
                   }
                   allowClear
@@ -261,6 +266,7 @@ function CadastrarUsuario() {
               }}>
               <Button
                 type="primary"
+                style={{ padding: "10px" }}
                 onClick={(e) => avancar(e)}
                 disabled={
                   email && validEmail && bi && nome && bi.length === 14
@@ -291,10 +297,12 @@ function CadastrarUsuario() {
                       ? {
                           marginTop: "10px",
                           border: "1px solid green",
+                          padding: "10px",
                         }
                       : {
                           marginTop: "10px",
                           border: "1px solid red",
+                          padding: "10px",
                         }
                   }
                   allowClear
@@ -321,10 +329,12 @@ function CadastrarUsuario() {
                       ? {
                           marginTop: "10px",
                           border: "1px solid green",
+                          padding: "10px",
                         }
                       : {
                           marginTop: "10px",
                           border: "1px solid red",
+                          padding: "10px",
                         }
                   }
                   allowClear
@@ -442,20 +452,13 @@ function CadastrarUsuario() {
                   style={{
                     marginTop: "10px",
                     border: "1px solid #000",
+                    padding: "10px",
                   }}
                   allowClear
                 />
               </div>
             </div>
 
-            <label htmlFor="checkPassword" className="checkPassword">
-              <input
-                type="checkbox"
-                className="inputCheck"
-                onChange={() => setCheck(!check)}
-              />
-              <p>Mostrar a Senha</p>
-            </label>
             <p className="errorPasswordConf">{errorPasswordConf}</p>
             <div
               style={{
@@ -463,10 +466,16 @@ function CadastrarUsuario() {
                 marginTop: "40px",
                 justifyContent: "space-between",
               }}>
-              <Button type="default" onClick={(e) => voltar(e)}>
+              <Button
+                style={{ padding: "10px" }}
+                type="default"
+                onClick={(e) => voltar(e)}>
                 Voltar
               </Button>
               <Button
+                style={{
+                  padding: "10px",
+                }}
                 type="primary"
                 disabled={
                   validEmail &&
