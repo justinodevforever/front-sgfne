@@ -128,8 +128,6 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           navigate("/login");
           return;
         }
-
-        setImage(data?.data[0] || []);
       })
       .catch((err) => console.log(err));
   }

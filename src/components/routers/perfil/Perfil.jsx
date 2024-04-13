@@ -65,8 +65,6 @@ function Perfil() {
           navigate("/login");
           return;
         }
-
-        setImage(data?.data[0] || []);
       })
       .catch((err) => console.log(err));
   }
