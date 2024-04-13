@@ -9,8 +9,20 @@ import { api } from "../../../../auth/auth";
 import { AiOutlineSetting } from "react-icons/ai";
 import { PiCurrencyCircleDollar, PiStudentBold } from "react-icons/pi";
 import Servicos from "./Services/Servicos";
+import {
+  HomeFilled,
+  HomeOutlined,
+  DollarOutlined,
+  SettingOutlined,
+  MessageFilled,
+  BellOutlined,
+  MessageOutlined,
+  MenuFoldOutlined,
+  MenuOutlined,
+} from "@ant-design/icons/lib/icons";
+import { Menu } from "antd";
 
-const Principal = () => {
+const Principal = ({ isVisible }) => {
   const clickRef = useRef();
   const [check, setCheck] = useState(false);
   const [password, setPassword] = useState("");
@@ -92,31 +104,158 @@ const Principal = () => {
 
   return (
     <div className="comunicado" id="co">
-      <div className="gavetaMenu" id="menu" ref={clickRef}>
-        <Link to={"#"} title="Estudantes" id="p" className="">
-          <PiStudentBold color="#fff" size={40} id="icPr" />
-        </Link>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          flexDirection: "row",
+          marginTo: "-10px",
+        }}>
+        {isVisible && (
+          <Menu
+            onClick={({ key }) => {
+              navigate(key);
+            }}
+            mode="inline"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "170px",
 
-        <Link
-          to={`servicos`}
-          className="Propina"
-          id="pro"
-          ref={refPr}
-          onClick={focus}>
-          <PiCurrencyCircleDollar
-            color="#fff"
-            title="Pagamentos"
-            size={40}
-            id="icPr"
-          />
-        </Link>
-        <Link to={`/comunicados?page=${1}`}>
-          <AiOutlineSetting color="#fff" title="Definições" size={40} />
-        </Link>
+              alignItems: "center",
+            }}
+            items={[
+              {
+                label: "Home",
+                key: `/dashboard/comunicado?${1}`,
+                icon: <HomeOutlined />,
+              },
+              {
+                label: "Estudante",
+                key: "estudante",
+                icon: <PiStudentBold size={17} />,
+              },
+              {
+                label: "Serviços",
+
+                icon: <DollarOutlined />,
+                children: [
+                  {
+                    label: "Propina",
+                    key: "propina",
+                  },
+                  {
+                    label: "Recurso",
+                    key: `cadeira?tipos=${"Recurso"}`,
+                  },
+                  {
+                    label: "Cadeira em Atraso",
+                    key: `cadeira?tipos=${"Cadeira em Atrazo"}`,
+                  },
+                  {
+                    label: "Exame Especial",
+                    key: `cadeira?tipos=${"Exame Especial"}`,
+                  },
+                  {
+                    label: "Declaração sem Nota",
+                    key: `declaracao?tipos=${"semNota"}`,
+                  },
+                  {
+                    label: "Declaração com Nota",
+                    key: `declaracao?tipos=${"comNota"}`,
+                  },
+                  {
+                    label: "Declaração Linceciatura",
+                    key: `declaracao?tipos=${"linceciatura"}`,
+                  },
+                  {
+                    label: "Pagamento de Folha",
+                  },
+                ],
+              },
+              {
+                label: "Configurações",
+                key: "/definicoes",
+                icon: <SettingOutlined />,
+              },
+            ]}></Menu>
+        )}
+        <div className="gavetaMenu" id="menu" ref={clickRef}>
+          <Link to={"#"} title="Estudantes" id="p" className="">
+            <PiStudentBold color="#fff" size={40} id="icPr" />
+          </Link>
+
+          <Link
+            to={`servicos`}
+            className="Propina"
+            id="pro"
+            ref={refPr}
+            onClick={focus}>
+            <PiCurrencyCircleDollar
+              color="#fff"
+              title="Pagamentos"
+              size={40}
+              id="icPr"
+            />
+          </Link>
+          <Link to={`/comunicados?page=${1}`}>
+            <AiOutlineSetting color="#fff" title="Definições" size={40} />
+          </Link>
+        </div>
+        <Outlet />
       </div>
-      <Outlet />
     </div>
   );
 };
 
+function IconNotify() {
+  return (
+    <>
+      <div className="sms" style={{ position: "relative" }}>
+        <BellOutlined />
+        {/* <div
+          className="aler"
+          style={{
+            display: "flex",
+            borderRadius: "50%",
+            position: "absolute",
+            width: "15px",
+            height: "15px",
+            background: "red",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#fff",
+            padding: "4px",
+          }}>
+          +10
+        </div> */}
+      </div>
+    </>
+  );
+}
+function Icon() {
+  return (
+    <>
+      <div className="sms" style={{ position: "relative" }}>
+        <MessageOutlined />
+        {/* <div
+          className="aler"
+          style={{
+            display: "flex",
+            borderRadius: "50%",
+            position: "absolute",
+            width: "15px",
+            height: "15px",
+            background: "red",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#fff",
+            padding: "4px",
+          }}>
+          +10
+        </div> */}
+      </div>
+    </>
+  );
+}
 export default Principal;

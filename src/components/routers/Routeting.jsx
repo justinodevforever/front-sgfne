@@ -49,18 +49,21 @@ import Ano from "./Comunicado/config/configuracoes/cadastrarAnoLetivo/Ano.jsx";
 import Frequencia from "./Comunicado/config/configuracoes/cadastrarFrequencia/Frequencia.jsx";
 import Semestre from "./Comunicado/config/configuracoes/cadastrarSemestre/Semestre.jsx";
 import Cadeira from "./Comunicado/config/configuracoes/cadastrarCadeiras/Cadeira.jsx";
-import Estudos from "../estudos/Estudos.jsx";
+import Root from "../root/Root.jsx";
+import Declaracao from "./Comunicado/Services/declarações/Declaracao.jsx";
+import Reconfirmacao from "./Comunicado/Services/reconfirmação/Reconfirmacao.jsx";
+import SobreCadeiras from "./Comunicado/Services/sobre cadeiras/SobreCadeiras.jsx";
 
 const Routeting = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/es" element={<Estudos />} />
+        <Route exact path="/" element={<Root />} />
         <Route exact path="/login" element={<Login />} />
 
         <Route
           exact
-          path="/"
+          path="/dashboard"
           element={
             <ProtectRouter>
               <Home />
@@ -105,6 +108,60 @@ const Routeting = () => {
           <Route
             exact
             path="estudante"
+            element={
+              <ProtectRouter roles={"user"}>
+                <Estudante />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path="propina"
+            element={
+              <ProtectRouter roles={"user"}>
+                <Propina />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path="cadeira"
+            element={
+              <ProtectRouter roles={"user"}>
+                <SobreCadeiras />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path="declaracao"
+            element={
+              <ProtectRouter roles={"user"}>
+                <Declaracao />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path="reconfirmacao"
+            element={
+              <ProtectRouter roles={"user"}>
+                <Reconfirmacao />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path="reengresso"
+            element={
+              <ProtectRouter roles={"user"}>
+                <Estudante />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path="folhas"
             element={
               <ProtectRouter roles={"user"}>
                 <Estudante />

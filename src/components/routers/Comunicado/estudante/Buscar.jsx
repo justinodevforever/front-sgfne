@@ -3,18 +3,15 @@ import "./buscar.scss";
 import { useEffect, useState } from "react";
 import { api } from "../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
+import { Input, Form } from "antd";
 // import { BiEdit, BiX } from "react-icons/bi";
 // import { PiPrinter } from "react-icons/pi";
 // import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
 
 const Buscar = () => {
   const [bi, setBi] = useState("");
-  const [userBi, setUserBi] = useState("");
-  const [nome, setNome] = useState("");
-  const [contacto, setContacto] = useState("");
-  const [fk_user, setFk_user] = useState("");
-  const [periodo, setPeriodo] = useState("");
-  const [curso, setCurso] = useState("");
+  const [estudante, setEstudante] = useState({});
+
   const navigete = useNavigate();
 
   const getBi = async (e) => {
@@ -24,16 +21,12 @@ const Buscar = () => {
         bi,
       })
       .then((data) => {
-        console.log(data.data);
         if (data.data === "Token Invalid") {
           navigete("/login");
           return;
         }
-        setCurso(data.data.Curso.curso);
-        setContacto(data.data.contato);
-        setNome(data.data.nome);
-        setUserBi(data.data.bi);
-        setPeriodo(data.data.periodo);
+        console.log(data.data);
+        setEstudante(data.data);
       })
 
       .catch((err) => console.log(err));
@@ -63,8 +56,8 @@ const Buscar = () => {
   return (
     <div className="container-buscar">
       <div className="pesquisa">
-        <form onSubmit={(e) => getBi(e)} className="form">
-          <input
+        <Form onClick={(e) => getBi(e)} className="form">
+          <Input.Search
             type="search"
             placeholder="Nº de BI do Estudante"
             required
@@ -72,40 +65,42 @@ const Buscar = () => {
             value={bi}
             autoFocus
             maxLength={14}
+            showCount
+            allowClear
+            style={{
+              width: "50%",
+              border: "1px solid #000",
+            }}
           />
-          <BiSearch
-            color="#fff"
-            cursor={"pointer"}
-            size={27}
-            onClick={(e) => getBi(e)}
-          />
-        </form>
+        </Form>
       </div>
       <div className="conteudo" id="tabela">
-        <br />
-        {nome && bi && contacto && <h3>Dados do Estudante</h3>}
-        <br />
-        {nome && bi && contacto && (
-          <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Curso</th>
-                <th>Contacto</th>
-                <th>BI</th>
-                <th>Período</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{nome}</td>
-                <td>{curso}</td>
-                <td>{contacto}</td>
-                <td>{userBi}</td>
-                <td>{periodo}</td>
-              </tr>
-            </tbody>
-          </table>
+        {estudante && (
+          <>
+            <br />
+            <h3>Dados do Estudante</h3>
+            <br />
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Curso</th>
+                  <th>Contacto</th>
+                  <th>BI</th>
+                  <th>Período</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{estudante?.nome}</td>
+                  <td>{estudante?.curso?.curso}</td>
+                  <td>{estudante?.contacto}</td>
+                  <td>{estudante?.bi}</td>
+                  <td>{estudante?.periodo}</td>
+                </tr>
+              </tbody>
+            </table>
+          </>
         )}
       </div>
     </div>

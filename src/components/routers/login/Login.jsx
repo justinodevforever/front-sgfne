@@ -6,6 +6,9 @@ import { chatflech } from "../../../configs/axios/chatfletch";
 import AnimationComponentLogin from "../hook/AnimationComponentLogin";
 import { useDispatch } from "react-redux";
 import { setId } from "../../../store/ui-slice";
+import { Input } from "antd";
+import { UserOutlined } from "@ant-design/icons/lib/icons";
+import { PiPassword } from "react-icons/pi";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -41,7 +44,7 @@ export default function Login() {
         sessionStorage.setItem("id", data.data?.User?.id);
         dispatch(setId(data.data?.User?.id));
         setClick(false);
-        navigate("/comunicado");
+        navigate(`/dashboard/comunicado?${1}`);
       })
       .catch((error) => console.log(error));
   }
@@ -67,7 +70,7 @@ export default function Login() {
 
           <form onSubmit={hendleLogar} className="form">
             <div className="inputEmail">
-              <input
+              <Input
                 type="text"
                 name="email"
                 placeholder="Digite o seu email"
@@ -78,11 +81,13 @@ export default function Login() {
                 }}
                 title="Digite um email Válido"
                 ref={refEmail}
+                prefix={<UserOutlined />}
+                style={{ border: "1px solid #000" }}
               />
             </div>
 
-            <div className="inputPassword">
-              <input
+            <div className="inputPassword" style={{ marginTop: 10 }}>
+              <Input.Password
                 type={check ? "text" : "password"}
                 name="password"
                 placeholder="Digite a sua senha"
@@ -93,6 +98,8 @@ export default function Login() {
                 }}
                 autoComplete="of"
                 title="8 ou 24 character, Maiúscula e Minúscula, número e entre !@#$%*"
+                prefix={<PiPassword />}
+                style={{ border: "1px solid #000" }}
               />
             </div>
 

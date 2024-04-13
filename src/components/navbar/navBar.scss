@@ -269,6 +269,9 @@
     width: 1px;
     visibility: hidden;
   }
+  .container-nav {
+    position: fixed;
+  }
   .container-nav .closed {
     display: none;
   }

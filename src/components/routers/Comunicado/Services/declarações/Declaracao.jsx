@@ -1,12 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import "./declaracao.css";
 import { api } from "../../../../../../auth/auth";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 
-const Declaracao = ({ tipo }) => {
-  const [tipos, setTipos] = useState([]);
-
+const Declaracao = () => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
@@ -26,7 +24,7 @@ const Declaracao = ({ tipo }) => {
   const [disciplina, setDisciplina] = useState([]);
   const [semestre, setSemestre] = useState("");
   const navigate = useNavigate();
-  const [tipoS] = tipo.split(" ");
+  const [tipos] = useSearchParams();
 
   useEffect(() => {
     getMes();

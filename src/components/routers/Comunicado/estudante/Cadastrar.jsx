@@ -3,7 +3,6 @@ import { api } from "../../../../../auth/auth";
 import "./cadastrar.scss";
 import { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
-import Alert from "../../hook/alert/Alert";
 import UseErro from "../../hook/massege/Error/UseErro";
 import UseSucess from "../../hook/massege/sucess/UseSucess";
 import UseWarning from "../../hook/massege/warning/UseWarning";
@@ -13,6 +12,14 @@ import {
   toggleModalError,
   toggleModalWarning,
 } from "../../../../store/ui-slice";
+import { Button, Form, Input, Alert, Modal, ConfigProvider } from "antd";
+import {
+  UserOutlined,
+  SaveOutlined,
+  ContactsOutlined,
+  ContactsFilled,
+} from "@ant-design/icons/lib/icons";
+import { PiIdentificationBadge, PiStudent } from "react-icons/pi";
 
 const Cadastrar = () => {
   const [bi, setBi] = useState("");
@@ -26,6 +33,7 @@ const Cadastrar = () => {
   const [cursos, setCursos] = useState([]);
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
+  let options = [];
 
   const dispatchConfirmar = useDispatch();
   const dispatchError = useDispatch();
@@ -66,6 +74,7 @@ const Cadastrar = () => {
   };
 
   useEffect(() => {
+    options.push();
     const pegarCurso = async () => {
       await api
         .post("/curso/especifico", { curso })
@@ -74,7 +83,7 @@ const Cadastrar = () => {
             navigete("/login");
             return;
           }
-          console.log(data);
+
           setFk_curso(data.data?.id);
         })
         .catch((err) => console.log(err));
@@ -139,8 +148,8 @@ const Cadastrar = () => {
 
       <div className="container-cadastrar">
         <div className="pesquisa">
-          <form onSubmit={(e) => getBi(e)} className="form">
-            <input
+          <Form onClick={(e) => getBi(e)} className="Form">
+            <Input.Search
               type="search"
               placeholder="Nº de BI do Estudante"
               required
@@ -148,16 +157,18 @@ const Cadastrar = () => {
               onChange={(e) => setBi(e.target.value)}
               autoFocus
               maxLength={14}
+              allowClear
+              showCount={true}
+              style={{
+                border: "1px solid #a31543",
+                width: "50%",
+                marginTop: "10px",
+                fontSize: "14pt",
+              }}
             />
-            <BiSearch
-              color="#fff"
-              cursor={"pointer"}
-              size={27}
-              onSubmit={(e) => getBi(e)}
-            />
-          </form>
+          </Form>
         </div>
-        <form>
+        <Form className="form-cad">
           <h2>Cadastro do Estudante</h2>
           <div className="novos">
             <label htmlFor="curso">
@@ -165,7 +176,9 @@ const Cadastrar = () => {
               <select onChange={(e) => setCurso(e.target.value)} id="curso">
                 <option value="Escolha">Escolha Curso...</option>
                 {cursos.map((curso) => (
-                  <option value={curso.curso}>{curso.curso}</option>
+                  <option value={curso.curso} key={curso.id}>
+                    {curso.curso}
+                  </option>
                 ))}
               </select>
             </label>
@@ -192,15 +205,24 @@ const Cadastrar = () => {
               </div>
             </div>
           </div>
-          <input
+          <Input
             type="text"
             id="nome"
             placeholder="Nome do Estudante"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
             required
+            prefix={<PiStudent />}
+            color="black"
+            allowClear
+            style={{
+              border: "1px solid #a31543",
+              width: "50%",
+              marginTop: "10px",
+              fontSize: "14pt",
+            }}
           />
-          <input
+          <Input
             type="text"
             id="bi"
             placeholder="Nº de BI do Estudante"
@@ -208,19 +230,42 @@ const Cadastrar = () => {
             disabled
             value={userBi}
             onChange={(e) => setUserBi(e.target.value)}
+            style={{
+              border: "1px solid #a31543",
+              width: "50%",
+              marginTop: "10px",
+              fontSize: "14pt",
+            }}
+            prefix={<PiIdentificationBadge />}
           />
-          <input
-            type="text"
+          <Input
+            type="number"
             id="contacto"
             placeholder="Contacto do Estudante"
             required
             value={contato}
             onChange={(e) => setContato(e.target.value)}
+            prefix={<ContactsFilled />}
+            allowClear
+            maxLength={9}
+            showCount={true}
+            style={{
+              border: "1px solid #a31543",
+              width: "50%",
+              marginTop: "10px",
+              fontSize: "14pt",
+            }}
           />
           {nome && bi && contato && fk_curso && fk_user && (
-            <button onClick={(e) => hendleEstudante(e)}>Cadastrar</button>
+            <Button
+              onClick={(e) => hendleEstudante(e)}
+              prefix={<SaveOutlined />}
+              icon={<SaveOutlined />}
+              style={{ marginTop: "30px" }}>
+              Cadastrar
+            </Button>
           )}
-        </form>
+        </Form>
       </div>
     </>
   );

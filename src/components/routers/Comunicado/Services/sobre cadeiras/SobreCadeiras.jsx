@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./sobreCadeira.scss";
 import { api } from "../../../../../../auth/auth";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import Alert from "../../../hook/alert/Alert";
 import RelatorioSobreCadeira from "../relatorios/SobreCadeira/SobreCadeira";
@@ -14,10 +14,9 @@ import {
   toggleModalWarning,
 } from "../../../../../store/ui-slice";
 import Loader from "../../../hook/load/Loader";
+import { Button, Form, Input } from "antd";
 
-const SobreCadeiras = ({ tipo }) => {
-  const [tipos, setTipos] = useState([]);
-
+const SobreCadeiras = () => {
   const [bi, setBi] = useState("");
   const [rupe, setRupe] = useState("");
   const [nome, setNome] = useState("");
@@ -58,7 +57,7 @@ const SobreCadeiras = ({ tipo }) => {
   const dispatchConfirmar = useDispatch();
   const dispatchWarning = useDispatch();
 
-  const [tipoS] = tipo.split(" ");
+  const [tipos] = useSearchParams();
 
   useEffect(() => {
     getSemestre();
@@ -264,7 +263,7 @@ const SobreCadeiras = ({ tipo }) => {
   const tiposServicos = async () => {
     await api
       .post("/tipo/servico/especifico", {
-        tipo,
+        tipo: tipos.get("tipos  "),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -435,11 +434,13 @@ const SobreCadeiras = ({ tipo }) => {
       <UseSucess />
       <UseErro />
 
-      {tipoS === "Cadeira" || tipoS === "Recurso" || tipoS === "Exame" ? (
+      {tipos.get("tipos") === "Cadeira em Atrazo" ||
+      tipos.get("tipos") === "Recurso" ||
+      tipos.get("tipos") === "Exame Expecial" ? (
         <div className="container-sobreCadeira">
           <div className="conteudo">
-            <form onSubmit={(e) => buscarEstudante(e)} className="formBi">
-              <input
+            <Form onClick={(e) => buscarEstudante(e)} className="formBir">
+              <Input.Search
                 type="search"
                 placeholder="Número de BI do Estudante"
                 onChange={(e) => setBi(e.target.value)}
@@ -447,76 +448,74 @@ const SobreCadeiras = ({ tipo }) => {
                 autoFocus
                 maxLength={14}
               />
-              <BiSearch
-                size={30}
-                color="fff"
-                cursor={"pointer"}
-                onClick={(e) => buscarEstudante(e)}
-              />
-            </form>
+            </Form>
 
             <div className="opcoes">
-              <label htmlFor="cadeira">
-                Ano Lectivo:
-                <select
-                  className="select"
-                  onChange={(e) => setAno(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+              <div>
+                <label htmlFor="cadeira">
+                  Ano Lectivo:
+                  <select
+                    className="select"
+                    onChange={(e) => setAno(e.target.value)}>
+                    <option value={"Escolha"}>Escolha...</option>
 
-                  {anos.map((s) => (
-                    <option value={s.ano} key={s.id}>
-                      {s.ano}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label htmlFor="frequencia">
-                Frequência:
-                <select
-                  className="select"
-                  nome="frequencia"
-                  id="frequencia"
-                  onChange={(e) => setFrequencia(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+                    {anos.map((s) => (
+                      <option value={s.ano} key={s.id}>
+                        {s.ano}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label htmlFor="frequencia">
+                  Frequência:
+                  <select
+                    className="select"
+                    nome="frequencia"
+                    id="frequencia"
+                    onChange={(e) => setFrequencia(e.target.value)}>
+                    <option value={"Escolha"}>Escolha...</option>
 
-                  {frequencias.map((f) => (
-                    <option value={f.ano} key={f.id}>
-                      {f.ano}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label htmlFor="semestre">
-                Semestre:
-                <select
-                  className="select"
-                  onChange={(e) => setSemestre(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+                    {frequencias.map((f) => (
+                      <option value={f.ano} key={f.id}>
+                        {f.ano}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div>
+                <label htmlFor="semestre">
+                  Semestre:
+                  <select
+                    className="select"
+                    onChange={(e) => setSemestre(e.target.value)}>
+                    <option value={"Escolha"}>Escolha...</option>
 
-                  {semestres.map((s) => (
-                    <option value={s.nome} key={s.id}>
-                      {s.nome}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label htmlFor="cadeira">
-                Cadeira:
-                <select
-                  className="select"
-                  onChange={(e) => setDisciplina(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+                    {semestres.map((s) => (
+                      <option value={s.nome} key={s.id}>
+                        {s.nome}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label htmlFor="cadeira">
+                  Cadeira:
+                  <select
+                    className="select"
+                    onChange={(e) => setDisciplina(e.target.value)}>
+                    <option value={"Escolha"}>Escolha...</option>
 
-                  {disciplinas.map((s) => (
-                    <option value={s.nome} key={s.id}>
-                      {s.nome}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                    {disciplinas.map((s) => (
+                      <option value={s.nome} key={s.id}>
+                        {s.nome}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
               <label htmlFor="rupe">
                 RUPE:
-                <input
+                <Input
                   type="number"
                   value={rupe}
                   onChange={(e) => setRupe(e.target.value)}
@@ -532,7 +531,7 @@ const SobreCadeiras = ({ tipo }) => {
             {curso && (
               <label htmlFor="nome">
                 Nome:
-                <input type="text" value={nome} disabled className="input" />
+                <Input type="text" value={nome} disabled className="input" />
               </label>
             )}
             {curso && (
@@ -541,23 +540,23 @@ const SobreCadeiras = ({ tipo }) => {
                 <input type="text" value={curso} disabled className="input" />
               </label>
             )}
-            {nome && curso && tipo === "Recurso" && (
+            {nome && curso && tipos.get("tipos") === "recurso" && (
               <>
-                <button onClick={(e) => hendleRecurso(e)} className="btn">
+                <Button onClick={(e) => hendleRecurso(e)} className="btn">
                   Fazer Pagamento
-                </button>
+                </Button>
                 <Loader />
               </>
             )}
-            {nome && curso && tipo === "Cadeira em Atrazo" && (
-              <button onClick={(e) => hendleCadeiraAtrazo(e)} className="btn">
+            {nome && curso && tipos.get("tipos") === "cadeira em Atrazo" && (
+              <Button onClick={(e) => hendleCadeiraAtrazo(e)} className="btn">
                 Fazer Pagamento
-              </button>
+              </Button>
             )}
-            {nome && curso && tipo === "Exame Especial" && (
-              <button onClick={(e) => hendleExameEspecial(e)} className="btn">
+            {nome && curso && tipos.get("tipos") === "exame Especial" && (
+              <Button onClick={(e) => hendleExameEspecial(e)} className="btn">
                 Fazer Pagamento
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -568,7 +567,7 @@ const SobreCadeiras = ({ tipo }) => {
       <RelatorioSobreCadeira
         setVisivel={setVisivel}
         visivel={visivel}
-        tipo={tipo}
+        tipo={tipos.get("tipos")}
         id={id}
       />
     </>

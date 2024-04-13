@@ -30,7 +30,7 @@ import { useSelector } from "react-redux";
 import PegarPermissoes from "../../configs/permissoes/PegarPermissoes";
 import MenuPerfil from "./Menu Perfil/MenuPerfil";
 
-function NavBar({ setMostrar, setIsVisible }) {
+function NavBar({ setMostrar, setIsVisible, isVisible }) {
   const [nome, setNome] = useState();
   const [image, setImage] = useState([]);
   const [notify, setNotify] = useState([]);
@@ -146,43 +146,10 @@ function NavBar({ setMostrar, setIsVisible }) {
     e.preventDefault();
     setLerNotificacao(!lerNotificacao);
   };
-  function toggle0(e) {
-    e.preventDefault();
-    setClic(true);
-    setClic1(false);
-    setClic2(false);
-    setClic3(false);
-    // navigate(`/comunicado`);
-  }
 
-  function toggle1(e) {
-    e.preventDefault();
-    setClic1(true);
-    setClic(false);
-    setClic2(false);
-    setClic3(false);
-    navigate("/estudante");
-  }
-  function toggle2(e) {
-    e.preventDefault();
-    setClic2(true);
-    setClic1(false);
-    setClic(false);
-    setClic3(false);
-    navigate("/servicos");
-  }
-
-  function toggle3(e) {
-    e.preventDefault();
-    setClic3(true);
-    setClic1(false);
-    setClic2(false);
-    setClic(false);
-    navigate("/definicoes");
-  }
   function MenuOpen(e) {
     e.preventDefault();
-    setIsOpen(!isOpen);
+    setIsVisible(!isVisible);
   }
   return (
     <nav className="container-nav">
@@ -196,7 +163,7 @@ function NavBar({ setMostrar, setIsVisible }) {
           <div className="nos">
             <Link
               className="home"
-              to={`/comunicado?${1}`}
+              to={`/dashboard/comunicado?${1}`}
               title="Página Inicial">
               <BiSolidHome size={"20px"} className="link-nav" color="a31543" />
             </Link>
@@ -315,63 +282,6 @@ function NavBar({ setMostrar, setIsVisible }) {
         )}
 
         {isOpen && <MenuPerfil />}
-      </div>
-
-      <div className={visible ? "open" : "closed"} id="menu-mobile">
-        <div className="barra-mobile">
-          <Link to={`/comunicado`} title="Página Inicial" id="p">
-            <BiHome
-              color={clic ? "#fff" : "#a31543"}
-              size={40}
-              id="icPr"
-              cursor={"pointer"}
-              className={clic && "ativado"}
-            />
-          </Link>
-
-          <PegarPermissoes permissoes={["admin", "listar", "salvar"]}>
-            <Link
-              to={"/estudante"}
-              title="Estudantes"
-              id="p"
-              onClick={(e) => toggle1(e)}>
-              <PiStudentBold
-                className={clic1 && "ativado"}
-                color={clic1 ? "#fff" : "#a31543"}
-                size={40}
-                id="icPr"
-                cursor={"pointer"}
-              />
-            </Link>
-          </PegarPermissoes>
-          <PegarPermissoes permissoes={["salvar", "admin"]}>
-            <Link to={`/servicos`} id="pro">
-              <PiCurrencyCircleDollar
-                color={clic2 ? "#fff" : "#a31543"}
-                title="Pagamentos"
-                size={40}
-                id="icPr"
-                cursor={"pointer"}
-                onClick={(e) => toggle2(e)}
-                className={clic2 && "ativado"}
-              />
-            </Link>
-          </PegarPermissoes>
-
-          <PegarPermissoes permissoes={["edição", "admin"]}>
-            <Link to={`/definicoes`}>
-              <AiOutlineSetting
-                color={clic3 ? "#fff" : "#a31543"}
-                title="Definições"
-                size={40}
-                cursor={"pointer"}
-                onClick={(e) => toggle3(e)}
-                className={clic3 && "ativado"}
-              />
-            </Link>
-          </PegarPermissoes>
-          <br />
-        </div>
       </div>
     </nav>
   );

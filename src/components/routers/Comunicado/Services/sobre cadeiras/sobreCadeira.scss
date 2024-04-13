@@ -13,23 +13,15 @@
   margin-top: 20px;
   padding-bottom: 20px;
 }
-.conteudo .formBi {
+.conteudo .formBir {
   display: flex;
   width: 100%;
   background-color: #a31543;
-  padding-top: 4px;
+  padding: 4px;
   align-items: center;
   justify-content: center;
 }
-.conteudo .formBi input {
-  display: flex;
-  width: 40%;
-  background-color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 2px 4px;
-  color: #000;
-}
+
 .conteudo .form {
   width: 100%;
   margin: auto;
@@ -115,7 +107,6 @@ select {
   flex-direction: column;
   font-size: 14pt;
   align-items: center;
-  margin-bottom: 20px;
 }
 
 .conteudo .input {
@@ -146,11 +137,10 @@ select {
 .container-sobreCadeira .opcoes {
   display: flex;
   width: 100%;
-  gap: 30px;
   align-items: center;
-  justify-content: center;
-  margin-top: 30px;
+  flex-direction: column;
 }
+
 .container-sobreCadeira .opcoes .rupe {
   border: 2px solid $rosa;
   padding: 3px;
@@ -158,4 +148,18 @@ select {
 }
 .container-sobreCadeira .opcoes .rupe::placeholder {
   font-size: 13pt;
+}
+@media (max-width: 500px) {
+  .container-sobreCadeira .opcoes div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+  .conteudo .opcoes label {
+    display: flex;
+    flex-direction: column;
+    font-size: 12pt;
+    align-items: center;
+  }
 }
