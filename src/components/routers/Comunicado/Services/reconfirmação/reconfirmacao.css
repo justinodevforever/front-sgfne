@@ -12,7 +12,7 @@
   margin-top: 20px;
   padding-bottom: 20px;
 }
-.conteudo .formBi {
+.conteudo .formBir {
   display: flex;
   width: 100%;
   background-color: #a31543;
@@ -20,15 +20,7 @@
   align-items: center;
   justify-content: center;
 }
-.conteudo .formBi input {
-  display: flex;
-  width: 40%;
-  background-color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 2px 4px;
-  color: #000;
-}
+
 .conteudo .form {
   width: 100%;
   margin: auto;
@@ -147,4 +139,28 @@ select {
   width: 100%;
   justify-content: space-between;
   margin-top: 10px;
+}
+@media (max-width: 800px) {
+  .container-reconfirmacao .opcoes {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: inherit;
+    margin-top: 0px;
+  }
+  label {
+    display: flex;
+    font-size: 12pt;
+    flex-direction: row;
+  }
+  select {
+    width: 130px;
+    height: 74px;
+    font-size: 14pt;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    border: 2px solid #a31543;
+    /* margin-top: 20px; */
+  }
 }

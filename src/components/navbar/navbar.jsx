@@ -129,7 +129,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           return;
         }
 
-        setImage(data.data[0]);
+        setImage(data?.data[0] || []);
       })
       .catch((err) => console.log(err));
   }

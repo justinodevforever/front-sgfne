@@ -50,8 +50,7 @@ function Perfil() {
         }
 
         setUser(data.data);
-        setEmail(data.data.email);
-        console.log(data.data);
+        setEmail(data.data?.email);
       })
       .catch((err) => console.log(err));
   }
@@ -67,13 +66,13 @@ function Perfil() {
           return;
         }
 
-        setImage(data.data[0]);
+        setImage(data?.data[0] || []);
       })
       .catch((err) => console.log(err));
   }
 
   useEffect(() => {
-    setPublicacoes(publicacoes.filter((pub) => pub.id !== id1));
+    setPublicacoes(publicacoes?.filter((pub) => pub?.id !== id1));
     clicou = false;
   }, [clicou]);
 
@@ -90,7 +89,7 @@ function Perfil() {
           <img src={"../../../image/emptyImage.jpg"} alt={""} className="img" />
         ) : (
           <img
-            src={`${url}/files/users/${image.nome}`}
+            src={`${url}/files/users/${image?.nome}`}
             alt={""}
             className="img"
           />

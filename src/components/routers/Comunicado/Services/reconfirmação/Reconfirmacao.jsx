@@ -17,7 +17,7 @@ import {
 } from "../../../../../store/ui-slice";
 import { Form, Input } from "antd";
 
-const Reconfirmacao = ({ tipo }) => {
+const Reconfirmacao = () => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
@@ -49,14 +49,11 @@ const Reconfirmacao = ({ tipo }) => {
   const dispatchConfirmar = useDispatch();
   const dispatchWarning = useDispatch();
 
-  const [tipoS] = tipo.split(" ");
-
   useEffect(() => {
     getSemestre();
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
     getAno();
-    getValor();
   }, []);
 
   useEffect(() => {
@@ -86,7 +83,7 @@ const Reconfirmacao = ({ tipo }) => {
   const buscarEstudante = async (e) => {
     e.preventDefault();
     const { data } = await api.post("/ver/divida", { bi });
-
+    console.log("nfbn", data);
     if (data.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
@@ -103,6 +100,7 @@ const Reconfirmacao = ({ tipo }) => {
           navigate("/login");
           return;
         }
+        console.log("nfbnfff", data);
         setCurso(data.data.Curso.curso);
         setFk_curso(data.data.Curso.id);
         setNome(data.data.nome);
@@ -198,20 +196,6 @@ const Reconfirmacao = ({ tipo }) => {
       })
       .catch((err) => console.log(err));
   };
-  const getValor = async () => {
-    await api
-      .post("/tipo/servico/especifico", {
-        tipo,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setValor(data.data.valor);
-      })
-      .catch((err) => console.log(err));
-  };
 
   const hendlePagamento = async (e) => {
     e.preventDefault();
@@ -270,13 +254,12 @@ const Reconfirmacao = ({ tipo }) => {
       <UseErro />
       <div className="container-reconfirmacao">
         <div className="conteudo">
-          <Form onClick={(e) => buscarEstudante(e)} className="formBi">
-            <Input
+          <Form onClick={(e) => buscarEstudante(e)} className="formBir">
+            <Input.Search
               type="search"
               placeholder="Número de BI do Estudante"
               value={bi}
               onChange={(e) => setBi(e.target.value)}
-              className="search"
               autoFocus
               maxLength={14}
               style={{ width: "90%", border: "1px solid #000" }}
@@ -385,7 +368,7 @@ const Reconfirmacao = ({ tipo }) => {
       <RelatorioReconfirmacao
         setVisivel={setVisivel}
         visivel={visivel}
-        tipo={tipo}
+        tipo={"Rencofirmação"}
         id={id}
       />
     </>
