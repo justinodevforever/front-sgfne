@@ -15,6 +15,7 @@ import {
   toggleModalError,
   toggleModalWarning,
 } from "../../../../../store/ui-slice";
+import { Form, Input } from "antd";
 
 const Reconfirmacao = ({ tipo }) => {
   const [bi, setBi] = useState("");
@@ -269,8 +270,8 @@ const Reconfirmacao = ({ tipo }) => {
       <UseErro />
       <div className="container-reconfirmacao">
         <div className="conteudo">
-          <form onSubmit={(e) => buscarEstudante(e)} className="formBi">
-            <input
+          <Form onClick={(e) => buscarEstudante(e)} className="formBi">
+            <Input
               type="search"
               placeholder="Número de BI do Estudante"
               value={bi}
@@ -278,14 +279,9 @@ const Reconfirmacao = ({ tipo }) => {
               className="search"
               autoFocus
               maxLength={14}
+              style={{ width: "90%", border: "1px solid #000" }}
             />
-            <BiSearch
-              size={30}
-              color="fff"
-              cursor={"pointer"}
-              onClick={(e) => buscarEstudante(e)}
-            />
-          </form>
+          </Form>
 
           <div className="opcoes">
             <label htmlFor="frequencia">
@@ -332,12 +328,13 @@ const Reconfirmacao = ({ tipo }) => {
           {curso && bi && (
             <label htmlFor="nome">
               Nome:
-              <input
+              <Input
                 type="text"
                 value={nome}
                 disabled
                 className="input"
                 onChange={(e) => setNome(e.target.value)}
+                style={{ width: "90%", border: "1px solid #000" }}
               />
             </label>
           )}
@@ -345,12 +342,13 @@ const Reconfirmacao = ({ tipo }) => {
           {curso && (
             <label htmlFor="curso">
               Curso:
-              <input
+              <Input
                 type="text"
                 value={curso}
                 disabled
                 className="input"
                 onChange={(e) => setCurso(e.target.value)}
+                style={{ width: "90%", border: "1px solid #000" }}
               />
             </label>
           )}

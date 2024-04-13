@@ -186,13 +186,17 @@ const Principal = ({ mostrar, setMostrar }) => {
                       key: `declaracao?tipos=${"linceciatura"}`,
                     },
                     {
+                      label: "Rencofirmação",
+                      key: `reconfirmacao`,
+                    },
+                    {
                       label: "Pagamento de Folha",
                     },
                   ],
                 },
                 {
                   label: "Configurações",
-                  key: "/definicoes",
+                  key: "definicoes",
                   icon: <SettingOutlined />,
                 },
               ]}

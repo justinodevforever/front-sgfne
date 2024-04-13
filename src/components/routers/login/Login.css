@@ -126,11 +126,7 @@
     background-color: #fff;
   }
 }
-@media (max-height: 480px) {
-  .container-login {
-    margin-top: 10px;
-  }
-}
+
 @media (max-width: 313px) {
   .container-login button {
     font-size: 11pt;

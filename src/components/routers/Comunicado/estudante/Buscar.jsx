@@ -68,7 +68,7 @@ const Buscar = () => {
             showCount
             allowClear
             style={{
-              width: "50%",
+              width: "90%",
               border: "1px solid #000",
             }}
           />

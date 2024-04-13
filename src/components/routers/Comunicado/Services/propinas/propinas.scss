@@ -181,3 +181,17 @@ td {
   background-color: #fff;
   color: #000;
 }
+@media (max-width: 800px) {
+  .cc {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+  .propina .dados-estudante {
+    display: flex;
+    flex-direction: column;
+    width: 97%;
+    margin: auto;
+    margin-top: 0px;
+  }
+}

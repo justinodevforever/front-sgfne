@@ -13,6 +13,7 @@ import { toggleModalConfirmar } from "../../../../../store/ui-slice";
 import UseWarning from "../../../hook/massege/warning/UseWarning";
 import UseSucess from "../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../hook/massege/Error/UseErro";
+import { Form, Input } from "antd";
 
 const Propina = ({ tipo }) => {
   const [bi, setBi] = useState("");
@@ -242,22 +243,15 @@ const Propina = ({ tipo }) => {
 
       <div className="propina">
         <div className="conteudoProp">
-          <form onSubmit={(e) => buscarEstudante(e)} className="formBi">
-            <input
+          <Form onClick={(e) => buscarEstudante(e)} className="formBi">
+            <Input.Search
               type="search"
               placeholder="Número de BI do Estudante"
               onChange={(e) => setBi(e.target.value)}
-              className="search"
               value={bi}
               autoFocus
               maxLength={14}
-            />
-            <BiSearch
-              size={30}
-              color="fff"
-              cursor={"pointer"}
-              onClick={(e) => buscarEstudante(e)}
-              className="space"
+              style={{ width: "90%", border: "1px solid #000" }}
             />
             Valor:{""}
             <input
@@ -275,7 +269,7 @@ const Propina = ({ tipo }) => {
               onChange={(e) => setPeriodo(e.target.value)}
               className="inpform"
             />
-          </form>
+          </Form>
           <form className="form" onSubmit={(e) => hendlePagamento(e)}>
             <div className="pagamento-propina">
               <div className="cc">
@@ -292,12 +286,13 @@ const Propina = ({ tipo }) => {
                 </label>
                 <label htmlFor="rupe">
                   Nº RUPE:
-                  <input
+                  <Input
                     type="number"
                     placeholder="Digite o Nº de RUPE"
                     value={rupe}
                     onChange={(e) => setRupe(e.target.value)}
                     maxLength={20}
+                    style={{ width: "90px", border: "1px solid #000" }}
                   />
                 </label>
                 <label htmlFor="semestre">

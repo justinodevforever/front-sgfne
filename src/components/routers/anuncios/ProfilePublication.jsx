@@ -15,7 +15,7 @@ export const ProfilePublication = ({
   const [image, setImage] = useState([]);
   const dispetch = useDispatch();
   const { isVisible } = useSelector((state) => state.ui.Modal);
-
+  const url = import.meta.env.VITE_API_URL_SOCKET;
   useEffect(() => {
     getImagePublicacao();
   }, []);
@@ -64,9 +64,7 @@ export const ProfilePublication = ({
                       />
 
                       <img
-                        src={`${
-                          import.meta.env.VITE_API_URL
-                        }/imagePublication/${img?.nome}`}
+                        src={`${url}/files/imagePublication/${img?.nome}`}
                         alt=""
                       />
                     </>

@@ -38,6 +38,7 @@ function Perfil() {
   const [paginacao, setPaginacao] = useState({});
   const params = useParams();
   const { id } = params;
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   async function hendleGetUser() {
     await api
@@ -89,7 +90,7 @@ function Perfil() {
           <img src={"../../../image/emptyImage.jpg"} alt={""} className="img" />
         ) : (
           <img
-            src={`http://localhost:3001/files/users/${image.nome}`}
+            src={`${url}/files/users/${image.nome}`}
             alt={""}
             className="img"
           />

@@ -5,6 +5,7 @@
   background-color: #bababa99;
   height: 100vh;
   padding: "10px";
+  justify-content: center;
 }
 .form-cadastro {
   background-color: #fff;
