@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { api } from "../../../../auth/auth";
 
 function Comentario({ publ }) {
-  const [count, setCount] = useState({});
+  const [count, setCount] = useState(0);
 
   async function hendleCount() {
     await api
@@ -35,16 +35,16 @@ function Comentario({ publ }) {
           <Link
             to={`/coment/publication/${publ.id}?page=${1}`}
             className="border2">
-            <AiOutlineComment size={"20px"} color="#fff" />
-            {count?.count === 0 ? (
+            <AiOutlineComment
+              to={`/coment/publication/${publ.id}?page=${1}`}
+              size={"20px"}
+              color="#fff"
+            />
+            {count === 0 ? (
               <div></div>
             ) : (
               <div>
-                {count?.count >= 1000 ? (
-                  <span>+100</span>
-                ) : (
-                  <span>{count?.count}</span>
-                )}
+                {count >= 1000 ? <span>+100</span> : <span>{count}</span>}
               </div>
             )}
           </Link>

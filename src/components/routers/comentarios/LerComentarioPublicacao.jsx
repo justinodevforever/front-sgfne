@@ -18,6 +18,7 @@ import { chatflech } from "../../../configs/axios/chatfletch";
 import ProfileComentPublication from "./ProfileComentPublication";
 import LikeComentarioPublicacao from "./likes/Like";
 import LerMais from "./LerMais";
+import { Spin } from "antd";
 
 export default function LerComentarioPublicacao() {
   const [comentarios, setComentarios] = useState([]);
@@ -28,13 +29,15 @@ export default function LerComentarioPublicacao() {
   const [pagination, setPagination] = useState({});
   const [images, setImages] = useState([]);
   const [lerMais, setLerMais] = useState(false);
+  const [clicou, setClicou] = useState(false);
   const [user, setUSer] = useState({});
   const clikRef = useRef();
 
   const params = useParams();
   const { id } = params;
   const socketInstance = useRef();
-  const url = import.meta.env.VITE_VERCEL_URL_SOCKET;
+
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
     socketInstance.current = io(`${url}`);
@@ -102,6 +105,7 @@ export default function LerComentarioPublicacao() {
   };
 
   async function hendleComentar() {
+    setClicou(true);
     try {
       await api
         .post("/comentario/publicacao", {
@@ -114,9 +118,10 @@ export default function LerComentarioPublicacao() {
             navigate("/login");
             return;
           }
-          console.log(data.data);
+          setClicou(false);
+
           const newComent = {
-            data: data.data.response[0],
+            data: data.data,
             idPublicacao: id,
             comentId: data.data.id,
           };
@@ -131,6 +136,7 @@ export default function LerComentarioPublicacao() {
       console.log(error);
     }
   }
+  // console.log(sessionStorage.getItem("id"));
 
   async function getComent() {
     await api
@@ -142,8 +148,7 @@ export default function LerComentarioPublicacao() {
           navigate("/login");
           return;
         }
-
-        setComentarios(data.data.response);
+        setComentarios(data.data);
         setPagination(data.data.pagination);
       })
       .catch((err) => console.log(err));
@@ -206,8 +211,7 @@ export default function LerComentarioPublicacao() {
                   )}
                 </Link>
 
-                {comentario?.Usuario?.id ===
-                Number(sessionStorage.getItem("id")) ? (
+                {comentario?.Usuario?.id === sessionStorage.getItem("id") ? (
                   <div>
                     <Link to={`/edit/coment/publication/${comentario?.id}`}>
                       <BiSolidEditAlt
@@ -228,7 +232,7 @@ export default function LerComentarioPublicacao() {
                   </div>
                 ) : (
                   <div>
-                    {user?.id === Number(sessionStorage.getItem("id")) ? (
+                    {user?.id === sessionStorage.getItem("id") ? (
                       <BiTrash
                         size={"20px"}
                         color="#f74044"
@@ -293,12 +297,17 @@ export default function LerComentarioPublicacao() {
           </div>
           <div className="div-icon">
             {comentario && (
-              <BiSolidSend
-                onClick={() => hendleComentar()}
-                size={"30px"}
-                color="#fff"
-                cursor={"pointer"}
-              />
+              <>
+                {!clicou && (
+                  <BiSolidSend
+                    onClick={() => hendleComentar()}
+                    size={"30px"}
+                    color="#fff"
+                    cursor={"pointer"}
+                  />
+                )}
+                <Spin spinning={clicou} />
+              </>
             )}
           </div>
         </footer>

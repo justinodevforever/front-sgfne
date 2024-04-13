@@ -13,7 +13,7 @@ const LikeComentarioPublicacao = ({ coment }) => {
   const id = sessionStorage.getItem("id");
   const socketInstance = useRef();
   const [receive, setReceive] = useState({});
-  const url = import.meta.env.VITE_VERCEL_URL_SOCKET;
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
     socketInstance.current = io(`${url}`);
@@ -43,7 +43,7 @@ const LikeComentarioPublicacao = ({ coment }) => {
     };
     socketInstance.current.emit("clicLikeComentarioPublicacao", sms);
 
-    if (Number(likes.fk_user) === Number(id)) {
+    if (likes.fk_user === id) {
       const { data } = await api.put(`/like/coment/publicacao/${likes.id}`, {
         like: false,
       });
@@ -58,7 +58,7 @@ const LikeComentarioPublicacao = ({ coment }) => {
     };
     socketInstance.current.emit("clicLikeComentarioPublicacao", sms);
 
-    if (Number(likes.fk_user) === Number(id)) {
+    if (likes.fk_user === id) {
       await api.put(`/like/coment/publicacao/${likes.id}`, {
         like: true,
       });
@@ -109,7 +109,11 @@ const LikeComentarioPublicacao = ({ coment }) => {
           />
         )}
 
-        {like.count === 0 ? <span></span> : <span>{like.count}</span>}
+        {like === 0 ? (
+          <span></span>
+        ) : (
+          <>{like > 100 ? <span>{+100}</span> : <span>{like}</span>}</>
+        )}
       </Link>
     </div>
   );

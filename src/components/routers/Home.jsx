@@ -24,10 +24,11 @@ function Home() {
           setMostrar={setMostrar}
           setIsVisible={setIsVisible}
           isVisible={isVisible}
+          mostrar={mostrar}
         />
         <div className="container-home">
           <div className="container-hom" id="c">
-            <Principal isVisible={isVisible} />
+            <Principal setMostrar={setMostrar} mostrar={mostrar} />
           </div>
         </div>
       </div>

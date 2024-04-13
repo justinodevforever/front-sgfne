@@ -32,7 +32,7 @@ export const ProfilePublication = ({
           navigate("/login");
           return;
         }
-
+        console.log("cxcxc", data.data);
         setImage(data.data);
 
         data.data?.map((m) => {
@@ -53,7 +53,7 @@ export const ProfilePublication = ({
         <>
           {image?.map((img) => (
             <div key={img?.id}>
-              {Number(id_publicacao) === img?.fk_publicacao ? (
+              {id_publicacao === img?.fk_publicacao ? (
                 <div className="container-imagePublicacao">
                   {img?.nome !== undefined && img?.nome !== "" ? (
                     <>
@@ -64,7 +64,9 @@ export const ProfilePublication = ({
                       />
 
                       <img
-                        src={`${import.meta.env.VITE_API_URL}/${img?.nome}`}
+                        src={`${
+                          import.meta.env.VITE_API_URL
+                        }/imagePublication/${img?.nome}`}
                         alt=""
                       />
                     </>

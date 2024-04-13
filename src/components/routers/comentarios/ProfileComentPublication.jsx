@@ -19,8 +19,8 @@ const ProfileComentPublication = ({ idUser }) => {
           navigate("/login");
           return;
         }
-
-        setImageUser(data.data[0]);
+        console.log(data.data);
+        // setImageUser(data.data[0]);
       })
       .catch((err) => console.log(err));
   };

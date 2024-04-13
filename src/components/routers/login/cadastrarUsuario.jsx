@@ -267,7 +267,7 @@ function CadastrarUsuario() {
               <Button
                 type="primary"
                 style={{
-                  padding: "10px",
+                  padding: "10px 4px",
                   display: "flex",
                   textAlign: "center",
                 }}

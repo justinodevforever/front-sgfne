@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { chatflech } from "../../../configs/axios/chatfletch";
 import { useNavigate } from "react-router-dom";
-import { BiSolidImage, BiWinkSmile } from "react-icons/bi";
+import { BiSolidImage, BiSolidImageAdd, BiWinkSmile } from "react-icons/bi";
 import "./publicar.css";
 import axios from "axios";
 import { io } from "socket.io-client";
@@ -9,6 +9,7 @@ import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { api } from "../../../../auth/auth";
 import { apiMultForm } from "../../../../auth/auth";
+import { Spin } from "antd";
 
 const Publicar = () => {
   const [publicacao, setPublicacao] = useState("");
@@ -16,36 +17,41 @@ const Publicar = () => {
   const [file, setFile] = useState(null);
   const navigate = useNavigate();
   const [isPick, setIsPick] = useState(false);
+  const [clicou, setClicou] = useState(false);
   const socketInstance = useRef();
   const url = import.meta.env.VITE_API_URL_SOCKET;
+  const urlB = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     socketInstance.current = io(`${url}`);
   }, []);
   const hendlePublicacao = async (e) => {
     e.preventDefault();
-
+    setClicou(true);
     const formData = new FormData();
 
-    const response = await api.post("/publicacao", {
-      publicacao,
-      fk_user: sessionStorage.getItem("id"),
-    });
-    if (file || file !== null) {
-      formData.append("file", file);
-      formData.append("fk_publicacao", response.data?.id);
+    await api
+      .post("/publicacao", {
+        publicacao,
+        fk_user: sessionStorage.getItem("id"),
+      })
+      .then(async (data) => {
+        console.log("publi", response);
+        if (file || file !== null) {
+          formData.append("file", file);
+          formData.append("fk_publicacao", data.data?.id);
 
-      if (file !== null || file !== "" || file !== " ") {
-        const { data } = await apiMultForm.post(
-          `${url}/image/publication`,
-          formData
-        );
-      }
-    }
-    socketInstance?.current.emit("publication", response);
+          if (file !== null || file !== "" || file !== " ") {
+            await apiMultForm.post(`${urlB}/image/publication`, formData);
+            console.log("imag", data);
+          }
+        }
+        setClicou(false);
+        socketInstance?.current.emit("publication", data.data);
 
-    setPublicacao("");
-    navigate(`/comunicado?page=${1}`);
+        setPublicacao("");
+        navigate(`/dashboard/comunicado?page=${1}`);
+      });
   };
   return (
     <div className="container-publicar">
@@ -72,7 +78,7 @@ const Publicar = () => {
         />
         <div className="imojiPublicar">
           <label htmlFor="input_file">
-            <BiSolidImage className="imagePublicar" color="#fff" />
+            <BiSolidImage className="imagePublicar" color="#000" />
           </label>
           <div className={"container-emojiPublicar"}>
             <BiWinkSmile
@@ -99,9 +105,16 @@ const Publicar = () => {
           </div>
         </div>
 
-        <button type="submit" id="btnPublicar">
-          Publicar
-        </button>
+        {publicacao && (
+          <>
+            {!clicou && (
+              <button type="submit" id="btnPublicar">
+                Publicar
+              </button>
+            )}
+            <Spin spinning={clicou} />
+          </>
+        )}
       </form>
     </div>
   );

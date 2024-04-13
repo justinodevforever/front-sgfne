@@ -77,7 +77,6 @@ const Routeting = () => {
                 <Mensagem />
               </ProtectRouter>
             }
-            loader={<Ispm />}
           />
           <Route
             path="comunicado"
@@ -87,15 +86,7 @@ const Routeting = () => {
               </ProtectRouter>
             }
           />
-          <Route
-            exact
-            path="servicos"
-            element={
-              <ProtectRouter>
-                <Servicos />
-              </ProtectRouter>
-            }
-          />
+
           <Route
             exact
             path="definicoes"

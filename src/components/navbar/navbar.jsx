@@ -30,7 +30,7 @@ import { useSelector } from "react-redux";
 import PegarPermissoes from "../../configs/permissoes/PegarPermissoes";
 import MenuPerfil from "./Menu Perfil/MenuPerfil";
 
-function NavBar({ setMostrar, setIsVisible, isVisible }) {
+function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
   const [nome, setNome] = useState();
   const [image, setImage] = useState([]);
   const [notify, setNotify] = useState([]);
@@ -109,7 +109,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible }) {
   }, [atualizar]);
 
   const toggleOpen = () => {
-    setIsVisible(!isVisible);
+    setMostrar(!mostrar);
   };
   const closedMenu = () => {
     try {
@@ -146,7 +146,6 @@ function NavBar({ setMostrar, setIsVisible, isVisible }) {
     e.preventDefault();
     setLerNotificacao(!lerNotificacao);
   };
-
 
   function MenuOpen(e) {
     e.preventDefault();

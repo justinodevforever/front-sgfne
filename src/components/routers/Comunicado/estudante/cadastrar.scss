@@ -12,11 +12,7 @@
   padding-bottom: 20px;
   margin-top: 10px;
 }
-.container-cadastrar .form {
-  // display: flex;
-  // flex-direction: row;
-  // justify-content: center;
-}
+
 .container-cadastrar .form label {
   display: flex;
 }
@@ -70,15 +66,6 @@
   border-radius: 10px;
   margin-top: 20px;
 }
-// .container-cadastrar .form-cad input:not(input[type="radio"]) {
-//   width: 50%;
-//   font-size: 14pt;
-//   padding: 4px;
-//   height: 40px;
-//   border: 0.7px solid $rosa;
-//   border-radius: 10px;
-//   margin-top: 10px;
-// }
 
 .container-cadastrar .form-cad button:hover {
   opacity: 0.7;
@@ -104,6 +91,13 @@
   margin-top: 10px;
 }
 
+@media (max-width: 500px) {
+  .container-cadastrar form .novos {
+    display: flex;
+    width: 94%;
+    flex-direction: column;
+  }
+}
 @media (max-width: 800px) {
   .container-cadastrar {
     display: flex;
@@ -114,6 +108,6 @@
   }
   .container-cadastrar form .novos {
     display: flex;
-    width: 96%;
+    width: 90%;
   }
 }

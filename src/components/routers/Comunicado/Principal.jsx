@@ -19,10 +19,12 @@ import {
   MessageOutlined,
   MenuFoldOutlined,
   MenuOutlined,
+  DollarCircleFilled,
 } from "@ant-design/icons/lib/icons";
-import { Menu } from "antd";
+import { Menu, Drawer } from "antd";
+import { List } from "antd/es/form/Form";
 
-const Principal = ({ isVisible }) => {
+const Principal = ({ mostrar, setMostrar }) => {
   const clickRef = useRef();
   const [check, setCheck] = useState(false);
   const [password, setPassword] = useState("");
@@ -111,81 +113,91 @@ const Principal = ({ isVisible }) => {
           flexDirection: "row",
           marginTo: "-10px",
         }}>
-        {isVisible && (
-          <Menu
-            onClick={({ key }) => {
-              navigate(key);
-            }}
-            mode="inline"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "170px",
-              alignItems: "center",
-              background: "#fff",
-            }}
-            items={[
-              {
-                label: "Home",
-                key: `/dashboard/comunicado?${1}`,
-                icon: <HomeOutlined />,
-              },
-              {
-                label: "Estudante",
-                key: "estudante",
-                icon: <PiStudentBold size={17} />,
-              },
-              {
-                label: "Serviços",
-
-                icon: <DollarOutlined />,
-                children: [
-                  {
-                    label: "Propina",
-                    key: "propina",
-                  },
-                  {
-                    label: "Recurso",
-                    key: `cadeira?tipos=${"Recurso"}`,
-                  },
-                  {
-                    label: "Cadeira em Atraso",
-                    key: `cadeira?tipos=${"Cadeira em Atrazo"}`,
-                  },
-                  {
-                    label: "Exame Especial",
-                    key: `cadeira?tipos=${"Exame Especial"}`,
-                  },
-                  {
-                    label: "Declaração sem Nota",
-                    key: `declaracao?tipos=${"semNota"}`,
-                  },
-                  {
-                    label: "Declaração com Nota",
-                    key: `declaracao?tipos=${"comNota"}`,
-                  },
-                  {
-                    label: "Declaração Linceciatura",
-                    key: `declaracao?tipos=${"linceciatura"}`,
-                  },
-                  {
-                    label: "Pagamento de Folha",
-                  },
-                ],
-              },
-              {
-                label: "Configurações",
-                key: "/definicoes",
-                icon: <SettingOutlined />,
-              },
-            ]}
-          />
-        )}
         <div className="gavetaMenu" id="menu" ref={clickRef}>
           <Link to={"#"} title="Estudantes" id="p" className="">
             <PiStudentBold color="#fff" size={40} id="icPr" />
           </Link>
+          <Drawer
+            open={mostrar}
+            closable={false}
+            placement="left"
+            onClose={() => {
+              setMostrar(!mostrar);
+            }}
+            style={{
+              height: "100vh",
+              width: "200px",
+              color: "#a31543",
+            }}>
+            <h3>Menu</h3>
+            <Menu
+              onClick={({ key }) => {
+                navigate(key);
+              }}
+              mode="inline"
+              style={{
+                border: "none",
+                width: "100%",
+                alignItems: "center",
+                color: "#a31543",
+              }}
+              items={[
+                {
+                  label: "Home",
+                  key: `comunicado?${1}`,
+                  icon: <HomeOutlined />,
+                },
+                {
+                  label: "Estudante",
+                  key: "estudante",
+                  icon: <PiStudentBold />,
+                },
+                {
+                  label: "Serviços",
+                  icon: <DollarCircleFilled />,
 
+                  children: [
+                    {
+                      label: "Propina",
+                      key: "propina",
+                    },
+                    {
+                      label: "Recurso",
+                      key: `cadeira?tipos=${"Recurso"}`,
+                    },
+                    {
+                      label: "Cadeira em Atraso",
+                      key: `cadeira?tipos=${"Cadeira em Atrazo"}`,
+                    },
+                    {
+                      label: "Exame Especial",
+                      key: `cadeira?tipos=${"Exame Especial"}`,
+                    },
+                    {
+                      label: "Declaração sem Nota",
+                      key: `declaracao?tipos=${"semNota"}`,
+                    },
+                    {
+                      label: "Declaração com Nota",
+                      key: `declaracao?tipos=${"comNota"}`,
+                    },
+                    {
+                      label: "Declaração Linceciatura",
+                      key: `declaracao?tipos=${"linceciatura"}`,
+                    },
+                    {
+                      label: "Pagamento de Folha",
+                    },
+                  ],
+                },
+                {
+                  label: "Configurações",
+                  key: "/definicoes",
+                  icon: <SettingOutlined />,
+                },
+              ]}
+            />
+          </Drawer>
           <Link
             to={`servicos`}
             className="Propina"
@@ -209,29 +221,70 @@ const Principal = ({ isVisible }) => {
   );
 };
 
-function IconNotify() {
+function AppMenu() {
   return (
-    <>
-      <div className="sms" style={{ position: "relative" }}>
-        <BellOutlined />
-        {/* <div
-          className="aler"
-          style={{
-            display: "flex",
-            borderRadius: "50%",
-            position: "absolute",
-            width: "15px",
-            height: "15px",
-            background: "red",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#fff",
-            padding: "4px",
-          }}>
-          +10
-        </div> */}
-      </div>
-    </>
+    <Menu
+      onClick={({ key }) => {
+        navigate(key);
+      }}
+      mode="inline"
+      style={{
+        backgroundColor: "#a31543",
+        color: "white",
+        border: "none",
+      }}
+      items={[
+        {
+          label: "Home",
+          key: `/dashboard/comunicado?${1}`,
+        },
+        {
+          label: "Estudante",
+          key: "estudante",
+        },
+        {
+          label: "Serviços",
+
+          children: [
+            {
+              label: "Propina",
+              key: "propina",
+            },
+            {
+              label: "Recurso",
+              key: `cadeira?tipos=${"Recurso"}`,
+            },
+            {
+              label: "Cadeira em Atraso",
+              key: `cadeira?tipos=${"Cadeira em Atrazo"}`,
+            },
+            {
+              label: "Exame Especial",
+              key: `cadeira?tipos=${"Exame Especial"}`,
+            },
+            {
+              label: "Declaração sem Nota",
+              key: `declaracao?tipos=${"semNota"}`,
+            },
+            {
+              label: "Declaração com Nota",
+              key: `declaracao?tipos=${"comNota"}`,
+            },
+            {
+              label: "Declaração Linceciatura",
+              key: `declaracao?tipos=${"linceciatura"}`,
+            },
+            {
+              label: "Pagamento de Folha",
+            },
+          ],
+        },
+        {
+          label: "Configurações",
+          key: "/definicoes",
+        },
+      ]}
+    />
   );
 }
 function Icon() {

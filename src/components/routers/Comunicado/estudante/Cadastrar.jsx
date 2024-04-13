@@ -161,7 +161,7 @@ const Cadastrar = () => {
               showCount={true}
               style={{
                 border: "1px solid #a31543",
-                width: "50%",
+                width: "90%",
                 marginTop: "10px",
                 fontSize: "14pt",
               }}
@@ -217,7 +217,7 @@ const Cadastrar = () => {
             allowClear
             style={{
               border: "1px solid #a31543",
-              width: "50%",
+              width: "90%",
               marginTop: "10px",
               fontSize: "14pt",
             }}
@@ -232,7 +232,7 @@ const Cadastrar = () => {
             onChange={(e) => setUserBi(e.target.value)}
             style={{
               border: "1px solid #a31543",
-              width: "50%",
+              width: "90%",
               marginTop: "10px",
               fontSize: "14pt",
             }}
@@ -251,7 +251,7 @@ const Cadastrar = () => {
             showCount={true}
             style={{
               border: "1px solid #a31543",
-              width: "50%",
+              width: "90%",
               marginTop: "10px",
               fontSize: "14pt",
             }}

@@ -15,6 +15,7 @@
   width: 300px;
   border-radius: 20px;
   box-shadow: 1px 1px #000;
+  height: 500px;
 }
 .form-cadastro .img {
   display: flex;

@@ -23,13 +23,13 @@ const LikePublicacao = ({ publ }) => {
     await api
       .post("/like/publicacao/count", {
         fk_publicacao: publ?.id,
-        like: clickLike,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
+
         setLike(data.data);
       })
       .catch((err) => console.log(err));
@@ -60,7 +60,7 @@ const LikePublicacao = ({ publ }) => {
     };
     socketInstance?.current.emit("clicLikePublicacao", sms);
 
-    if (Number(likes.fk_user) === Number(id)) {
+    if (likes.fk_user === id) {
       await api
         .put(`/like/publicacao/${likes.id}`, {
           like: false,
@@ -82,9 +82,9 @@ const LikePublicacao = ({ publ }) => {
       userId: id,
       adId: publ?.id,
     };
-    socketInstance?.current.emit("clicLikePublicacao", sms);
 
-    if (Number(likes?.fk_user) === Number(id)) {
+    socketInstance?.current.emit("clicLikePublicacao", sms);
+    if (likes?.fk_user === id) {
       await api
         .put(`/like/publicacao/${likes?.id}`, {
           like: true,
@@ -121,10 +121,11 @@ const LikePublicacao = ({ publ }) => {
   useEffect(() => {
     const LikeP = (data) => {
       setReceive(data);
+      console.log(data);
     };
     socketInstance?.current.on("receiveClickPublicacao", LikeP);
-    countLikePublicacao();
     getLikes();
+    countLikePublicacao();
     return () => {
       socketInstance?.current.off("receiveClickPublicacao", LikeP);
     };
@@ -150,7 +151,7 @@ const LikePublicacao = ({ publ }) => {
           />
         )}
 
-        {like?.count === 0 ? <div></div> : <span>{like?.count}</span>}
+        {like === 0 ? <div></div> : <span>{like}</span>}
       </Link>
     </div>
   );
