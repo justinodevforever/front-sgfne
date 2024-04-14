@@ -26,24 +26,14 @@ export const ProfilePublication = ({
   };
   const getImagePublicacao = async () => {
     await api
-      .get("/image/publication")
+      .post("/image/publication/specific")
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        console.log("cxcxc", data.data);
-        setImage(data.data);
 
-        data.data?.map((m) => {
-          if (m?.fk_publicacao === id_publicacao) {
-            if (m?.nome !== "") {
-              setIsImage(true);
-            } else {
-              setIsImage(false);
-            }
-          }
-        });
+        setImage(data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -53,37 +43,33 @@ export const ProfilePublication = ({
         <>
           {image?.map((img) => (
             <div key={img?.id}>
-              {id_publicacao === img?.fk_publicacao ? (
-                <div className="container-imagePublicacao">
-                  {img?.nome !== undefined && img?.nome !== "" ? (
-                    <>
-                      <LerMais
-                        publ={publicacao}
-                        id={id_publicacao}
-                        isImage={isImage}
-                      />
+              <div className="container-imagePublicacao">
+                {img?.nome !== undefined && img?.nome !== "" ? (
+                  <>
+                    <LerMais
+                      publ={publicacao}
+                      id={id_publicacao}
+                      isImage={isImage}
+                    />
 
-                      <img
-                        src={`${url}/files/imagePublication/${img?.nome}`}
-                        alt=""
-                      />
-                    </>
-                  ) : (
-                    <div className="publicacoes">
-                      {publicacao?.publicacao.length > 300 ? (
-                        <>
-                          <p>{publicacao?.publicacao.slice(0, 300)}...</p>
-                          <Link onClick={(e) => toggle(e)}>Ler Mais</Link>
-                        </>
-                      ) : (
-                        <>{publicacao?.publicacao}</>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div></div>
-              )}
+                    <img
+                      src={`${url}/files/imagePublication/${img?.nome}`}
+                      alt=""
+                    />
+                  </>
+                ) : (
+                  <div className="publicacoes">
+                    {publicacao?.publicacao.length > 300 ? (
+                      <>
+                        <p>{publicacao?.publicacao.slice(0, 300)}...</p>
+                        <Link onClick={(e) => toggle(e)}>Ler Mais</Link>
+                      </>
+                    ) : (
+                      <>{publicacao?.publicacao}</>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           ))}
         </>
