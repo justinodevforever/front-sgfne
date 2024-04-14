@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 
 const LikePublicacao = ({ publ }) => {
   const [clickLike, setClickLike] = useState(false);
-  const [like, setLike] = useState(0);
+  const [like, setLike] = useState("");
   const [likes, setLikes] = useState({});
   const id = sessionStorage.getItem("id");
   const socketInstance = useRef();
@@ -30,7 +30,7 @@ const LikePublicacao = ({ publ }) => {
           return;
         }
 
-        setLike(data.data);
+        setLike(data?.data);
       })
       .catch((err) => console.log(err));
   };
@@ -46,8 +46,8 @@ const LikePublicacao = ({ publ }) => {
           return;
         }
 
-        if (data.data[0]) {
-          setLikes(data.data[0]);
+        if (data?.data[0]) {
+          setLikes(data?.data[0]);
         }
       })
       .catch((err) => console.log(err));
@@ -60,9 +60,9 @@ const LikePublicacao = ({ publ }) => {
     };
     socketInstance?.current.emit("clicLikePublicacao", sms);
 
-    if (likes.fk_user === id) {
+    if (likes?.fk_user === id) {
       await api
-        .put(`/like/publicacao/${likes.id}`, {
+        .put(`/like/publicacao/${likes?.id}`, {
           like: false,
         })
         .then((data) => {
@@ -121,7 +121,6 @@ const LikePublicacao = ({ publ }) => {
   useEffect(() => {
     const LikeP = (data) => {
       setReceive(data);
-      console.log(data);
     };
     socketInstance?.current.on("receiveClickPublicacao", LikeP);
     getLikes();
@@ -151,7 +150,7 @@ const LikePublicacao = ({ publ }) => {
           />
         )}
 
-        {/* {like === 0 ? <div></div> : <span>{like}</span>} */}
+        {!like ? <div></div> : <span>{like}</span>}
       </Link>
     </div>
   );

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { api } from "../../../../auth/auth";
 
 function Comentario({ publ }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState("");
 
   async function hendleCount() {
     await api
@@ -40,11 +40,15 @@ function Comentario({ publ }) {
               size={"20px"}
               color="#fff"
             />
-            {count === 0 ? (
+            {!count ? (
               <div></div>
             ) : (
               <div>
-                {/* {count >= 1000 ? <span>+100</span> : <span>{count}</span>} */}
+                {Number(count) >= 1000 ? (
+                  <span>+100</span>
+                ) : (
+                  <span>{count}</span>
+                )}
               </div>
             )}
           </Link>
