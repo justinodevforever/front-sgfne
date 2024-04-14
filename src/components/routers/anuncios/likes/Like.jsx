@@ -151,7 +151,7 @@ const LikePublicacao = ({ publ }) => {
           />
         )}
 
-        {like === 0 ? <div></div> : <span>{like}</span>}
+        {/* {like === 0 ? <div></div> : <span>{like}</span>} */}
       </Link>
     </div>
   );

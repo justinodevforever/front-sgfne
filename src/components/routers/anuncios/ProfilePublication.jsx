@@ -22,7 +22,7 @@ export const ProfilePublication = ({
   const toggle = (e) => {
     e.preventDefault();
     dispetch(toggleModal(!isVisible));
-    dispetch(setIdPublicacao(publicacao.id));
+    dispetch(setIdPublicacao(publicacao?.id));
   };
   const getImagePublicacao = async () => {
     await api

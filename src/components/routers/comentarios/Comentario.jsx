@@ -44,7 +44,7 @@ function Comentario({ publ }) {
               <div></div>
             ) : (
               <div>
-                {count >= 1000 ? <span>+100</span> : <span>{count}</span>}
+                {/* {count >= 1000 ? <span>+100</span> : <span>{count}</span>} */}
               </div>
             )}
           </Link>
