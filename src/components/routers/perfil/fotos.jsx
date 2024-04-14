@@ -20,13 +20,14 @@ function Fotos() {
         }
 
         setImage(data.data);
+   
       })
       .catch((err) => console.log(err));
   }
 
   async function hendleDelete(id) {
     await api
-      .delete(`/removeimage/${id}`)
+      .delete(`/image/user/${id}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
@@ -47,18 +48,18 @@ function Fotos() {
   return (
     <div className="container-fotos">
       <div className="conteudo-fotos">
-        {image.map((image) => (
-          <div className="image" key={image.id}>
-            {image == undefined || null || image.length == 0 ? (
+        {image?.map((image) => (
+          <div className="image" key={image?.id}>
+            {image == undefined || null || image?.length == 0 ? (
               <div></div>
             ) : (
               <img
-                src={`http://localhost:3001/files/users/${image.nome}`}
+                src={`http://localhost:3001/files/users/${image?.nome}`}
                 className="foto"
               />
             )}
 
-            {image.Usuario.nome !== sessionStorage.getItem("user") ? (
+            {image?.usuario?.nome !== sessionStorage.getItem("user") ? (
               <></>
             ) : (
               <button

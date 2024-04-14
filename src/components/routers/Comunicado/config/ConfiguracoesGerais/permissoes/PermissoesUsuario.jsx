@@ -398,7 +398,7 @@ const PermissoesUSuario = () => {
   const toggleRemoveTrue = async (e) => {
     e.preventDefault();
     const permissao = permissoes.filter((d) => d.permissao === "remover");
-
+    console.log(permissao);
     if (fk_user === 0 || !permissao[0].id) {
       setMessage("Sem Usuário Selecionado");
       dispatchWarning(toggleModalWarning(true));

@@ -49,8 +49,8 @@ function Perfil() {
           return;
         }
 
-        setUser(data.data);
-        setEmail(data.data?.email);
+        setUser(data.data[0]);
+        setEmail(data.data[0]?.email);
       })
       .catch((err) => console.log(err));
   }
@@ -65,6 +65,7 @@ function Perfil() {
           navigate("/login");
           return;
         }
+        setImage(data.data[0]);
       })
       .catch((err) => console.log(err));
   }
@@ -92,8 +93,8 @@ function Perfil() {
             className="img"
           />
         )}
-        <ContactoUsuario userId={id} />
-        {user.id == Number(sessionStorage.getItem("id")) ? (
+
+        {user?.user?.id == sessionStorage.getItem("id") ? (
           <Link to={"/fotoperfil"} className="linkes">
             Trocar foto do perfil
           </Link>
@@ -103,16 +104,13 @@ function Perfil() {
         <Link to={`/fotos/${id}`} className="linkes">
           Fotos
         </Link>
-        <Link to={`/chat/${sessionStorage.getItem("id")}`} className="linkes">
-          Seguidores
-        </Link>
 
         <div className="dados-perfil">
-          <span>Nome: {user.nome}</span>
+          <span>Nome: {user?.user?.nome}</span>
           <br />
-          <span>curso: {user.curso}</span>
+          <span>contacto : {user?.user?.contacto}</span>
           <br />
-          <span>email: {user.email}</span>
+          <span>email: {user?.user?.email}</span>
           <br />
         </div>
       </div>

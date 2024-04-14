@@ -149,7 +149,8 @@ const LikePublicacao = ({ publ }) => {
             size={"20px"}
           />
         )}
-        {<span>{like}</span>}
+
+        {/* {!like ? <div></div> : <span>{like}</span>} */}
       </Link>
     </div>
   );

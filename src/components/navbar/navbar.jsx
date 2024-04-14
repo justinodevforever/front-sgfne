@@ -128,6 +128,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           navigate("/login");
           return;
         }
+        setImage(data.data[0]);
       })
       .catch((err) => console.log(err));
   }
@@ -271,7 +272,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           <div>
             <Link className="perfil" onClick={(e) => MenuOpen(e)}>
               <img
-                src={`${import.meta.env.VITE_API_URL}+/users/${image?.nome}`}
+                src={`${url}/files/users/${image?.nome}`}
                 alt={""}
                 className="perfil-image"
               />

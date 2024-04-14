@@ -109,11 +109,11 @@ const LikeComentarioPublicacao = ({ coment }) => {
           />
         )}
 
-        {!like ? (
+        {/* {!like ? (
           <span></span>
         ) : (
           <>{Number(like) > 100 ? <span>{+100}</span> : <span>{like}</span>}</>
-        )}
+        )} */}
       </Link>
     </div>
   );

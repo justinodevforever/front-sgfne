@@ -12,7 +12,7 @@ export const ProfilePublication = ({
   isImage,
   publicacao,
 }) => {
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState({});
   const dispetch = useDispatch();
   const { isVisible } = useSelector((state) => state.ui.Modal);
   const url = import.meta.env.VITE_API_URL_SOCKET;
@@ -26,7 +26,7 @@ export const ProfilePublication = ({
   };
   const getImagePublicacao = async () => {
     await api
-      .post("/image/publication/specific")
+      .post("/image/publication/specific", { fk_publicacao: id_publicacao })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
@@ -39,42 +39,17 @@ export const ProfilePublication = ({
   };
   return (
     <>
-      {image.length > 0 ? (
-        <>
-          {image?.map((img) => (
-            <div key={img?.id}>
-              <div className="container-imagePublicacao">
-                {img?.nome !== undefined && img?.nome !== "" ? (
-                  <>
-                    <LerMais
-                      publ={publicacao}
-                      id={id_publicacao}
-                      isImage={isImage}
-                    />
+      <div className="container-imagePublicacao">
+        {image?.nome !== undefined &&
+        image?.nome !== "" &&
+        id_publicacao === image?.fk_publicacao &&
+        image ? (
+          <>
+            <LerMais publ={publicacao} id={id_publicacao} isImage={isImage} />
 
-                    <img
-                      src={`${url}/files/imagePublication/${img?.nome}`}
-                      alt=""
-                    />
-                  </>
-                ) : (
-                  <div className="publicacoes">
-                    {publicacao?.publicacao.length > 300 ? (
-                      <>
-                        <p>{publicacao?.publicacao.slice(0, 300)}...</p>
-                        <Link onClick={(e) => toggle(e)}>Ler Mais</Link>
-                      </>
-                    ) : (
-                      <>{publicacao?.publicacao}</>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
-        </>
-      ) : (
-        <>
+            <img src={`${url}/files/imagePublication/${image?.nome}`} alt="" />
+          </>
+        ) : (
           <div className="publicacoes">
             {publicacao?.publicacao.length > 300 ? (
               <>
@@ -85,8 +60,8 @@ export const ProfilePublication = ({
               <>{publicacao?.publicacao}</>
             )}
           </div>
-        </>
-      )}
+        )}
+      </div>
     </>
   );
 };

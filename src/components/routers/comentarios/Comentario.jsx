@@ -40,8 +40,17 @@ function Comentario({ publ }) {
               size={"20px"}
               color="#fff"
             />
-
-            {<span>{count}</span>}
+            {/* {!count ? (
+              <div></div>
+            ) : (
+              <div>
+                {Number(count) >= 1000 ? (
+                  <span>+100</span>
+                ) : (
+                  <span>{count}</span>
+                )}
+              </div>
+            )} */}
           </Link>
         </form>
       </div>

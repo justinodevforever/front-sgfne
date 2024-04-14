@@ -14,6 +14,7 @@
   background-color: white;
   align-items: center;
   width: 46%;
+  height: 800px;
   margin: auto;
   padding-top: 30px;
   border-radius: 20px;
@@ -63,12 +64,16 @@
     width: 90%;
     height: 200px;
     padding-bottom: 0px;
+    flex-direction: column;
+  }
+  .imojiPublicar {
+    flex-direction: column;
   }
   .container-publicar button {
     margin-top: 20px;
   }
 }
-@media (max-width: 330px) {
+@media (max-width: 630px) {
   .container-publicar .container-emojiPublicar {
     display: none;
   }

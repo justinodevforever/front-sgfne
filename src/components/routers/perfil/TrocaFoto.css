@@ -24,11 +24,12 @@
   font-size: 20pt;
   margin-top: 30px;
   padding: 10px;
-  background-color: #00f;
+  background-color: #a31543;
   color: #fff;
   cursor: pointer;
   border-radius: 10px;
   margin-bottom: 10px;
+  border: none;
 }
 h1 {
   margin-top: 10px;
@@ -36,16 +37,21 @@ h1 {
 .form-foto label {
   cursor: pointer;
 }
+.form-foto .image {
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}
 .form-foto form .legenda {
   display: flex;
   height: 100px;
   width: 90%;
-  background-color: #000;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   padding: 10px;
   font-size: 20pt;
   resize: none;
-  border: none;
+  border: 2px solid #000;
   border-radius: 20px;
 }
 
@@ -63,5 +69,13 @@ h1 {
     flex-direction: column;
     width: 90%;
     text-align: center;
+  }
+  .inputFile {
+    width: 90%;
+    flex-direction: column;
+  }
+  .form-foto button {
+    width: 50%;
+    font-size: 14pt;
   }
 }

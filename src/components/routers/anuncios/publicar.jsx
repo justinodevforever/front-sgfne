@@ -36,7 +36,6 @@ const Publicar = () => {
         fk_user: sessionStorage.getItem("id"),
       })
       .then(async (data) => {
-        console.log("publi", response);
         if (file || file !== null) {
           formData.append("file", file);
           formData.append("fk_publicacao", data.data?.id);
@@ -66,6 +65,7 @@ const Publicar = () => {
           }}
           required
         />
+
         <input
           type="file"
           name="file"
@@ -77,6 +77,37 @@ const Publicar = () => {
           hidden
         />
         <div className="imojiPublicar">
+          <div
+            className="image"
+            style={{
+              width: "90px",
+              height: "90px",
+              borderRadius: "50%",
+              marginTop: "20px",
+            }}>
+            {!file && (
+              <img
+                src="../../../image/emptyImage.jpg"
+                alt="image"
+                width={"50px"}
+                height={"50px"}
+                style={{
+                  borderRadius: "50%",
+                }}
+              />
+            )}
+            {file && (
+              <img
+                src={URL.createObjectURL(file)}
+                alt="image"
+                width={"90px"}
+                height={"90px"}
+                style={{
+                  borderRadius: "50%",
+                }}
+              />
+            )}
+          </div>
           <label htmlFor="input_file">
             <BiSolidImage className="imagePublicar" color="#000" />
           </label>
