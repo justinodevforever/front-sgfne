@@ -41,9 +41,7 @@ function Comentario({ publ }) {
               color="#fff"
             />
 
-            <div>
-              {Number(count) >= 1000 ? <span>+100</span> : <span>{count}</span>}
-            </div>
+            {<span>{count}</span>}
           </Link>
         </form>
       </div>
