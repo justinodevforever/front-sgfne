@@ -112,7 +112,7 @@ function Chat() {
           navigate("/login");
           return;
         }
-        navigate(`/mensage/${data.data.id}`);
+        navigate(`/mensage/${data.data?.id}`);
       })
       .catch((err) => console.log(err));
   }
@@ -120,7 +120,7 @@ function Chat() {
   return (
     <>
       <div className='container-chat'>
-        {users.length === 0 && (
+        {users?.length === 0 && (
           <div
             className='admincon'
             style={{
@@ -172,7 +172,7 @@ function Chat() {
           </div>
         )}
         {users?.map((u) => (
-          <ContactChat contact={u} key={u.id} />
+          <ContactChat contact={u} key={u?.id} />
         ))}
       </div>
     </>
