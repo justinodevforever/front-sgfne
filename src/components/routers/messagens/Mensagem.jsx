@@ -41,7 +41,7 @@ function Mensagem() {
 
   useEffect(() => {
     socketInstance.current.on("messageReceived", (messege) => {
-      if (Number(messege.sendId) === Number(id)) {
+      if (messege.sendId === id) {
         setMessage([...message, messege]);
         setNotifySms(messege);
       }
@@ -74,9 +74,7 @@ function Mensagem() {
           return;
         }
         const dados = data.data.filter(
-          (m) =>
-            m.lida === false &&
-            m.sendId !== Number(sessionStorage.getItem("id"))
+          (m) => m.lida === false && m.sendId !== sessionStorage.getItem("id")
         );
 
         dados.map(async (m) => {
@@ -146,30 +144,32 @@ function Mensagem() {
   }
 
   return (
-    <div className="mens">
+    <div className='mens'>
       {isVisible && <Ispm />}
-      <div className="container-mensagem" id="c">
+      <div className='container-mensagem' id='c'>
         {/* <OnlineUser online={online} /> */}
-        <div className="container-conteudo">
+        <div className='container-conteudo'>
           <div>
             {message.map((sms, index) => (
-              <div className="dv" key={index}>
-                <span className="spanDate">{dataFormatada(sms.createdAt)}</span>
+              <div className='dv' key={index}>
+                <span className='spanDate'>
+                  {dataFormatada(sms?.createdAt)}
+                </span>
                 <div
                   className={
-                    sms.sendId === Number(sessionStorage.getItem("id"))
+                    sms?.sendId === sessionStorage.getItem("id")
                       ? "send"
                       : "receive"
                   }>
                   <ul>
-                    <li>{sms.sms}</li>
-                    <span className="spanHour">
-                      {sms.sendId === Number(sessionStorage.getItem("id")) ? (
+                    <li>{sms?.sms}</li>
+                    <span className='spanHour'>
+                      {sms?.sendId === sessionStorage.getItem("id") ? (
                         <p>Eu:</p>
                       ) : (
                         <p></p>
                       )}
-                      {hourFomrmat(sms.createdAt)}
+                      {hourFomrmat(sms?.createdAt)}
                     </span>
                   </ul>
                 </div>
@@ -182,21 +182,21 @@ function Mensagem() {
 
         <form>
           <textarea
-            type="text"
+            type='text'
             value={messagem}
             onChange={(e) => {
               setMessagem(e.target.value);
             }}
-            id="sms"
-            placeholder="Enviar Mensagem"
+            id='sms'
+            placeholder='Enviar Mensagem'
             required
           />
 
-          <div className="imojiMessage">
+          <div className='imojiMessage'>
             <BiWinkSmile
               cursor={"pointer"}
               size={"30px"}
-              color="#fff"
+              color='#fff'
               onClick={() => {
                 setIsPick(!isPick);
               }}
@@ -204,25 +204,25 @@ function Mensagem() {
 
             <div className={isPick ? "abrirEmoji" : "feicharEmoji"}>
               <Picker
-                width="40px"
-                size="20px"
+                width='40px'
+                size='20px'
                 data={data}
-                previewPosition="fixed"
+                previewPosition='fixed'
                 onEmojiSelect={(e) => {
                   setMessagem(messagem + e.native);
                 }}
-                className="emoji"
+                className='emoji'
               />
             </div>
           </div>
 
           {messagem && (
-            <div className="divEnviar">
+            <div className='divEnviar'>
               <BiSolidSend
                 onClick={(e) => {
                   hendleSubmitEnviada(e);
                 }}
-                color="00f"
+                color='00f'
                 size={25}
               />
             </div>

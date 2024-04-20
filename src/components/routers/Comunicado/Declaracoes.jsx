@@ -60,13 +60,13 @@ const Declaracoes = () => {
   };
 
   return (
-    <div className="declaracoes">
+    <div className='declaracoes'>
       {user.email === "ispm@gmail.com" ? (
-        <div className="textarea">
+        <div className='textarea'>
           <form onSubmit={(e) => salvar(e)}>
             <textarea
               required
-              placeholder="Digite o Nome do Estudante!"
+              placeholder='Digite o Nome do Estudante!'
               value={nome}
               onChange={(e) => setNome(e.target.value)}
             />
@@ -76,7 +76,7 @@ const Declaracoes = () => {
       ) : (
         <div></div>
       )}
-      <div className="table">
+      <div className='table'>
         <table>
           <thead>
             <tr>
@@ -95,11 +95,11 @@ const Declaracoes = () => {
                   <td>
                     <div>
                       <BiX
-                        color="red"
+                        color='red'
                         size={"20px"}
                         cursor={"pointer"}
                         onClick={(e) => removerName(e, no.id)}
-                        className="x"
+                        className='x'
                       />
                     </div>
                   </td>
@@ -111,9 +111,9 @@ const Declaracoes = () => {
           ))}
         </table>
       </div>
-      <div className="contactar">
+      <div className='contactar'>
         <Link>
-          <BiSolidMessage color="blue" size={"30"} cursor={"pointer"} />
+          <BiSolidMessage color='blue' size={"30"} cursor={"pointer"} />
         </Link>
       </div>
     </div>

@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import UseWarning from "../../../../hook/massege/warning/UseWarning";
 import { useDispatch } from "react-redux";
 import { toggleModalWarning } from "../../../../../../store/ui-slice";
+import { Input, Form } from "antd";
 
 const PermissoesUSuario = () => {
   const [nome, setNome] = useState("");
@@ -17,7 +18,7 @@ const PermissoesUSuario = () => {
   const [salvar, setSalvar] = useState(false);
   const [listar, setListar] = useState(false);
   const [actualizar, setActualizar] = useState(false);
-  const [sms, setSms] = useState(false);
+  const [secretario, setSecretario] = useState(false);
   const [message, setMessage] = useState(false);
   const [fk_user, setFk_user] = useState(0);
   const [todos, setTodos] = useState(false);
@@ -30,7 +31,7 @@ const PermissoesUSuario = () => {
   const [edicaoId, setEdicaoId] = useState(0);
   const [removerId, setRemoverId] = useState(0);
   const [salverId, setSalverId] = useState(0);
-  const [messageId, setMessageId] = useState(0);
+  const [secretarioId, setSecretarioId] = useState(0);
   const [todosId, setTodosId] = useState(0);
   const [listarId, setListarId] = useState(0);
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const PermissoesUSuario = () => {
     pegarPermissoesUsuarioSalvar();
   }, [bi]);
   useEffect(() => {
-    pegarPermissoesUsuarioMensagem();
+    pegarPermissoesUsuarioSecretario();
   }, [bi]);
 
   const pegarPermissoes = async (e) => {
@@ -173,7 +174,7 @@ const PermissoesUSuario = () => {
       })
       .catch((error) => console.log(error));
   };
-  const pegarPermissoesUsuarioMensagem = async (e) => {
+  const pegarPermissoesUsuarioSecretario = async (e) => {
     await api
       .get("/permissaousuario")
       .then((data) => {
@@ -183,17 +184,17 @@ const PermissoesUSuario = () => {
         }
 
         const permissao = data.data.filter(
-          (p) => p?.permission?.permissao === "conversa" && p?.user?.bi === bi
+          (p) => p?.permission?.permissao === "secretário" && p?.user?.bi === bi
         );
 
         // console.log(permissao[0]);
         if (bi === permissao[0]?.user.bi) {
-          if (permissao[0]?.permission?.permissao === "conversa") {
-            setSms(true);
-            setMessageId(permissao[0].id);
+          if (permissao[0]?.permission?.permissao === "secretário") {
+            setSecretario(true);
+            setSecretarioId(permissao[0].id);
           }
         } else {
-          setSms(false);
+          setSecretario(false);
         }
       })
       .catch((error) => console.log(error));
@@ -360,9 +361,9 @@ const PermissoesUSuario = () => {
       setListar(false);
     }
   };
-  const toggleSmsTrue = async (e) => {
+  const toggleSecretarioTrue = async (e) => {
     e.preventDefault();
-    const permissao = permissoes.filter((d) => d.permissao === "conversa");
+    const permissao = permissoes.filter((d) => d.permissao === "secretário");
 
     if (fk_user === 0 || !permissao[0].id) {
       setMessage("Sem Usuário Selecionado");
@@ -370,7 +371,7 @@ const PermissoesUSuario = () => {
       return;
     }
 
-    setSms(true);
+    setSecretario(true);
 
     await api
       .post("/permissaousuario", {
@@ -386,19 +387,19 @@ const PermissoesUSuario = () => {
 
       .catch((err) => console.log(err));
   };
-  const toggleSms = async (e) => {
+  const toggleSecretario = async (e) => {
     e.preventDefault();
-    const permissao = permissoes.filter((d) => d.permissao === "conversa");
-    if (messageId !== 0 && permissao[0]?.permissao && fk_user !== 0) {
-      await api.delete(`/permissaousuario/${messageId}`);
+    const permissao = permissoes.filter((d) => d.permissao === "secretário");
+    if (secretarioId !== 0 && permissao[0]?.permissao && fk_user !== 0) {
+      await api.delete(`/permissaousuario/${secretarioId}`);
 
-      setSms(false);
+      setSecretario(false);
     }
   };
   const toggleRemoveTrue = async (e) => {
     e.preventDefault();
     const permissao = permissoes.filter((d) => d.permissao === "remover");
-    console.log(permissao);
+
     if (fk_user === 0 || !permissao[0].id) {
       setMessage("Sem Usuário Selecionado");
       dispatchWarning(toggleModalWarning(true));
@@ -416,7 +417,6 @@ const PermissoesUSuario = () => {
           return;
         }
         setRemover(true);
-        alert(permissao[0].id);
       })
 
       .catch((err) => console.log(err));
@@ -454,25 +454,22 @@ const PermissoesUSuario = () => {
   return (
     <>
       <UseWarning message={message} />
-      <div className="permissoesUsuario">
-        <form className="form" onSubmit={(e) => pegarUSuario(e)}>
-          <label htmlFor="bi">
-            Nº B.I
-            <input
-              type="search"
-              placeholder="Digite o Número do B.I"
-              value={bi}
-              onChange={(e) => setBi(e.target.value)}
-              autoFocus
-              maxLength={14}
-            />
-            <button type="submit">
-              <CiSearch size={30} color="fff" cursor={"pointer"} />
-            </button>
-          </label>
-        </form>
-        <div className="nome">{nome && <h2>Nome do Usuário: {nome}</h2>}</div>
-        <div className="div-permissao">
+      <div className='permissoesUsuario'>
+        <Form className='form' onClick={(e) => pegarUSuario(e)}>
+          <Input.Search
+            type='search'
+            placeholder='Digite o Número do B.I'
+            value={bi}
+            onChange={(e) => setBi(e.target.value)}
+            autoFocus
+            maxLength={14}
+            style={{
+              width: "90%",
+            }}
+          />
+        </Form>
+        <div className='nome'>{nome && <h2>Nome do Usuário: {nome}</h2>}</div>
+        <div className='div-permissao'>
           <div>
             <FaUserLock />
 
@@ -484,7 +481,7 @@ const PermissoesUSuario = () => {
           {!todos && (
             <BiSolidToggleLeft
               size={50}
-              color="#cfcfcf"
+              color='#cfcfcf'
               cursor={"pointer"}
               onClick={(e) => toggleTodosTrue(e)}
             />
@@ -493,13 +490,13 @@ const PermissoesUSuario = () => {
           {todos && (
             <BiSolidToggleRight
               size={50}
-              color="#a31543"
+              color='#a31543'
               onClick={(e) => toggleTodos(e)}
               cursor={"pointer"}
             />
           )}
         </div>
-        <div className="div-permissao">
+        <div className='div-permissao'>
           <div>
             <FaUserClock />
             <p>
@@ -510,7 +507,7 @@ const PermissoesUSuario = () => {
           {!remover && (
             <BiSolidToggleLeft
               size={50}
-              color="#cfcfcf"
+              color='#cfcfcf'
               cursor={"pointer"}
               onClick={(e) => toggleRemoveTrue(e)}
             />
@@ -519,13 +516,13 @@ const PermissoesUSuario = () => {
           {remover && (
             <BiSolidToggleRight
               size={50}
-              color="red"
+              color='red'
               onClick={(e) => toggleRemove(e)}
               cursor={"pointer"}
             />
           )}
         </div>
-        <div className="div-permissao">
+        <div className='div-permissao'>
           <div>
             <FaUserLock />
             <p>
@@ -536,7 +533,7 @@ const PermissoesUSuario = () => {
           {!listar && (
             <BiSolidToggleLeft
               size={50}
-              color="#cfcfcf"
+              color='#cfcfcf'
               cursor={"pointer"}
               onClick={(e) => toggleListTrue(e)}
             />
@@ -545,13 +542,13 @@ const PermissoesUSuario = () => {
           {listar && (
             <BiSolidToggleRight
               size={50}
-              color="blue"
+              color='blue'
               onClick={(e) => toggleList(e)}
               cursor={"pointer"}
             />
           )}
         </div>
-        <div className="div-permissao">
+        <div className='div-permissao'>
           <div>
             <FaUserLock />
             <p>
@@ -562,7 +559,7 @@ const PermissoesUSuario = () => {
           {!salvar && (
             <BiSolidToggleLeft
               size={50}
-              color="#cfcfcf"
+              color='#cfcfcf'
               cursor={"pointer"}
               onClick={(e) => toggleSaveTrue(e)}
             />
@@ -571,40 +568,40 @@ const PermissoesUSuario = () => {
           {salvar && (
             <BiSolidToggleRight
               size={50}
-              color="green"
+              color='green'
               onClick={(e) => toggleSave(e)}
               cursor={"pointer"}
             />
           )}
         </div>
-        <div className="div-permissao">
+        <div className='div-permissao'>
           <div>
             <FaUserLock />
             <p>
-              Permitir a <strong>acesso</strong> de{" "}
-              <strong>Troca de Mensagem</strong> entre{" "}
-              <strong>Administrador</strong> e usuário básico
+              Permitir o Usuário <strong>Exercer</strong> Função{" "}
+              <strong>de Secretário</strong>
             </p>
           </div>
-          {!sms && (
+
+          {!secretario && (
             <BiSolidToggleLeft
               size={50}
-              color="#cfcfcf"
+              color='#cfcfcf'
               cursor={"pointer"}
-              onClick={(e) => toggleSmsTrue(e)}
+              onClick={(e) => toggleSecretarioTrue(e)}
             />
           )}
 
-          {sms && (
+          {secretario && (
             <BiSolidToggleRight
               size={50}
-              color="#a31543"
-              onClick={(e) => toggleSms(e)}
+              color='#a31543'
+              onClick={(e) => toggleSecretario(e)}
               cursor={"pointer"}
             />
           )}
         </div>
-        <div className="div-permissao">
+        <div className='div-permissao'>
           <div>
             <FaUserLock />
             <p>
@@ -615,7 +612,7 @@ const PermissoesUSuario = () => {
           {!actualizar && (
             <BiSolidToggleLeft
               size={50}
-              color="#cfcfcf"
+              color='#cfcfcf'
               cursor={"pointer"}
               onClick={(e) => toggleupDateTrue(e)}
             />
@@ -624,7 +621,7 @@ const PermissoesUSuario = () => {
           {actualizar && (
             <BiSolidToggleRight
               size={50}
-              color="orange"
+              color='orange'
               onClick={(e) => toggleupDate(e)}
               cursor={"pointer"}
             />

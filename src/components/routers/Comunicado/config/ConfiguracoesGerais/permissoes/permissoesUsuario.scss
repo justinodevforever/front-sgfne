@@ -13,6 +13,7 @@
   background-color: $rosa;
   align-items: center;
   justify-content: center;
+  padding: 10px;
 }
 .permissoesUsuario .form label {
   display: flex;
@@ -22,14 +23,7 @@
   justify-content: center;
   margin-top: 4px;
 }
-.permissoesUsuario .form input {
-  border: none;
-  padding: 5px;
-  font-size: 12pt;
-  border-radius: 7px;
-  width: 300px;
-  margin-top: 7px;
-}
+
 .permissoesUsuario .div-permissao {
   display: flex;
   width: 96%;
@@ -47,7 +41,7 @@
 .permissoesUsuario .nome {
   margin-top: 10px;
 }
-.permissoesUsuario button {
+.permissoesUsuario .button {
   border: none;
   background-color: transparent;
 }

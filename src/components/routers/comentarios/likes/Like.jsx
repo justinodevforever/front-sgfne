@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import { api } from "../../../../../auth/auth";
 import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
+import { Spin } from "antd";
 
 const LikeComentarioPublicacao = ({ coment }) => {
   const [clickLike, setClickLike] = useState(false);
-  const [like, setLike] = useState("");
+  const [like, setLike] = useState(0);
   const [likes, setLikes] = useState({});
   const id = sessionStorage.getItem("id");
   const socketInstance = useRef();
@@ -63,13 +64,17 @@ const LikeComentarioPublicacao = ({ coment }) => {
         like: true,
       });
       setClickLike(true);
+      co;
     } else {
       await api.post(`/like/coment/publicacao`, {
         like: true,
         fk_comentario: coment?.id,
         fk_user: id,
       });
+      console.log(data.data);
+      conso
       setClickLike(true);
+  
     }
   }
   useEffect(() => {}, []);
@@ -91,8 +96,8 @@ const LikeComentarioPublicacao = ({ coment }) => {
   }, [receive]);
 
   return (
-    <div className="container-likeComent">
-      <Link className="likeComent">
+    <div className='container-likeComent'>
+      <Link className='likeComent'>
         {likes?.like === true ? (
           <FcLike
             onClick={(e) => {
@@ -108,7 +113,7 @@ const LikeComentarioPublicacao = ({ coment }) => {
             size={"20px"}
           />
         )}
-
+       
         {/* {!like ? (
           <span></span>
         ) : (

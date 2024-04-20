@@ -198,6 +198,9 @@ a {
   .container-publicacao1 .publicacao {
     width: 97%;
   }
+  .container-publicacao1 {
+    flex-wrap: no;
+  }
 }
 
 @media (max-width: 2008px) {
