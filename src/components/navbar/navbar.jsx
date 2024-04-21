@@ -151,77 +151,77 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
     setIsOpen(!isOpen);
   }
   return (
-    <nav className="container-nav">
-      <div className="titlediv">
-        <h3 className="title">SGFNE</h3>
+    <nav className='container-nav'>
+      <div className='titlediv'>
+        <h3 className='title'>SGFNE</h3>
       </div>
-      <div className="pesquisa"></div>
+      <div className='pesquisa'></div>
 
-      <ul className="barra-menu">
-        <li className="home focus" onLoad={(e) => toggle(e)}>
-          <div className="nos">
+      <ul className='barra-menu'>
+        <li className='home focus' onLoad={(e) => toggle(e)}>
+          <div className='nos'>
             <Link
-              className="home"
+              className='home'
               to={`/dashboard/comunicado?${1}`}
-              title="Página Inicial">
-              <BiSolidHome size={"20px"} className="link-nav" color="a31543" />
+              title='Página Inicial'>
+              <BiSolidHome size={"20px"} className='link-nav' color='a31543' />
             </Link>
           </div>
         </li>
 
         <li>
-          <div className="nos">
-            <Link to={`/chat/${sessionStorage.getItem("id")}`} className="sms">
+          <div className='nos'>
+            <Link to={`/chat/${sessionStorage.getItem("id")}`} className='sms'>
               <BsMessenger
                 size={"20px"}
-                className="link-nav focus"
+                className='link-nav focus'
                 color={"a31543"}
-                title="Ver Mensagens"
+                title='Ver Mensagens'
               />
             </Link>
             {Number(receiveSms) > 0 ? (
-              <div className="noitifysms">
+              <div className='noitifysms'>
                 {Number(receiveSms) < 10 ? (
-                  <span className="menor">{receiveSms}</span>
+                  <span className='menor'>{receiveSms}</span>
                 ) : (
-                  <span className="maior">+10</span>
+                  <span className='maior'>+10</span>
                 )}
               </div>
             ) : null}
           </div>
         </li>
 
-        <li className="focus">
-          <div className="nos">
+        <li className='focus'>
+          <div className='nos'>
             {notify?.length > 0 ? (
-              <Link className="notify-li focus" title="Ver Notifições">
+              <Link className='notify-li focus' title='Ver Notifições'>
                 <BiSolidBell
                   size={"20px"}
-                  className="link-nav "
-                  color="#a31543"
+                  className='link-nav '
+                  color='#a31543'
                   onClick={(e) => toggleLerNotificacao(e)}
                 />
               </Link>
             ) : (
-              <Link className="notify-li focus" title="Ver Notifições">
+              <Link className='notify-li focus' title='Ver Notifições'>
                 <BiSolidBellOff
                   size={"20px"}
-                  className="link-nav "
-                  color="#a31543"
+                  className='link-nav '
+                  color='#a31543'
                 />
               </Link>
             )}
             {notify?.length > 0 ? (
-              <div className="div-noitify">
+              <div className='div-noitify'>
                 {notify?.length < 10 ? (
                   <span
-                    className="menor"
+                    className='menor'
                     onClick={(e) => toggleLerNotificacao(e)}>
                     {notify.length}
                   </span>
                 ) : (
                   <span
-                    className="maior"
+                    className='maior'
                     onClick={(e) => toggleLerNotificacao(e)}>
                     +10
                   </span>
@@ -231,21 +231,21 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           </div>
         </li>
         <li>
-          <div className=" botaoMenu">
+          <div className=' botaoMenu'>
             <Link>
               <GrUnorderedList
                 size={"20px"}
-                color="#a31543"
+                color='#a31543'
                 onClick={toggleOpen}
                 cursor={"pointer"}
-                className=" barra link-nav"
-                title="Ver o Menu"
+                className=' barra link-nav'
+                title='Ver o Menu'
               />
             </Link>
           </div>
         </li>
         {lerNotificacao && notify.length >= 1 && (
-          <li className="notificacoes">
+          <li className='notificacoes'>
             <div>
               {notify.length === 1 ? (
                 <p>Estás a Dever o Mês de: </p>
@@ -263,18 +263,18 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
         )}
       </ul>
 
-      <div className="image">
+      <div className='image'>
         {image == undefined || null || image.length == 0 ? (
-          <Link className="perfil img" onClick={(e) => MenuOpen(e)}>
+          <Link className='perfil img' onClick={(e) => MenuOpen(e)}>
             <img src={`../../../image/emptyImage.jpg`} alt={""} />
           </Link>
         ) : (
           <div>
-            <Link className="perfil" onClick={(e) => MenuOpen(e)}>
+            <Link className='perfil' onClick={(e) => MenuOpen(e)}>
               <img
                 src={`${url}/files/users/${image?.nome}`}
                 alt={""}
-                className="perfil-image"
+                className='perfil-image'
               />
             </Link>
           </div>

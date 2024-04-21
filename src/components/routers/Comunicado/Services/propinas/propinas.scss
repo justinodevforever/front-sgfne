@@ -12,7 +12,7 @@
   align-items: center;
   margin-top: 20px;
 }
-.conteudoProp .formBi {
+.conteudoProp .formBiPropina {
   display: flex;
   width: 100%;
   background-color: #a31543;
@@ -21,26 +21,27 @@
   justify-content: center;
   color: $white;
 }
-.conteudoProp .formBi input {
-  display: flex;
-  width: 40%;
-  background-color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 2px 4px;
-  color: #000;
-}
-.conteudoProp .formBi .space {
+
+.conteudoProp .formBiPropina .space {
   margin-right: 10%;
 }
-
-.conteudoProp .formBi .inpform {
-  width: 10%;
-  margin-right: 10px;
-  padding: 2px 4px;
+.inputDesabled {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 4px 0px 8px 9px;
+}
+.inputDesabled label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 7px;
+}
+.conteudoProp .formBiPropina .inpform {
+  width: 100px;
   border-radius: 5px;
-  margin-left: 7px;
-  margin-top: 10px;
+  color: $white;
+  margin-left: 8px;
 }
 .propina .form {
   width: 100%;
@@ -193,5 +194,17 @@ td {
     width: 97%;
     margin: auto;
     margin-top: 0px;
+  }
+}
+@media (max-width: 380px) {
+  .conteudoProp .formBiPropina {
+    display: flex;
+    flex-direction: column;
+  }
+  .valor {
+    margin-top: 8px;
+  }
+  .inputDesabled {
+    flex-direction: row;
   }
 }

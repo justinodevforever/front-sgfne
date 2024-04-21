@@ -97,8 +97,8 @@ const SobreCadeiras = () => {
 
   const buscarEstudante = async (e) => {
     e.preventDefault();
-    const { data } = await api.post("/ver/divida", { bi });
-
+    const { data } = await api.post("/divida", { bi });
+    console.log(data);
     if (data.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
@@ -437,25 +437,25 @@ const SobreCadeiras = () => {
       {tipos.get("tipos") === "Cadeira em Atrazo" ||
       tipos.get("tipos") === "Recurso" ||
       tipos.get("tipos") === "Exame Expecial" ? (
-        <div className="container-sobreCadeira">
-          <div className="conteudo">
-            <Form onClick={(e) => buscarEstudante(e)} className="formBir">
+        <div className='container-sobreCadeira'>
+          <div className='conteudo'>
+            <Form onClick={(e) => buscarEstudante(e)} className='formBir'>
               <Input.Search
-                type="search"
-                placeholder="Número de BI do Estudante"
+                type='search'
+                placeholder='Número de BI do Estudante'
                 onChange={(e) => setBi(e.target.value)}
-                className="search"
+                className='search'
                 autoFocus
                 maxLength={14}
               />
             </Form>
 
-            <div className="opcoes">
+            <div className='opcoes'>
               <div>
-                <label htmlFor="cadeira">
+                <label htmlFor='cadeira'>
                   Ano Lectivo:
                   <select
-                    className="select"
+                    className='select'
                     onChange={(e) => setAno(e.target.value)}>
                     <option value={"Escolha"}>Escolha...</option>
 
@@ -466,12 +466,12 @@ const SobreCadeiras = () => {
                     ))}
                   </select>
                 </label>
-                <label htmlFor="frequencia">
+                <label htmlFor='frequencia'>
                   Frequência:
                   <select
-                    className="select"
-                    nome="frequencia"
-                    id="frequencia"
+                    className='select'
+                    nome='frequencia'
+                    id='frequencia'
                     onChange={(e) => setFrequencia(e.target.value)}>
                     <option value={"Escolha"}>Escolha...</option>
 
@@ -484,10 +484,10 @@ const SobreCadeiras = () => {
                 </label>
               </div>
               <div>
-                <label htmlFor="semestre">
+                <label htmlFor='semestre'>
                   Semestre:
                   <select
-                    className="select"
+                    className='select'
                     onChange={(e) => setSemestre(e.target.value)}>
                     <option value={"Escolha"}>Escolha...</option>
 
@@ -498,10 +498,10 @@ const SobreCadeiras = () => {
                     ))}
                   </select>
                 </label>
-                <label htmlFor="cadeira">
+                <label htmlFor='cadeira'>
                   Cadeira:
                   <select
-                    className="select"
+                    className='select'
                     onChange={(e) => setDisciplina(e.target.value)}>
                     <option value={"Escolha"}>Escolha...</option>
 
@@ -513,15 +513,15 @@ const SobreCadeiras = () => {
                   </select>
                 </label>
               </div>
-              <label htmlFor="rupe">
+              <label htmlFor='rupe'>
                 RUPE:
                 <Input
-                  type="number"
+                  type='number'
                   value={rupe}
                   onChange={(e) => setRupe(e.target.value)}
-                  placeholder="Digite o Nº de RUPE"
+                  placeholder='Digite o Nº de RUPE'
                   maxLength={20}
-                  className="rupe"
+                  className='rupe'
                 />
               </label>
             </div>
@@ -529,32 +529,32 @@ const SobreCadeiras = () => {
             {curso && <h3>Dados do Estudante</h3>}
             <br />
             {curso && (
-              <label htmlFor="nome">
+              <label htmlFor='nome'>
                 Nome:
-                <Input type="text" value={nome} disabled className="input" />
+                <Input type='text' value={nome} disabled className='input' />
               </label>
             )}
             {curso && (
-              <label htmlFor="curso">
+              <label htmlFor='curso'>
                 Curso:
-                <input type="text" value={curso} disabled className="input" />
+                <input type='text' value={curso} disabled className='input' />
               </label>
             )}
             {nome && curso && tipos.get("tipos") === "recurso" && (
               <>
-                <Button onClick={(e) => hendleRecurso(e)} className="btn">
+                <Button onClick={(e) => hendleRecurso(e)} className='btn'>
                   Fazer Pagamento
                 </Button>
                 <Loader />
               </>
             )}
             {nome && curso && tipos.get("tipos") === "cadeira em Atrazo" && (
-              <Button onClick={(e) => hendleCadeiraAtrazo(e)} className="btn">
+              <Button onClick={(e) => hendleCadeiraAtrazo(e)} className='btn'>
                 Fazer Pagamento
               </Button>
             )}
             {nome && curso && tipos.get("tipos") === "exame Especial" && (
-              <Button onClick={(e) => hendleExameEspecial(e)} className="btn">
+              <Button onClick={(e) => hendleExameEspecial(e)} className='btn'>
                 Fazer Pagamento
               </Button>
             )}

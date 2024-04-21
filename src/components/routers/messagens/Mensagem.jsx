@@ -150,7 +150,7 @@ function Mensagem() {
         {/* <OnlineUser online={online} /> */}
         <div className='container-conteudo'>
           <div>
-            {message.map((sms, index) => (
+            {message?.map((sms, index) => (
               <div className='dv' key={index}>
                 <span className='spanDate'>
                   {dataFormatada(sms?.createdAt)}

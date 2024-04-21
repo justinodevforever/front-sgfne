@@ -124,7 +124,7 @@ select {
   font-size: 14pt;
   margin-left: 10px;
 } */
-.propina button {
+.propina .button {
   width: 50%;
   padding: 10px;
   border: none;
@@ -136,6 +136,6 @@ select {
   cursor: pointer;
   opacity: 0.8;
 }
-.propina button:hover {
+.propina .button:hover {
   opacity: 1;
 }

@@ -93,8 +93,9 @@ const Propina = ({ tipo }) => {
           navigate("/login");
           return;
         }
-        setCurso(data.data.Curso.curso);
-        setFk_curso(data.data.Curso.id);
+        console.log(data.data);
+        setCurso(data.data.curso.curso);
+        setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
         setPeriodo(data?.data?.periodo);
@@ -241,39 +242,45 @@ const Propina = ({ tipo }) => {
       <UseSucess />
       <UseErro />
 
-      <div className="propina">
-        <div className="conteudoProp">
-          <Form onClick={(e) => buscarEstudante(e)} className="formBi">
+      <div className='propina'>
+        <div className='conteudoProp'>
+          <Form onClick={(e) => buscarEstudante(e)} className='formBiPropina'>
             <Input.Search
-              type="search"
-              placeholder="Número de BI do Estudante"
+              type='search'
+              placeholder='Número de BI do Estudante'
               onChange={(e) => setBi(e.target.value)}
               value={bi}
               autoFocus
               maxLength={14}
               style={{ width: "90%", border: "1px solid #000" }}
             />
-            Valor:{""}
-            <input
-              type="number"
-              className="inpform"
-              disabled
-              value={valor}
-              onChange={(e) => setValor(e.target.value)}
-            />
-            Período:{""}
-            <input
-              type="text"
-              disabled
-              value={periodo}
-              onChange={(e) => setPeriodo(e.target.value)}
-              className="inpform"
-            />
+            <div className='inputDesabled'>
+              <label htmlFor='valor'>
+                Valor:{""}
+                <input
+                  type='number'
+                  className='inpform valor'
+                  disabled
+                  value={valor}
+                  onChange={(e) => setValor(e.target.value)}
+                />
+              </label>
+              <label htmlFor='period'>
+                Período:{""}
+                <Input
+                  type='text'
+                  disabled
+                  value={periodo}
+                  onChange={(e) => setPeriodo(e.target.value)}
+                  className='inpform'
+                />
+              </label>
+            </div>
           </Form>
-          <form className="form" onSubmit={(e) => hendlePagamento(e)}>
-            <div className="pagamento-propina">
-              <div className="cc">
-                <label htmlFor="mes">
+          <form className='form' onSubmit={(e) => hendlePagamento(e)}>
+            <div className='pagamento-propina'>
+              <div className='cc'>
+                <label htmlFor='mes'>
                   Mês:
                   <select onChange={(e) => setMes(e.target.value)}>
                     <option value={"Escolha"}>Escolha...</option>
@@ -284,18 +291,18 @@ const Propina = ({ tipo }) => {
                     ))}
                   </select>
                 </label>
-                <label htmlFor="rupe">
+                <label htmlFor='rupe'>
                   Nº RUPE:
                   <Input
-                    type="number"
-                    placeholder="Digite o Nº de RUPE"
+                    type='number'
+                    placeholder='Digite o Nº de RUPE'
                     value={rupe}
                     onChange={(e) => setRupe(e.target.value)}
                     maxLength={20}
                     style={{ width: "90px", border: "1px solid #000" }}
                   />
                 </label>
-                <label htmlFor="semestre">
+                <label htmlFor='semestre'>
                   Semestre:
                   <select onChange={(e) => setSemestre(e.target.value)}>
                     <option value={"Escolha"}>Escolha...</option>
@@ -306,7 +313,7 @@ const Propina = ({ tipo }) => {
                     ))}
                   </select>
                 </label>
-                <label htmlFor="anoLetivo">
+                <label htmlFor='anoLetivo'>
                   Ano Lectivo
                   <select onChange={(e) => setAno(e.target.value)}>
                     <option value={"Escolha"}>Escolha...</option>
@@ -318,19 +325,19 @@ const Propina = ({ tipo }) => {
                   </select>
                 </label>
                 <input
-                  type="text"
+                  type='text'
                   value={fk_mes}
                   onChange={(e) => setFk_mes(e.target.value)}
                   hidden
                 />
                 <input
-                  type="text"
+                  type='text'
                   value={fk_semestre}
                   onChange={(e) => setFk_semestre(e.target.value)}
                   hidden
                 />
                 <input
-                  type="text"
+                  type='text'
                   value={fk_ano}
                   onChange={(e) => setFk_ano(e.target.value)}
                   hidden
@@ -340,38 +347,38 @@ const Propina = ({ tipo }) => {
             <hr />
             {bi !== "" && nome !== "" && curso !== "" ? (
               <>
-                <div className="dados-estudante">
+                <div className='dados-estudante'>
                   <h2>Dados do Estudante</h2>
                   <br />
-                  <label htmlFor="nome">
+                  <label htmlFor='nome'>
                     {" "}
                     Nome:
                     <input
-                      type="text"
+                      type='text'
                       value={nome}
                       onChange={(e) => setNome(e.target.value)}
                       disabled
                     />
                   </label>
-                  <label htmlFor="curso">
+                  <label htmlFor='curso'>
                     Curso:
                     <input
-                      type="text"
+                      type='text'
                       value={curso}
                       onChange={(e) => setCurso(e.target.value)}
                       disabled
-                      name="curso"
+                      name='curso'
                     />
                   </label>
                 </div>
-                <button className="btn">Fazer Pagamento</button>
+                <button className='btn'>Fazer Pagamento</button>
               </>
             ) : (
               <></>
             )}
           </form>
-          <div className="imprimirPropina" onClick={() => setVisivel(true)}>
-            <PiPrinter color="#fff" size={20} cursor={"pointer"} />
+          <div className='imprimirPropina' onClick={() => setVisivel(true)}>
+            <PiPrinter color='#fff' size={20} cursor={"pointer"} />
             <span>Relatório</span>
           </div>
         </div>

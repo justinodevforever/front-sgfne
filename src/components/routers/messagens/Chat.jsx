@@ -59,7 +59,7 @@ function Chat() {
         }
 
         setUsers(data.data);
-        setId(data.data.id);
+        setId(data.data?.id);
       })
       .catch((err) => console.log(err));
   }
@@ -71,13 +71,13 @@ function Chat() {
           navigate("/login");
           return;
         }
-        const admini = data.data.filter(
-          (user) => user.permission.permissao == "admin"
+        const admini = data.data?.filter(
+          (user) => user?.permission?.permissao == "admin"
         );
 
         setAdmin(admini);
-        const secre = data.data.filter(
-          (user) => user.permission.permissao == "secretário"
+        const secre = data.data?.filter(
+          (user) => user?.permission?.permissao == "secretário"
         );
         setSecretario(secre);
         setIsLoad(false);
@@ -88,7 +88,7 @@ function Chat() {
     e.preventDefault();
     await api
       .post(`/contact/user`, {
-        receiveId: secretario[0].user.id,
+        receiveId: secretario[0]?.user?.id,
         sendId: userId,
       })
       .then((data) => {
@@ -96,7 +96,7 @@ function Chat() {
           navigate("/login");
           return;
         }
-        navigate(`/dashboard/mensage/${data.data.response.id}`);
+        navigate(`/dashboard/mensage/${data.data?.response?.id}`);
       })
       .catch((err) => console.log(err));
   }
