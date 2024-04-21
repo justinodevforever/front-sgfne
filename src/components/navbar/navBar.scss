@@ -363,3 +363,16 @@
     padding: 2px;
   }
 }
+@media (max-width: 384px) {
+  .container-nav .notificacoes {
+    position: absolute;
+    background-color: #a31543;
+    border: 2px solid #fff;
+    color: #fff;
+    width: 300px;
+    top: 40px;
+    padding: 10px;
+    right: -100px;
+    border-radius: 10px;
+  }
+}
