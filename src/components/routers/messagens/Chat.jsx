@@ -171,9 +171,9 @@ function Chat() {
             </div>
           </div>
         )}
-        {/* {users?.map((u) => (
+        {users?.map((u) => (
           <ContactChat contact={u} key={u?.id} />
-        ))} */}
+        ))}
       </div>
     </>
   );
