@@ -38,7 +38,7 @@ function Chat() {
   }, []);
   async function hendlefindContact() {
     await api
-      .get(`/contact/user/${userId}`)
+      .get(`/contact/users/${userId}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
@@ -51,13 +51,13 @@ function Chat() {
   }
   async function hendleGetUsers() {
     await api
-      .get(`/contact/users/${userId}`)
+      .get(`/contact/user/${userId}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        console.log("ola", data.data);
+        console.log("ola", data);
         setUsers(data.data);
         setId(data.data?.id);
       })
