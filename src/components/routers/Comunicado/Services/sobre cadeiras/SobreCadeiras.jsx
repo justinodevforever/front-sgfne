@@ -14,7 +14,7 @@ import {
   toggleModalWarning,
 } from "../../../../../store/ui-slice";
 import Loader from "../../../hook/load/Loader";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Space } from "antd";
 
 const SobreCadeiras = () => {
   const [bi, setBi] = useState("");
@@ -95,8 +95,7 @@ const SobreCadeiras = () => {
     buscarDisciplina();
   }, [disciplina]);
 
-  const buscarEstudante = async (e) => {
-    e.preventDefault();
+  const buscarEstudante = async () => {
     const { data } = await api.post("/divida", { bi });
     console.log(data);
     if (data.message === "está com dívida") {
@@ -436,83 +435,97 @@ const SobreCadeiras = () => {
 
       {tipos.get("tipos") === "Cadeira em Atrazo" ||
       tipos.get("tipos") === "Recurso" ||
-      tipos.get("tipos") === "Exame Expecial" ? (
-        <div className='container-sobreCadeira'>
+      tipos.get("tipos") === "Exame Especial" ? (
+        <Space
+          style={{
+            margin: "30px auto",
+            marginTop: "30px",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
           <div className='conteudo'>
-            <Form onClick={(e) => buscarEstudante(e)} className='formBir'>
+            <Form className='formBir'>
               <Input.Search
-                type='search'
                 placeholder='Número de BI do Estudante'
                 onChange={(e) => setBi(e.target.value)}
                 className='search'
                 autoFocus
                 maxLength={14}
+                onSearch={() => buscarEstudante()}
+                style={{ width: "90%" }}
               />
             </Form>
 
-            <div className='opcoes'>
-              <div>
-                <label htmlFor='cadeira'>
-                  Ano Lectivo:
-                  <select
-                    className='select'
-                    onChange={(e) => setAno(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
+            <Space
+              wrap
+              style={{
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+              <label htmlFor='cadeira'>
+                Ano Lectivo:
+                <select
+                  style={{ width: "100px" }}
+                  className='selecte'
+                  onChange={(e) => setAno(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
 
-                    {anos.map((s) => (
-                      <option value={s.ano} key={s.id}>
-                        {s.ano}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label htmlFor='frequencia'>
-                  Frequência:
-                  <select
-                    className='select'
-                    nome='frequencia'
-                    id='frequencia'
-                    onChange={(e) => setFrequencia(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
+                  {anos.map((s) => (
+                    <option value={s.ano} key={s.id}>
+                      {s.ano}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label htmlFor='frequencia'>
+                Frequência:
+                <select
+                  style={{ width: "100px" }}
+                  className='selecte'
+                  nome='frequencia'
+                  id='frequencia'
+                  onChange={(e) => setFrequencia(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
 
-                    {frequencias.map((f) => (
-                      <option value={f.ano} key={f.id}>
-                        {f.ano}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-              <div>
-                <label htmlFor='semestre'>
-                  Semestre:
-                  <select
-                    className='select'
-                    onChange={(e) => setSemestre(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
+                  {frequencias.map((f) => (
+                    <option value={f.ano} key={f.id}>
+                      {f.ano}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-                    {semestres.map((s) => (
-                      <option value={s.nome} key={s.id}>
-                        {s.nome}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label htmlFor='cadeira'>
-                  Cadeira:
-                  <select
-                    className='select'
-                    onChange={(e) => setDisciplina(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
+              <label htmlFor='semestre'>
+                Semestre:
+                <select
+                  style={{ width: "100px" }}
+                  className='selecte'
+                  onChange={(e) => setSemestre(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
 
-                    {disciplinas.map((s) => (
-                      <option value={s.nome} key={s.id}>
-                        {s.nome}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
+                  {semestres.map((s) => (
+                    <option value={s.nome} key={s.id}>
+                      {s.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label htmlFor='cadeira'>
+                Cadeira:
+                <select
+                  style={{ width: "100px" }}
+                  className='selecte'
+                  onChange={(e) => setDisciplina(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
+
+                  {disciplinas.map((s) => (
+                    <option value={s.nome} key={s.id}>
+                      {s.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
               <label htmlFor='rupe'>
                 RUPE:
                 <Input
@@ -524,7 +537,8 @@ const SobreCadeiras = () => {
                   className='rupe'
                 />
               </label>
-            </div>
+            </Space>
+
             <hr />
             {curso && <h3>Dados do Estudante</h3>}
             <br />
@@ -559,7 +573,7 @@ const SobreCadeiras = () => {
               </Button>
             )}
           </div>
-        </div>
+        </Space>
       ) : (
         <></>
       )}

@@ -13,6 +13,7 @@ import {
   toggleModalWarning,
 } from "../../../../../../store/ui-slice";
 import Actualizar from "./atualizar/Actualizar";
+import { Input, Space } from "antd";
 
 const Cadeira = () => {
   const [clicCadatrar, setClicCadatrar] = useState(true);
@@ -114,7 +115,7 @@ const Cadeira = () => {
       <UseWarning message={message} />
       <UseErro />
       <UseSucess />
-      <ul className="menuCadeira">
+      <ul className='menuCadeira'>
         <li>
           <Link
             onClick={(e) => toggleCadastrar(e)}
@@ -130,40 +131,29 @@ const Cadeira = () => {
           </Link>
         </li>
       </ul>
-      <div className="cadeira">
+      <div className='cadeira'>
         {clicCadatrar && (
-          <div className="opcoes">
+          <div className='opcoes'>
             <form onSubmit={(e) => hendleSave(e)}>
-              <div>
-                <label htmlFor="disciplina">
+              <Space wrap>
+                <label htmlFor='disciplina'>
                   Disciplina
-                  <input
-                    type="text"
-                    placeholder="Designação da Disciplina"
+                  <Input
+                    type='text'
+                    placeholder='Designação da Disciplina'
                     value={disciplina}
                     onChange={(e) => setDisciplina(e.target.value)}
-                    name="disciplina"
+                    name='disciplina'
                   />
                 </label>
-                <label htmlFor="curso">
-                  Curso
-                  <select
-                    onChange={(e) => setCurso(e.target.value)}
-                    name="curso">
-                    <option value="">Escolha...</option>
-                    {cursos.map((c) => (
-                      <option value={c.id} key={c.id}>
-                        {c.curso}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label htmlFor="fre">
+
+                <label htmlFor='fre'>
                   Frequência
                   <select
                     onChange={(e) => setFrequencia(e.target.value)}
-                    name="fre">
-                    <option value="">Escolha...</option>
+                    name='fre'
+                    style={{ width: "100px" }}>
+                    <option value=''>Escolha...</option>
                     {frequencias.map((c) => (
                       <option value={c.id} key={c.id}>
                         {c.ano}
@@ -171,12 +161,13 @@ const Cadeira = () => {
                     ))}
                   </select>
                 </label>
-                <label htmlFor="seme">
+                <label htmlFor='seme'>
                   Semestre
                   <select
                     onChange={(e) => setSemestre(e.target.value)}
-                    name="seme">
-                    <option value="">Escolha...</option>
+                    name='seme'
+                    style={{ width: "100px" }}>
+                    <option value=''>Escolha...</option>
                     {semestres.map((c) => (
                       <option value={c.id} key={c.id}>
                         {c.nome}
@@ -184,9 +175,22 @@ const Cadeira = () => {
                     ))}
                   </select>
                 </label>
-              </div>
+                <label htmlFor='curso'>
+                  Curso
+                  <select
+                    onChange={(e) => setCurso(e.target.value)}
+                    name='curso'>
+                    <option value=''>Escolha...</option>
+                    {cursos.map((c) => (
+                      <option value={c.id} key={c.id}>
+                        {c.curso}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </Space>
               {semestre && frequencia && curso && disciplina && (
-                <button type="submit">
+                <button type='submit'>
                   <BiSave />
                   Cadastrar
                 </button>

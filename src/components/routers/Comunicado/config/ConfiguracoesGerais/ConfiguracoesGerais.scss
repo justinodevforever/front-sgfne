@@ -2,6 +2,7 @@
 .configuracoes {
   display: flex;
   width: 100%;
+  flex-direction: column;
 }
 .configuracoes .menu {
   display: flex;

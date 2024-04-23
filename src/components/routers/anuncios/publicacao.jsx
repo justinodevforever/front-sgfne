@@ -105,14 +105,14 @@ const Publicacao = () => {
     <>
       <Skeleton loading={isClic} active avatar={{ shape: "circle" }}>
         <Modal />
-        <div className="container-publicacao1">
+        <div className='container-publicacao1'>
           <PegarPermissoes permissoes={["admin"]}>
             <div>
-              <div className="div-publicar">
+              <div className='div-publicar'>
                 <Link
-                  className="publicar"
-                  name="publicacao"
-                  id="publicacao"
+                  className='publicar'
+                  name='publicacao'
+                  id='publicacao'
                   to={"/publicar"}>
                   Comunicar
                 </Link>
@@ -120,41 +120,37 @@ const Publicacao = () => {
             </div>
           </PegarPermissoes>
 
-          <div className="container-publicacao">
+          <div className='container-publicacao'>
             {publicacao.map((publ) => (
-              <div className="container-conteudo" key={publ?.id}>
-                <div className="publicacao" id="publicacao">
-                  <div className="opcoesBarra">
-                    <Link
-                      to={`/perfil/${publ?.usuario?.id}`}
-                      className="username">
-                      {publ?.usuario?.nome}
-                    </Link>
-                    {publ?.usuario?.nome === sessionStorage.getItem("user") ? (
-                      <BtnMenu id={publ?.id} nameUser={publ?.usuario?.nome} />
-                    ) : (
-                      <section></section>
-                    )}
-                  </div>
+              // <div className='container-conteudo' key={publ?.id}>
+              <div className='publicacao' id='publicacao' key={publ?.id}>
+                <div className='opcoesBarra'>
+                  <Link
+                    to={`/perfil/${publ?.usuario?.id}`}
+                    className='username'>
+                    {publ?.usuario?.nome}
+                  </Link>
+                  {publ?.usuario?.nome === sessionStorage.getItem("user") ? (
+                    <BtnMenu id={publ?.id} nameUser={publ?.usuario?.nome} />
+                  ) : (
+                    <section></section>
+                  )}
+                </div>
 
-                  <ProfilePublication
-                    id_publicacao={publ?.id}
-                    setIsImage={setIsImage}
-                    isImage={isImage}
-                    publicacao={publ}
-                  />
+                <ProfilePublication
+                  id_publicacao={publ?.id}
+                  setIsImage={setIsImage}
+                  isImage={isImage}
+                  publicacao={publ}
+                />
 
-                  <div className="opcoes" id="opcoes">
-                    <LikePublicacao publ={publ} />
+                <div className='opcoes' id='opcoes'>
+                  <LikePublicacao publ={publ} />
 
-                    <Comentario
-                      publ={publ}
-                      id={publ?.id}
-                      verC={verComentarios}
-                    />
-                  </div>
+                  <Comentario publ={publ} id={publ?.id} verC={verComentarios} />
                 </div>
               </div>
+              // </div>
             ))}
           </div>
         </div>

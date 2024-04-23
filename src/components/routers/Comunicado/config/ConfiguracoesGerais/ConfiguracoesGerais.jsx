@@ -18,13 +18,17 @@ import AtualizarPropina from "./atualizarPropina/AtualizarPropina";
 import AtualizarEstudante from "./atualizarEstudante/AtualizarEstudante";
 import AtualizarCadeira from "./atualizarCadeira/AtualizarCadeira";
 import PegarPermissoes from "../../../../../configs/permissoes/PegarPermissoes";
+import { MenuOutlined } from "@ant-design/icons";
+import { Space } from "antd";
 // import pegarPermissoes from "../../../../../configs/permissoes/pegarPermissoes";
 
 const ConfiguracoesGerais = () => {
   const [clic, setClic] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [clicEstudante, setClicEstudante] = useState(false);
   const [clicPropina, setClicPropina] = useState(false);
   const [clicCadeira, setClicCadeira] = useState(false);
+  // const [clicEstudante, setClicEstudante] = useState(false);
 
   function toggleClic(e) {
     e.preventDefault();
@@ -55,37 +59,62 @@ const ConfiguracoesGerais = () => {
     setClicPropina(false);
   }
   return (
-    <div className="configuracoes">
-      <div className="menu">
+    <div className='configuracoes'>
+      <Space
+        wrap
+        style={{
+          display: "flex",
+          alignItems: "end",
+          marginLeft: "20px",
+        }}>
+        <MenuOutlined
+          style={{
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            setIsVisible(!isVisible);
+          }}
+          size={80}
+        />
+      </Space>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {isVisible && (
+          <div className='menu'>
+            <PegarPermissoes permissoes={["admin"]}>
+              <div className={clic ? "ativo" : "inativo"}>
+                <FaLock />
+                <Link onClick={(e) => toggleClic(e)}>Permissões</Link>
+              </div>
+            </PegarPermissoes>
+            <PegarPermissoes permissoes={["edição", "admin"]}>
+              <div className={clicEstudante ? "ativo" : "inativo"}>
+                <PiStudent size={20} />
+                <Link onClick={(e) => toggleClicEstudante(e)}>
+                  Atualizar Estudante
+                </Link>
+              </div>
+              <div className={clicPropina ? "ativo" : "inativo"}>
+                <FaDollarSign size={20} />
+                <Link onClick={(e) => toggleClicPropina(e)}>
+                  Atualizar Propina
+                </Link>
+              </div>
+              <div className={clicCadeira ? "ativo" : "inativo"}>
+                <FaBook />
+                <Link onClick={(e) => toggleClicCadeira(e)}>
+                  Atualizar Cadeira
+                </Link>
+              </div>
+            </PegarPermissoes>
+          </div>
+        )}
         <PegarPermissoes permissoes={["admin"]}>
-          <div className={clic ? "ativo" : "inativo"}>
-            <FaLock />
-            <Link onClick={(e) => toggleClic(e)}>Permissões</Link>
-          </div>
+          {clic && <PermissoesUSuario />}
         </PegarPermissoes>
-        <PegarPermissoes permissoes={["edição", "admin"]}>
-          <div className={clicEstudante ? "ativo" : "inativo"}>
-            <PiStudent size={20} />
-            <Link onClick={(e) => toggleClicEstudante(e)}>
-              Atualizar Estudante
-            </Link>
-          </div>
-          <div className={clicPropina ? "ativo" : "inativo"}>
-            <FaDollarSign size={20} />
-            <Link onClick={(e) => toggleClicPropina(e)}>Atualizar Propina</Link>
-          </div>
-          <div className={clicCadeira ? "ativo" : "inativo"}>
-            <FaBook />
-            <Link onClick={(e) => toggleClicCadeira(e)}>Atualizar Cadeira</Link>
-          </div>
-        </PegarPermissoes>
+        {clicPropina && <AtualizarPropina />}
+        {clicEstudante && <AtualizarEstudante />}
+        {clicCadeira && <AtualizarCadeira />}
       </div>
-      <PegarPermissoes permissoes={["admin"]}>
-        {clic && <PermissoesUSuario />}
-      </PegarPermissoes>
-      {clicPropina && <AtualizarPropina />}
-      {clicEstudante && <AtualizarEstudante />}
-      {clicCadeira && <AtualizarCadeira />}
     </div>
   );
 };

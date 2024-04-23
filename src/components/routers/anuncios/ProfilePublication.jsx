@@ -39,7 +39,7 @@ export const ProfilePublication = ({
   };
   return (
     <>
-      <div className="container-imagePublicacao">
+      <div className='container-imagePublicacao'>
         {image?.nome !== undefined &&
         image?.nome !== "" &&
         id_publicacao === image?.fk_publicacao &&
@@ -47,17 +47,19 @@ export const ProfilePublication = ({
           <>
             <LerMais publ={publicacao} id={id_publicacao} isImage={isImage} />
 
-            <img src={`${url}/files/imagePublication/${image?.nome}`} alt="" />
+            <img src={`${url}/files/imagePublication/${image?.nome}`} alt='' />
           </>
         ) : (
-          <div className="publicacoes">
+          <div className='publicacoes'>
             {publicacao?.publicacao.length > 300 ? (
               <>
                 <p>{publicacao?.publicacao.slice(0, 300)}...</p>
                 <Link onClick={(e) => toggle(e)}>Ler Mais</Link>
               </>
             ) : (
-              <>{publicacao?.publicacao}</>
+              <>
+                <p>{publicacao?.publicacao}</p>
+              </>
             )}
           </div>
         )}

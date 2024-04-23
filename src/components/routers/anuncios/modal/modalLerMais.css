@@ -36,6 +36,7 @@
   width: 100%;
 }
 .publi p {
+  display: flex;
   text-align: left;
   white-space: break-spaces;
   font-size: 14pt;

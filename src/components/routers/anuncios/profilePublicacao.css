@@ -10,6 +10,15 @@
   width: 100%;
   background-color: #000;
 }
+.publicacoes {
+  word-wrap: break-word;
+}
+p {
+  text-align: start;
+  word-break: break-all;
+  padding: 7px;
+}
+
 .container-imagePublicacao img {
   width: 99%;
   height: 300px;

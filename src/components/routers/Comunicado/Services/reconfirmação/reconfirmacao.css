@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-top: 20px;
 }
 .container-reconfirmacao .conteudo {
   display: flex;
@@ -12,16 +13,17 @@
   margin-top: 20px;
   padding-bottom: 20px;
 }
-.conteudo .formBir {
+.formBir {
   display: flex;
   width: 100%;
   background-color: #a31543;
-  padding-top: 4px;
+  padding: 4px 0px;
   align-items: center;
   justify-content: center;
+  /* margin-bottom: 20px; */
 }
 
-.conteudo .form {
+.form {
   width: 100%;
   margin: auto;
 }
@@ -71,7 +73,7 @@ select {
 }
 .conteudo select {
   width: 130px;
-  height: 24px;
+  height: 30px;
   font-size: 14pt;
   margin-right: 10px;
   margin-left: 10px;
@@ -83,6 +85,7 @@ select {
   font-size: 12pt;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 .search {
   width: 300px;
@@ -151,11 +154,11 @@ select {
   label {
     display: flex;
     font-size: 12pt;
-    flex-direction: row;
+    flex-direction: column;
   }
   select {
     width: 130px;
-    height: 74px;
+    height: 30px;
     font-size: 14pt;
     margin-right: 0px;
     margin-left: 0px;

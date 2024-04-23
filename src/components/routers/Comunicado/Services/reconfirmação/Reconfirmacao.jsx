@@ -15,7 +15,7 @@ import {
   toggleModalError,
   toggleModalWarning,
 } from "../../../../../store/ui-slice";
-import { Form, Input } from "antd";
+import { Form, Input, Space } from "antd";
 
 const Reconfirmacao = () => {
   const [bi, setBi] = useState("");
@@ -197,9 +197,7 @@ const Reconfirmacao = () => {
       .catch((err) => console.log(err));
   };
 
-  const hendlePagamento = async (e) => {
-    e.preventDefault();
-
+  const hendlePagamento = async () => {
     if (
       ano === "Escolha" ||
       semestre === "Escolha" ||
@@ -252,117 +250,118 @@ const Reconfirmacao = () => {
       <UseWarning message={message} />
       <UseSucess />
       <UseErro />
-      <div className="container-reconfirmacao">
-        <div className="conteudo">
-          <Form onClick={(e) => buscarEstudante(e)} className="formBir">
-            <Input.Search
-              type="search"
-              placeholder="Número de BI do Estudante"
-              value={bi}
-              onChange={(e) => setBi(e.target.value)}
-              autoFocus
-              maxLength={14}
+      <div className='container-reconfirmacao'>
+        <Form className='formBir'>
+          <Input.Search
+            placeholder='Número de BI do Estudante'
+            value={bi}
+            onChange={(e) => setBi(e.target.value)}
+            autoFocus
+            maxLength={14}
+            style={{ width: "80%" }}
+            onSearch={() => buscarEstudante()}
+          />
+        </Form>
+
+        <Space
+          wrap
+          style={{ marginTop: "40px", justifyContent: "center" }}
+          align='center'>
+          <label htmlFor='frequencia'>
+            Frequência:
+            <select onChange={(e) => setFrequencia(e.target.value)}>
+              <option value={"Escolhe"}>Escolha...</option>
+
+              {frequencias.map((f) => (
+                <option value={f.ano} key={f.id}>
+                  {f.ano}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label htmlFor='semestre'>
+            Semestre:
+            <select onChange={(e) => setSemestre(e.target.value)}>
+              <option value={"Escolhe"}>Escolha...</option>
+
+              {semestres.map((s) => (
+                <option value={s.nome} key={s.id}>
+                  {s.nome}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label htmlFor='cadeira'>
+            Ano Lectivo:
+            <select onChange={(e) => setAno(e.target.value)}>
+              <option value={"Escolhe"}>Escolha...</option>
+
+              {anos.map((s) => (
+                <option value={s.ano} key={s.id}>
+                  {s.ano}
+                </option>
+              ))}
+            </select>
+          </label>
+        </Space>
+        <hr />
+
+        {curso && bi && <h3>Dados do Estudante</h3>}
+        <br />
+        {curso && bi && (
+          <label htmlFor='nome'>
+            Nome:
+            <Input
+              type='text'
+              value={nome}
+              disabled
+              className='input'
+              onChange={(e) => setNome(e.target.value)}
               style={{ width: "90%", border: "1px solid #000" }}
             />
-          </Form>
+          </label>
+        )}
 
-          <div className="opcoes">
-            <label htmlFor="frequencia">
-              Frequência:
-              <select onChange={(e) => setFrequencia(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
-
-                {frequencias.map((f) => (
-                  <option value={f.ano} key={f.id}>
-                    {f.ano}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor="semestre">
-              Semestre:
-              <select onChange={(e) => setSemestre(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
-
-                {semestres.map((s) => (
-                  <option value={s.nome} key={s.id}>
-                    {s.nome}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor="cadeira">
-              Ano Lectivo:
-              <select onChange={(e) => setAno(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
-
-                {anos.map((s) => (
-                  <option value={s.ano} key={s.id}>
-                    {s.ano}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <hr />
-
-          {curso && bi && <h3>Dados do Estudante</h3>}
-          <br />
-          {curso && bi && (
-            <label htmlFor="nome">
-              Nome:
-              <Input
-                type="text"
-                value={nome}
-                disabled
-                className="input"
-                onChange={(e) => setNome(e.target.value)}
-                style={{ width: "90%", border: "1px solid #000" }}
-              />
-            </label>
-          )}
-
-          {curso && (
-            <label htmlFor="curso">
-              Curso:
-              <Input
-                type="text"
-                value={curso}
-                disabled
-                className="input"
-                onChange={(e) => setCurso(e.target.value)}
-                style={{ width: "90%", border: "1px solid #000" }}
-              />
-            </label>
-          )}
-          {nome && curso && (
-            <button onClick={(e) => hendlePagamento(e)} className="btn">
-              Fazer Pagamento
-            </button>
-          )}
-          <input
-            type="text"
-            value={fk_frequencia}
-            onChange={(e) => setFk_frequencia(e.target.value)}
-            hidden
-          />
-          <input
-            type="text"
-            value={fk_ano}
-            onChange={(e) => setFk_ano(e.target.value)}
-            hidden
-          />
-          <input
-            type="text"
-            value={fk_semestre}
-            onChange={(e) => setFk_semestre(e.target.value)}
-            hidden
-          />
-          {/* <div className="imprimir" onClick={() => setVisivel(true)}>
+        {curso && (
+          <label htmlFor='curso'>
+            Curso:
+            <Input
+              type='text'
+              value={curso}
+              disabled
+              className='input'
+              onChange={(e) => setCurso(e.target.value)}
+              style={{ width: "90%", border: "1px solid #000" }}
+            />
+          </label>
+        )}
+        {nome && curso && (
+          <button onClick={(e) => hendlePagamento(e)} className='btn'>
+            Fazer Pagamento
+          </button>
+        )}
+        <input
+          type='text'
+          value={fk_frequencia}
+          onChange={(e) => setFk_frequencia(e.target.value)}
+          hidden
+        />
+        <input
+          type='text'
+          value={fk_ano}
+          onChange={(e) => setFk_ano(e.target.value)}
+          hidden
+        />
+        <input
+          type='text'
+          value={fk_semestre}
+          onChange={(e) => setFk_semestre(e.target.value)}
+          hidden
+        />
+        {/* <div className="imprimir" onClick={() => setVisivel(true)}>
             <PiPrinter color="#fff" size={20} cursor={"pointer"} />
             <span>Relatório</span>
           </div> */}
-        </div>
       </div>
 
       <RelatorioReconfirmacao

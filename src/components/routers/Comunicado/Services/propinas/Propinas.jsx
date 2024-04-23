@@ -13,20 +13,20 @@ import { toggleModalConfirmar } from "../../../../../store/ui-slice";
 import UseWarning from "../../../hook/massege/warning/UseWarning";
 import UseSucess from "../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../hook/massege/Error/UseErro";
-import { Form, Input } from "antd";
+import { Form, Input, Space } from "antd";
 
 const Propina = ({ tipo }) => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
-  const [fk_mes, setFk_mes] = useState(0);
-  const [fk_estudante, setFk_estudante] = useState(0);
-  const [fk_user, setFk_user] = useState(0);
-  const [fk_curso, setFk_curso] = useState(0);
-  const [fk_ano, setFk_ano] = useState(0);
-  const [valor, setValor] = useState(0);
+  const [fk_mes, setFk_mes] = useState("");
+  const [fk_estudante, setFk_estudante] = useState("");
+  const [fk_user, setFk_user] = useState("");
+  const [fk_curso, setFk_curso] = useState("");
+  const [fk_ano, setFk_ano] = useState("");
+  const [valor, setValor] = useState("");
   const [rupe, setRupe] = useState(0);
-  const [fk_semestre, setFk_semestre] = useState(0);
+  const [fk_semestre, setFk_semestre] = useState("");
   const [mes, setMes] = useState("");
   const [meses, setMeses] = useState([]);
   const [semestres, setSemestres] = useState([]);
@@ -67,21 +67,6 @@ const Propina = ({ tipo }) => {
     buscaAnoLeivo();
   }, [ano]);
 
-  // const tiposServicos = async () => {
-  //   await api
-  //     .post("/tipo/servico/especifico", {
-  //       tipo,
-  //     })
-  //     .then((data) => {
-  //       if (data.data === "Token Invalid") {
-  //         navigate("/login");
-  //         return;
-  //       }
-
-  //       setValor(data.data.valor);
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
   const buscarEstudante = async (e) => {
     e.preventDefault();
     await api
@@ -93,7 +78,7 @@ const Propina = ({ tipo }) => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
+
         setCurso(data.data.curso.curso);
         setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
@@ -220,7 +205,7 @@ const Propina = ({ tipo }) => {
           navigate("/login");
           return;
         }
-
+        console.log(data.data);
         if (data.data.message === "exist") {
           setMessage("O Mês Já Foi Pago! ");
           dispatchWarning(toggleModalWarning(true));
@@ -245,110 +230,116 @@ const Propina = ({ tipo }) => {
       <div className='propina'>
         <div className='conteudoProp'>
           <Form onClick={(e) => buscarEstudante(e)} className='formBiPropina'>
-            <Input.Search
-              type='search'
-              placeholder='Número de BI do Estudante'
-              onChange={(e) => setBi(e.target.value)}
-              value={bi}
-              autoFocus
-              maxLength={14}
-              style={{ width: "90%", border: "1px solid #000" }}
-            />
-            <div className='inputDesabled'>
-              <label htmlFor='valor'>
-                Valor:{""}
-                <input
-                  type='number'
-                  className='inpform valor'
-                  disabled
-                  value={valor}
-                  onChange={(e) => setValor(e.target.value)}
-                />
-              </label>
-              <label htmlFor='period'>
-                Período:{""}
-                <Input
-                  type='text'
-                  disabled
-                  value={periodo}
-                  onChange={(e) => setPeriodo(e.target.value)}
-                  className='inpform'
-                />
-              </label>
-            </div>
-          </Form>
-          <form className='form' onSubmit={(e) => hendlePagamento(e)}>
-            <div className='pagamento-propina'>
-              <div className='cc'>
-                <label htmlFor='mes'>
-                  Mês:
-                  <select onChange={(e) => setMes(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
-                    {meses.map((m) => (
-                      <option value={m.mes} key={m.id}>
-                        {m.mes}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label htmlFor='rupe'>
-                  Nº RUPE:
-                  <Input
+            <Space wrap>
+              <Input.Search
+                type='search'
+                placeholder='Número de BI do Estudante'
+                onChange={(e) => setBi(e.target.value)}
+                value={bi}
+                autoFocus
+                maxLength={14}
+                style={{ width: "90%", border: "1px solid #000" }}
+              />
+              <div className='inputDesabled'>
+                <label htmlFor='valor'>
+                  Valor:{""}
+                  <input
                     type='number'
-                    placeholder='Digite o Nº de RUPE'
-                    value={rupe}
-                    onChange={(e) => setRupe(e.target.value)}
-                    maxLength={20}
-                    style={{ width: "90px", border: "1px solid #000" }}
+                    className='inpform valor'
+                    disabled
+                    value={valor}
+                    onChange={(e) => setValor(e.target.value)}
                   />
                 </label>
-                <label htmlFor='semestre'>
-                  Semestre:
-                  <select onChange={(e) => setSemestre(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
-                    {semestres.map((s) => (
-                      <option value={s.nome} key={s.id}>
-                        {s.nome}
-                      </option>
-                    ))}
-                  </select>
+                <label htmlFor='period'>
+                  Período:{""}
+                  <Input
+                    type='text'
+                    disabled
+                    value={periodo}
+                    onChange={(e) => setPeriodo(e.target.value)}
+                    className='inpform'
+                  />
                 </label>
-                <label htmlFor='anoLetivo'>
-                  Ano Lectivo
-                  <select onChange={(e) => setAno(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
-                    {anos.map((ano) => (
-                      <option value={ano.ano} key={ano.id}>
-                        {ano.ano}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <input
-                  type='text'
-                  value={fk_mes}
-                  onChange={(e) => setFk_mes(e.target.value)}
-                  hidden
-                />
-                <input
-                  type='text'
-                  value={fk_semestre}
-                  onChange={(e) => setFk_semestre(e.target.value)}
-                  hidden
-                />
-                <input
-                  type='text'
-                  value={fk_ano}
-                  onChange={(e) => setFk_ano(e.target.value)}
-                  hidden
-                />
               </div>
-            </div>
+            </Space>
+          </Form>
+          <form className='form' onSubmit={(e) => hendlePagamento(e)}>
+            <Space wrap style={{ padding: "12px" }}>
+              <label htmlFor='mes'>
+                Mês:
+                <select onChange={(e) => setMes(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
+                  {meses.map((m) => (
+                    <option value={m.mes} key={m.id}>
+                      {m.mes}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label htmlFor='semestre'>
+                Semestre:
+                <select onChange={(e) => setSemestre(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
+                  {semestres.map((s) => (
+                    <option value={s.nome} key={s.id}>
+                      {s.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label htmlFor='anoLetivo'>
+                Ano Lectivo
+                <select onChange={(e) => setAno(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
+                  {anos.map((ano) => (
+                    <option value={ano.ano} key={ano.id}>
+                      {ano.ano}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label htmlFor='rupe'>
+                Nº RUPE:
+                <Input
+                  type='number'
+                  placeholder='Digite o Nº de RUPE'
+                  value={rupe}
+                  onChange={(e) => setRupe(e.target.value)}
+                  maxLength={20}
+                  style={{ width: "100%", border: "1px solid #a31543" }}
+                />
+              </label>
+              <input
+                type='text'
+                value={fk_mes}
+                onChange={(e) => setFk_mes(e.target.value)}
+                hidden
+              />
+              <input
+                type='text'
+                value={fk_semestre}
+                onChange={(e) => setFk_semestre(e.target.value)}
+                hidden
+              />
+              <input
+                type='text'
+                value={fk_ano}
+                onChange={(e) => setFk_ano(e.target.value)}
+                hidden
+              />
+            </Space>
             <hr />
             {bi !== "" && nome !== "" && curso !== "" ? (
-              <>
-                <div className='dados-estudante'>
-                  <h2>Dados do Estudante</h2>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}>
+                <h2>Dados do Estudante</h2>
+                <Space wrap align='center'>
                   <br />
                   <label htmlFor='nome'>
                     {" "}
@@ -358,6 +349,12 @@ const Propina = ({ tipo }) => {
                       value={nome}
                       onChange={(e) => setNome(e.target.value)}
                       disabled
+                      className='input'
+                      style={{
+                        padding: "4px",
+                        fontSize: "12pt",
+                        width: "auto",
+                      }}
                     />
                   </label>
                   <label htmlFor='curso'>
@@ -368,11 +365,17 @@ const Propina = ({ tipo }) => {
                       onChange={(e) => setCurso(e.target.value)}
                       disabled
                       name='curso'
+                      className='input'
+                      style={{
+                        padding: "4px",
+                        fontSize: "12pt",
+                        width: "auto",
+                      }}
                     />
                   </label>
-                </div>
+                </Space>
                 <button className='btn'>Fazer Pagamento</button>
-              </>
+              </div>
             ) : (
               <></>
             )}

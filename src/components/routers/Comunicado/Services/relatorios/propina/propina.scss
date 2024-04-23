@@ -24,7 +24,7 @@
   overflow-y: auto;
   padding-bottom: 20px;
 }
-.relatorioPropina .opcoes {
+.opcoes {
   display: flex;
   justify-content: space-between;
   width: 95%;
@@ -66,16 +66,13 @@ td {
   background-color: #fff;
   color: #000;
 }
-.relatorioPropina h3 {
+h3 {
   margin-bottom: 10px;
   margin-top: 0px;
   color: #a31543;
 }
-.relatorioPropina .input {
-  display: flex;
-  width: 50%;
-}
-.relatorioPropina .opcoes .link {
+
+.opcoes .link {
   color: #a31543;
   opacity: 1;
   position: relative;
@@ -85,7 +82,7 @@ td {
   font-size: 14pt;
   cursor: pointer;
 }
-.relatorioPropina .opcoes .link:hover::before {
+.opcoes .link:hover::before {
   content: "";
   height: 2px;
   width: 100%;
@@ -104,7 +101,7 @@ td {
     width: 100%;
   }
 }
-.relatorioPropina .imprimir {
+.imprimir {
   display: flex;
   padding: 20px;
   position: fixed;
@@ -114,13 +111,13 @@ td {
   align-items: center;
   justify-content: center;
 }
-.relatorioPropina img {
+img {
   width: 50px;
   height: 50px;
   // position: absolute;
   right: 20px;
 }
-.relatorioPropina .imprimir span {
+.imprimir span {
   display: flex;
   background-color: #a31543;
   width: 100%;
@@ -132,43 +129,22 @@ td {
   justify-content: center;
   gap: 10px;
 }
-.relatorioPropina .formBi {
-  display: flex;
-  width: 98%;
-  margin: auto;
 
-  background-color: #a31543;
-  padding: 5px;
-  justify-content: space-between;
-}
-.relatorioPropina .formBi input {
-  display: flex;
-  /* width: 60%; */
-  background-color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 2px 4px;
-  color: #000;
-}
-.relatorioPropina .form {
-  width: 100%;
-}
-.relatorioPropina select {
-  width: 100px;
-  height: 30px;
-  font-size: 14pt;
-  margin-right: 10px;
-  margin-left: 10px;
-  border: 2px solid #a31543;
-}
-.relatorioPropina label {
+// select {
+//   width: 100px;
+//   height: 30px;
+//   font-size: 14pt;
+//   margin-right: 10px;
+//   margin-left: 10px;
+//   border: 2px solid #a31543;
+// }
+label {
   display: flex;
   font-size: 12pt;
   align-items: center;
   justify-content: center;
-  color: #fff;
 }
-.relatorioPropina button {
+button {
   background-color: transparent;
   border: none;
 }
@@ -212,4 +188,10 @@ td {
   display: flex;
   flex-direction: column;
   margin: auto;
+}
+
+@media (max-width: 300px) {
+  label {
+    justify-content: space-between;
+  }
 }

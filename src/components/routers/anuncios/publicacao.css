@@ -1,6 +1,6 @@
 .container-publicacao1 {
   display: flex;
-  width: 90%;
+  width: 100%;
   height: 100%;
   position: relative;
   flex-wrap: wrap;
@@ -174,7 +174,15 @@ a {
 .container-publicacao1 .anterior {
   margin-top: 50px;
 }
-
+@media (max-width: 2008px) {
+  .div-publicar {
+    right: 0;
+    bottom: 4px;
+  }
+  .username {
+    font-size: 10pt;
+  }
+}
 @media (max-width: 2144px) {
   .container-publicacao .container-imagePublicacao img {
     width: 99%;
@@ -187,28 +195,14 @@ a {
   }
   .container-publicacao1 .container-publicacao {
     display: flex;
-    margin: auto;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    width: 100%;
   }
 }
 
 @media (max-width: 604px) {
   .container-publicacao1 .publicacao {
-    width: 97%;
-  }
-  .container-publicacao1 {
-    flex-wrap: no;
-  }
-}
-
-@media (max-width: 2008px) {
-  .div-publicar {
-    right: 0;
-    bottom: 4px;
-  }
-  .username {
-    font-size: 10pt;
+    width: 90%;
   }
 }

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../../../store/ui-slice";
 import { api } from "../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
+import { Modal as ModalN } from "antd";
 const Modal = () => {
   const [check, setCheck] = useState(false);
   const { isVisible } = useSelector((state) => state.ui.Modal);
@@ -35,30 +36,18 @@ const Modal = () => {
   }, [idPublicacao]);
   return (
     <>
-      {isVisible && (
-        <>
-          <div className="modalLerMaisA">
-            <div className="barra">
-              <div></div>
-              <BiX
-                color="red"
-                size={"20px"}
-                cursor={"pointer"}
-                className="close"
-                onClick={(e) => Toggle(e)}
-              />
-            </div>
-            <div className="publi">
-              {publicacao?.publicacao !== null ? (
-                <p>{publicacao?.publicacao}</p>
-              ) : (
-                <></>
-              )}
-            </div>
-          </div>
-          <div className="overlayLer"></div>
-        </>
-      )}
+      <ModalN
+        open={isVisible}
+        zIndex={3}
+        okText='Fechar'
+        closable={false}
+        onOk={() => dispatch(toggleModal(!isVisible))}>
+        {publicacao?.publicacao !== null ? (
+          <p>{publicacao?.publicacao}</p>
+        ) : (
+          <></>
+        )}
+      </ModalN>
     </>
   );
 };
