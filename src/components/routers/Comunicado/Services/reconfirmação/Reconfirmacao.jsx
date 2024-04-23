@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { PiPrinter } from "react-icons/pi";
 import RelatorioReconfirmacao from "../relatorios/reconfirmação/Reconfirmacao";
-import Alert from "../../../hook/alert/Alert";
+// import Alert from "../../../hook/alert/Alert";
 import UseWarning from "../../../hook/massege/warning/UseWarning";
 import UseSucess from "../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../hook/massege/Error/UseErro";
@@ -15,7 +15,7 @@ import {
   toggleModalError,
   toggleModalWarning,
 } from "../../../../../store/ui-slice";
-import { Form, Input, Space } from "antd";
+import { Form, Input, Space, Alert } from "antd";
 
 const Reconfirmacao = () => {
   const [bi, setBi] = useState("");
@@ -80,14 +80,13 @@ const Reconfirmacao = () => {
     buscaFrequencia();
   }, [frequencia]);
 
-  const buscarEstudante = async (e) => {
-    e.preventDefault();
-    const { data } = await api.post("/ver/divida", { bi });
-    console.log("nfbn", data);
+  const buscarEstudante = async () => {
+    const { data } = await api.post("/divida", { bi });
+
     if (data.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
-      dispatchWarning(toggleModalWarning(true));
+      // dispatchWarning(toggleModalWarning(true));
 
       return;
     }
@@ -250,6 +249,7 @@ const Reconfirmacao = () => {
       <UseWarning message={message} />
       <UseSucess />
       <UseErro />
+      {/* < type='error' banner  /> */}
       <div className='container-reconfirmacao'>
         <Form className='formBir'>
           <Input.Search

@@ -57,7 +57,7 @@ function Chat() {
           navigate("/login");
           return;
         }
-
+        console.log("ola", data.data);
         setUsers(data.data);
         setId(data.data?.id);
       })
@@ -171,9 +171,9 @@ function Chat() {
             </div>
           </div>
         )}
-        {users?.map((u) => (
+        {/* {users?.map((u) => (
           <ContactChat contact={u} key={u?.id} />
-        ))}
+        ))} */}
       </div>
     </>
   );
