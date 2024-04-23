@@ -170,9 +170,8 @@ function Chat() {
           </div>
         </div>
 
-        {users?.map((u) => (
-          <ContactChat contact={u} key={u?.id} />
-        ))}
+        {users.length > 0 &&
+          users?.map((u) => <ContactChat contact={u} key={u?.id} />)}
       </div>
     </>
   );
