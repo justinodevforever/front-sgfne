@@ -120,57 +120,56 @@ function Chat() {
   return (
     <>
       <div className='container-chat'>
-        {users?.length === 0 && (
-          <div
-            className='admincon'
-            style={{
-              display: "flex",
-              width: "100%",
-              margin: "auto",
-              marginTop: "20px",
-              gap: "20px",
-              height: "40px",
-              flexDirection: "column",
-              alignItems: "center",
-            }}>
-            <div className='secretario'>
-              <Skeleton active loading={isLoad}>
-                <Button
-                  onClick={(e) => hendleCreateContactUSerSecretario(e)}
-                  style={{
-                    display: "flex",
-                    background: "#a31543",
-                    borderRadius: "10px",
-                    color: "#fff",
-                    padding: "10px",
-                    alignItems: "center",
-                  }}
-                  title='Contactar a Secretária'
-                  icon={<MessageOutlined />}>
-                  Secretaria
-                </Button>
-              </Skeleton>
-            </div>
-            <div className='admin'>
-              <Skeleton loading={isLoad} active>
-                <Button
-                  onClick={(e) => hendleCreateContactUSerAdmin(e)}
-                  style={{
-                    display: "flex",
-                    background: "#a31543",
-                    borderRadius: "10px",
-                    color: "#fff",
-                    padding: "10px",
-                    alignItems: "center",
-                  }}
-                  title='Contactar a Finança'
-                  icon={<MessageOutlined />}>
-                  Finança
-                </Button>
-              </Skeleton>
-            </div>
+        <div
+          className='admincon'
+          style={{
+            display: "flex",
+            width: "100%",
+            margin: "auto",
+            marginTop: "20px",
+            gap: "20px",
+            height: "40px",
+            flexDirection: "column",
+            alignItems: "center",
+          }}>
+          <div className='secretario'>
+            <Skeleton active loading={isLoad}>
+              <Button
+                onClick={(e) => hendleCreateContactUSerSecretario(e)}
+                style={{
+                  display: "flex",
+                  background: "#a31543",
+                  borderRadius: "10px",
+                  color: "#fff",
+                  padding: "10px",
+                  alignItems: "center",
+                }}
+                title='Contactar a Secretária'
+                icon={<MessageOutlined />}>
+                Secretaria
+              </Button>
+            </Skeleton>
           </div>
-        )}
+          <div className='admin'>
+            <Skeleton loading={isLoad} active>
+              <Button
+                onClick={(e) => hendleCreateContactUSerAdmin(e)}
+                style={{
+                  display: "flex",
+                  background: "#a31543",
+                  borderRadius: "10px",
+                  color: "#fff",
+                  padding: "10px",
+                  alignItems: "center",
+                }}
+                title='Contactar a Finança'
+                icon={<MessageOutlined />}>
+                Finança
+              </Button>
+            </Skeleton>
+          </div>
+        </div>
+
         {users?.map((u) => (
           <ContactChat contact={u} key={u?.id} />
         ))}
