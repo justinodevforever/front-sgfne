@@ -73,11 +73,11 @@ function Mensagem() {
           navigate("/login");
           return;
         }
-        const dados = data.data.filter(
+        const dados = data.data?.filter(
           (m) => m.lida === false && m.sendId !== sessionStorage.getItem("id")
         );
-
-        dados.map(async (m) => {
+        console.log(data);
+        dados?.map(async (m) => {
           await api.put(`/updatemensagem/${m.id}`, {
             sms: m.sms,
             lida: true,
@@ -104,14 +104,12 @@ function Mensagem() {
       sendId: sessionStorage.getItem("id"),
       receiveId: id,
       sms: messagem,
-      createdAt: Date.now(),
     };
     await api
       .post("message", {
         contactId: contact.get("contact"),
         sendId: sessionStorage.getItem("id"),
         sms: messagem,
-        createdAt: Mensage.createdAt,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {

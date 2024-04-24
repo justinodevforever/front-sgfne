@@ -38,6 +38,7 @@ export default function Login() {
 
           return;
         }
+        console.log(data.data);
         localStorage.setItem("refreshToken", data?.data?.refreshToken);
         localStorage.setItem(`token${data.data?.User?.id}`, data.data?.token);
         sessionStorage.setItem("user", data.data?.User?.nome);
@@ -63,53 +64,53 @@ export default function Login() {
     <>
       {clik && <AnimationComponentLogin setClick={setClick} click={clik} />}
       {!clik && (
-        <div className="container-login">
-          <div className="img">
-            <img src="./image/ISP_Moxico/Logo.png" alt="Logo do ISPM" />
+        <div className='container-login'>
+          <div className='img'>
+            <img src='./image/ISP_Moxico/Logo.png' alt='Logo do ISPM' />
           </div>
 
-          <form onSubmit={hendleLogar} className="form">
-            <div className="inputEmail">
+          <form onSubmit={hendleLogar} className='form'>
+            <div className='inputEmail'>
               <Input
-                type="text"
-                name="email"
-                placeholder="Digite o seu email"
+                type='text'
+                name='email'
+                placeholder='Digite o seu email'
                 required
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                title="Digite um email Válido"
+                title='Digite um email Válido'
                 ref={refEmail}
                 prefix={<UserOutlined />}
                 style={{ border: "1px solid #000" }}
               />
             </div>
 
-            <div className="inputPassword" style={{ marginTop: 10 }}>
+            <div className='inputPassword' style={{ marginTop: 10 }}>
               <Input.Password
                 type={check ? "text" : "password"}
-                name="password"
-                placeholder="Digite a sua senha"
+                name='password'
+                placeholder='Digite a sua senha'
                 required
                 value={password}
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
-                autoComplete="of"
-                title="8 ou 24 character, Maiúscula e Minúscula, número e entre !@#$%*"
+                autoComplete='of'
+                title='8 ou 24 character, Maiúscula e Minúscula, número e entre !@#$%*'
                 prefix={<PiPassword />}
                 style={{ border: "1px solid #000" }}
               />
             </div>
 
-            <p className="sms">{sms}</p>
+            <p className='sms'>{sms}</p>
             <button>Entrar</button>
-            <div className="link">
-              <label htmlFor="verSenha" className="mostrarSenha">
+            <div className='link'>
+              <label htmlFor='verSenha' className='mostrarSenha'>
                 <input
-                  type="checkbox"
-                  className="inputCheck"
+                  type='checkbox'
+                  className='inputCheck'
                   value={check}
                   onChange={() => setCheck(!check)}
                 />

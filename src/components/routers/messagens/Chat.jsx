@@ -96,7 +96,8 @@ function Chat() {
           navigate("/login");
           return;
         }
-        navigate(`/dashboard/mensage/${data.data?.response?.id}`);
+        console.log(data.data);
+        navigate(`/dashboard/mensagem/${data.data?.response?.id}`);
       })
       .catch((err) => console.log(err));
   }
@@ -112,7 +113,9 @@ function Chat() {
           navigate("/login");
           return;
         }
-        navigate(`/mensage/${data.data?.id}`);
+        navigate(
+          `/dashboard/mensagem/${data.data?.response?.id}?contact:${userId}`
+        );
       })
       .catch((err) => console.log(err));
   }
