@@ -45,8 +45,7 @@ const Cadastrar = () => {
     getCursos();
   }, []);
 
-  const getBi = async (e) => {
-    e.preventDefault();
+  const getBi = async () => {
     await api
       .post("/user/bi", { bi })
       .then((data) => {
@@ -91,8 +90,7 @@ const Cadastrar = () => {
     pegarCurso();
   }, [curso]);
 
-  const hendleEstudante = async (e) => {
-    e.preventDefault();
+  const hendleEstudante = async () => {
     if (
       !fk_curso ||
       !nome ||
@@ -146,18 +144,19 @@ const Cadastrar = () => {
       <UseSucess />
       <UseWarning message={message} />
 
-      <div className="container-cadastrar">
-        <div className="pesquisa">
-          <Form onClick={(e) => getBi(e)} className="Form">
+      <div className='container-cadastrar'>
+        <div className='pesquisa'>
+          <Form className='Form'>
             <Input.Search
-              type="search"
-              placeholder="Nº de BI do Estudante"
+              type='search'
+              placeholder='Nº de BI do Estudante'
               required
               value={bi}
               onChange={(e) => setBi(e.target.value)}
               autoFocus
               maxLength={14}
               allowClear
+              onSearch={() => getBi()}
               showCount={true}
               style={{
                 border: "1px solid #a31543",
@@ -168,13 +167,13 @@ const Cadastrar = () => {
             />
           </Form>
         </div>
-        <Form className="form-cad">
+        <Form className='form-cad'>
           <h2>Cadastro do Estudante</h2>
-          <div className="novos">
-            <label htmlFor="curso">
+          <div className='novos'>
+            <label htmlFor='curso'>
               Curso:
-              <select onChange={(e) => setCurso(e.target.value)} id="curso">
-                <option value="Escolha">Escolha Curso...</option>
+              <select onChange={(e) => setCurso(e.target.value)} id='curso'>
+                <option value='Escolha'>Escolha Curso...</option>
                 {cursos.map((curso) => (
                   <option value={curso.curso} key={curso.id}>
                     {curso.curso}
@@ -182,38 +181,38 @@ const Cadastrar = () => {
                 ))}
               </select>
             </label>
-            <div className="periodo">
+            <div className='periodo'>
               <div>
                 <input
-                  type="radio"
-                  id="diurno"
-                  name="periodo"
+                  type='radio'
+                  id='diurno'
+                  name='periodo'
                   value={"Diúrno"}
                   onChange={(e) => setPeriodo(e.target.value)}
                 />
-                <label htmlFor="diurno">Diúrno</label>
+                <label htmlFor='diurno'>Diúrno</label>
               </div>
               <div>
                 <input
-                  type="radio"
-                  id="posLaboral"
-                  name="periodo"
+                  type='radio'
+                  id='posLaboral'
+                  name='periodo'
                   value={"Pós-Laboral"}
                   onChange={(e) => setPeriodo(e.target.value)}
                 />
-                <label htmlFor="posLaboral">Pós-Laboral</label>
+                <label htmlFor='posLaboral'>Pós-Laboral</label>
               </div>
             </div>
           </div>
           <Input
-            type="text"
-            id="nome"
-            placeholder="Nome do Estudante"
+            type='text'
+            id='nome'
+            placeholder='Nome do Estudante'
             value={nome}
             onChange={(e) => setNome(e.target.value)}
             required
             prefix={<PiStudent />}
-            color="black"
+            color='black'
             allowClear
             style={{
               border: "1px solid #a31543",
@@ -223,9 +222,9 @@ const Cadastrar = () => {
             }}
           />
           <Input
-            type="text"
-            id="bi"
-            placeholder="Nº de BI do Estudante"
+            type='text'
+            id='bi'
+            placeholder='Nº de BI do Estudante'
             required
             disabled
             value={userBi}
@@ -239,9 +238,9 @@ const Cadastrar = () => {
             prefix={<PiIdentificationBadge />}
           />
           <Input
-            type="number"
-            id="contacto"
-            placeholder="Contacto do Estudante"
+            type='number'
+            id='contacto'
+            placeholder='Contacto do Estudante'
             required
             value={contato}
             onChange={(e) => setContato(e.target.value)}
@@ -258,10 +257,11 @@ const Cadastrar = () => {
           />
           {nome && bi && contato && fk_curso && fk_user && (
             <Button
-              onClick={(e) => hendleEstudante(e)}
+              onClick={() => hendleEstudante()}
               prefix={<SaveOutlined />}
               icon={<SaveOutlined />}
-              style={{ marginTop: "30px" }}>
+              style={{ marginTop: "30px" }}
+              type='primary'>
               Cadastrar
             </Button>
           )}

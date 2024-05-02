@@ -7,6 +7,7 @@ import { api } from "../../../../auth/auth";
 import ContactChat from "./contactChat";
 import { MessageOutlined } from "@ant-design/icons";
 import { Button, Skeleton } from "antd";
+import PegarPermissoes from "../../../configs/permissoes/PegarPermissoes";
 
 const users = [];
 
@@ -18,7 +19,11 @@ function Chat() {
   const [secretario, setSecretario] = useState({});
   const [admin, setAdmin] = useState({});
   const [isLoad, setIsLoad] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSec, setIsSec] = useState(false);
   const [id, setId] = useState("");
+  const [adminId, setAdminId] = useState("");
+  const [secId, setSecId] = useState("");
 
   const navigate = useNavigate();
 
@@ -57,7 +62,6 @@ function Chat() {
           navigate("/login");
           return;
         }
-        console.log("ola", data);
         setUsers(data.data);
         setId(data.data?.id);
       })
@@ -66,7 +70,7 @@ function Chat() {
   async function hendleGetPermissionUserChat() {
     await api
       .get(`/permissaousuariochat`)
-      .then((data) => {
+      .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
@@ -80,12 +84,37 @@ function Chat() {
           (user) => user?.permission?.permissao == "secretário"
         );
         setSecretario(secre);
+
+        const userSec = await api.post("/contact/usersec/", {
+          adminId: secre[0].user.id,
+          userId,
+        });
+        if (userSec.data) {
+          setSecId(userSec.data?.id);
+          setIsSec(true);
+        }
+
+        const user = await api.post("/contact/useradmin/", {
+          adminId: admini[0].user.id,
+          userId,
+        });
+        if (user.data) {
+          setAdminId(user.data?.id);
+          setIsAdmin(true);
+        }
+
         setIsLoad(false);
       })
       .catch((err) => console.log(err));
   }
+
   async function hendleCreateContactUSerSecretario(e) {
     e.preventDefault();
+    if (isSec)
+      return navigate(
+        `/main/mensagem/${secretario[0]?.fk_user}?contact=${secId}`
+      );
+
     await api
       .post(`/contact/user`, {
         receiveId: secretario[0]?.user?.id,
@@ -96,13 +125,19 @@ function Chat() {
           navigate("/login");
           return;
         }
-        console.log(data.data);
-        navigate(`/dashboard/mensagem/${data.data?.response?.id}`);
+
+        navigate(
+          `/main/mensagem/${secretario[0]?.user?.id}?contact=${data.data?.response?.id}`
+        );
       })
       .catch((err) => console.log(err));
   }
   async function hendleCreateContactUSerAdmin(e) {
     e.preventDefault();
+
+    if (isAdmin)
+      return navigate(`/main/mensagem/${admin[0].fk_user}?contact=${adminId}`);
+
     await api
       .post(`/contact/user`, {
         receiveId: admin[0].user.id,
@@ -114,7 +149,7 @@ function Chat() {
           return;
         }
         navigate(
-          `/dashboard/mensagem/${data.data?.response?.id}?contact:${userId}`
+          `/main/mensagem/${admin[0].user.id}?contact=${data.data?.response?.id}`
         );
       })
       .catch((err) => console.log(err));
@@ -123,18 +158,7 @@ function Chat() {
   return (
     <>
       <div className='container-chat'>
-        <div
-          className='admincon'
-          style={{
-            display: "flex",
-            width: "100%",
-            margin: "auto",
-            marginTop: "20px",
-            gap: "20px",
-            height: "40px",
-            flexDirection: "column",
-            alignItems: "center",
-          }}>
+        {secretario[0]?.fk_user !== sessionStorage.getItem("id") && (
           <div className='secretario'>
             <Skeleton active loading={isLoad}>
               <Button
@@ -153,6 +177,8 @@ function Chat() {
               </Button>
             </Skeleton>
           </div>
+        )}
+        {admin[0]?.fk_user !== sessionStorage.getItem("id") && (
           <div className='admin'>
             <Skeleton loading={isLoad} active>
               <Button
@@ -171,10 +197,12 @@ function Chat() {
               </Button>
             </Skeleton>
           </div>
-        </div>
+        )}
 
-        {users.length > 0 &&
-          users?.map((u) => <ContactChat contact={u} key={u?.id} />)}
+        <PegarPermissoes permissoes={["admin", "secretário"]}>
+          {users.length > 0 &&
+            users?.map((u) => <ContactChat contact={u} key={u?.id} />)}
+        </PegarPermissoes>
       </div>
     </>
   );

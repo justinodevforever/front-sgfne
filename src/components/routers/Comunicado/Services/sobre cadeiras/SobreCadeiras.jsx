@@ -3,7 +3,6 @@ import "./sobreCadeira.scss";
 import { api } from "../../../../../../auth/auth";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import Alert from "../../../hook/alert/Alert";
 import RelatorioSobreCadeira from "../relatorios/SobreCadeira/SobreCadeira";
 import { useDispatch, useSelector } from "react-redux";
 import UseWarning from "../../../hook/massege/warning/UseWarning";
@@ -14,7 +13,8 @@ import {
   toggleModalWarning,
 } from "../../../../../store/ui-slice";
 import Loader from "../../../hook/load/Loader";
-import { Button, Form, Input, Space } from "antd";
+import { Button, Form, Input, Space, Alert, message, Popconfirm } from "antd";
+import { AlertHeading } from "react-bootstrap";
 
 const SobreCadeiras = () => {
   const [bi, setBi] = useState("");
@@ -98,23 +98,24 @@ const SobreCadeiras = () => {
   const buscarEstudante = async () => {
     const { data } = await api.post("/divida", { bi });
     console.log(data);
-    if (data.message === "está com dívida") {
+    if (data?.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
       dispatchWarning(toggleModalWarning(true));
 
       return;
     }
+
     await api
       .post("/search/estudante/bi", {
         bi,
-        frequencia,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
+
         setCurso(data.data.Curso.curso);
         setFk_curso(data.data.Curso.id);
         setNome(data.data.nome);
@@ -136,6 +137,7 @@ const SobreCadeiras = () => {
       .catch((err) => console.log(err));
   };
   const buscarDisciplina = async () => {
+    if (!disciplina) return;
     await api
       .post("/search/disciplina", {
         nome: disciplina,
@@ -186,7 +188,6 @@ const SobreCadeiras = () => {
         semestre,
         ano: frequencia,
         curso,
-        anoLetivo: ano,
       })
 
       .then((data) => {
@@ -194,6 +195,7 @@ const SobreCadeiras = () => {
           navigate("/login");
           return;
         }
+        console.log(data.data);
         if (data.data.message === "error") return;
         setDisciplinas(data.data);
       })
@@ -429,9 +431,9 @@ const SobreCadeiras = () => {
 
   return (
     <>
-      <UseWarning message={message} />
       <UseSucess />
       <UseErro />
+      <UseWarning message={message} />
 
       {tipos.get("tipos") === "Cadeira em Atrazo" ||
       tipos.get("tipos") === "Recurso" ||
@@ -518,7 +520,7 @@ const SobreCadeiras = () => {
                   onChange={(e) => setDisciplina(e.target.value)}>
                   <option value={"Escolha"}>Escolha...</option>
 
-                  {disciplinas.map((s) => (
+                  {disciplinas?.map((s) => (
                     <option value={s.nome} key={s.id}>
                       {s.nome}
                     </option>

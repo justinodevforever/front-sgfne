@@ -3,9 +3,12 @@ import "./EditarComentarioPublicacao.scss";
 import MenuBack from "../../page/coment/Menu-Back/MenuBack";
 import { api } from "../../../../auth/auth";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "antd";
+import { SaveTwoTone } from "@ant-design/icons";
 
 const EditarComentarioPublicacao = () => {
   const [comentario, setComentario] = useState("");
+  const [isClic, setIsClic] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -24,6 +27,7 @@ const EditarComentarioPublicacao = () => {
   };
   const upDateComentPublicacao = async (e) => {
     e.preventDefault();
+    setIsClic(true);
     await api
       .put(`/comentario/publicacao/${id}`, {
         comentario,
@@ -44,18 +48,23 @@ const EditarComentarioPublicacao = () => {
   return (
     <>
       <MenuBack />
-      <div className="container-editarComentarioPublicacao">
-        <form
-          onSubmit={(e) => {
-            upDateComentPublicacao(e);
-          }}>
+      <div className='container-editarComentarioPublicacao'>
+        <form>
           <textarea
             defaultValue={comentario.comentario}
             onChange={(e) => {
               setComentario(e.target.value);
             }}
           />
-          <button type="submit">Confirmar Edição</button>
+          <Button
+            type='primary'
+            icon={<SaveTwoTone />}
+            loading={isClic}
+            onClick={(e) => {
+              upDateComentPublicacao(e);
+            }}>
+            Salvar
+          </Button>
         </form>
       </div>
     </>

@@ -10,6 +10,8 @@ import { io } from "socket.io-client";
 import { formaHouser, formatDate } from "../hook/timeout";
 import Ispm from "../hook/Ispm";
 import { Socket } from "../../../socketIO";
+import { Button, Spin } from "antd";
+import { SendOutlined } from "@ant-design/icons";
 
 function Mensagem() {
   // const [socketInstance] = useState(Socket());
@@ -43,14 +45,14 @@ function Mensagem() {
     socketInstance.current.on("messageReceived", (messege) => {
       if (messege.sendId === id) {
         setMessage([...message, messege]);
-        setNotifySms(messege);
+        setNotifySms("messege");
       }
     });
   }, [message]);
 
   useEffect(() => {
     getMensage();
-
+    getMensageNaoLida();
     const userId = sessionStorage.getItem("id");
     socketInstance.current.emit("connected", userId);
   }, []);
@@ -59,7 +61,7 @@ function Mensagem() {
     scrollDown();
   }, [message]);
 
-  const getMensage = async () => {
+  const getMensageNaoLida = async () => {
     const notify = {
       sendId: sessionStorage.getItem("id"),
       receiveId: id,
@@ -67,24 +69,33 @@ function Mensagem() {
       contactId: contact.get("contact"),
     };
     await api
+      .get(`message/naolida/${sessionStorage.getItem("id")}`)
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+        if (!data.data) return
+          data.data?.map(async (m) => {
+            // console.log(m);
+         const response =   await api.put(`/updatemensagem/${m.id}`, {
+              lida: true,
+            });
+            
+            socket.emit("notifyMessage", notify);
+          });
+      })
+      .catch((err) => console.log(err));
+  };
+  const getMensage = async () => {
+    await api
       .get(`message/${contact.get("contact")}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        const dados = data.data?.filter(
-          (m) => m.lida === false && m.sendId !== sessionStorage.getItem("id")
-        );
-        console.log(data);
-        dados?.map(async (m) => {
-          await api.put(`/updatemensagem/${m.id}`, {
-            sms: m.sms,
-            lida: true,
-          });
-
-          socket.emit("notifyMessage", notify);
-        });
+   
         setMessage(data.data);
       })
       .catch((err) => console.log(err));
@@ -99,7 +110,7 @@ function Mensagem() {
 
   async function hendleSubmitEnviada(e) {
     e.preventDefault();
-
+    setIsVisible(true);
     const Mensage = {
       sendId: sessionStorage.getItem("id"),
       receiveId: id,
@@ -123,12 +134,12 @@ function Mensagem() {
           type: 1,
           contactId: contact.get("contact"),
         };
-
         socketInstance.current.emit("sendMessege", Mensage);
         socket.emit("notifyMessage", notify);
 
         setMessage([...message, data.data.response]);
         setMessagem("");
+        setIsVisible(false);
       })
       .catch((err) => console.log(err));
   }
@@ -136,20 +147,19 @@ function Mensagem() {
   const scrollDown = () => {
     bottonRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  if (isVisible) {
-    const c = document.getElementById("c");
-    c?.classList.add("opacity");
-  }
+  // if (isVisible) {
+  //   const c = document.getElementById("c");
+  //   c?.classList.add("opacity");
+  // }
 
   return (
     <div className='mens'>
-      {isVisible && <Ispm />}
       <div className='container-mensagem' id='c'>
         {/* <OnlineUser online={online} /> */}
         <div className='container-conteudo'>
           <div>
-            {message?.map((sms, index) => (
-              <div className='dv' key={index}>
+            {message?.map((sms) => (
+              <div className='dv' key={sms.id}>
                 <span className='spanDate'>
                   {dataFormatada(sms?.createdAt)}
                 </span>
@@ -216,7 +226,14 @@ function Mensagem() {
 
           {messagem && (
             <div className='divEnviar'>
-              <BiSolidSend
+              <Button
+                icon={<SendOutlined />}
+                type='primary'
+                loading={isVisible}
+                style={{
+                  textAlign: "center",
+                  marginLeft: "10px",
+                }}
                 onClick={(e) => {
                   hendleSubmitEnviada(e);
                 }}

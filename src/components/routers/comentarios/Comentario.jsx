@@ -30,27 +30,26 @@ function Comentario({ publ }) {
 
   return (
     <>
-      <div className="container-comentario">
+      <div className='container-comentario'>
         <form>
           <Link
             to={`/coment/publication/${publ.id}?page=${1}`}
-            className="border2">
+            className='border2'
+            style={{
+              gap: "20px",
+              justifyContent: "space-between",
+            }}>
             <AiOutlineComment
               to={`/coment/publication/${publ.id}?page=${1}`}
               size={"20px"}
-              color="#fff"
+              color='#fff'
+              cursor={"pointer"}
             />
-            {/* {!count ? (
-              <div></div>
-            ) : (
-              <div>
-                {Number(count) >= 1000 ? (
-                  <span>+100</span>
-                ) : (
-                  <span>{count}</span>
-                )}
-              </div>
-            )} */}
+            {count !== 0 && (
+              <span style={{ left: "20px" }}>
+                {count >= 1000 ? <span>+100</span> : <span>{count}</span>}
+              </span>
+            )}
           </Link>
         </form>
       </div>

@@ -72,10 +72,11 @@
 }
 .container-mensagem .container-conteudo .spanDate {
   font-size: 11pt;
-  color: #fff;
+  color: #000;
   opacity: 1;
   font-weight: 500;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: #fff;
 }
 .container-mensagem .container-conteudo .spanHour {
   position: absolute;
@@ -107,7 +108,7 @@
   background-color: transparent;
   border: 1px solid #fff;
 }
-.container-mensagem button {
+/* .container-mensagem button {
   padding: 10px;
   background-color: rgb(80, 9, 9);
   font-size: 14pt;
@@ -117,7 +118,7 @@
   border: none;
   margin-left: 10px;
   cursor: pointer;
-}
+} */
 .container-mensagem .imojiMessage {
   display: flex;
   position: absolute;

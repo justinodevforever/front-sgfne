@@ -6,6 +6,9 @@ import { BiWinkSmile } from "react-icons/bi";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import MenuBack from "../../page/coment/Menu-Back/MenuBack";
+import { setIsClic } from "../../../store/ui-slice";
+import { Button } from "antd";
+import { SaveTwoTone } from "@ant-design/icons";
 
 export function EditarPublicacao() {
   const [publicacao, setPublicacao] = useState("");
@@ -23,13 +26,24 @@ export function EditarPublicacao() {
   }
   async function hendleSbmit(e) {
     e.preventDefault();
-
-    navigate(`/?page=${1}`);
-    await api.put(`/publicacao/${id}`, {
-      publicacao,
-      like,
-      fk_user,
-    });
+    setIsClic(true);
+    await api
+      .put(`/publicacao/${id}`, {
+        publicacao,
+        like,
+        fk_user,
+      })
+      .then((data) => {
+        if (data === "Token Invalid") {
+          setIsClic(false);
+          navigate(`/login`);
+          return;
+        }
+        navigate(`/?page=${1}`);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
   useEffect(() => {
     getPublicacao();
@@ -38,8 +52,8 @@ export function EditarPublicacao() {
   return (
     <>
       <MenuBack />
-      <div className="container-EditarPublicacao">
-        <div className="conteudo">
+      <div className='container-EditarPublicacao'>
+        <div className='conteudo'>
           <form onSubmit={(e) => hendleSbmit(e)}>
             <textarea
               defaultValue={publicacao}
@@ -48,7 +62,7 @@ export function EditarPublicacao() {
               }}
             />
 
-            <button type="submit">Confirmar Edição</button>
+            <Button type='submit' icon={SaveTwoTone} />
           </form>
         </div>
       </div>

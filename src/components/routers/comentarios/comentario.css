@@ -18,6 +18,7 @@
 }
 .container-comentario .border2 span {
   position: absolute;
+  font-size: 11pt;
 }
 
 .container-comentario .send {

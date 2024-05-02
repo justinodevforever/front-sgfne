@@ -4,6 +4,7 @@
   height: 100%;
   position: relative;
   flex-wrap: wrap;
+  padding-bottom: 30px;
 }
 .container-publicacao1 .publicacao a {
   cursor: pointer;
@@ -50,9 +51,10 @@ a {
   justify-content: end;
   width: 100px;
   position: fixed;
-  top: 80px;
+  bottom: 80px;
   right: 0px;
   z-index: 1;
+  height: 40px;
 }
 
 .div-publicar a {

@@ -81,11 +81,12 @@ const Editar = ({ isVisible, setIsVisible, id }) => {
           navigate("/login");
           return;
         }
-        setDisciplina(data.data);
+
         setNome(data.data.nome);
         setFk_curso(data.data.curso?.id);
         setFk_frequencia(data.data?.frequencia?.id);
         setFk_semestre(data.data?.semestre?.id);
+        setDisciplina(data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -189,6 +190,25 @@ const Editar = ({ isVisible, setIsVisible, id }) => {
             </select>
           </label>
         </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Disciplina</th>
+              <th>Ano de Frquência</th>
+              <th>Curso</th>
+              <th>Semestre</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{disciplina?.nome}</td>
+              <td>{disciplina?.frequencia?.ano}</td>
+              <td>{disciplina?.curso?.curso}</td>
+              <td>{disciplina?.semestre?.nome}</td>
+            </tr>
+          </tbody>
+        </table>
       </Space>
     </Modal>
   );

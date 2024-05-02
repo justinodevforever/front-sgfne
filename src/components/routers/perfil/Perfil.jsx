@@ -9,6 +9,7 @@ import Comentario from "../comentarios/Comentario";
 import { ProfilePublication } from "../anuncios/ProfilePublication";
 import UseBtnRemovePerfil from "./btnDelete/UseBtnDelete";
 import { CiEdit } from "react-icons/ci";
+import { Skeleton } from "antd";
 
 let clicou = false;
 let id1;
@@ -30,7 +31,8 @@ export const deletePublicacaoPerfil = async (id) => {
 
 function Perfil() {
   const navigate = useNavigate();
-  const [nome, setNome] = useState();
+  const [loading, setLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(true);
   const [image, setImage] = useState([]);
   const [user, setUser] = useState([]);
   const [publicacoes, setPublicacoes] = useState([]);
@@ -42,15 +44,16 @@ function Perfil() {
 
   async function hendleGetUser() {
     await api
-      .get(`/user/${id}`)
+      .get(`/user/perfil/${id}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
 
-        setUser(data.data[0]);
-        setEmail(data.data[0]?.email);
+        setUser(data.data);
+        setEmail(data.data?.email);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }
@@ -66,6 +69,7 @@ function Perfil() {
           return;
         }
         setImage(data.data[0]);
+        setLoadingImage(false);
       })
       .catch((err) => console.log(err));
   }
@@ -80,39 +84,41 @@ function Perfil() {
     hendleGetImage();
   }, []);
   return (
-    <div className="container-perfil">
-      <div className=" conteudo-perfil">
+    <div className='container-perfil'>
+      <div className=' conteudo-perfil'>
         <h1>Perfil</h1>
 
         {image == undefined || null || image.length == 0 ? (
-          <img src={"../../../image/emptyImage.jpg"} alt={""} className="img" />
+          <img src={"../../../image/emptyImage.jpg"} alt={""} className='img' />
         ) : (
           <img
             src={`${url}/files/users/${image?.nome}`}
             alt={""}
-            className="img"
+            className='img'
           />
         )}
 
-        {user?.user?.id == sessionStorage.getItem("id") ? (
-          <Link to={"/fotoperfil"} className="linkes">
+        {user?.id == sessionStorage.getItem("id") ? (
+          <Link to={"/fotoperfil"} className='linkes'>
             Trocar foto do perfil
           </Link>
         ) : (
           <div></div>
         )}
-        <Link to={`/fotos/${id}`} className="linkes">
+        <Link to={`/fotos/${id}`} className='linkes'>
           Fotos
         </Link>
 
-        <div className="dados-perfil">
-          <span>Nome: {user?.user?.nome}</span>
-          <br />
-          <span>contacto : {user?.user?.contacto}</span>
-          <br />
-          <span>email: {user?.user?.email}</span>
-          <br />
-        </div>
+        <Skeleton loading={loading}>
+          <div className='dados-perfil'>
+            <span>Nome: {user?.nome}</span>
+            <br />
+            <span>contacto : {user?.contacto}</span>
+            <br />
+            <span>email: {user?.email}</span>
+            <br />
+          </div>
+        </Skeleton>
       </div>
     </div>
   );

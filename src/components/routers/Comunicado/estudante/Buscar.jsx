@@ -14,8 +14,7 @@ const Buscar = () => {
 
   const navigete = useNavigate();
 
-  const getBi = async (e) => {
-    e.preventDefault();
+  const getBi = async () => {
     await api
       .post("/search/estudante/bi", {
         bi,
@@ -54,12 +53,12 @@ const Buscar = () => {
   };
 
   return (
-    <div className="container-buscar">
-      <div className="pesquisa">
-        <Form onClick={(e) => getBi(e)} className="form">
+    <div className='container-buscar'>
+      <div className='pesquisa'>
+        <Form className='form'>
           <Input.Search
-            type="search"
-            placeholder="Nº de BI do Estudante"
+            type='search'
+            placeholder='Nº de BI do Estudante'
             required
             onChange={(e) => setBi(e.target.value)}
             value={bi}
@@ -67,6 +66,7 @@ const Buscar = () => {
             maxLength={14}
             showCount
             allowClear
+            onSearch={() => getBi()}
             style={{
               width: "90%",
               border: "1px solid #000",
@@ -74,7 +74,7 @@ const Buscar = () => {
           />
         </Form>
       </div>
-      <div className="conteudo" id="tabela">
+      <div className='conteudo' id='tabela'>
         {estudante && (
           <>
             <br />

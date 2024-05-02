@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 
 const LikePublicacao = ({ publ }) => {
   const [clickLike, setClickLike] = useState(false);
-  const [like, setLike] = useState("");
+  const [like, setLike] = useState(0);
   const [likes, setLikes] = useState({});
   const id = sessionStorage.getItem("id");
   const socketInstance = useRef();
@@ -34,6 +34,7 @@ const LikePublicacao = ({ publ }) => {
       })
       .catch((err) => console.log(err));
   };
+
   const getLikes = async () => {
     await api
       .post("/like/publicacao/specific", {
@@ -131,8 +132,8 @@ const LikePublicacao = ({ publ }) => {
   }, [receive]);
 
   return (
-    <div className="container-likePublicacao">
-      <Link className="likePublicacao">
+    <div className='container-likePublicacao'>
+      <Link className='likePublicacao'>
         {likes?.like && (
           <FcLike
             onClick={(e) => {
@@ -150,7 +151,7 @@ const LikePublicacao = ({ publ }) => {
           />
         )}
 
-        {/* {!like ? <div></div> : <span>{like}</span>} */}
+        {like !== 0 && <span>{like}</span>}
       </Link>
     </div>
   );

@@ -19,30 +19,29 @@ const ProfileComentPublication = ({ idUser }) => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
-        // setImageUser(data.data[0]);
+        setImageUser(data.data[0]);
       })
       .catch((err) => console.log(err));
   };
 
   return (
-    <div className="profileComentPublication">
+    <div className='profileComentPublication'>
       {imageUser == undefined || null || imageUser.length == 0 ? (
         <Link
-          className="perfil img"
+          className='perfil img'
           to={`/perfil/${sessionStorage.getItem("id")}`}>
           <img src={`../../../image/emptyImage.jpg`} alt={""} />
         </Link>
       ) : (
         <div>
           <Link
-            className="perfil"
+            className='perfil'
             to={`/perfil/${sessionStorage.getItem("id")}`}>
-            <div className="online"></div>
+            <div className='online'></div>
             <img
               src={`http://localhost:3001/files/users/${imageUser.nome}`}
               alt={""}
-              className="perfil-image"
+              className='perfil-image'
             />
           </Link>
         </div>

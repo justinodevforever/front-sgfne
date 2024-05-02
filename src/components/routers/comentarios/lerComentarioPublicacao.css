@@ -16,11 +16,10 @@
   flex-direction: column;
   text-align: left;
   font-size: 20pt;
-  text-justify: distribute;
   background-image: url(Textura1.png);
   background-size: 70px;
-  border: 3px solid #eadcdc;
-  margin-top: 4px;
+  border: 2px solid #eadcdc;
+  /* margin-top: 4px; */
 }
 .container-lerComentario .publicacao-comentarios {
   display: flex;
@@ -58,6 +57,7 @@ a {
   font-size: 14pt;
   word-wrap: break-word;
   white-space: break-spaces;
+  margin-top: -20px;
 }
 .footer-comentarA {
   display: flex;
@@ -66,6 +66,7 @@ a {
   background-color: #000;
   padding: 4px 0px 10px 0px;
 }
+
 .div-comentar {
   width: 100%;
   padding: 0px;
@@ -100,10 +101,10 @@ a {
   bottom: 70px;
 }
 .div-icon {
-  position: absolute;
+  /* position: absolute; */
   margin-top: 20px;
   cursor: pointer;
-  right: 20px;
+  margin-left: 10px;
 }
 @media (max-width: 740px) {
   .footer-comentarA {
@@ -125,12 +126,6 @@ a {
     position: absolute;
     margin-left: 57%;
     margin-top: 42px;
-  }
-  .div-icon {
-    margin-top: 42px;
-    position: absolute;
-    cursor: pointer;
-    right: 20px;
   }
 }
 

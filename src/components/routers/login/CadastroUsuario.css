@@ -16,7 +16,7 @@
   width: 300px;
   border-radius: 20px;
   box-shadow: 1px 1px #000;
-  height: 500px;
+  /* height: 500px; */
 }
 .form-cadastro .img {
   display: flex;
@@ -138,13 +138,13 @@
   .form-cadastro .showScreen {
     width: 80%;
   }
-  .container-cadastro button {
+  /* .container-cadastro button {
     margin-top: 20px;
     padding: 10px;
     font-size: 14pt;
     margin-bottom: 7px;
     width: 50%;
-  }
+  } */
   .form-cadastro .errorPasswordConf {
     margin-top: 10px;
     color: #f40404;

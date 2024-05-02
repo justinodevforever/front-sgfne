@@ -4,7 +4,6 @@ import { api } from "../../../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import { BiEdit, BiSearch, BiSolidSearch, BiX } from "react-icons/bi";
 import Editar from "../editar/Editar";
-import { Modal } from "antd";
 
 const Actualizar = () => {
   const [frequencias, setFrequencias] = useState([]);
@@ -17,8 +16,6 @@ const Actualizar = () => {
   const [message, setMessage] = useState("");
   const [id, setId] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [confirm, setConfirm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +75,7 @@ const Actualizar = () => {
           navigate("/login");
           return;
         }
-
+        console.log(data.data);
         setDisciplinas(data.data);
       })
       .catch((err) => console.log(err));
@@ -89,22 +86,9 @@ const Actualizar = () => {
     setIsVisible(true);
     setId(id);
   };
-
-  const removerDisciplina = async (id) => {
-    await api
-      .delete(`/disciplina/${id}`)
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-        }
-        setDisciplinas(disciplinas.filter((disc) => disc.id !== id));
-      })
-      .catch((error) => console.log(error));
-  };
   return (
     <>
       <Editar isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
-
       <div className='atualizar'>
         <form onSubmit={(e) => hendleBuscar(e)}>
           <div>
@@ -168,11 +152,7 @@ const Actualizar = () => {
                   <td>{d?.curso.curso}</td>
                   <td>{d?.semestre.nome}</td>
                   <td>
-                    <BiX
-                      color='red'
-                      cursor={"pointer"}
-                      onClick={() => removerDisciplina(d.id)}
-                    />
+                    <BiX color='red' cursor={"pointer"} />
                   </td>
                   <td>
                     <BiEdit

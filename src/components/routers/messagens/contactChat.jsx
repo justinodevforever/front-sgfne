@@ -104,7 +104,7 @@ const ContactChat = ({ contact }) => {
               </div>
 
               <Link
-                to={`/dashboard/mensagem/${contact?.sender?.id}?contact=${contact?.id}`}>
+                to={`/main/mensagem/${contact?.sender?.id}?contact=${contact?.id}`}>
                 {contact?.sender?.nome}
                 <br />
                 {message?.sms && (
@@ -146,7 +146,7 @@ const ContactChat = ({ contact }) => {
                 )}
               </div>
               <Link
-                to={`/dashboard/mensagem/${contact?.receiver?.id}?contact=${contact?.id}`}>
+                to={`/main/mensagem/${contact?.receiver?.id}?contact=${contact?.id}`}>
                 {contact?.receiver?.nome}
                 <br />
                 {message?.sms && (

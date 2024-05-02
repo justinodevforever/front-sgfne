@@ -1,0 +1,24 @@
+@import "../../../../../../../style/variable.scss";
+.atualizar form button {
+  display: flex;
+  width: 150px;
+  margin: auto;
+  padding: 10px;
+  font-size: 14pt;
+  color: $white;
+  background-color: $rosa;
+  text-align: center;
+  border: none;
+  border-radius: 7px;
+  gap: 4px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.atualizar form div {
+  display: flex;
+  margin: auto;
+}
+.atualizar table th {
+  background-color: $rosa;
+}

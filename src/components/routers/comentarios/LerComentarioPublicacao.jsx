@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import "./lerComentarioPublicacao.css";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { api } from "../../../../auth/auth";
 import { AiOutlineLike } from "react-icons/ai";
 import {
@@ -8,6 +13,7 @@ import {
   BiSolidSend,
   BiTrash,
   BiWinkSmile,
+  BiX,
 } from "react-icons/bi";
 
 import Picker from "@emoji-mart/react";
@@ -18,7 +24,12 @@ import { chatflech } from "../../../configs/axios/chatfletch";
 import ProfileComentPublication from "./ProfileComentPublication";
 import LikeComentarioPublicacao from "./likes/Like";
 import LerMais from "./LerMais";
-import { Spin } from "antd";
+import { Button, Modal, Skeleton, Spin } from "antd";
+import {
+  CloseCircleFilled,
+  CloseOutlined,
+  SendOutlined,
+} from "@ant-design/icons";
 
 export default function LerComentarioPublicacao() {
   const [comentarios, setComentarios] = useState([]);
@@ -30,8 +41,12 @@ export default function LerComentarioPublicacao() {
   const [images, setImages] = useState([]);
   const [lerMais, setLerMais] = useState(false);
   const [clicou, setClicou] = useState(false);
+  const [isClic, setIsClic] = useState(false);
+  const [isClosed, setIsClosed] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [user, setUSer] = useState({});
   const clikRef = useRef();
+  const navigate = useNavigate();
 
   const params = useParams();
   const { id } = params;
@@ -69,9 +84,9 @@ export default function LerComentarioPublicacao() {
           navigate("/login");
           return;
         }
-
         setPublicacoes(data.data.publicacao);
         setUSer(data.data.Usuario);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   }
@@ -99,6 +114,7 @@ export default function LerComentarioPublicacao() {
           navigate("/login");
           return;
         }
+
         setComentarios(comentarios.filter((c) => c.id !== id));
       })
       .catch((err) => console.log(err));
@@ -129,14 +145,13 @@ export default function LerComentarioPublicacao() {
           socketInstance.current.emit("comentpublication", newComent);
 
           setComentario("");
-          // setComentarios([...comentarios, data.data.response[0]]);
+          setComentarios([...comentarios, data.data.response[0]]);
         })
         .catch((err) => console.log(err));
     } catch (error) {
       console.log(error);
     }
   }
-  // console.log(sessionStorage.getItem("id"));
 
   async function getComent() {
     await api
@@ -148,7 +163,8 @@ export default function LerComentarioPublicacao() {
           navigate("/login");
           return;
         }
-        setComentarios(data.data);
+
+        setComentarios(data.data.response);
         setPagination(data.data.pagination);
       })
       .catch((err) => console.log(err));
@@ -172,111 +188,116 @@ export default function LerComentarioPublicacao() {
   return (
     <>
       <MenuBack />
-      <div className="container-lerComentario">
-        <div className="publicacao-comentarios">
-          <div className="publicacao_user">
-            {publicacoes?.length < 100 ? (
-              <p>{publicacoes}</p>
-            ) : (
-              <>
-                {!lerMais && (
-                  <div>
-                    {publicacoes?.slice(0, 100) + "..."}
-                    <LerMais toggleLerMais={toggleLerMais} />
-                  </div>
-                )}
-                {lerMais && <p ref={clikRef}>{publicacoes}</p>}
-              </>
+      <div className='container-lerComentario'>
+        <Skeleton loading={loading}>
+          <div className='publicacao-comentarios'>
+            <div className='publicacao_user'>
+              {publicacoes?.length < 100 ? (
+                <p>{publicacoes}</p>
+              ) : (
+                <>
+                  {!lerMais && (
+                    <div>
+                      {publicacoes?.slice(0, 100) + "..."}
+                      <LerMais toggleLerMais={toggleLerMais} />
+                    </div>
+                  )}
+                  {lerMais && <p ref={clikRef}>{publicacoes}</p>}
+                </>
+              )}
+            </div>
+
+            {pagination?.prev_page && (
+              <Link
+                to={`/coment/publication/${id}?page=${page.get("page") - 1}`}>
+                {" "}
+                Comentários Anteriores
+              </Link>
+            )}
+            {comentarios?.map((comentario) => (
+              <div className='conteudos-comentarios' key={comentario?.id}>
+                <div className='barra'>
+                  <ProfileComentPublication idUser={comentario?.usuario?.id} />
+                  <Link to={`/perfil/${comentario?.usuario?.id}`}>
+                    {" "}
+                    {comentario?.usuario?.nome?.length > 12 ? (
+                      <span>
+                        {comentario?.usuario?.nome?.slice(0, 12) + "..."}
+                      </span>
+                    ) : (
+                      <span>{comentario?.usuario?.nome}</span>
+                    )}
+                  </Link>
+
+                  {comentario?.usuario?.id === sessionStorage.getItem("id") ? (
+                    <div>
+                      <Link to={`/edit/coment/publication/${comentario?.id}`}>
+                        <BiSolidEditAlt
+                          size={"20px"}
+                          color='00f'
+                          cursor={"pointer"}
+                        />
+                      </Link>
+
+                      <BiX
+                        size={"20px"}
+                        color='#f74044'
+                        cursor={"pointer"}
+                        onClick={(e) =>
+                          removerComentarioPublicacao(e, comentario?.id)
+                        }
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      {user?.id === sessionStorage.getItem("id") ? (
+                        <BiTrash
+                          size={"20px"}
+                          color='#f74044'
+                          cursor={"pointer"}
+                          onClick={(e) => {
+                            removerComentarioPublicacao(e, comentario?.id);
+                          }}
+                        />
+                      ) : (
+                        <div></div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                <p>{comentario?.comentario}</p>
+                <LikeComentarioPublicacao coment={comentario} />
+              </div>
+            ))}
+
+            {pagination.next_page && (
+              <Link
+                to={`/coment/publication/${id}?page=${
+                  Number(page.get("page")) + Number(1)
+                }`}>
+                Comentários Posteriores
+              </Link>
             )}
           </div>
-
-          {pagination?.prev_page && (
-            <Link to={`/coment/publication/${id}?page=${page.get("page") - 1}`}>
-              {" "}
-              Comentários Anteriores
-            </Link>
-          )}
-          {comentarios?.map((comentario) => (
-            <div className="conteudos-comentarios" key={comentario?.id}>
-              <div className="barra">
-                <ProfileComentPublication idUser={comentario?.Usuario?.id} />
-                <Link to={`/perfil/${comentario?.Usuario?.id}`}>
-                  {" "}
-                  {comentario?.Usuario?.nome?.length > 12 ? (
-                    <span>
-                      {comentario?.Usuario?.nome?.slice(0, 12) + "..."}
-                    </span>
-                  ) : (
-                    <span>{comentario?.Usuario?.nome}</span>
-                  )}
-                </Link>
-
-                {comentario?.Usuario?.id === sessionStorage.getItem("id") ? (
-                  <div>
-                    <Link to={`/edit/coment/publication/${comentario?.id}`}>
-                      <BiSolidEditAlt
-                        size={"20px"}
-                        color="00f"
-                        cursor={"pointer"}
-                      />
-                    </Link>
-
-                    <BiTrash
-                      size={"20px"}
-                      color="#f74044"
-                      cursor={"pointer"}
-                      onClick={(e) => {
-                        removerComentarioPublicacao(e, comentario?.id);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div>
-                    {user?.id === sessionStorage.getItem("id") ? (
-                      <BiTrash
-                        size={"20px"}
-                        color="#f74044"
-                        cursor={"pointer"}
-                        onClick={(e) => {
-                          removerComentarioPublicacao(e, comentario?.id);
-                        }}
-                      />
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className="profile"></div>
-              <p>{comentario?.comentario}</p>
-              <LikeComentarioPublicacao coment={comentario} />
-            </div>
-          ))}
-
-          <Link
-            to={`/coment/publication/${id}?page=${
-              Number(page.get("page")) + Number(1)
-            }`}>
-            Comentários Posteriores
-          </Link>
-        </div>
-        <footer className="footer-comentarA">
+        </Skeleton>
+        <footer className='footer-comentarA'>
           <textarea
-            name="comentario"
-            id="comentario"
-            placeholder="Comenta Aqui!"
+            name='comentario'
+            id='comentario'
+            placeholder='Comenta Aqui!'
             value={comentario}
             onChange={(e) => {
               setComentario(e.target.value);
             }}
             required
-            className="comentarA"
+            className='comentarA'
           />
           <div className={"container-emoji"}>
             <BiWinkSmile
               cursor={"pointer"}
               size={"30px"}
-              color="#fff"
+              color='#fff'
               onClick={() => {
                 setIsPick(!isPick);
               }}
@@ -284,31 +305,27 @@ export default function LerComentarioPublicacao() {
 
             <div className={isPick ? "abrirEmoji" : "feicharEmoji"}>
               <Picker
-                width="40px"
-                size="20px"
+                width='40px'
+                size='20px'
                 data={data}
-                previewPosition="fixed"
+                previewPosition='fixed'
                 onEmojiSelect={(e) => {
                   setComentario(comentario + e.native);
                 }}
-                className="emoji"
+                className='emoji'
               />
             </div>
           </div>
-          <div className="div-icon">
-            {comentario && (
-              <>
-                {!clicou && (
-                  <BiSolidSend
-                    onClick={() => hendleComentar()}
-                    size={"30px"}
-                    color="#fff"
-                    cursor={"pointer"}
-                  />
-                )}
-                <Spin spinning={clicou} />
-              </>
-            )}
+          <div className='div-icon'>
+            <Button
+              onClick={() => hendleComentar()}
+              size={"30px"}
+              color='#fff'
+              cursor={"pointer"}
+              icon={<SendOutlined />}
+              loading={clicou}
+              type='primary'
+            />
           </div>
         </footer>
       </div>

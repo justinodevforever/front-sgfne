@@ -56,8 +56,8 @@ const Config = () => {
     setClicFrequencia(true);
   };
   return (
-    <div className="config">
-      <ul className="menu">
+    <div className='config'>
+      <ul className='menu'>
         <li>
           <Link
             onClick={(e) => toggleCadeira(e)}
@@ -94,10 +94,10 @@ const Config = () => {
           </Link>
         </li>
       </ul>
-      <div className="painel">
+      <div className='painel'>
+        {clicFrequencia && <Frequencia />}
         {clicCadeira && <Cadeira />}
         {clicServico && <TipoServico />}
-        {clicFrequencia && <Frequencia />}
         {clicSemestre && <Semestre />}
         {clicAno && <Ano />}
       </div>

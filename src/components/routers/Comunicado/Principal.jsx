@@ -105,7 +105,7 @@ const Principal = ({ mostrar, setMostrar }) => {
   }, []);
 
   return (
-    <div className="comunicado" id="co">
+    <div className='comunicado' id='co'>
       <div
         style={{
           display: "flex",
@@ -113,14 +113,14 @@ const Principal = ({ mostrar, setMostrar }) => {
           flexDirection: "row",
           marginTo: "-10px",
         }}>
-        <div className="gavetaMenu" id="menu" ref={clickRef}>
-          <Link to={"#"} title="Estudantes" id="p" className="">
-            <PiStudentBold color="#fff" size={40} id="icPr" />
+        <div className='gavetaMenu' id='menu' ref={clickRef}>
+          <Link to={"#"} title='Estudantes' id='p' className=''>
+            <PiStudentBold color='#fff' size={40} id='icPr' />
           </Link>
           <Drawer
             open={mostrar}
             closable={false}
-            placement="left"
+            placement='left'
             onClose={() => {
               setMostrar(!mostrar);
             }}
@@ -128,24 +128,35 @@ const Principal = ({ mostrar, setMostrar }) => {
               height: "100vh",
               width: "200px",
               color: "#a31543",
+              justifyItems: "flex-start",
             }}>
             <h3>Menu</h3>
             <Menu
               onClick={({ key }) => {
                 navigate(key);
               }}
-              mode="inline"
+              mode='inline'
               style={{
+                display: "flex",
+                flexDirection: "column",
                 border: "none",
                 width: "100%",
                 alignItems: "center",
+                justifyContent: "center",
+                textAlign: "justify",
                 color: "#a31543",
+                // marginLeft: "-20px",
               }}
               items={[
                 {
                   label: "Home",
-                  key: `comunicado?${1}`,
+                  key: `comunicado?page=${1}`,
                   icon: <HomeOutlined />,
+                },
+                {
+                  label: "Painel",
+                  key: "/dashboard",
+                  icon: <PiStudentBold />,
                 },
                 {
                   label: "Estudante",
@@ -204,19 +215,19 @@ const Principal = ({ mostrar, setMostrar }) => {
           </Drawer>
           <Link
             to={`servicos`}
-            className="Propina"
-            id="pro"
+            className='Propina'
+            id='pro'
             ref={refPr}
             onClick={focus}>
             <PiCurrencyCircleDollar
-              color="#fff"
-              title="Pagamentos"
+              color='#fff'
+              title='Pagamentos'
               size={40}
-              id="icPr"
+              id='icPr'
             />
           </Link>
           <Link to={`/comunicados?page=${1}`}>
-            <AiOutlineSetting color="#fff" title="Definições" size={40} />
+            <AiOutlineSetting color='#fff' title='Definições' size={40} />
           </Link>
         </div>
         <Outlet />
@@ -231,7 +242,7 @@ function AppMenu() {
       onClick={({ key }) => {
         navigate(key);
       }}
-      mode="inline"
+      mode='inline'
       style={{
         backgroundColor: "#a31543",
         color: "white",
@@ -294,7 +305,7 @@ function AppMenu() {
 function Icon() {
   return (
     <>
-      <div className="sms" style={{ position: "relative" }}>
+      <div className='sms' style={{ position: "relative" }}>
         <MessageOutlined />
         {/* <div
           className="aler"

@@ -71,10 +71,8 @@ const LikeComentarioPublicacao = ({ coment }) => {
         fk_comentario: coment?.id,
         fk_user: id,
       });
-      console.log(data.data);
-      conso
+
       setClickLike(true);
-  
     }
   }
   useEffect(() => {}, []);
@@ -113,12 +111,10 @@ const LikeComentarioPublicacao = ({ coment }) => {
             size={"20px"}
           />
         )}
-       
-        {/* {!like ? (
-          <span></span>
-        ) : (
+
+        {like !== 0 && (
           <>{Number(like) > 100 ? <span>{+100}</span> : <span>{like}</span>}</>
-        )} */}
+        )}
       </Link>
     </div>
   );

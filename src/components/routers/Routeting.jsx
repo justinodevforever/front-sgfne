@@ -53,17 +53,38 @@ import Root from "../root/Root.jsx";
 import Declaracao from "./Comunicado/Services/declarações/Declaracao.jsx";
 import Reconfirmacao from "./Comunicado/Services/reconfirmação/Reconfirmacao.jsx";
 import SobreCadeiras from "./Comunicado/Services/sobre cadeiras/SobreCadeiras.jsx";
+import Dashboard from "./Comunicado/config/dashboard/Dashboard.jsx";
 
 const Routeting = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<Root />} />
-        <Route exact path="/login" element={<Login />} />
+        <Route exact path='/' element={<Root />} />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/dashboard' element={<Dashboard />}>
+          <Route
+            exact
+            path='definicoes'
+            element={
+              <ProtectRouter>
+                <Definicoes />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='estudante'
+            element={
+              <ProtectRouter roles={"user"}>
+                <Estudante />
+              </ProtectRouter>
+            }
+          />
+        </Route>
 
         <Route
           exact
-          path="/dashboard"
+          path='/main'
           element={
             <ProtectRouter>
               <Home />
@@ -71,7 +92,7 @@ const Routeting = () => {
           }>
           <Route
             exact
-            path="mensagem/:id"
+            path='mensagem/:id'
             element={
               <ProtectRouter>
                 <Mensagem />
@@ -79,7 +100,7 @@ const Routeting = () => {
             }
           />
           <Route
-            path="comunicado"
+            path='comunicado'
             element={
               <ProtectRouter>
                 <Publicacao />
@@ -89,25 +110,7 @@ const Routeting = () => {
 
           <Route
             exact
-            path="definicoes"
-            element={
-              <ProtectRouter>
-                <Definicoes />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path="estudante"
-            element={
-              <ProtectRouter roles={"user"}>
-                <Estudante />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path="propina"
+            path='propina'
             element={
               <ProtectRouter roles={"user"}>
                 <Propina />
@@ -116,7 +119,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path="cadeira"
+            path='cadeira'
             element={
               <ProtectRouter roles={"user"}>
                 <SobreCadeiras />
@@ -125,7 +128,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path="declaracao"
+            path='declaracao'
             element={
               <ProtectRouter roles={"user"}>
                 <Declaracao />
@@ -134,7 +137,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path="reconfirmacao"
+            path='reconfirmacao'
             element={
               <ProtectRouter roles={"user"}>
                 <Reconfirmacao />
@@ -143,7 +146,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path="reengresso"
+            path='reengresso'
             element={
               <ProtectRouter roles={"user"}>
                 <Estudante />
@@ -152,7 +155,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path="folhas"
+            path='folhas'
             element={
               <ProtectRouter roles={"user"}>
                 <Estudante />
@@ -160,11 +163,11 @@ const Routeting = () => {
             }
           />
         </Route>
-        <Route exact path="/cadastro" element={<CadastrarUsuario />} />
-        <Route exact path="/lesson" element={<Lesson />} />
+        <Route exact path='/cadastro' element={<CadastrarUsuario />} />
+        <Route exact path='/lesson' element={<Lesson />} />
         <Route
           exact
-          path="/perfil/:id"
+          path='/perfil/:id'
           element={
             <ProtectRouter>
               <Perfil />
@@ -173,7 +176,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/prim"
+          path='/prim'
           element={
             <ProtectRouter>
               <RelatorioPropina />
@@ -182,7 +185,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/fotoperfil"
+          path='/fotoperfil'
           element={
             <ProtectRouter>
               <TrocaFoto />
@@ -191,7 +194,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/fotos/:id"
+          path='/fotos/:id'
           element={
             <ProtectRouter>
               <Fotos />
@@ -201,7 +204,7 @@ const Routeting = () => {
 
         <Route
           exact
-          path="/edit/publication/:id"
+          path='/edit/publication/:id'
           element={
             <ProtectRouter>
               <EditarPublicacao />
@@ -211,7 +214,7 @@ const Routeting = () => {
 
         <Route
           exact
-          path="/propina"
+          path='/propina'
           element={
             <ProtectRouter>
               <Propina />
@@ -220,7 +223,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/pagamentos/menu/:tipo"
+          path='/pagamentos/menu/:tipo'
           element={
             <ProtectRouter>
               <MenuPagamento />
@@ -229,7 +232,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/coment/:id"
+          path='/coment/:id'
           element={
             <ProtectRouter>
               <LerComentarioPublicacao />
@@ -238,7 +241,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/coment/publication/:id"
+          path='/coment/publication/:id'
           element={
             <ProtectRouter>
               <LerComentarioPublicacao />
@@ -248,7 +251,7 @@ const Routeting = () => {
 
         <Route
           exact
-          path="/chat/:userId"
+          path='/chat/:userId'
           element={
             <ProtectRouter>
               <Chat />
@@ -257,7 +260,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/publicar"
+          path='/publicar'
           element={
             <ProtectRouter>
               <Publicar />
@@ -267,7 +270,7 @@ const Routeting = () => {
 
         <Route
           exact
-          path="/home/page"
+          path='/home/page'
           element={
             <ProtectRouter>
               <CriarPagina />
@@ -276,7 +279,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/page/:id"
+          path='/page/:id'
           element={
             <ProtectRouter>
               <Pagina />
@@ -285,7 +288,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/info/page"
+          path='/info/page'
           element={
             <ProtectRouter>
               <Pagina />
@@ -294,7 +297,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/publicar/page/:id"
+          path='/publicar/page/:id'
           element={
             <ProtectRouter>
               <PublicacarPagina />
@@ -303,7 +306,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/allpage"
+          path='/allpage'
           element={
             <ProtectRouter>
               <TodasPaginas />
@@ -312,7 +315,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/coment/publication/page/:id"
+          path='/coment/publication/page/:id'
           element={
             <ProtectRouter>
               <ComentPublicationPage />
@@ -321,7 +324,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/edit/coment/:id"
+          path='/edit/coment/:id'
           element={
             <ProtectRouter>
               <EditComentPage />
@@ -330,7 +333,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/edit/coment/publication/:id"
+          path='/edit/coment/publication/:id'
           element={
             <ProtectRouter>
               <EditarComentarioPublicacao />
@@ -340,7 +343,7 @@ const Routeting = () => {
 
         <Route
           exact
-          path="/edit/publication/page/:id"
+          path='/edit/publication/page/:id'
           element={
             <ProtectRouter>
               <EdiatrPublicacaoPagina />
@@ -350,7 +353,7 @@ const Routeting = () => {
 
         <Route
           exact
-          path="/search"
+          path='/search'
           element={
             <ProtectRouter>
               <Search />
@@ -359,7 +362,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/search/page"
+          path='/search/page'
           element={
             <ProtectRouter>
               <SearchPage />
@@ -368,7 +371,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/search/user"
+          path='/search/user'
           element={
             <ProtectRouter>
               <SearchUser />
@@ -378,7 +381,7 @@ const Routeting = () => {
 
         <Route
           exact
-          path="/declaracoes"
+          path='/declaracoes'
           element={
             <ProtectRouter>
               <Declaracoes />
@@ -387,7 +390,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/editar/comunicado/:id"
+          path='/editar/comunicado/:id'
           element={
             <ProtectRouter>
               <EditarComunicado />
@@ -396,22 +399,22 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/editar/publicacao/perfil/:id"
+          path='/editar/publicacao/perfil/:id'
           element={
             <ProtectRouter>
               <EditarPublicacaoPerfil />
             </ProtectRouter>
           }
         />
-        <Route exact path="cursos" element={<Cursos />}>
-          <Route path=":id" element={<AnoCurso />}>
-            <Route path="disciplina/:idano" element={<Disciplina />} />
+        <Route exact path='cursos' element={<Cursos />}>
+          <Route path=':id' element={<AnoCurso />}>
+            <Route path='disciplina/:idano' element={<Disciplina />} />
           </Route>
         </Route>
 
         <Route
           exact
-          path="/professor/:id"
+          path='/professor/:id'
           element={
             <ProtectRouter>
               <Professor />
@@ -420,7 +423,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/tiposervico"
+          path='/tiposervico'
           element={
             <ProtectRouter>
               <TipoServico />
@@ -429,7 +432,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/ano"
+          path='/ano'
           element={
             <ProtectRouter>
               <Ano />
@@ -438,7 +441,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/frequencia"
+          path='/frequencia'
           element={
             <ProtectRouter>
               <Frequencia />
@@ -447,7 +450,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/semestre"
+          path='/semestre'
           element={
             <ProtectRouter>
               <Semestre />
@@ -456,7 +459,7 @@ const Routeting = () => {
         />
         <Route
           exact
-          path="/cadeiras"
+          path='/cadeiras'
           element={
             <ProtectRouter>
               <Cadeira />
@@ -465,7 +468,7 @@ const Routeting = () => {
         />
         {/* <Route exact path="/anos/:ano/:idcurso" element={<AnoCurso />} /> */}
 
-        <Route path="*" Component={() => <h1>Page not Found</h1>} />
+        <Route path='*' Component={() => <h1>Page not Found</h1>} />
       </Routes>
     </BrowserRouter>
   );

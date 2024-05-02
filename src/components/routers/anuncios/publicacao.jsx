@@ -130,10 +130,8 @@ const Publicacao = () => {
                     className='username'>
                     {publ?.usuario?.nome}
                   </Link>
-                  {publ?.usuario?.nome === sessionStorage.getItem("user") ? (
+                  {publ?.usuario?.nome === sessionStorage.getItem("user") && (
                     <BtnMenu id={publ?.id} nameUser={publ?.usuario?.nome} />
-                  ) : (
-                    <section></section>
                   )}
                 </div>
 

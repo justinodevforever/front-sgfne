@@ -34,25 +34,25 @@ const LerMais = ({ publ, id }) => {
 
   return (
     <>
-      <div className="lerMais">
+      <div className='lerMais'>
         <div>
           {publ?.publicacao?.length > 30 ? (
             <div>
               {noId === id ? (
                 <div>
-                  <div className="publicacoes">
-                    <p> {publ?.publicacao.slice(0, 30) + "..."}</p>
+                  <div className='publicacoes'>
+                    <p> {publ?.publicacao.slice(0, 20) + "..."}</p>
                   </div>
                   <Link onClick={(e) => toggle(e)}>Ler mais</Link>
                 </div>
               ) : (
-                <div className="publicacoes">
+                <div className='publicacoes'>
                   <p ref={clikRef}>{publ?.publicacao}</p>
                 </div>
               )}
             </div>
           ) : (
-            <div className="publicacoes">
+            <div className='publicacoes'>
               <p>{publ?.publicacao}</p>
             </div>
           )}
