@@ -7,6 +7,7 @@ function Fotos() {
   const [image, setImage] = useState([]);
   const params = useParams();
   const { id } = params;
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   async function hendleGetImage() {
     await api
@@ -20,7 +21,6 @@ function Fotos() {
         }
 
         setImage(data.data);
-   
       })
       .catch((err) => console.log(err));
   }
@@ -46,17 +46,14 @@ function Fotos() {
   }, []);
 
   return (
-    <div className="container-fotos">
-      <div className="conteudo-fotos">
+    <div className='container-fotos'>
+      <div className='conteudo-fotos'>
         {image?.map((image) => (
-          <div className="image" key={image?.id}>
+          <div className='image' key={image?.id}>
             {image == undefined || null || image?.length == 0 ? (
               <div></div>
             ) : (
-              <img
-                src={`http://localhost:3001/files/users/${image?.nome}`}
-                className="foto"
-              />
+              <img src={`${url}/files/users/${image?.nome}`} className='foto' />
             )}
 
             {image?.usuario?.nome !== sessionStorage.getItem("user") ? (
