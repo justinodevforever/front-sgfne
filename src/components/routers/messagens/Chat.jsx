@@ -41,19 +41,7 @@ function Chat() {
     hendlefindContact();
     hendleGetPermissionUserChat();
   }, []);
-  async function hendlefindContact() {
-    await api
-      .get(`/contact/users/${userId}`)
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
 
-        console.log(data.data);
-      })
-      .catch((err) => console.log(err));
-  }
   async function hendleGetUsers() {
     await api
       .get(`/contact/user/${userId}`)

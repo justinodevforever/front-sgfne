@@ -1,7 +1,7 @@
 import { MenuOutlined, SettingOutlined } from "@ant-design/icons";
 import { Drawer, Layout, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { Content, Footer, Header } from "antd/es/layout/layout";
+import { Content, Header, Footer } from "antd/es/layout/layout";
 
 import { useEffect, useState } from "react";
 import { GrConfigure, GrUpdate } from "react-icons/gr";
@@ -50,16 +50,15 @@ const Dashboard = () => {
           <MenuOutlined onClick={() => setIsClosed(!isClosed)} />
         </Header>
 
-        <Drawer
-          open={isClosed}
-          onClose={() => setIsClosed(!isClosed)}
-          placement='left'
-          style={{
-            width: "270px",
-          }}>
+        <Content style={{ display: "flex" }}>
           <Menu
             onClick={({ key }) => {
               navigate(key);
+            }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "200px",
             }}
             mode='inline'
             items={[
@@ -120,8 +119,6 @@ const Dashboard = () => {
               },
             ]}
           />
-        </Drawer>
-        <Content>
           <Outlet />
         </Content>
       </Layout>

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import EditarEstudante from "./editar/EditarEstudante";
 import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
+import { Input } from "antd";
 
 const AtualizarEstudante = () => {
   const [isClick, setIsClick] = useState(false);
@@ -21,9 +22,7 @@ const AtualizarEstudante = () => {
   const dispatch = useDispatch();
   const [estudante, setEstudante] = useState({});
 
-  const buscaEstudante = async (e) => {
-    e.preventDefault();
-
+  const buscaEstudante = async () => {
     if (!bi) {
       alert("Existe um Campo Vazio!");
       return;
@@ -39,6 +38,7 @@ const AtualizarEstudante = () => {
         }
 
         if (data.data) {
+          console.log(data.data);
           setEstudante(data.data);
           setId(data.data.id);
         }
@@ -61,81 +61,69 @@ const AtualizarEstudante = () => {
     <>
       {isClick && <UseRemoverConfirm id={id} setIsClick={setIsClick} />}
       <EditarEstudante estudante={estudante} />
-      <div className="atualizarPropina">
-        <div className="opcoes">
-          <form className="form" onSubmit={(e) => buscaEstudante(e)}>
-            <div className="pagamento-propina">
-              <input
-                type="search"
-                placeholder="Número de BI do Estudante"
-                onChange={(e) => setBi(e.target.value)}
-                className="search"
-                value={bi}
-                autoFocus
-                maxLength={14}
-              />
-              <BiSearch
-                size={30}
-                color="a31543"
-                cursor={"pointer"}
-                onClick={(e) => buscaPropina(e)}
-              />
-            </div>
-            <hr />
-
-            {estudante?.nome && (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>B.I</th>
-                    <th>E-mail</th>
-                    <th>Conacto</th>
-                    <th>Curso</th>
-                    <th>Período</th>
-                    <PegarPermissoes
-                      permissoes={["admin", "remover", "edição"]}>
-                      <th colSpan={2}>Opções</th>
-                    </PegarPermissoes>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{estudante?.nome}</td>
-                    <td>{estudante?.bi}</td>
-                    <td>{estudante?.Usuario.email}</td>
-                    <td>{estudante?.contato}</td>
-                    <td>{estudante?.Curso?.curso}</td>
-                    <td>{estudante?.periodo}</td>
-                    <PegarPermissoes
-                      permissoes={["admin", "remover", "edição"]}>
-                      <td>
-                        <BiEdit
-                          title="Editar Este Mês"
-                          cursor={"pointer"}
-                          color="blue"
-                          onClick={(e) => editarEstudante(e)}
-                        />
-                      </td>
-                    </PegarPermissoes>
-                    <PegarPermissoes
-                      permissoes={["admin", "remover", "edição"]}>
-                      <td>
-                        <BiX
-                          title="Eliminar Este Mês"
-                          color="red"
-                          cursor={"pointer"}
-                          size={20}
-                          onClick={(e) => deleteEstudante(e)}
-                        />
-                      </td>
-                    </PegarPermissoes>
-                  </tr>
-                </tbody>
-              </table>
-            )}
+      <div className='container-buscar'>
+        <div className='pesquisa'>
+          <form className='form'>
+            <Input.Search
+              type='search'
+              placeholder='Número de BI do Estudante'
+              onChange={(e) => setBi(e.target.value)}
+              className='search'
+              value={bi}
+              autoFocus
+              maxLength={14}
+              onSearch={() => buscaEstudante()}
+            />
           </form>
         </div>
+        {estudante?.nome && (
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>B.I</th>
+                <th>E-mail</th>
+                <th>Conacto</th>
+                <th>Curso</th>
+                <th>Período</th>
+                <PegarPermissoes permissoes={["admin", "remover", "edição"]}>
+                  <th colSpan={2}>Opções</th>
+                </PegarPermissoes>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{estudante?.nome}</td>
+                <td>{estudante?.bi}</td>
+                <td>{estudante?.user?.email}</td>
+                <td>{estudante?.user?.contacto}</td>
+                <td>{estudante?.curso?.curso}</td>
+                <td>{estudante?.periodo}</td>
+                <PegarPermissoes permissoes={["admin", "remover", "edição"]}>
+                  <td>
+                    <BiEdit
+                      title='Editar Este Mês'
+                      cursor={"pointer"}
+                      color='blue'
+                      onClick={(e) => editarEstudante(e)}
+                    />
+                  </td>
+                </PegarPermissoes>
+                <PegarPermissoes permissoes={["admin", "remover", "edição"]}>
+                  <td>
+                    <BiX
+                      title='Eliminar Este Mês'
+                      color='red'
+                      cursor={"pointer"}
+                      size={20}
+                      onClick={(e) => deleteEstudante(e)}
+                    />
+                  </td>
+                </PegarPermissoes>
+              </tr>
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );

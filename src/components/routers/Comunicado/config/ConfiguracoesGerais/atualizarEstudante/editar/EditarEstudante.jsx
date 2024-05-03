@@ -95,25 +95,25 @@ const EditarEstudante = ({ estudante }) => {
       <UseWarning message={message} />
       {isVisible && (
         <>
-          <div className="editarPropina">
-            <div className="opcoesEditar">
+          <div className='editarPropina'>
+            <div className='opcoesEditar'>
               <div>
                 <h2>Editar Propina</h2>
               </div>
 
               <BiX
-                color="red"
+                color='red'
                 size={20}
                 onClick={(e) => close(e)}
-                className="closed"
+                className='closed'
               />
             </div>
-            <form className="formBi">
-              <div className="cc">
+            <form className='formBi'>
+              <div className='cc'>
                 <div>
                   Nome:{""}
                   <input
-                    type="text"
+                    type='text'
                     onChange={(e) => setNome(e.target.value)}
                     value={nome}
                   />
@@ -130,8 +130,8 @@ const EditarEstudante = ({ estudante }) => {
                   Curso:{" "}
                   <select onChange={(e) => setCurso(e.target.value)}>
                     <option
-                      value={estudante.fk_curso + " " + estudante.Curso.curso}>
-                      {estudante.Curso.curso}
+                      value={estudante.fk_curso + " " + estudante.curso.curso}>
+                      {estudante.curso.curso}
                     </option>
                     {cursos.map((curso) => (
                       <option
@@ -145,7 +145,7 @@ const EditarEstudante = ({ estudante }) => {
                 <div>
                   Contacto: {""}
                   <input
-                    type="text"
+                    type='text'
                     value={contato}
                     onChange={(e) => setcontato(e.target.value)}
                   />
@@ -168,21 +168,21 @@ const EditarEstudante = ({ estudante }) => {
                     <tr>
                       <td>{estudante?.nome}</td>
                       <td>{estudante?.bi}</td>
-                      <td>{estudante?.Usuario.email}</td>
-                      <td>{estudante?.contato}</td>
-                      <td>{estudante?.Curso?.curso}</td>
+                      <td>{estudante?.user?.email}</td>
+                      <td>{estudante?.user?.contato}</td>
+                      <td>{estudante?.curso?.curso}</td>
                     </tr>
                   </tbody>
                 </table>
 
                 <button onClick={(e) => atualizarEstudante(e)}>
-                  <FaSave size={20} color="fff" /> Salvar
+                  <FaSave size={20} color='fff' /> Salvar
                 </button>
               </>
             )}
           </div>
 
-          <div className="ovefloy"></div>
+          <div className='ovefloy'></div>
         </>
       )}
     </>

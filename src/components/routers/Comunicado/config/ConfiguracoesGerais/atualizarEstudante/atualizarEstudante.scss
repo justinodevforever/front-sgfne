@@ -1,32 +1,43 @@
 @import "../../../../../../style/variable.scss";
-.atualizarPropina {
+.container-buscar {
   display: flex;
-  width: 74%;
-  margin-top: 0px;
-  border: 1px solid $rosa;
-  margin-left: 20px;
-}
-.atualizarPropina .opcoes {
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  margin-top: 0px;
+  margin: auto;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border-left: 1px solid $rosa;
+  border-right: 1px solid $rosa;
+  border-bottom: 1px solid $rosa;
+  padding-bottom: 20px;
+  margin-top: 10px;
 }
-.atualizarPropina th {
+.container-buscar .form {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-buscar .pesquisa {
+  display: flex;
+  width: 100%;
   background-color: $rosa;
+  justify-content: center;
+  align-items: center;
+  padding: 7px 0px;
+}
+.container-buscar table {
+  width: 100%;
+}
+.container-buscar th {
+  background-color: #000;
   border: none;
 }
-.atualizarPropina td {
+.container-buscar td {
   font-size: 11pt;
   border: none;
   text-align: center;
-}
-.atualizarPropina .pagamento-propina {
-  display: flex;
-  width: 50%;
-  margin: auto;
-  align-items: center;
-  margin-top: 20px;
 }
 
 .atualizarPropina .pagamento-propina input {
@@ -36,9 +47,4 @@
 }
 .atualizarPropina .pagamento-propina input::placeholder {
   font-size: 12pt;
-}
-.atualizarPropina .opcoes .cc {
-  width: 50%;
-  align-items: center;
-  color: $white;
 }
