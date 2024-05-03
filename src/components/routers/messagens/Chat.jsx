@@ -77,17 +77,17 @@ function Chat() {
           adminId: secre[0].user.id,
           userId,
         });
-        if (userSec.data) {
-          setSecId(userSec.data?.id);
+        if (userSec?.data) {
+          setSecId(userSec?.data?.id);
           setIsSec(true);
         }
 
         const user = await api.post("/contact/useradmin/", {
-          adminId: admini[0].user.id,
+          adminId: admini[0]?.user?.id,
           userId,
         });
         if (user.data) {
-          setAdminId(user.data?.id);
+          setAdminId(user?.data?.id);
           setIsAdmin(true);
         }
 
@@ -124,11 +124,11 @@ function Chat() {
     e.preventDefault();
 
     if (isAdmin)
-      return navigate(`/main/mensagem/${admin[0].fk_user}?contact=${adminId}`);
+      return navigate(`/main/mensagem/${admin[0]?.fk_user}?contact=${adminId}`);
 
     await api
       .post(`/contact/user`, {
-        receiveId: admin[0].user.id,
+        receiveId: admin[0]?.user?.id,
         sendId: userId,
       })
       .then((data) => {
@@ -137,7 +137,7 @@ function Chat() {
           return;
         }
         navigate(
-          `/main/mensagem/${admin[0].user.id}?contact=${data.data?.response?.id}`
+          `/main/mensagem/${admin[0]?.user?.id}?contact=${data.data?.response?.id}`
         );
       })
       .catch((err) => console.log(err));
