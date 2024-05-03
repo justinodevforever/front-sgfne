@@ -38,7 +38,6 @@ function Chat() {
   useEffect(() => {
     setIsLoad(true);
     hendleGetUsers();
-    hendlefindContact();
     hendleGetPermissionUserChat();
   }, []);
 
