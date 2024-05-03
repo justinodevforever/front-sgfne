@@ -5,6 +5,7 @@ import { api } from "../../../../auth/auth";
 
 const ProfileComentPublication = ({ idUser }) => {
   const [imageUser, setImageUser] = useState(null);
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
     getImageUser();
@@ -39,7 +40,7 @@ const ProfileComentPublication = ({ idUser }) => {
             to={`/perfil/${sessionStorage.getItem("id")}`}>
             <div className='online'></div>
             <img
-              src={`http://localhost:3001/files/users/${imageUser.nome}`}
+              src={`${url}/files/users/${image?.nome}`}
               alt={""}
               className='perfil-image'
             />

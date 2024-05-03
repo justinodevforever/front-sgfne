@@ -34,7 +34,7 @@ export default function TrocaFoto() {
         setClic(false);
       })
       .catch((err) => console.log(err));
-    navigator(`/dashboard/comunicado?page=${1}`);
+    navigator(`/main/comunicado?page=${1}`);
   }
 
   useState(() => {
@@ -43,7 +43,7 @@ export default function TrocaFoto() {
 
   return (
     <>
-      <div className="form-foto">
+      <div className='form-foto'>
         <form onSubmit={(e) => hendleAddImage(e)}>
           <h4> Foto do Perfil</h4>
           <div
@@ -53,9 +53,9 @@ export default function TrocaFoto() {
               justifyContent: "space-between",
               borderRadius: "50%",
             }}
-            className="inputFile">
+            className='inputFile'>
             <div
-              className="image"
+              className='image'
               style={{
                 width: "90px",
                 height: "90px",
@@ -84,27 +84,27 @@ export default function TrocaFoto() {
                 />
               )}
             </div>
-            <label htmlFor="fileinpt">
-              <BiImage size={"100px"} color="00f" cursor={"pointer"} />{" "}
+            <label htmlFor='fileinpt'>
+              <BiImage size={"100px"} color='00f' cursor={"pointer"} />{" "}
             </label>
           </div>
           <input
-            type="file"
-            name="file"
-            id="fileinpt"
+            type='file'
+            name='file'
+            id='fileinpt'
             onChange={(e) => setFile(e.target.files[0])}
             required
             hidden
           />
           <textarea
-            placeholder="Escreve a Leganda"
-            className="legenda"
+            placeholder='Escreve a Leganda'
+            className='legenda'
             onChange={(e) => setLegenda(e.target.value)}
           />
 
           {file && (
             <>
-              {!clic && <button type="submit">Alterar</button>}
+              {!clic && <button type='submit'>Alterar</button>}
               <Spin spinning={clic} style={{ marginTop: "20px" }} />
             </>
           )}

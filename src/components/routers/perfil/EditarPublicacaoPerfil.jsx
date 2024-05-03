@@ -24,9 +24,9 @@ const EditarPublicacaoPerfil = () => {
           return;
         }
 
-        setPublicacao(data.data.publicacao);
-        setLike(data.data.like);
-        setFk_user(data.data.fk_user);
+        setPublicacao(data.data?.publicacao);
+        setLike(data.data?.like);
+        setFk_user(data.data?.fk_user);
       })
       .catch((err) => console.log(err));
   }
@@ -45,7 +45,7 @@ const EditarPublicacaoPerfil = () => {
           return;
         }
 
-        navigate(`/perfil/${sessionStorage.getItem("id")}?page=${1}`);
+        navigate(`/main/comunicado?page=${1}`);
       })
       .catch((err) => console.log(err));
   }
@@ -56,8 +56,8 @@ const EditarPublicacaoPerfil = () => {
   return (
     <>
       <MenuBack />
-      <div className="container-EditarPublicacao">
-        <div className="conteudo">
+      <div className='container-EditarPublicacao'>
+        <div className='conteudo'>
           <form onSubmit={(e) => hendleSbmit(e)}>
             <textarea
               defaultValue={publicacao}
@@ -66,7 +66,7 @@ const EditarPublicacaoPerfil = () => {
               }}
             />
 
-            <button type="submit">Confirmar Edição</button>
+            <button type='submit'>Confirmar Edição</button>
           </form>
         </div>
       </div>
