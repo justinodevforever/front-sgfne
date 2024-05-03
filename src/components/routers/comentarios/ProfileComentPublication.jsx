@@ -40,7 +40,7 @@ const ProfileComentPublication = ({ idUser }) => {
             to={`/perfil/${sessionStorage.getItem("id")}`}>
             <div className='online'></div>
             <img
-              src={`${url}/files/users/${image?.nome}`}
+              src={`${url}/files/users/${imageUser?.nome}`}
               alt={""}
               className='perfil-image'
             />
