@@ -2,11 +2,11 @@ import { useState } from "react";
 import "./config.scss";
 import { Link, Outlet } from "react-router-dom";
 import Cadeira from "./cadastrarCadeiras/Cadeira";
-import Servicos from "../../Services/Servicos";
 import Frequencia from "./cadastrarFrequencia/Frequencia";
 import Semestre from "./cadastrarSemestre/Semestre";
 import Ano from "./cadastrarAnoLetivo/Ano";
-import TipoServico from "./cadastrarServicos/TipoServico";
+import Mes from "./cadastrarMes/Mes";
+import Curso from "./CadastrarCurso/Curso";
 
 const Config = () => {
   const [clicServico, setClicServico] = useState(false);
@@ -14,6 +14,7 @@ const Config = () => {
   const [clicFrequencia, setClicFrequencia] = useState(false);
   const [clicAno, setClicAno] = useState(false);
   const [clicSemestre, setClicSemestre] = useState(false);
+  const [clicCurso, setClicCurso] = useState(false);
 
   const toggleServico = (e) => {
     e.preventDefault();
@@ -22,6 +23,7 @@ const Config = () => {
     setClicSemestre(false);
     setClicAno(false);
     setClicFrequencia(false);
+    setClicCurso(false);
   };
   const toggleAno = (e) => {
     e.preventDefault();
@@ -30,6 +32,16 @@ const Config = () => {
     setClicSemestre(false);
     setClicAno(true);
     setClicFrequencia(false);
+    setClicCurso(false);
+  };
+  const toggleCurso = (e) => {
+    e.preventDefault();
+    setClicServico(false);
+    setClicCadeira(false);
+    setClicSemestre(false);
+    setClicAno(false);
+    setClicFrequencia(false);
+    setClicCurso(true);
   };
   const toggleCadeira = (e) => {
     e.preventDefault();
@@ -38,6 +50,7 @@ const Config = () => {
     setClicSemestre(false);
     setClicAno(false);
     setClicFrequencia(false);
+    setClicCurso(false);
   };
   const toggleSemestre = (e) => {
     e.preventDefault();
@@ -46,6 +59,7 @@ const Config = () => {
     setClicSemestre(true);
     setClicAno(false);
     setClicFrequencia(false);
+    setClicCurso(false);
   };
   const toggleFrequencia = (e) => {
     e.preventDefault();
@@ -54,6 +68,7 @@ const Config = () => {
     setClicSemestre(false);
     setClicAno(false);
     setClicFrequencia(true);
+    setClicCurso(false);
   };
   return (
     <div className='config'>
@@ -62,14 +77,14 @@ const Config = () => {
           <Link
             onClick={(e) => toggleCadeira(e)}
             className={clicCadeira ? "ativo" : "link"}>
-            Ajustar Cadeira
+            Ajustar Disciplina
           </Link>
         </li>
         <li>
           <Link
             onClick={(e) => toggleServico(e)}
             className={clicServico ? "ativo" : "link"}>
-            Ajustar Serviços
+            Ajustar Mês
           </Link>
         </li>
         <li>
@@ -93,13 +108,21 @@ const Config = () => {
             Ajustar Ano
           </Link>
         </li>
+        <li>
+          <Link
+            onClick={(e) => toggleCurso(e)}
+            className={clicCurso ? "ativo" : "link"}>
+            Ajustar Curso
+          </Link>
+        </li>
       </ul>
       <div className='painel'>
         {clicFrequencia && <Frequencia />}
         {clicCadeira && <Cadeira />}
-        {clicServico && <TipoServico />}
+        {clicServico && <Mes />}
         {clicSemestre && <Semestre />}
         {clicAno && <Ano />}
+        {clicCurso && <Curso />}
       </div>
     </div>
   );

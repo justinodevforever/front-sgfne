@@ -73,7 +73,7 @@ const AtualizarPropina = () => {
           navigate("/login");
           return;
         }
-
+        console.log(data.data);
         if (data.data) {
           setPropinas(data.data);
           setId(data.data.id);
@@ -98,10 +98,10 @@ const AtualizarPropina = () => {
     <>
       {isClick && <UseRemoverConfirm id={id} setIsClick={setIsClick} />}
       <EditarPropina propinas={propinas} />
-      <div className="atualizarPropina">
-        <div className="opcoes">
-          <form className="formBi">
-            <div className="cc">
+      <div className='atualizarPropina'>
+        <div className='opcoes'>
+          <form className='formBi'>
+            <div className='cc'>
               Mês{" "}
               <select onChange={(e) => setMes(e.target.value)}>
                 {/* <option defaultValue={"Escolha"}>Escolha o Mês...</option> */}
@@ -122,20 +122,20 @@ const AtualizarPropina = () => {
               </select>
             </div>
           </form>
-          <form className="form" onSubmit={(e) => buscaPropina(e)}>
-            <div className="pagamento-propina">
+          <form className='form' onSubmit={(e) => buscaPropina(e)}>
+            <div className='pagamento-propina'>
               <input
-                type="search"
-                placeholder="Número de BI do Estudante"
+                type='search'
+                placeholder='Número de BI do Estudante'
                 onChange={(e) => setBi(e.target.value)}
-                className="search"
+                className='search'
                 value={bi}
                 autoFocus
                 maxLength={14}
               />
               <BiSearch
                 size={30}
-                color="a31543"
+                color='a31543'
                 cursor={"pointer"}
                 onClick={(e) => buscaPropina(e)}
               />
@@ -169,9 +169,9 @@ const AtualizarPropina = () => {
                     <PegarPermissoes permissoes={["admin", "edição"]}>
                       <td>
                         <BiEdit
-                          title="Editar Este Mês"
+                          title='Editar Este Mês'
                           cursor={"pointer"}
-                          color="blue"
+                          color='blue'
                           onClick={(e) => editarPropina(e)}
                         />
                       </td>
@@ -179,8 +179,8 @@ const AtualizarPropina = () => {
                     <PegarPermissoes permissoes={["admin", "remover"]}>
                       <td>
                         <BiX
-                          title="Eliminar Este Mês"
-                          color="red"
+                          title='Eliminar Este Mês'
+                          color='red'
                           cursor={"pointer"}
                           size={20}
                           onClick={(e) => deletePropina(e)}

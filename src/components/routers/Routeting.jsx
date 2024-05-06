@@ -10,7 +10,6 @@ import Perfil from "../routers/perfil/Perfil.jsx";
 
 import Fotos from "../routers/perfil/fotos.jsx";
 import TrocaFoto from "../routers/perfil/TrocaFoto.jsx";
-import Notificacao from "../routers/notiificacao/Notificacao.jsx";
 import ProtectRouter from "../../../auth/auth.jsx";
 import Chat from "../routers/messagens/Chat.jsx";
 import CriarPagina from "../page/CriarPagina.jsx";
@@ -36,15 +35,12 @@ import Professor from "./Comunicado/Professor/Professor.jsx";
 import AnoCurso from "./Comunicado/scool/ano/AnoCurso.jsx";
 import Disciplina from "./Comunicado/scool/disciplina/Disciplina.jsx";
 import Ispm from "./hook/Ispm.jsx";
-import Servicos from "./Comunicado/Services/Servicos.jsx";
-import Principal from "./Comunicado/Principal.jsx";
 import RelatorioPropina from "./Comunicado/Services/relatorios/propina/Propina.jsx";
 import Publicacao from "./anuncios/publicacao.jsx";
 import Estudante from "./Comunicado/estudante/Estudante.jsx";
 import Propina from "./Comunicado/Services/propinas/Propinas.jsx";
 import MenuPagamento from "./Comunicado/Services/menu pagamentos/MenuPagamento.jsx";
 import Definicoes from "./Comunicado/config/Definicoes.jsx";
-import TipoServico from "./Comunicado/config/configuracoes/cadastrarServicos/TipoServico.jsx";
 import Ano from "./Comunicado/config/configuracoes/cadastrarAnoLetivo/Ano.jsx";
 import Frequencia from "./Comunicado/config/configuracoes/cadastrarFrequencia/Frequencia.jsx";
 import Semestre from "./Comunicado/config/configuracoes/cadastrarSemestre/Semestre.jsx";
@@ -418,15 +414,6 @@ const Routeting = () => {
           element={
             <ProtectRouter>
               <Professor />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/tiposervico'
-          element={
-            <ProtectRouter>
-              <TipoServico />
             </ProtectRouter>
           }
         />

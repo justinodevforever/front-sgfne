@@ -3,13 +3,12 @@
 .container-definicoes {
   display: flex;
   flex-direction: column;
-  margin: auto;
   width: 100%;
 }
 .definicoes {
   display: flex;
   width: 99%;
-  margin: auto;
+  margin-top: 0px;
   flex-direction: column;
 }
 
@@ -38,6 +37,7 @@
   margin-bottom: 14px;
   opacity: 1;
   font-weight: 500;
+  gap: 9px;
 }
 .definicoes .opcoes .ul li a:hover {
   scale: 0.9;
@@ -55,6 +55,7 @@
   margin-bottom: 14px;
   opacity: 1;
   font-weight: 500;
+  gap: 9px;
 }
 
 .definicoes .conteudo {
@@ -62,8 +63,7 @@
   flex-direction: column;
   width: 100%;
   border: 1px solid $rosa;
-  margin: auto;
-  margin-top: -20px;
+  margin-top: -30px;
   padding-top: 10px;
   padding-bottom: 10px;
 }

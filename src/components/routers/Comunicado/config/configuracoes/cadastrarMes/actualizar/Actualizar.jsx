@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./actualizar.scss";
 import { api } from "../../../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import { BiEdit, BiSave, BiSearch, BiSolidSearch, BiX } from "react-icons/bi";
@@ -13,13 +12,17 @@ import {
 } from "../../../../../../../store/ui-slice";
 import { useDispatch } from "react-redux";
 
-const FREQUENCIA = /^([0-9])+º/;
+const MES =
+  /^(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Augosto|Setembro|Outubro|Novembro|Dezembro)/;
+const ALGARISMO = /^(1|2|3|4|5|6|7|8|9|10|11|12){1,1}$/;
 
 const Actualizar = () => {
-  const [frequencias, setFrequencias] = useState([]);
-  const [frequencia, setFrequencia] = useState("");
-  const [ValidFrequencia, setValidFrequencia] = useState(false);
+  const [meses, setMeses] = useState([]);
+  const [mes, setMes] = useState("");
+  const [validMes, setValidMes] = useState(false);
   const [message, setMessage] = useState("");
+  const [algarismo, setAlgarismo] = useState("");
+  const [validAlgarismo, setValidAlgarismo] = useState(false);
   const [id, setId] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,17 +30,24 @@ const Actualizar = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (frequencia) {
-      setValidFrequencia(FREQUENCIA.test(frequencia));
+    if (algarismo) {
+      setValidAlgarismo(ALGARISMO.test(algarismo));
     }
-  }, [frequencia]);
+  }, [algarismo]);
+
   useEffect(() => {
-    getFrequencia();
+    if (mes) {
+      setValidMes(MES.test(mes));
+    }
+  }, [mes]);
+  useEffect(() => {
+    getMes();
   }, []);
-  const upDateFrequencia = async () => {
+  const upDateMes = async () => {
     await api
-      .put(`/ano/${id}`, {
-        ano: frequencia,
+      .put(`/mes/${id}`, {
+        mes,
+        algarismo,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -46,7 +56,7 @@ const Actualizar = () => {
         }
         setIsLoading(false);
         if (data.data.message === "sucess") {
-          getFrequencia();
+          getMes();
           dispatch(toggleModalConfirmar(true));
 
           return;
@@ -57,42 +67,43 @@ const Actualizar = () => {
       })
       .catch((err) => console.log(err));
   };
-  const getFrequencia = async () => {
+  const getMes = async () => {
     await api
-      .get("/ano")
+      .get("/mes")
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
 
-        setFrequencias(data.data);
+        setMeses(data.data);
       })
       .catch((err) => console.log(err));
   };
-  const removeFrequencia = async (e, id) => {
+  const removeMes = async (e, id) => {
     e.preventDefault();
     await api
-      .delete(`/ano/${id}`)
+      .delete(`/mes/${id}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
 
-        setFrequencias(frequencias.filter((f) => f.id !== id));
+        setMeses(meses.filter((f) => f.id !== id));
       })
       .catch((err) => console.log(err));
   };
 
   const toggleVisible = async (e, id) => {
     e.preventDefault();
-    await api.get(`/ano/${id}`).then((data) => {
+    await api.get(`/mes/${id}`).then((data) => {
       if (data.data === "Token Invalid") {
         navigate("/login");
         return;
       }
-      setFrequencia(data.data.ano);
+      setMes(data.data.mes);
+      setAlgarismo(data.data.algarismo);
       setId(data.data.id);
     });
   };
@@ -104,26 +115,71 @@ const Actualizar = () => {
       <div className='atualizar'>
         <form>
           <div>
-            <label htmlFor='curso'>
-              Ano de Frequência
+            <label
+              htmlFor='curso'
+              style={{ display: "fles", position: "relative" }}>
+              Mês
               <Input
-                value={frequencia}
-                onChange={(e) => setFrequencia(e.target.value)}
+                value={mes}
+                onChange={(e) => setMes(e.target.value)}
                 style={
-                  !frequencia || (frequencia && !ValidFrequencia)
+                  !mes || (mes && !validMes)
                     ? { border: "1px solid red" }
                     : { border: "1px solid green" }
                 }
               />
-              {!ValidFrequencia && frequencia && (
+              {!validMes && mes && (
                 <span
                   style={{
                     color: "red",
                     fontSize: "11pt",
                     fontStyle: "italic",
                     marginTop: "10px",
+                    position: "absolute",
+                    top: "50px",
+                    textAlign: "justify",
+                    border: "1px solid red",
+                    padding: "2px",
                   }}>
-                  é aceite número seguido <br /> de Símbolo " º "
+                  Primeira letra Maiúscula <br />
+                  Exemplo: Janeiro, <br />
+                  Fevereiro ... Dezembro
+                </span>
+              )}
+            </label>
+            <label htmlFor='semestre' style={{ position: "relative" }}>
+              Nº Correspondente
+              <Input
+                type='number'
+                placeholder='Designação do semestre Ex. 1º ou 2º'
+                value={algarismo}
+                onChange={(e) => setAlgarismo(e.target.value)}
+                name='semestre'
+                style={
+                  algarismo && validAlgarismo
+                    ? {
+                        border: "1px solid green",
+                      }
+                    : {
+                        border: "1px solid red",
+                      }
+                }
+              />
+              {algarismo && !validAlgarismo && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11pt",
+                    fontStyle: "italic",
+                    marginTop: "10px",
+                    position: "absolute",
+                    top: "50px",
+                    textAlign: "justify",
+                    marginLeft: "20px",
+                    border: "1px solid red",
+                    padding: "2px",
+                  }}>
+                  Número que Corresponde o Mês Exemplo: 1, 2...12
                 </span>
               )}
             </label>
@@ -131,31 +187,38 @@ const Actualizar = () => {
           <Button
             type='primary'
             loading={isLoading}
-            disabled={!ValidFrequencia}
-            onClick={() => upDateFrequencia()}>
+            disabled={!validMes || !validAlgarismo}
+            onClick={() => upDateMes()}
+            style={
+              (algarismo || mes) && (!validAlgarismo || !validMes)
+                ? { marginTop: "70px" }
+                : { marginTop: "10px" }
+            }>
             <BiSave />
             Actualizar
           </Button>
         </form>
-        {frequencias.length > 0 ? (
+        {meses.length > 0 ? (
           <table>
             <thead>
               <tr>
-                <th>Frequência</th>
+                <th>Mês</th>
+                <th>Número Correspondente</th>
 
                 <th colSpan={2}>Opçõs</th>
               </tr>
             </thead>
             <tbody>
-              {frequencias?.map((d) => (
+              {meses?.map((d) => (
                 <tr key={d.id}>
-                  <td>{d?.ano} Ano</td>
+                  <td>{d?.mes}</td>
+                  <td>{d?.algarismo}</td>
 
                   <td>
                     <BiX
                       color='red'
                       cursor={"pointer"}
-                      onClick={(e) => removeFrequencia(e, d.id)}
+                      onClick={(e) => removeMes(e, d.id)}
                     />
                   </td>
                   <td>

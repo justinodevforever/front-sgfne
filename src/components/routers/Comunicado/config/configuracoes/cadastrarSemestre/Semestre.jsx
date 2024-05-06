@@ -13,18 +13,27 @@ import {
   toggleModalWarning,
 } from "../../../../../../store/ui-slice";
 import Actualizar from "./atualizar/Actualizar";
-import { Input, Space } from "antd";
+import { Button, Input, Space } from "antd";
+
+const SEMESTRE = /^([0-9])+º/;
 
 const Semestre = () => {
   const [clicCadatrar, setClicCadatrar] = useState(true);
   const [numero, setNumero] = useState(0);
-  const [semestre, setSemestre] = useState("");
+  const [nome, setNome] = useState("");
   const [message, setMessage] = useState("");
   const [clicActualizar, setClicActualizar] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatchSucess = useDispatch();
   const dispatchError = useDispatch();
   const dispatchWarneng = useDispatch();
+  const [validSemestre, setValidSemestre] = useState(false);
 
+  useEffect(() => {
+    if (nome) {
+      setValidSemestre(SEMESTRE.test(nome));
+    }
+  }, [nome]);
   const toggleCadastrar = (e) => {
     e.preventDefault();
     setClicCadatrar(true);
@@ -37,20 +46,21 @@ const Semestre = () => {
     setClicCadatrar(false);
   };
 
-  const hendleSave = async (e) => {
-    e.preventDefault();
-    if (numero !== 0 || !semestre) {
+  const hendleSave = async () => {
+    if (numero === 0 || !nome) {
       setMessage("Existe um Campo Vazio");
       dispatchWarneng(toggleModalWarning(true));
       return;
     }
-
+    console.log(numero, nome);
+    setIsLoading(true);
     await api
       .post("/semestre", {
-        algarismo: numero,
-        semestre,
+        numero: Number(numero),
+        nome: nome,
       })
       .then((data) => {
+        setIsLoading(false);
         if (data.data.message === "sucess")
           return dispatchSucess(toggleModalConfirmar(true));
         if (data.data.message === "error")
@@ -82,23 +92,46 @@ const Semestre = () => {
       </ul>
       <div className='semestre'>
         {clicCadatrar && (
-          <form onSubmit={(e) => hendleSave(e)}>
+          <form>
             <Space
               wrap
               style={{
                 display: "flex",
                 width: "1",
               }}>
-              <label htmlFor='semestre'>
+              <label htmlFor='semestre' style={{ position: "relative" }}>
                 Nome do Semestre
                 <Input
                   type='text'
                   placeholder='Designação do semestre Ex. 1º ou 2º'
-                  value={semestre}
-                  onChange={(e) => setSemestre(e.target.value)}
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
                   name='semestre'
+                  style={
+                    nome && validSemestre
+                      ? {
+                          border: "1px solid green",
+                        }
+                      : {
+                          border: "1px solid red",
+                        }
+                  }
                 />
+                {nome && !validSemestre && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "11pt",
+                      fontStyle: "italic",
+                      marginTop: "10px",
+                      position: "absolute",
+                      top: "50px",
+                    }}>
+                    é aceite número seguido <br /> de Símbolo " º "
+                  </span>
+                )}
               </label>
+
               <label htmlFor='numero'>
                 Designação em Algarismo
                 <Input
@@ -110,12 +143,22 @@ const Semestre = () => {
                 />
               </label>
             </Space>
-            {numero !== 0 && semestre && (
-              <button type='submit'>
-                <BiSave />
-                Cadastrar
-              </button>
-            )}
+
+            <Button
+              type='primary'
+              loading={isLoading}
+              onClick={() => hendleSave()}
+              disabled={!validSemestre || !numero}
+              style={
+                nome &&
+                !validSemestre && {
+                  margin: "70px",
+                }
+              }>
+              <BiSave style={{ marginRight: "10px" }} />
+              Cadastrar
+            </Button>
+
             <br />
           </form>
         )}

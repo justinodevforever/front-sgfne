@@ -102,6 +102,7 @@ const Cadeira = () => {
         fk_semestre: semestre,
       })
       .then((data) => {
+        console.log(data.data);
         if (data.data.message === "sucess")
           return dispatchSucess(toggleModalConfirmar(true));
         if (data.data.message === "error")

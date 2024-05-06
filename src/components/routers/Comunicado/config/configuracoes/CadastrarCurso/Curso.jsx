@@ -2,8 +2,7 @@ import { Button, Input, Space } from "antd";
 import UseErro from "../../../../hook/massege/Error/UseErro";
 import UseSucess from "../../../../hook/massege/sucess/UseSucess";
 import UseWarning from "../../../../hook/massege/warning/UseWarning";
-import "./frequencia.scss";
-import Actualizar from "./atualizar/Actualizar";
+import Actualizar from "./actualizar/Actualizar";
 import { BiSave } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -15,25 +14,15 @@ import {
 } from "../../../../../../store/ui-slice";
 import { api } from "../../../../../../../auth/auth";
 
-const FREQUENCIA = /^([0-9])+º/;
-
-const Frequencia = () => {
+const Curso = () => {
   const [message, setMessage] = useState("");
   const [clicActualizar, setClicActualizar] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatchSucess = useDispatch();
   const dispatchError = useDispatch();
   const dispatchWarneng = useDispatch();
-  const [validSemestre, setValidSemestre] = useState(false);
-  const [frequencia, setFrequencia] = useState("");
-  const [validFrequencia, setValidFrequencia] = useState(false);
+  const [curso, setCurso] = useState("");
   const [clicCadatrar, setClicCadatrar] = useState(true);
-
-  useEffect(() => {
-    if (frequencia) {
-      setValidFrequencia(FREQUENCIA.test(frequencia));
-    }
-  }, [frequencia]);
 
   const toggleCadastrar = (e) => {
     e.preventDefault();
@@ -47,7 +36,7 @@ const Frequencia = () => {
     setClicCadatrar(false);
   };
   const hendleSave = async () => {
-    if (!frequencia) {
+    if (!curso) {
       setMessage("Existe um Campo Vazio");
       dispatchWarneng(toggleModalWarning(true));
       return;
@@ -55,11 +44,12 @@ const Frequencia = () => {
 
     setIsLoading(true);
     await api
-      .post("/ano", {
-        ano: frequencia,
+      .post("/curso", {
+        curso,
       })
       .then((data) => {
         setIsLoading(false);
+        setCurso("");
         if (data.data.message === "sucess")
           return dispatchSucess(toggleModalConfirmar(true));
         if (data.data.message === "error")
@@ -98,36 +88,15 @@ const Frequencia = () => {
                 width: "1",
               }}>
               <label htmlFor='semestre' style={{ position: "relative" }}>
-                Ano de Frequência
+                Nome do Curso
                 <Input
                   type='text'
-                  placeholder='Designação do semestre Ex. 1º ou 2º'
-                  value={frequencia}
-                  onChange={(e) => setFrequencia(e.target.value)}
+                  placeholder='Nome do Curso'
+                  value={curso}
+                  onChange={(e) => setCurso(e.target.value)}
                   name='semestre'
-                  style={
-                    frequencia && validFrequencia
-                      ? {
-                          border: "1px solid green",
-                        }
-                      : {
-                          border: "1px solid red",
-                        }
-                  }
+                  style={{ width: "300px" }}
                 />
-                {frequencia && !validFrequencia && (
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "11pt",
-                      fontStyle: "italic",
-                      marginTop: "10px",
-                      position: "absolute",
-                      top: "50px",
-                    }}>
-                    é aceite número seguido <br /> de Símbolo " º "
-                  </span>
-                )}
               </label>
             </Space>
 
@@ -135,13 +104,7 @@ const Frequencia = () => {
               type='primary'
               loading={isLoading}
               onClick={() => hendleSave()}
-              disabled={!validFrequencia}
-              style={
-                frequencia &&
-                !validFrequencia && {
-                  margin: "70px",
-                }
-              }>
+              disabled={!curso}>
               <BiSave style={{ marginRight: "10px" }} />
               Cadastrar
             </Button>
@@ -155,4 +118,4 @@ const Frequencia = () => {
     </div>
   );
 };
-export default Frequencia;
+export default Curso;

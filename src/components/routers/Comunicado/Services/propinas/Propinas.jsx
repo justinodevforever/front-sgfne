@@ -67,8 +67,7 @@ const Propina = ({ tipo }) => {
     buscaAnoLeivo();
   }, [ano]);
 
-  const buscarEstudante = async (e) => {
-    e.preventDefault();
+  const buscarEstudante = async () => {
     await api
       .post("search/estudante/bi", {
         bi,
@@ -229,7 +228,7 @@ const Propina = ({ tipo }) => {
 
       <div className='propina'>
         <div className='conteudoProp'>
-          <Form onClick={(e) => buscarEstudante(e)} className='formBiPropina'>
+          <Form className='formBiPropina'>
             <Space wrap>
               <Input.Search
                 type='search'
@@ -238,6 +237,7 @@ const Propina = ({ tipo }) => {
                 value={bi}
                 autoFocus
                 maxLength={14}
+                onSearch={() => buscarEstudante()}
                 style={{ width: "90%", border: "1px solid #000" }}
               />
               <div className='inputDesabled'>

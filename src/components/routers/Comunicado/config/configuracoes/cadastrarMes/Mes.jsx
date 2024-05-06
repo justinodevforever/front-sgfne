@@ -1,9 +1,8 @@
+import "./mes.scss";
 import { Button, Input, Space } from "antd";
 import UseErro from "../../../../hook/massege/Error/UseErro";
 import UseSucess from "../../../../hook/massege/sucess/UseSucess";
 import UseWarning from "../../../../hook/massege/warning/UseWarning";
-import "./frequencia.scss";
-import Actualizar from "./atualizar/Actualizar";
 import { BiSave } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -14,10 +13,12 @@ import {
   toggleModalWarning,
 } from "../../../../../../store/ui-slice";
 import { api } from "../../../../../../../auth/auth";
+import Actualizar from "./actualizar/Actualizar";
 
-const FREQUENCIA = /^([0-9])+º/;
-
-const Frequencia = () => {
+const MES =
+  /^(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)$/;
+const ALGARISMO = /^(1|2|3|4|5|6|7|8|9|10|11|12){1,1}$/;
+const Ano = () => {
   const [message, setMessage] = useState("");
   const [clicActualizar, setClicActualizar] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,15 +26,22 @@ const Frequencia = () => {
   const dispatchError = useDispatch();
   const dispatchWarneng = useDispatch();
   const [validSemestre, setValidSemestre] = useState(false);
-  const [frequencia, setFrequencia] = useState("");
-  const [validFrequencia, setValidFrequencia] = useState(false);
+  const [algarismo, setAlgarismo] = useState("");
+  const [mes, setMes] = useState("");
+  const [validMes, setValidMes] = useState(false);
+  const [validAlgarismo, setValidAlgarismo] = useState(false);
   const [clicCadatrar, setClicCadatrar] = useState(true);
 
   useEffect(() => {
-    if (frequencia) {
-      setValidFrequencia(FREQUENCIA.test(frequencia));
+    if (mes) {
+      setValidMes(MES.test(mes));
     }
-  }, [frequencia]);
+  }, [mes]);
+  useEffect(() => {
+    if (algarismo) {
+      setValidAlgarismo(ALGARISMO.test(algarismo));
+    }
+  }, [algarismo]);
 
   const toggleCadastrar = (e) => {
     e.preventDefault();
@@ -47,7 +55,7 @@ const Frequencia = () => {
     setClicCadatrar(false);
   };
   const hendleSave = async () => {
-    if (!frequencia) {
+    if (!mes || !algarismo) {
       setMessage("Existe um Campo Vazio");
       dispatchWarneng(toggleModalWarning(true));
       return;
@@ -55,11 +63,13 @@ const Frequencia = () => {
 
     setIsLoading(true);
     await api
-      .post("/ano", {
-        ano: frequencia,
+      .post("/mes", {
+        mes,
+        algarismo: Number(algarismo),
       })
       .then((data) => {
         setIsLoading(false);
+
         if (data.data.message === "sucess")
           return dispatchSucess(toggleModalConfirmar(true));
         if (data.data.message === "error")
@@ -98,15 +108,15 @@ const Frequencia = () => {
                 width: "1",
               }}>
               <label htmlFor='semestre' style={{ position: "relative" }}>
-                Ano de Frequência
+                Mês
                 <Input
                   type='text'
                   placeholder='Designação do semestre Ex. 1º ou 2º'
-                  value={frequencia}
-                  onChange={(e) => setFrequencia(e.target.value)}
+                  value={mes}
+                  onChange={(e) => setMes(e.target.value)}
                   name='semestre'
                   style={
-                    frequencia && validFrequencia
+                    mes && validMes
                       ? {
                           border: "1px solid green",
                         }
@@ -115,7 +125,7 @@ const Frequencia = () => {
                         }
                   }
                 />
-                {frequencia && !validFrequencia && (
+                {mes && !validMes && (
                   <span
                     style={{
                       color: "red",
@@ -124,8 +134,48 @@ const Frequencia = () => {
                       marginTop: "10px",
                       position: "absolute",
                       top: "50px",
+                      textAlign: "justify",
+                      border: "1px solid red",
+                      padding: "2px",
                     }}>
-                    é aceite número seguido <br /> de Símbolo " º "
+                    Primeira letra Maiúscula <br />
+                    Exemplo: Janeiro, Fevereiro ... Dezembro
+                  </span>
+                )}
+              </label>
+              <label htmlFor='semestre' style={{ position: "relative" }}>
+                Nº Correspondente
+                <Input
+                  type='number'
+                  placeholder='Designação do semestre Ex. 1º ou 2º'
+                  value={algarismo}
+                  onChange={(e) => setAlgarismo(e.target.value)}
+                  name='semestre'
+                  style={
+                    algarismo && validAlgarismo
+                      ? {
+                          border: "1px solid green",
+                        }
+                      : {
+                          border: "1px solid red",
+                        }
+                  }
+                />
+                {algarismo && !validAlgarismo && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "11pt",
+                      fontStyle: "italic",
+                      marginTop: "10px",
+                      position: "absolute",
+                      top: "50px",
+                      textAlign: "justify",
+                      marginLeft: "20px",
+                      border: "1px solid red",
+                      padding: "2px",
+                    }}>
+                    Número que Corresponde o Mês Exemplo: 1, 2...12
                   </span>
                 )}
               </label>
@@ -135,11 +185,11 @@ const Frequencia = () => {
               type='primary'
               loading={isLoading}
               onClick={() => hendleSave()}
-              disabled={!validFrequencia}
+              disabled={!validMes || !validAlgarismo}
               style={
-                frequencia &&
-                !validFrequencia && {
-                  margin: "70px",
+                (algarismo || mes) &&
+                (!validAlgarismo || !validMes) && {
+                  margin: "90px",
                 }
               }>
               <BiSave style={{ marginRight: "10px" }} />
@@ -155,4 +205,4 @@ const Frequencia = () => {
     </div>
   );
 };
-export default Frequencia;
+export default Ano;

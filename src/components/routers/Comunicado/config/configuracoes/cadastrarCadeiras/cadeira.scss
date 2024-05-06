@@ -24,13 +24,14 @@
 }
 .cadeira form button {
   display: flex;
-  width: 20%;
-  margin: auto;
+  width: 50%;
   padding: 10px;
   font-size: 14pt;
   color: $white;
+  margin: auto;
   background-color: $rosa;
   text-align: center;
+  justify-content: center;
   border: none;
   border-radius: 7px;
   gap: 4px;

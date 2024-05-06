@@ -1,19 +1,10 @@
 @import "../../../../../../../style/variable.scss";
 .atualizar form button {
-  display: flex;
-  width: 150px;
-  margin: auto;
-  padding: 10px;
-  font-size: 14pt;
-  color: $white;
   background-color: $rosa;
-  text-align: center;
-  border: none;
-  border-radius: 7px;
-  gap: 4px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  cursor: pointer;
+  width: 30%;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
 }
 .atualizar form div {
   display: flex;

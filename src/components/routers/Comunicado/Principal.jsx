@@ -7,7 +7,11 @@ import { toggleModal } from "../../../store/ui-slice";
 import { api } from "../../../../auth/auth";
 
 import { AiOutlineSetting } from "react-icons/ai";
-import { PiCurrencyCircleDollar, PiStudentBold } from "react-icons/pi";
+import {
+  PiCurrencyCircleDollar,
+  PiCurrencyDollar,
+  PiStudentBold,
+} from "react-icons/pi";
 import Servicos from "./Services/Servicos";
 import {
   HomeFilled,
@@ -23,6 +27,7 @@ import {
 } from "@ant-design/icons/lib/icons";
 import { Menu, Drawer } from "antd";
 import { List } from "antd/es/form/Form";
+import { BiHome, BiSolidDashboard } from "react-icons/bi";
 
 const Principal = ({ mostrar, setMostrar }) => {
   const clickRef = useRef();
@@ -151,21 +156,16 @@ const Principal = ({ mostrar, setMostrar }) => {
                 {
                   label: "Home",
                   key: `comunicado?page=${1}`,
-                  icon: <HomeOutlined />,
+                  icon: <BiHome size={23} />,
                 },
                 {
                   label: "Painel",
                   key: "/dashboard",
-                  icon: <PiStudentBold />,
-                },
-                {
-                  label: "Estudante",
-                  key: "estudante",
-                  icon: <PiStudentBold />,
+                  icon: <BiSolidDashboard size={23} />,
                 },
                 {
                   label: "Serviços",
-                  icon: <DollarCircleFilled />,
+                  icon: <PiCurrencyDollar size={23} />,
 
                   children: [
                     {
@@ -205,11 +205,6 @@ const Principal = ({ mostrar, setMostrar }) => {
                     },
                   ],
                 },
-                {
-                  label: "Configurações",
-                  key: "definicoes",
-                  icon: <SettingOutlined />,
-                },
               ]}
             />
           </Drawer>
@@ -236,95 +231,4 @@ const Principal = ({ mostrar, setMostrar }) => {
   );
 };
 
-function AppMenu() {
-  return (
-    <Menu
-      onClick={({ key }) => {
-        navigate(key);
-      }}
-      mode='inline'
-      style={{
-        backgroundColor: "#a31543",
-        color: "white",
-        border: "none",
-      }}
-      items={[
-        {
-          label: "Home",
-          key: `/dashboard/comunicado?${1}`,
-        },
-        {
-          label: "Estudante",
-          key: "estudante",
-        },
-        {
-          label: "Serviços",
-
-          children: [
-            {
-              label: "Propina",
-              key: "propina",
-            },
-            {
-              label: "Recurso",
-              key: `cadeira?tipos=${"Recurso"}`,
-            },
-            {
-              label: "Cadeira em Atraso",
-              key: `cadeira?tipos=${"Cadeira em Atrazo"}`,
-            },
-            {
-              label: "Exame Especial",
-              key: `cadeira?tipos=${"Exame Especial"}`,
-            },
-            {
-              label: "Declaração sem Nota",
-              key: `declaracao?tipos=${"semNota"}`,
-            },
-            {
-              label: "Declaração com Nota",
-              key: `declaracao?tipos=${"comNota"}`,
-            },
-            {
-              label: "Declaração Linceciatura",
-              key: `declaracao?tipos=${"linceciatura"}`,
-            },
-            {
-              label: "Pagamento de Folha",
-            },
-          ],
-        },
-        {
-          label: "Configurações",
-          key: "/definicoes",
-        },
-      ]}
-    />
-  );
-}
-function Icon() {
-  return (
-    <>
-      <div className='sms' style={{ position: "relative" }}>
-        <MessageOutlined />
-        {/* <div
-          className="aler"
-          style={{
-            display: "flex",
-            borderRadius: "50%",
-            position: "absolute",
-            width: "15px",
-            height: "15px",
-            background: "red",
-            alignItems: "center",
-            justifyContent: "center",
-            color: "#fff",
-            padding: "4px",
-          }}>
-          +10
-        </div> */}
-      </div>
-    </>
-  );
-}
 export default Principal;

@@ -4,7 +4,7 @@ import { api } from "../../../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import { BiEdit, BiSearch, BiSolidSearch, BiX } from "react-icons/bi";
 import Editar from "../editar/Editar";
-import { Modal } from "antd";
+import { Button, Modal, Skeleton } from "antd";
 
 const Actualizar = () => {
   const [frequencias, setFrequencias] = useState([]);
@@ -17,8 +17,10 @@ const Actualizar = () => {
   const [message, setMessage] = useState("");
   const [id, setId] = useState("");
   const [isVisible, setIsVisible] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
-  const [confirm, setConfirm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCourse, setIsLoadingCourse] = useState(true);
+  const [isLoadingS, setIsLoadingS] = useState(true);
+  const [IsLoandigYear, setIsLoadingYear] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,8 +36,8 @@ const Actualizar = () => {
           navigate("/login");
           return;
         }
-
         setCursos(data.data);
+        setIsLoadingCourse(false);
       })
       .catch((err) => console.log(err));
   };
@@ -49,6 +51,7 @@ const Actualizar = () => {
         }
 
         setFrequencias(data.data);
+        setIsLoadingYear(false);
       })
       .catch((err) => console.log(err));
   };
@@ -62,11 +65,12 @@ const Actualizar = () => {
         }
 
         setSemestres(data.data);
+        setIsLoadingS(false);
       })
       .catch((err) => console.log(err));
   };
-  const hendleBuscar = async (e) => {
-    e.preventDefault();
+  const hendleBuscar = async () => {
+    setIsLoading(true);
     await api
       .post("/disciplina/restringido", {
         ano: frequencia,
@@ -80,6 +84,7 @@ const Actualizar = () => {
         }
 
         setDisciplinas(data.data);
+        setIsLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -106,48 +111,59 @@ const Actualizar = () => {
       <Editar isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
 
       <div className='atualizar'>
-        <form onSubmit={(e) => hendleBuscar(e)}>
+        <form>
           <div>
-            <label htmlFor='curso'>
-              Curso
-              <select onChange={(e) => setCurso(e.target.value)} name='curso'>
-                <option value=''>Escolha...</option>
-                {cursos.map((c) => (
-                  <option value={c.curso} key={c.id}>
-                    {c.curso}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor='fre'>
-              Frequência
-              <select
-                onChange={(e) => setFrequencia(e.target.value)}
-                name='fre'>
-                <option value=''>Escolha...</option>
-                {frequencias.map((c) => (
-                  <option value={c.ano} key={c.id}>
-                    {c.ano}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor='seme'>
-              Semestre
-              <select onChange={(e) => setSemestre(e.target.value)} name='seme'>
-                <option value=''>Escolha...</option>
-                {semestres.map((c) => (
-                  <option value={c.nome} key={c.id}>
-                    {c.nome}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <Skeleton
+              loading={isLoadingCourse && isLoadingS && IsLoandigYear}
+              active>
+              <label htmlFor='curso'>
+                Curso
+                <select onChange={(e) => setCurso(e.target.value)} name='curso'>
+                  <option value=''>Escolha...</option>
+                  {cursos.map((c) => (
+                    <option value={c.curso} key={c.id}>
+                      {c.curso}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label htmlFor='fre'>
+                Frequência
+                <select
+                  onChange={(e) => setFrequencia(e.target.value)}
+                  name='fre'>
+                  <option value=''>Escolha...</option>
+                  {frequencias.map((c) => (
+                    <option value={c.ano} key={c.id}>
+                      {c.ano}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label htmlFor='seme'>
+                Semestre
+                <select
+                  onChange={(e) => setSemestre(e.target.value)}
+                  name='seme'>
+                  <option value=''>Escolha...</option>
+                  {semestres.map((c) => (
+                    <option value={c.nome} key={c.id}>
+                      {c.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </Skeleton>
           </div>
-          <button type='submit'>
-            <BiSearch />
+          <Button
+            type='primary'
+            icon={<BiSearch />}
+            loading={isLoading}
+            onClick={() => hendleBuscar()}>
             Pesquizar
-          </button>
+          </Button>
         </form>
         {disciplinas.length > 0 ? (
           <table>

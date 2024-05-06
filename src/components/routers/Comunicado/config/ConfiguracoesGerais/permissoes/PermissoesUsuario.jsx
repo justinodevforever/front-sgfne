@@ -111,7 +111,6 @@ const PermissoesUSuario = () => {
           (p) => p?.permission?.permissao === "salvar" && p?.user?.bi === bi
         );
 
-        // console.log(permissao[0].Usuario.bi);
         if (bi === permissao[0]?.user?.bi) {
           if (permissao[0]?.permission?.permissao === "salvar") {
             setSalvar(true);
@@ -136,7 +135,6 @@ const PermissoesUSuario = () => {
           (p) => p?.permission?.permissao === "listar" && p?.user?.bi === bi
         );
 
-        // console.log(permissao[0].Usuario.bi);
         if (bi === permissao[0]?.user.bi) {
           if (permissao[0]?.permission?.permissao === "listar") {
             setListar(true);
@@ -161,8 +159,6 @@ const PermissoesUSuario = () => {
           (p) => p?.permission?.permissao === "remover" && p?.user?.bi === bi
         );
 
-        console.log(permissao[0]);
-        // console.log(data.data, "fd");
         if (bi === permissao[0]?.user.bi) {
           if (permissao[0]?.permission?.permissao === "remover") {
             setRemover(true);
@@ -187,7 +183,6 @@ const PermissoesUSuario = () => {
           (p) => p?.permission?.permissao === "secretário" && p?.user?.bi === bi
         );
 
-        // console.log(permissao[0]);
         if (bi === permissao[0]?.user.bi) {
           if (permissao[0]?.permission?.permissao === "secretário") {
             setSecretario(true);
@@ -212,7 +207,6 @@ const PermissoesUSuario = () => {
           (p) => p?.permission?.permissao === "admin" && p?.user?.bi === bi
         );
 
-        // console.log(permissao[0].Usuario.bi);
         if (bi === permissao[0]?.user?.bi) {
           if (permissao[0]?.permission?.permissao === "admin") {
             setTodos(true);

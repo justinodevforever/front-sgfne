@@ -1,4 +1,4 @@
-import { MenuOutlined, SettingOutlined } from "@ant-design/icons";
+import { HomeFilled, MenuOutlined, SettingOutlined } from "@ant-design/icons";
 import { Drawer, Layout, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header, Footer } from "antd/es/layout/layout";
@@ -8,6 +8,7 @@ import { GrConfigure, GrUpdate } from "react-icons/gr";
 import { PiStudent } from "react-icons/pi";
 import { api } from "../../../../../../auth/auth";
 import { Outlet, useNavigate } from "react-router-dom";
+import NavBar from "../../../../navbar/navbar";
 
 const Dashboard = () => {
   const [isClosed, setIsClosed] = useState(false);
@@ -36,25 +37,14 @@ const Dashboard = () => {
   return (
     <div className='dashboard'>
       <Layout>
-        <Header
-          color='white'
-          style={{
-            display: "flex",
-            color: "#fff",
-            gap: "10px",
-            alignItems: "center",
-            justifyContent: "space-between",
-            background: "#000",
-          }}>
-          <span style={{ color: "red" }}>Admin: {admin?.user?.nome}</span>
-          <MenuOutlined onClick={() => setIsClosed(!isClosed)} />
-        </Header>
+        <NavBar />
 
-        <Content style={{ display: "flex" }}>
+        <Content style={{ display: "flex", marginTop: "40px" }}>
           <Menu
             onClick={({ key }) => {
               navigate(key);
             }}
+            color='#a31543'
             style={{
               display: "flex",
               flexDirection: "column",
@@ -62,6 +52,11 @@ const Dashboard = () => {
             }}
             mode='inline'
             items={[
+              {
+                label: "Home",
+                icon: <HomeFilled />,
+                key: `/dashboard`,
+              },
               {
                 label: "Estudante",
                 icon: <PiStudent size={23} />,
@@ -73,6 +68,7 @@ const Dashboard = () => {
                 children: [
                   {
                     label: "Propina",
+                    key: "propina",
                   },
                   {
                     label: "Reconfirmação",
@@ -91,27 +87,7 @@ const Dashboard = () => {
                   },
                 ],
               },
-              {
-                label: "Outras Actualizações",
-                icon: <GrUpdate />,
-                children: [
-                  {
-                    label: "Disciplinas",
-                  },
-                  {
-                    label: "Ano de Frquência",
-                  },
-                  {
-                    label: "Ano Lectivo",
-                  },
-                  {
-                    label: "Semestre",
-                  },
-                  {
-                    label: "Disciplinas",
-                  },
-                ],
-              },
+
               {
                 label: "Configuraçõe e Ajuste",
                 icon: <SettingOutlined />,
@@ -119,7 +95,9 @@ const Dashboard = () => {
               },
             ]}
           />
-          <Outlet />
+          <div style={{ width: "100%" }}>
+            <Outlet />
+          </div>
         </Content>
       </Layout>
     </div>

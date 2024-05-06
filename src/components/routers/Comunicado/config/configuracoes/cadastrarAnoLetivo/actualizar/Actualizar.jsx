@@ -1,49 +1,42 @@
 import { useEffect, useState } from "react";
-import "./actualizar.scss";
 import { api } from "../../../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import { BiEdit, BiSave, BiSearch, BiSolidSearch, BiX } from "react-icons/bi";
 import { Button, Input } from "antd";
-import {
-  toggleModalConfirmar,
-  toggleModalError,
-  toggleModalWarning,
-} from "../../../../../../../store/ui-slice";
-import { useDispatch } from "react-redux";
 import UseSucess from "../../../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../../../hook/massege/Error/UseErro";
 import UseWarning from "../../../../../hook/massege/warning/UseWarning";
+import {
+  toggleModalConfirmar,
+  toggleModalError,
+} from "../../../../../../../store/ui-slice";
+import { useDispatch } from "react-redux";
 
-const SEMESTRE = /^([0-9])+º/;
+const ANO = /^([0-9]{4,4})(\/)([0-9]{4}$)/;
 
 const Actualizar = () => {
-  const [semestres, setSemestres] = useState([]);
+  const [anos, setAnos] = useState([]);
+  const [ano, setAno] = useState("");
+  const [ValidAno, setValidAno] = useState(false);
   const [message, setMessage] = useState("");
   const [id, setId] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [ValidSemestre, setValidSemestre] = useState(false);
-  const navigate = useNavigate();
-  const [numero, setNumero] = useState(0);
-  const [nome, setNome] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (nome) {
-      setValidSemestre(SEMESTRE.test(nome));
+    if (ano) {
+      setValidAno(ANO.test(ano));
     }
-  }, [nome]);
+  }, [ano]);
   useEffect(() => {
-    getSemestre();
+    getAno();
   }, []);
-
-  const upDateSemestre = async () => {
-    setIsLoading(true);
-
+  const upDateAno = async () => {
     await api
-      .put(`/semestre/${id}`, {
-        nome,
-        numero,
+      .put(`/letivo/${id}`, {
+        ano,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -52,7 +45,7 @@ const Actualizar = () => {
         }
         setIsLoading(false);
         if (data.data.message === "sucess") {
-          getSemestre();
+          getAno();
           dispatch(toggleModalConfirmar(true));
 
           return;
@@ -63,47 +56,45 @@ const Actualizar = () => {
       })
       .catch((err) => console.log(err));
   };
-  const removeSemestre = async (e, id) => {
-    e.preventDefault();
+  const getAno = async () => {
     await api
-      .delete(`/semestre/${id}`)
+      .get("/letivo")
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
 
-        setSemestres(semestres.filter((s) => s.id !== id));
+        setAnos(data.data);
       })
       .catch((err) => console.log(err));
   };
-  const getSemestre = async () => {
+  const removeAno = async (e, id) => {
+    e.preventDefault();
     await api
-      .get("/semestre")
+      .delete(`/letivo/${id}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
 
-        setSemestres(data.data);
+        setAnos(anos.filter((f) => f.id !== id));
       })
       .catch((err) => console.log(err));
   };
 
   const toggleVisible = async (e, id) => {
     e.preventDefault();
-    await api.get(`/semestre/${id}`).then((data) => {
+    await api.get(`/letivo/${id}`).then((data) => {
       if (data.data === "Token Invalid") {
         navigate("/login");
         return;
       }
-      setNome(data.data.nome);
-      setNumero(data.data.numero);
+      setAno(data.data.ano);
       setId(data.data.id);
     });
   };
-
   return (
     <>
       <UseSucess />
@@ -113,17 +104,17 @@ const Actualizar = () => {
         <form>
           <div>
             <label htmlFor='curso'>
-              Nome
+              Ano Lectivo
               <Input
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
+                value={ano}
+                onChange={(e) => setAno(e.target.value)}
                 style={
-                  !nome || (nome && !ValidSemestre)
+                  !ano || (ano && !ValidAno)
                     ? { border: "1px solid red" }
                     : { border: "1px solid green" }
                 }
               />
-              {!ValidSemestre && nome && (
+              {!ValidAno && ano && (
                 <span
                   style={{
                     color: "red",
@@ -131,48 +122,39 @@ const Actualizar = () => {
                     fontStyle: "italic",
                     marginTop: "10px",
                   }}>
-                  é aceite número seguido <br /> de Símbolo " º "
+                  Exemplo: 2023/2024
                 </span>
               )}
-            </label>
-            <label htmlFor='fre'>
-              Número
-              <Input
-                value={numero}
-                onChange={(e) => setNumero(e.target.value)}
-              />
             </label>
           </div>
           <Button
             type='primary'
             loading={isLoading}
-            disabled={!ValidSemestre || !numero}
-            onClick={() => upDateSemestre()}>
+            disabled={!ValidAno}
+            onClick={() => upDateAno()}>
             <BiSave />
             Actualizar
           </Button>
         </form>
-        {semestres.length > 0 ? (
+        {anos.length > 0 ? (
           <table>
             <thead>
               <tr>
-                <th>nome</th>
-                <th>número</th>
+                <th>Ano Lectivo</th>
 
                 <th colSpan={2}>Opçõs</th>
               </tr>
             </thead>
             <tbody>
-              {semestres?.map((d) => (
+              {anos?.map((d) => (
                 <tr key={d.id}>
-                  <td>{d?.nome}</td>
-                  <td>{d?.numero}</td>
+                  <td>{d?.ano}</td>
 
                   <td>
                     <BiX
                       color='red'
                       cursor={"pointer"}
-                      onClick={(e) => removeSemestre(e, d.id)}
+                      onClick={(e) => removeAno(e, d.id)}
                     />
                   </td>
                   <td>

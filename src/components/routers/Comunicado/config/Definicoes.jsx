@@ -5,6 +5,9 @@ import { RiUserSettingsFill } from "react-icons/ri";
 import ConfiguracoesGerais from "./ConfiguracoesGerais/ConfiguracoesGerais";
 import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
 import Config from "./configuracoes/Config";
+import { GrConfigure } from "react-icons/gr";
+import { PiConfettiLight } from "react-icons/pi";
+import { ToolOutlined } from "@ant-design/icons";
 
 const Definicoes = () => {
   const [permissao, setPermissao] = useState(true);
@@ -21,10 +24,10 @@ const Definicoes = () => {
     setConfig(true);
   }
   return (
-    <div className="container-definicoes">
-      <div className="definicoes">
-        <div className="opcoes">
-          <ul className="ul">
+    <div className='container-definicoes'>
+      <div className='definicoes'>
+        <div className='opcoes'>
+          <ul className='ul'>
             <li>
               <PegarPermissoes permissoes={["admin", "edição"]}>
                 <Link
@@ -39,7 +42,8 @@ const Definicoes = () => {
                 <Link
                   onClick={(e) => toggleConfig(e)}
                   className={config ? "ative" : "noative"}>
-                  Configurações
+                  <ToolOutlined />
+                  Ajustes
                 </Link>
               </li>
             </PegarPermissoes>
@@ -47,12 +51,12 @@ const Definicoes = () => {
         </div>
 
         {permissao && (
-          <div className="conteudo">
+          <div className='conteudo'>
             <ConfiguracoesGerais />
           </div>
         )}
         {config && (
-          <div className="conteudo">
+          <div className='conteudo'>
             <Config />
           </div>
         )}
