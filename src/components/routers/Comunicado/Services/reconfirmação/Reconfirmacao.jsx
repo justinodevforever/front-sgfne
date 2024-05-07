@@ -71,11 +71,6 @@ const Reconfirmacao = () => {
     buscaAnoLeivo();
   }, [ano]);
 
-  // useEffect(() => {
-  //   buscaAnoLeivo();
-  //   buscaFrequencia();
-  // }, [fk_curso && frequencia]);
-
   useEffect(() => {
     buscaFrequencia();
   }, [frequencia]);
@@ -86,7 +81,7 @@ const Reconfirmacao = () => {
     if (data.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
-      // dispatchWarning(toggleModalWarning(true));
+      dispatchWarning(toggleModalWarning(true));
 
       return;
     }
@@ -100,8 +95,8 @@ const Reconfirmacao = () => {
           return;
         }
         console.log("nfbnfff", data);
-        setCurso(data.data.Curso.curso);
-        setFk_curso(data.data.Curso.id);
+        setCurso(data.data.curso.curso);
+        setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
       })
