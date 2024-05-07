@@ -5,7 +5,7 @@ import { Dayjs } from "dayjs";
 import { formatDate } from "../../../../hook/timeout";
 import { api } from "../../../../../../../auth/auth";
 import { useEffect, useState } from "react";
-import { Input, Modal } from "antd";
+import { Input, Modal, Space } from "antd";
 
 function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [semestres, setSemestres] = useState([]);
@@ -131,7 +131,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const buscaPropina = async (e) => {
     const { data } = await api.post("/divida", { bi });
     setDividas(data.dividas);
-    console.log(data);
     await api
       .post("/propina/anual", {
         ano,
@@ -143,6 +142,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           navigate("/login");
           return;
         }
+        console.log(data.data);
         if (data.data) {
           setUserName(data.data?.usuario?.nome);
           setDados(data.data[0]);
@@ -181,7 +181,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
             cancelText='Sair'
             onOk={() => imprimir()}>
             <div className='opcoes'>
-              <h2>Relatório </h2>
+              <h2>Relatório</h2>
               <span
                 onClick={(e) => toggleMensal(e)}
                 className={mensal ? "clic" : "link"}>
@@ -197,7 +197,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
               <>
                 <h3>Propina Anual</h3>
                 <form className='formBi'>
-                  <label htmlFor='anoLetivo'>
+                  <label htmlFor='anoLetivo' style={{ marginTop: "10px" }}>
                     Ano Lectivo
                     <select onChange={(e) => setAno(e.target.value)}>
                       <option value={"Escolhe"}>Escolha...</option>
@@ -231,14 +231,14 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                 </form>
 
                 <div className='tabelaPropina' id='tabela'>
-                  <img src='./Logo.png' alt='ISPM' />
+                  <img src='./image/ISP_Moxico/Logo.png' alt='ISPM' />
                   {propinasAnual.length >= 1 && (
                     <>
                       <div className='extra'>
                         <div>
                           <div>
-                            <span>Curso: {dados?.Curso?.curso}</span>
-                            <span>Ano Lectivo: {dados?.AnoLetivo?.ano}</span>
+                            <span>Curso: {dados?.estudante?.curso?.curso}</span>
+                            <span>Ano Lectivo: {dados?.anoLectivo?.ano}</span>
                           </div>
                           <br />
                           <span className='tipo'>Tipo de Serviço: {tipo} </span>
@@ -259,7 +259,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         <tbody>
                           {propinasAnual.map((prop) => (
                             <tr key={prop.id}>
-                              <td>{prop?.Estudante?.nome}</td>
+                              <td>{prop?.estudante?.nome}</td>
                               <td>{prop?.rupe}</td>
                               <td>{prop?.mes?.mes}</td>
                               <td>{prop?.valor} Kz</td>
@@ -278,8 +278,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                       <hr className='divisao' />
                       <div className='extra'>
                         <div>
-                          <span>Curso: {dados?.Curso?.curso}</span>
-                          <span>Ano Lectivo: {dados?.AnoLetivo?.ano}</span>
+                          <span>Curso: {dados?.curso?.curso}</span>
+                          <span>Ano Lectivo: {dados?.anoLetivo?.ano}</span>
                         </div>
                         <br />
                         <span className='tipo'>Tipo de Serviço: {tipo} </span>
@@ -300,12 +300,12 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         <tbody>
                           {propinasAnual.map((prop) => (
                             <tr key={prop.id}>
-                              <td>{prop?.Estudante?.nome}</td>
+                              <td>{prop?.estudante?.nome}</td>
                               <td>{prop?.rupe}</td>
                               <td>{prop?.Me?.mes}</td>
                               <td>{prop?.valor} Kz</td>
                               <td>{formatDate(prop?.createdAt)}</td>
-                              <td>{prop?.Usuario?.nome}</td>
+                              <td>{prop?.usuario?.nome}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -340,6 +340,32 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
               <>
                 <h3>Propina Mensal</h3>
                 <form className='formBi'>
+                  <Space wrap style={{ width: "100%" }}>
+                    <label htmlFor='mes'>
+                      Mês:
+                      <select onChange={(e) => setMes(e.target.value)}>
+                        <option value={"Escolhe"}>Escolha...</option>
+
+                        {meses.map((m) => (
+                          <option value={m.mes} key={m.id}>
+                            {m.mes}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label htmlFor='anoLetivo'>
+                      Ano Lectivo
+                      <select onChange={(e) => setAno(e.target.value)}>
+                        <option value={"Escolhe"}>Escolha...</option>
+
+                        {anos.map((ano) => (
+                          <option value={ano.ano} key={ano.id}>
+                            {ano.ano}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </Space>
                   <div className='input'>
                     <Input.Search
                       placeholder='Número de BI do Estudante'
@@ -354,30 +380,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                       }}
                     />
                   </div>
-                  <label htmlFor='mes'>
-                    Mês:
-                    <select onChange={(e) => setMes(e.target.value)}>
-                      <option value={"Escolhe"}>Escolha...</option>
-
-                      {meses.map((m) => (
-                        <option value={m.mes} key={m.id}>
-                          {m.mes}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label htmlFor='anoLetivo'>
-                    Ano Lectivo
-                    <select onChange={(e) => setAno(e.target.value)}>
-                      <option value={"Escolhe"}>Escolha...</option>
-
-                      {anos.map((ano) => (
-                        <option value={ano.ano} key={ano.id}>
-                          {ano.ano}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
                 </form>
                 <div className='tabelaPropina' id='tabela'>
                   {propinasMensal.length >= 1 && (
@@ -385,8 +387,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                       <img src='./Logo.png' alt='ISPM' />
                       <div className='extra'>
                         <div>
-                          <span>Curso: {dados?.Curso?.curso}</span>
-                          <span>Ano Lectivo: {dados?.AnoLetivo?.ano}</span>
+                          <span>Curso: {dados?.estudante?.curso?.curso}</span>
+                          <span>Ano Lectivo: {dados?.anoLectivo?.ano}</span>
                         </div>
                         <br />
                         <span className='tipo'>Tipo de Serviço: {tipo} </span>
@@ -408,7 +410,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         <tbody>
                           {propinasMensal.map((prop, index) => (
                             <tr key={index}>
-                              <td>{prop?.Estudante?.nome}</td>
+                              <td>{prop?.estudante?.nome}</td>
                               <td>{prop?.rupe}</td>
                               <td>{prop?.mes?.mes}</td>
                               <td>{prop?.valor} Kz</td>
@@ -437,11 +439,11 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                       <hr className='divisao' />
                       <div className='extra'>
                         <div>
-                          <span>Curso: {dados?.Curso?.curso}</span>
-                          <span>Ano Lectivo: {dados?.AnoLetivo?.ano}</span>
+                          <span>Curso: {dados?.estudante?.curso?.curso}</span>
+                          <span>Ano Lectivo: {dados?.anoLectivo?.ano}</span>
                         </div>
                         <br />
-                        <span className='tipo'>Tipo de Serviço: {tipo} </span>
+                        <span className='tipo'>Tipo de Serviço: Propina </span>
                       </div>
                       <table>
                         {propinasMensal.length >= 1 && (
@@ -460,12 +462,12 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         <tbody>
                           {propinasMensal.map((prop, index) => (
                             <tr key={index}>
-                              <td>{prop?.Estudante?.nome}</td>
+                              <td>{prop?.estudante?.nome}</td>
                               <td>{prop?.rupe}</td>
                               <td>{prop?.Me?.mes}</td>
                               <td>{prop?.valor} Kz</td>
                               <td>{formatDate(prop?.createdAt)}</td>
-                              <td>{prop?.Usuario?.nome}</td>
+                              <td>{prop?.usuario?.nome}</td>
 
                               <td className='opc'>
                                 <BiX

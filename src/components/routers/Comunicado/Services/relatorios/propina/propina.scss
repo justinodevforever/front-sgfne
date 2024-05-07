@@ -1,29 +1,3 @@
-.overley {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  top: 0;
-  left: 0;
-  opacity: 0.7;
-  z-index: 2;
-}
-
-.relatorioPropina {
-  display: flex;
-  position: fixed;
-  margin: auto;
-  flex-direction: column;
-  width: 70%;
-  max-height: 550px;
-  background-color: #fff;
-  top: 40px;
-  z-index: 3;
-  left: 15%;
-  border-radius: 10px;
-  overflow-y: auto;
-  padding-bottom: 20px;
-}
 .opcoes {
   display: flex;
   justify-content: space-between;
@@ -33,7 +7,8 @@
   margin-top: 0px;
   opacity: 1;
 }
-.relatorioPropina .closed:hover {
+
+.closed:hover {
   padding: 2px;
   background-color: #ddd;
   border-radius: 50%;
@@ -43,7 +18,7 @@
   gap: 20px;
   margin-top: 20px;
 }
-.relatorioPropina .closed {
+.closed {
   padding: 2px;
   background-color: #d1c9c9;
   border-radius: 50%;
@@ -71,6 +46,19 @@ h3 {
   margin-top: 0px;
   color: #a31543;
 }
+.clic {
+  opacity: 1;
+  position: relative;
+  padding: 0px;
+  margin: auto;
+  top: -10px;
+  font-size: 14pt;
+  cursor: pointer;
+  padding: 4px;
+  background-color: #a31543;
+  color: #fff;
+  border-radius: 5px;
+}
 
 .opcoes .link {
   color: #a31543;
@@ -93,14 +81,6 @@ h3 {
   animation: outline 0.7s ease-out;
 }
 
-@keyframes outline {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
-}
 .imprimir {
   display: flex;
   padding: 20px;
@@ -130,14 +110,14 @@ img {
   gap: 10px;
 }
 
-// select {
-//   width: 100px;
-//   height: 30px;
-//   font-size: 14pt;
-//   margin-right: 10px;
-//   margin-left: 10px;
-//   border: 2px solid #a31543;
-// }
+select {
+  width: 100px;
+  height: 30px;
+  font-size: 14pt;
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 2px solid #a31543;
+}
 label {
   display: flex;
   font-size: 12pt;
@@ -148,19 +128,7 @@ button {
   background-color: transparent;
   border: none;
 }
-.relatorioPropina .clic {
-  opacity: 1;
-  position: relative;
-  padding: 0px;
-  margin: auto;
-  top: -10px;
-  font-size: 14pt;
-  cursor: pointer;
-  padding: 4px;
-  background-color: #a31543;
-  color: #fff;
-  border-radius: 5px;
-}
+
 .tabelaPropina .assinar div {
   display: flex;
   flex-direction: column;
@@ -193,5 +161,14 @@ button {
 @media (max-width: 300px) {
   label {
     justify-content: space-between;
+  }
+}
+
+@keyframes outline {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
   }
 }
