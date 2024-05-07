@@ -120,7 +120,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
         console.log("shjhks", data.data);
         // console.log(data.data);
         if (data.data) {
-          setUserName(data.data?.Usuario?.nome);
+          setUserName(data.data?.usuario?.nome);
           setDados(data.data);
           setPropinasMensal([...propinasMensal, data.data]);
         }
@@ -144,7 +144,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           return;
         }
         if (data.data) {
-          setUserName(data.data?.Usuario?.nome);
+          setUserName(data.data?.usuario?.nome);
           setDados(data.data[0]);
           setPropinasAnual(data.data);
         }
