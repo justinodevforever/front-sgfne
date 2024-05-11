@@ -9,6 +9,7 @@ import { PiStudent } from "react-icons/pi";
 import { api } from "../../../../../../auth/auth";
 import { Outlet, useNavigate } from "react-router-dom";
 import NavBar from "../../../../navbar/navbar";
+import { BiListCheck } from "react-icons/bi";
 
 const Dashboard = () => {
   const [isClosed, setIsClosed] = useState(false);
@@ -59,7 +60,7 @@ const Dashboard = () => {
               },
               {
                 label: "Estudante",
-                icon: <PiStudent size={23} />,
+                icon: <PiStudent size={21} />,
                 key: "estudante",
               },
               {
@@ -68,10 +69,11 @@ const Dashboard = () => {
                 children: [
                   {
                     label: "Propina",
-                    key: "propina",
+                    key: "atualizar propina",
                   },
                   {
                     label: "Reconfirmação",
+                    key: "l",
                   },
                   {
                     label: "Cadeira em Atraso",
@@ -92,6 +94,11 @@ const Dashboard = () => {
                 label: "Configuraçõe e Ajuste",
                 icon: <SettingOutlined />,
                 key: "definicoes",
+              },
+              {
+                label: "Solicitações",
+                icon: <BiListCheck size={23} />,
+                key: "solicitacao",
               },
             ]}
           />

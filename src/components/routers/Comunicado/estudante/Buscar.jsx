@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Input, Form } from "antd";
 // import { BiEdit, BiX } from "react-icons/bi";
 // import { PiPrinter } from "react-icons/pi";
-// import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
+import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
 
 const Buscar = () => {
   const [bi, setBi] = useState("");
@@ -55,7 +55,7 @@ const Buscar = () => {
   return (
     <div className='container-buscar'>
       <div className='pesquisa'>
-        <Form className='form'>
+        <Form className='form' onSubmitCapture={() => getBi()}>
           <Input.Search
             type='search'
             placeholder='Nº de BI do Estudante'

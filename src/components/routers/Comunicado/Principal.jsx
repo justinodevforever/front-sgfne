@@ -10,6 +10,9 @@ import { AiOutlineSetting } from "react-icons/ai";
 import {
   PiCurrencyCircleDollar,
   PiCurrencyDollar,
+  PiList,
+  PiListBulletsLight,
+  PiListChecks,
   PiStudentBold,
 } from "react-icons/pi";
 import Servicos from "./Services/Servicos";
@@ -27,7 +30,13 @@ import {
 } from "@ant-design/icons/lib/icons";
 import { Menu, Drawer } from "antd";
 import { List } from "antd/es/form/Form";
-import { BiHome, BiSolidDashboard } from "react-icons/bi";
+import {
+  BiHome,
+  BiListMinus,
+  BiListOl,
+  BiListUl,
+  BiSolidDashboard,
+} from "react-icons/bi";
 
 const Principal = ({ mostrar, setMostrar }) => {
   const clickRef = useRef();
@@ -174,7 +183,7 @@ const Principal = ({ mostrar, setMostrar }) => {
                     },
                     {
                       label: "Recurso",
-                      key: `cadeira?tipos=${"Recurso"}`,
+                      key: `recurso`,
                     },
                     {
                       label: "Cadeira em Atraso",
@@ -182,7 +191,7 @@ const Principal = ({ mostrar, setMostrar }) => {
                     },
                     {
                       label: "Exame Especial",
-                      key: `cadeira?tipos=${"Exame Especial"}`,
+                      key: `exame especial`,
                     },
                     {
                       label: "Declaração sem Nota",
@@ -204,6 +213,11 @@ const Principal = ({ mostrar, setMostrar }) => {
                       label: "Pagamento de Folha",
                     },
                   ],
+                },
+                {
+                  label: "Minhas Solicitções",
+                  icon: <PiListChecks size={23} />,
+                  key: "minhas solicitacoes",
                 },
               ]}
             />

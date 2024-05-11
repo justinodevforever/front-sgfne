@@ -1,0 +1,37 @@
+@import "../../../../../style/variable.scss";
+
+.solicitacao {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+}
+.solicitacao .conteudo {
+  display: flex;
+  width: 90%;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 1px 12px 2px #000;
+  margin-top: 20px;
+  align-items: center;
+  padding: 8px;
+}
+.divNome {
+  color: "";
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.divOpcoes {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+@media (max-width: 211px) {
+  .divOpcoes {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}

@@ -3,6 +3,7 @@ import "./declaracao.css";
 import { api } from "../../../../../../auth/auth";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
+import { Input } from "antd";
 
 const Declaracao = () => {
   const [bi, setBi] = useState("");
@@ -65,8 +66,8 @@ const Declaracao = () => {
           navigate("/login");
           return;
         }
-        setCurso(data.data.Curso.curso);
-        setFk_curso(data.data.Curso.id);
+        setCurso(data.data.curso.curso);
+        setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
       })
@@ -213,30 +214,24 @@ const Declaracao = () => {
 
   return (
     <>
-      <div className="container-declaracao">
-        <div className="conteudo">
-          <form onSubmit={(e) => buscarEstudante(e)} className="formBi">
-            <input
-              type="search"
-              placeholder="Número de BI do Estudante"
+      <div className='container-declaracao'>
+        <div className='conteudo'>
+          <form className='formBiD'>
+            <Input.Search
+              placeholder='Número de BI do Estudante'
               onChange={(e) => setBi(e.target.value)}
-              className="search"
+              className='search'
               autoFocus
               maxLength={14}
-            />
-            <BiSearch
-              size={30}
-              color="fff"
-              cursor={"pointer"}
-              onClick={(e) => buscarEstudante(e)}
+              onSearch={(e) => buscarEstudante(e)}
             />
           </form>
 
-          <label htmlFor="frequencia">
+          <label htmlFor='frequencia'>
             Frequência:
             <select
-              nome="frequencia"
-              id="frequencia"
+              nome='frequencia'
+              id='frequencia'
               onChange={(e) => setFrequencia(e.target.value)}>
               <option value={"Escolhe"}>Escolha...</option>
 
@@ -248,18 +243,18 @@ const Declaracao = () => {
           <hr />
           {curso && <h3>Dados do Estudante</h3>}
           {curso && (
-            <label htmlFor="nome">
+            <label htmlFor='nome'>
               Nome:
-              <input type="text" value={nome} disabled className="input" />
+              <input type='text' value={nome} disabled className='input' />
             </label>
           )}
           {curso && (
-            <label htmlFor="curso">
+            <label htmlFor='curso'>
               Curso:
-              <input type="text" value={curso} disabled className="input" />
+              <input type='text' value={curso} disabled className='input' />
             </label>
           )}
-          {nome && curso && <button className="btn">Fazer Pagamento</button>}
+          {nome && curso && <button className='btn'>Fazer Pagamento</button>}
         </div>
       </div>
     </>

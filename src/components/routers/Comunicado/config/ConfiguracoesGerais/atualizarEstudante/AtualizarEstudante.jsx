@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import EditarEstudante from "./editar/EditarEstudante";
 import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
-import { Input } from "antd";
+import { Form, Input } from "antd";
 
 const AtualizarEstudante = () => {
   const [isClick, setIsClick] = useState(false);
@@ -63,7 +63,7 @@ const AtualizarEstudante = () => {
       <EditarEstudante estudante={estudante} />
       <div className='container-buscar'>
         <div className='pesquisa'>
-          <form className='form'>
+          <Form className='form' onSubmitCapture={() => buscaEstudante()}>
             <Input.Search
               type='search'
               placeholder='Número de BI do Estudante'
@@ -74,7 +74,7 @@ const AtualizarEstudante = () => {
               maxLength={14}
               onSearch={() => buscaEstudante()}
             />
-          </form>
+          </Form>
         </div>
         {estudante?.nome && (
           <table>

@@ -1,0 +1,53 @@
+@import "../../../../../../../style/variable.scss";
+.atualizarPropina {
+  display: flex;
+  width: 74%;
+  margin-top: 30px;
+  border: 1px solid $rosa;
+  margin-left: 20px;
+}
+.atualizarPropina .formBi {
+  display: flex;
+  width: 100%;
+  background-color: $rosa;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+.atualizarPropina {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin-top: 0px;
+}
+.atualizarPropina th {
+  background-color: $rosa;
+  border: none;
+}
+.atualizarPropina td {
+  font-size: 11pt;
+  border: none;
+  text-align: center;
+}
+.atualizarPropina .pagamento-propina {
+  display: flex;
+  width: 50%;
+  margin: auto;
+  align-items: center;
+  margin-top: 20px;
+}
+label {
+  color: #000;
+}
+// .atualizarPropina .pagamento-propina input {
+//   border: 2px solid $rosa;
+//   border-radius: 10px;
+// }
+
+.atualizarPropina .cc {
+  display: flex;
+
+  width: 100%;
+  align-items: center;
+  color: #000;
+}

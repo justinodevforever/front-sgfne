@@ -146,7 +146,7 @@ const Cadastrar = () => {
 
       <div className='container-cadastrar'>
         <div className='pesquisa'>
-          <Form className='Form'>
+          <Form className='Form' onSubmitCapture={() => getBi()}>
             <Input.Search
               type='search'
               placeholder='Nº de BI do Estudante'

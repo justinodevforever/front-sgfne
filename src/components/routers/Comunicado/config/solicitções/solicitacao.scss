@@ -1,0 +1,16 @@
+@import "../../../../../style/variable.scss";
+
+.solicitacao .conteudo {
+  display: flex;
+  width: 90%;
+  flex-direction: row;
+  justify-content: space-between;
+  box-shadow: 2px 1px 12px 2px #000;
+  margin-top: 20px;
+  align-items: center;
+  padding: 8px;
+}
+.divOpcoes {
+  display: flex;
+  justify-content: space-between;
+}

@@ -23,7 +23,7 @@ const ContactChat = ({ contact }) => {
     async function getImage() {
       await api
         .post("/images/user", {
-          fk_user: contact?.Sender?.id,
+          fk_user: contact?.sender?.id,
         })
         .then((data) => {
           if (data.data === "Token Invalid") {
@@ -38,7 +38,7 @@ const ContactChat = ({ contact }) => {
 
       await api
         .post("/images/user", {
-          fk_user: contact?.Receiver?.id,
+          fk_user: contact?.receiver?.id,
         })
         .then((data) => {
           if (data.data === "Token Invalid") {

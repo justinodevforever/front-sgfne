@@ -15,19 +15,20 @@ import {
   toggleModalError,
   toggleModalWarning,
 } from "../../../../../store/ui-slice";
-import { Form, Input, Space, Alert } from "antd";
+import { Form, Input, Space, Alert, Button } from "antd";
 
 const Reconfirmacao = () => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
-  const [fk_estudante, setFk_estudante] = useState(0);
-  const [fk_user, setFk_user] = useState(0);
-  const [fk_curso, setFk_curso] = useState(0);
-  const [fk_ano, setFk_ano] = useState(0);
-  const [fk_semestre, setFk_semestre] = useState(0);
+  const [fk_estudante, setFk_estudante] = useState("");
+  const [fk_user, setFk_user] = useState("");
+  const [fk_curso, setFk_curso] = useState("");
+  const [fk_ano, setFk_ano] = useState("");
+  const [fk_semestre, setFk_semestre] = useState("");
   const [valor, setValor] = useState(0);
-  const [fk_frequencia, setFk_frequencia] = useState(0);
+  const [rupe, setRupe] = useState(0);
+  const [fk_frequencia, setFk_frequencia] = useState("");
   const [semestres, setSemestres] = useState([]);
   const [anos, setAnos] = useState([]);
   const [frequencias, setFrequencias] = useState([]);
@@ -211,7 +212,8 @@ const Reconfirmacao = () => {
         fk_semestre,
         fk_user,
         fk_ano,
-        valor,
+        valor: Number(valor),
+        rupe,
         fk_frequencia,
       })
       .then((data) => {
@@ -219,18 +221,17 @@ const Reconfirmacao = () => {
           navigate("/login");
           return;
         }
-        dispatchConfirmar(toggleModalConfirmar(true));
-        setId(data.data.response.id);
+        if (data.data?.message === "sucess") {
+          dispatchConfirmar(toggleModalConfirmar(true));
+          setId(data.data.response.id);
+          return;
+        }
+        if (data.data?.message === "error") {
+          dispatchError(toggleModalError(true));
+          return;
+        }
 
-        let time;
-
-        time = setTimeout(() => {
-          setVisivel(true);
-        }, 5000);
-
-        return () => {
-          clearTimeout(time);
-        };
+        setVisivel(true);
       });
   };
 
@@ -244,7 +245,7 @@ const Reconfirmacao = () => {
       <UseWarning message={message} />
       <UseSucess />
       <UseErro />
-      {/* < type='error' banner  /> */}
+
       <div className='container-reconfirmacao'>
         <Form className='formBir'>
           <Input.Search
@@ -260,44 +261,80 @@ const Reconfirmacao = () => {
 
         <Space
           wrap
-          style={{ marginTop: "40px", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "40px",
+            justifyContent: "center",
+          }}
           align='center'>
-          <label htmlFor='frequencia'>
-            Frequência:
-            <select onChange={(e) => setFrequencia(e.target.value)}>
-              <option value={"Escolhe"}>Escolha...</option>
+          <div
+            style={{
+              display: "flex",
+              gap: "20px",
+              marginTop: "40px",
+              justifyContent: "center",
+            }}>
+            <Input
+              onChange={(e) => setRupe(e.target.value)}
+              type='number'
+              style={{
+                border: "1px solid #a31541",
+              }}
+              maxLength={24}
+            />
+            <Input
+              onChange={(e) => setValor(e.target.value)}
+              type='number'
+              style={{
+                border: "1px solid #a31541",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              marginTop: "40px",
+              justifyContent: "center",
+            }}>
+            <label htmlFor='frequencia'>
+              Frequência:
+              <select onChange={(e) => setFk_frequencia(e.target.value)}>
+                <option value={"Escolhe"}>Escolha...</option>
 
-              {frequencias.map((f) => (
-                <option value={f.ano} key={f.id}>
-                  {f.ano}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor='semestre'>
-            Semestre:
-            <select onChange={(e) => setSemestre(e.target.value)}>
-              <option value={"Escolhe"}>Escolha...</option>
+                {frequencias.map((f) => (
+                  <option value={f.id} key={f.id}>
+                    {f.ano}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label htmlFor='semestre'>
+              Semestre:
+              <select onChange={(e) => setSemestre(e.target.value)}>
+                <option value={"Escolhe"}>Escolha...</option>
 
-              {semestres.map((s) => (
-                <option value={s.nome} key={s.id}>
-                  {s.nome}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor='cadeira'>
-            Ano Lectivo:
-            <select onChange={(e) => setAno(e.target.value)}>
-              <option value={"Escolhe"}>Escolha...</option>
+                {semestres.map((s) => (
+                  <option value={s.nome} key={s.id}>
+                    {s.nome}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label htmlFor='cadeira'>
+              Ano Lectivo:
+              <select onChange={(e) => setAno(e.target.value)}>
+                <option value={"Escolhe"}>Escolha...</option>
 
-              {anos.map((s) => (
-                <option value={s.ano} key={s.id}>
-                  {s.ano}
-                </option>
-              ))}
-            </select>
-          </label>
+                {anos.map((s) => (
+                  <option value={s.ano} key={s.id}>
+                    {s.ano}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
         </Space>
         <hr />
 
@@ -309,7 +346,7 @@ const Reconfirmacao = () => {
             <Input
               type='text'
               value={nome}
-              disabled
+              readOnly
               className='input'
               onChange={(e) => setNome(e.target.value)}
               style={{ width: "90%", border: "1px solid #000" }}
@@ -323,7 +360,7 @@ const Reconfirmacao = () => {
             <Input
               type='text'
               value={curso}
-              disabled
+              readOnly
               className='input'
               onChange={(e) => setCurso(e.target.value)}
               style={{ width: "90%", border: "1px solid #000" }}
@@ -331,9 +368,12 @@ const Reconfirmacao = () => {
           </label>
         )}
         {nome && curso && (
-          <button onClick={(e) => hendlePagamento(e)} className='btn'>
+          <Button
+            onClick={(e) => hendlePagamento(e)}
+            className='btn'
+            type='primary'>
             Fazer Pagamento
-          </button>
+          </Button>
         )}
         <input
           type='text'
@@ -358,13 +398,6 @@ const Reconfirmacao = () => {
             <span>Relatório</span>
           </div> */}
       </div>
-
-      <RelatorioReconfirmacao
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo={"Rencofirmação"}
-        id={id}
-      />
     </>
   );
 };

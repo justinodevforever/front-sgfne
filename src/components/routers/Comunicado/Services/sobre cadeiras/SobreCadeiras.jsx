@@ -40,7 +40,7 @@ const SobreCadeiras = () => {
   const [disciplinas, setDisciplinas] = useState([]);
   const [semestre, setSemestre] = useState("");
   const navigate = useNavigate();
-  const [valor, setValor] = useState(0);
+  const [valor, setValor] = useState("");
   const [ativar, setAtivar] = useState(false);
   const [visivel, setVisivel] = useState(false);
   const [type, setType] = useState("");
@@ -64,7 +64,6 @@ const SobreCadeiras = () => {
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
     getAno();
-    tiposServicos();
   }, []);
   useEffect(() => {
     buscaSemestre();
@@ -116,8 +115,8 @@ const SobreCadeiras = () => {
           return;
         }
 
-        setCurso(data.data.Curso.curso);
-        setFk_curso(data.data.Curso.id);
+        setCurso(data.data.curso.curso);
+        setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
       })
@@ -261,73 +260,6 @@ const SobreCadeiras = () => {
       })
       .catch((err) => console.log(err));
   };
-  const tiposServicos = async () => {
-    await api
-      .post("/tipo/servico/especifico", {
-        tipo: tipos.get("tipos  "),
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        setValor(data.data.valor);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const hendleExameEspecial = async (e) => {
-    e.preventDefault();
-    if (
-      ano === "Escolha" ||
-      semestre === "Escolha" ||
-      frequencia === "Escolha" ||
-      disciplina === "" ||
-      ano === "" ||
-      semestre === "" ||
-      frequencia === "" ||
-      disciplina === ""
-    ) {
-      setMessage("Existe Campo vazio!");
-      dispatchWarning(toggleModalWarning(true));
-
-      return;
-    }
-    await api
-      .post("/exame/especial", {
-        valor,
-        fk_curso,
-        rupe,
-        fk_disciplina,
-        fk_estudante,
-        fk_frequencia,
-        fk_semestre,
-        fk_ano,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        dispatchConfirmar(toggleModalConfirmar(true));
-        setId(data.data.response.id);
-
-        let time;
-
-        time = setTimeout(() => {
-          setVisivel(true);
-        }, 5000);
-
-        return () => {
-          clearTimeout(time);
-        };
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const hendleCadeiraAtrazo = async (e) => {
     e.preventDefault();
@@ -346,6 +278,7 @@ const SobreCadeiras = () => {
 
       return;
     }
+    setAtivar(true);
     await api
       .post("/cadeira/atraso", {
         valor,
@@ -363,69 +296,15 @@ const SobreCadeiras = () => {
           return;
         }
 
-        dispatchConfirmar(toggleModalConfirmar(true));
-        setId(data.data.response.id);
-
-        let time;
-
-        time = setTimeout(() => {
+        setAtivar(false);
+        if (data.data.message === "sucess") {
+          dispatchConfirmar(toggleModalConfirmar(true));
+          setId(data.data.response.id);
           setVisivel(true);
-        }, 5000);
-
-        return () => {
-          clearTimeout(time);
-        };
+        }
       })
       .catch((error) => {
         console.log(error);
-      });
-  };
-  const hendleRecurso = async (e) => {
-    e.preventDefault();
-    if (
-      ano === "Escolha" ||
-      semestre === "Escolha" ||
-      frequencia === "Escolha" ||
-      disciplina === "" ||
-      ano === "" ||
-      semestre === "" ||
-      frequencia === "" ||
-      disciplina === ""
-    ) {
-      setMessage("Existe Campo vazio!");
-      dispatchWarning(toggleModalWarning(true));
-
-      return;
-    }
-    await api
-      .post("/recurso", {
-        valor,
-        fk_curso,
-        rupe,
-        fk_disciplina,
-        fk_estudante,
-        fk_frequencia,
-        fk_semestre,
-        fk_ano,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        dispatchConfirmar(toggleModalConfirmar(true));
-        setId(data.data.response.id);
-
-        let time;
-
-        time = setTimeout(() => {
-          setVisivel(true);
-        }, 5000);
-
-        return () => {
-          clearTimeout(time);
-        };
       });
   };
 
@@ -446,7 +325,7 @@ const SobreCadeiras = () => {
             justifyContent: "center",
           }}>
           <div className='conteudo'>
-            <Form className='formBir'>
+            <Form className='formBir' onSubmitCapture={() => buscarEstudante()}>
               <Input.Search
                 placeholder='Número de BI do Estudante'
                 onChange={(e) => setBi(e.target.value)}
@@ -464,116 +343,149 @@ const SobreCadeiras = () => {
                 alignItems: "center",
                 justifyContent: "center",
               }}>
-              <label htmlFor='cadeira'>
-                Ano Lectivo:
-                <select
-                  style={{ width: "100px" }}
-                  className='selecte'
-                  onChange={(e) => setAno(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "20px",
+                }}>
+                <label htmlFor='valor'>
+                  Valor
+                  <Input
+                    onChange={(e) => setValor(e.target.value)}
+                    type='number'
+                    placeholder='Digite o valor'
+                    aria-labelledby='home'
+                    style={{
+                      border: "1px solid #a31541",
+                    }}
+                  />
+                </label>
+                <label htmlFor='rupe'>
+                  RUPE:
+                  <Input
+                    type='number'
+                    value={rupe}
+                    onChange={(e) => setRupe(e.target.value)}
+                    placeholder='Digite o Nº de RUPE'
+                    maxLength={20}
+                    className='rupe'
+                    style={{
+                      border: "1px solid #a31541",
+                    }}
+                  />
+                </label>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "20px",
+                }}>
+                <label htmlFor='cadeira'>
+                  Ano Lectivo:
+                  <select
+                    style={{ width: "100px" }}
+                    className='selecte'
+                    onChange={(e) => setAno(e.target.value)}>
+                    <option value={"Escolha"}>Escolha...</option>
 
-                  {anos.map((s) => (
-                    <option value={s.ano} key={s.id}>
-                      {s.ano}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label htmlFor='frequencia'>
-                Frequência:
-                <select
-                  style={{ width: "100px" }}
-                  className='selecte'
-                  nome='frequencia'
-                  id='frequencia'
-                  onChange={(e) => setFrequencia(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+                    {anos.map((s) => (
+                      <option value={s.ano} key={s.id}>
+                        {s.ano}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label htmlFor='frequencia'>
+                  Frequência:
+                  <select
+                    style={{ width: "100px" }}
+                    className='selecte'
+                    nome='frequencia'
+                    id='frequencia'
+                    onChange={(e) => setFrequencia(e.target.value)}>
+                    <option value={"Escolha"}>Escolha...</option>
 
-                  {frequencias.map((f) => (
-                    <option value={f.ano} key={f.id}>
-                      {f.ano}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                    {frequencias.map((f) => (
+                      <option value={f.ano} key={f.id}>
+                        {f.ano}
+                      </option>
+                    ))}
+                  </select>
+                </label>
 
-              <label htmlFor='semestre'>
-                Semestre:
-                <select
-                  style={{ width: "100px" }}
-                  className='selecte'
-                  onChange={(e) => setSemestre(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+                <label htmlFor='semestre'>
+                  Semestre:
+                  <select
+                    style={{ width: "100px" }}
+                    className='selecte'
+                    onChange={(e) => setSemestre(e.target.value)}>
+                    <option value={"Escolha"}>Escolha...</option>
 
-                  {semestres.map((s) => (
-                    <option value={s.nome} key={s.id}>
-                      {s.nome}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label htmlFor='cadeira'>
-                Cadeira:
-                <select
-                  style={{ width: "100px" }}
-                  className='selecte'
-                  onChange={(e) => setDisciplina(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+                    {semestres.map((s) => (
+                      <option value={s.nome} key={s.id}>
+                        {s.nome}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label htmlFor='cadeira'>
+                  Cadeira:
+                  <select
+                    style={{ width: "100px" }}
+                    className='selecte'
+                    onChange={(e) => setDisciplina(e.target.value)}>
+                    <option value={"Escolha"}>Escolha...</option>
 
-                  {disciplinas?.map((s) => (
-                    <option value={s.nome} key={s.id}>
-                      {s.nome}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label htmlFor='rupe'>
-                RUPE:
-                <Input
-                  type='number'
-                  value={rupe}
-                  onChange={(e) => setRupe(e.target.value)}
-                  placeholder='Digite o Nº de RUPE'
-                  maxLength={20}
-                  className='rupe'
-                />
-              </label>
+                    {disciplinas?.map((s) => (
+                      <option value={s.nome} key={s.id}>
+                        {s.nome}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
             </Space>
 
             <hr />
-            {curso && <h3>Dados do Estudante</h3>}
-            <br />
-            {curso && (
-              <label htmlFor='nome'>
-                Nome:
-                <Input type='text' value={nome} disabled className='input' />
-              </label>
-            )}
-            {curso && (
-              <label htmlFor='curso'>
-                Curso:
-                <input type='text' value={curso} disabled className='input' />
-              </label>
-            )}
-            {nome && curso && tipos.get("tipos") === "recurso" && (
-              <>
-                <Button onClick={(e) => hendleRecurso(e)} className='btn'>
-                  Fazer Pagamento
-                </Button>
-                <Loader />
-              </>
-            )}
-            {nome && curso && tipos.get("tipos") === "cadeira em Atrazo" && (
-              <Button onClick={(e) => hendleCadeiraAtrazo(e)} className='btn'>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                alignItems: "center",
+              }}>
+              {curso && <h3>Dados do Estudante</h3>}
+              <br />
+              {curso && (
+                <label htmlFor='nome'>
+                  Nome:
+                  <Input type='text' value={nome} disabled className='input' />
+                </label>
+              )}
+              {curso && (
+                <label htmlFor='curso'>
+                  Curso:
+                  <input type='text' value={curso} disabled className='input' />
+                </label>
+              )}
+            </div>
+            {!ativar && (
+              <Button
+                onClick={(e) => hendleCadeiraAtrazo(e)}
+                className='btn'
+                type='primary'
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "auto",
+                }}>
                 Fazer Pagamento
               </Button>
             )}
-            {nome && curso && tipos.get("tipos") === "exame Especial" && (
-              <Button onClick={(e) => hendleExameEspecial(e)} className='btn'>
-                Fazer Pagamento
-              </Button>
-            )}
+            {ativar && <Loader />}
           </div>
         </Space>
       ) : (

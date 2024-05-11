@@ -162,7 +162,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           <div className='nos'>
             <Link
               className='home'
-              to={`/main/comunicado?${1}`}
+              to={`/main/comunicado?page=${1}`}
               title='Página Inicial'>
               <BiSolidHome size={"20px"} className='link-nav' color='a31543' />
             </Link>

@@ -76,26 +76,23 @@ function CadastrarUsuario() {
     setvalidEmail(EMAIL_REGEX.test(email));
   }, [email]);
 
-  async function hendleUsuario(e) {
-    e.preventDefault();
-
+  async function hendleUsuario() {
     if (password !== confPassword) {
       setErrorPasswordConf("Senha diferente tenta novamente");
-      setSenhaDif(true)
-     return 
-    } 
-      const response = await chatflech.post("/user", {
-        nome,
-        email,
-        password,
-        contacto,
-        bi,
-      });
-     
-      sessionStorage.setItem("id", response.data.response?.id);
-      sessionStorage.setItem("user", response.data.response?.nome);
-      navigate("/login");
-    
+      setSenhaDif(true);
+      return;
+    }
+    const response = await chatflech.post("/user", {
+      nome,
+      email,
+      password,
+      contacto,
+      bi,
+    });
+
+    sessionStorage.setItem("id", response.data.response?.id);
+    sessionStorage.setItem("user", response.data.response?.nome);
+    navigate("/login");
   }
   useEffect(() => {
     setConfPassword("");
@@ -132,6 +129,7 @@ function CadastrarUsuario() {
           {formArray.map((v, i) => (
             <>
               <div
+                key={i}
                 style={
                   form - 1 === i || form - 1 === i + 1
                     ? {
@@ -284,7 +282,9 @@ function CadastrarUsuario() {
                 color='00f'
                 size={25}
                 disabled={
-                  email && bi && nome && bi.length === 14 ? false : true
+                  email && bi && nome && validEmail && bi.length === 14
+                    ? false
+                    : true
                 }
                 onClick={(e) => avancar(e)}
               />
@@ -332,7 +332,6 @@ function CadastrarUsuario() {
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
-                  
                   autoComplete='of'
                   title='8 ou 24 character, Maiúscula e Minúscula, número e entre !@#$%*'
                   showCount
@@ -463,18 +462,19 @@ function CadastrarUsuario() {
                   showCount
                   minLength={9}
                   prefix={<PiPassword />}
-                  style={senhaDif?
-                    {
-                    marginTop: "10px",
-                    border: "1px solid red",
-                    padding: "10px",
-                  }:
-                    {
-                    marginTop: "10px",
-                    border: "1px solid #000",
-                    padding: "10px",
+                  style={
+                    senhaDif
+                      ? {
+                          marginTop: "10px",
+                          border: "1px solid red",
+                          padding: "10px",
+                        }
+                      : {
+                          marginTop: "10px",
+                          border: "1px solid #000",
+                          padding: "10px",
+                        }
                   }
-                }
                   allowClear
                 />
               </div>
@@ -492,17 +492,14 @@ function CadastrarUsuario() {
                   display: "flex",
                   textAlign: "center",
                   padding: "10px",
-                  marginLeft: "10px"
-                  
+                  marginLeft: "10px",
                 }}
                 type='primary'
-                title="Voltar"
+                title='Voltar'
                 onClick={(e) => voltar(e)}
                 icon={<FcPrevious />}
-                />
-                  
-                  
-                
+              />
+
               <Button
                 style={
                   validEmail &&
@@ -510,18 +507,17 @@ function CadastrarUsuario() {
                   nome &&
                   bi &&
                   contacto.length === 9 &&
-                  confPassword &&
-                  {
-                  display: "flex",
-                  textAlign: "center",
-                  padding: "10px",
-                  justifyContent: "center",
-                  background: "green",
-                  color: "#fff"
+                  confPassword && {
+                    display: "flex",
+                    textAlign: "center",
+                    padding: "10px",
+                    justifyContent: "center",
+                    background: "green",
+                    color: "#fff",
+                  }
                 }
-              }
-                onClick={(e)=> hendleUsuario(e)}
-                icon={<CheckCircleFilled color="green"/>}
+                onClick={() => hendleUsuario()}
+                icon={<CheckCircleFilled color='green' />}
                 disabled={
                   validEmail &&
                   validPassword &&

@@ -50,6 +50,11 @@ import Declaracao from "./Comunicado/Services/declarações/Declaracao.jsx";
 import Reconfirmacao from "./Comunicado/Services/reconfirmação/Reconfirmacao.jsx";
 import SobreCadeiras from "./Comunicado/Services/sobre cadeiras/SobreCadeiras.jsx";
 import Dashboard from "./Comunicado/config/dashboard/Dashboard.jsx";
+import ExameEspecial from "./Comunicado/Services/exame especial/ExameEspecial.jsx";
+import Recurso from "./Comunicado/Services/recurso/Recurso.jsx";
+import Solicitacao from "./Comunicado/config/solicitções/Solicitacao.jsx";
+import MinhaSolicitacao from "./Comunicado/estudante/minhas Solicitações/MinhaSolicitacao.jsx";
+import AtualizarPropina from "./Comunicado/config/dashboard/actualizações de serviços/actualizacao Propina/AtualizarPropina.jsx";
 
 const Routeting = () => {
   return (
@@ -68,10 +73,27 @@ const Routeting = () => {
             }
           />
           <Route
+            path='atualizar propina'
+            element={
+              <ProtectRouter>
+                <AtualizarPropina />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='solicitacao'
+            element={
+              <ProtectRouter>
+                <Solicitacao />
+              </ProtectRouter>
+            }
+          />
+          <Route
             exact
             path='estudante'
             element={
-              <ProtectRouter roles={"user"}>
+              <ProtectRouter>
                 <Estudante />
               </ProtectRouter>
             }
@@ -103,13 +125,30 @@ const Routeting = () => {
               </ProtectRouter>
             }
           />
+          <Route
+            path='minhas solicitacoes'
+            element={
+              <ProtectRouter>
+                <MinhaSolicitacao />
+              </ProtectRouter>
+            }
+          />
 
           <Route
             exact
             path='propina'
             element={
-              <ProtectRouter roles={"user"}>
+              <ProtectRouter>
                 <Propina />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='exame especial'
+            element={
+              <ProtectRouter>
+                <ExameEspecial />
               </ProtectRouter>
             }
           />
@@ -117,8 +156,17 @@ const Routeting = () => {
             exact
             path='cadeira'
             element={
-              <ProtectRouter roles={"user"}>
+              <ProtectRouter>
                 <SobreCadeiras />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='recurso'
+            element={
+              <ProtectRouter>
+                <Recurso />
               </ProtectRouter>
             }
           />
@@ -135,7 +183,7 @@ const Routeting = () => {
             exact
             path='reconfirmacao'
             element={
-              <ProtectRouter roles={"user"}>
+              <ProtectRouter>
                 <Reconfirmacao />
               </ProtectRouter>
             }
@@ -144,7 +192,7 @@ const Routeting = () => {
             exact
             path='reengresso'
             element={
-              <ProtectRouter roles={"user"}>
+              <ProtectRouter>
                 <Estudante />
               </ProtectRouter>
             }
@@ -153,7 +201,7 @@ const Routeting = () => {
             exact
             path='folhas'
             element={
-              <ProtectRouter roles={"user"}>
+              <ProtectRouter>
                 <Estudante />
               </ProtectRouter>
             }

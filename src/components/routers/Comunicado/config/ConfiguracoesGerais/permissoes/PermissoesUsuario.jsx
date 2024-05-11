@@ -84,6 +84,7 @@ const PermissoesUSuario = () => {
         const permissao = data.data.filter(
           (p) => p?.permission?.permissao === "edição" && p.user?.bi === bi
         );
+        console.log(permissao);
         if (bi !== permissao[0]?.user?.bi) {
           setActualizar(false);
           return;

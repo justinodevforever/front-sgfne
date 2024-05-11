@@ -95,6 +95,10 @@
   bottom: 20px;
 }
 
+.form-cadastro .input input {
+  width: 90%;
+  padding: 0px 0px;
+}
 .form-cadastro .checkedValidScreen {
   display: flex;
 }
@@ -166,10 +170,9 @@
 }
 @media (max-width: 300px) {
   .container-cadastro .input input {
-    width: 88%;
+    width: 100%;
     padding: 10px;
     margin-top: 20px;
-    border: 1px solid #fa0505;
     border-radius: 10px;
   }
   .form-cadastro .img {

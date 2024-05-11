@@ -1,0 +1,53 @@
+@import "../../../../../../style/variable.scss";
+.atualizarPropina {
+  display: flex;
+  width: 78%;
+  margin-top: 0px;
+  border: 1px solid $rosa;
+  margin-left: 20px;
+}
+.atualizarPropina .opcoes {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 0px;
+}
+.atualizarPropina th {
+  background-color: $rosa;
+  border: none;
+}
+.atualizarPropina td {
+  font-size: 11pt;
+  border: none;
+  text-align: center;
+}
+.atualizarPropina .pagamento-propina {
+  display: flex;
+  width: 50%;
+  margin: auto;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.atualizarPropina .pagamento-propina input {
+  border: 2px solid $rosa;
+  border-radius: 10px;
+  padding: 10px;
+}
+.atualizarPropina .pagamento-propina input::placeholder {
+  font-size: 12pt;
+}
+.atualizarPropina .opcoes .cc {
+  display: flex;
+  width: 50%;
+  align-items: center;
+  color: $white;
+  gap: 10px;
+}
+.atualizarPropina .opcoes .cc label {
+  display: flex;
+  flex-direction: column;
+}
+.atualizarPropina .opcoes .cc select {
+  width: 100px;
+}

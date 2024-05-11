@@ -73,10 +73,10 @@ function Chat() {
         setSecretario(secre);
 
         const userSec = await api.post("/contact/usersec/", {
-          adminId: secre[0].user.id,
+          adminId: secre[0]?.user?.id,
           userId,
         });
-        if (userSec?.data) {
+        if (userSec?.data?.id) {
           setSecId(userSec?.data?.id);
           setIsSec(true);
         }
@@ -85,7 +85,7 @@ function Chat() {
           adminId: admini[0]?.user?.id,
           userId,
         });
-        if (user.data) {
+        if (user?.data?.id) {
           setAdminId(user?.data?.id);
           setIsAdmin(true);
         }
@@ -94,7 +94,6 @@ function Chat() {
       })
       .catch((err) => console.log(err));
   }
-
   async function hendleCreateContactUSerSecretario(e) {
     e.preventDefault();
     if (isSec)
@@ -145,46 +144,48 @@ function Chat() {
   return (
     <>
       <div className='container-chat'>
-        {secretario[0]?.fk_user !== sessionStorage.getItem("id") && (
-          <div className='secretario'>
-            <Skeleton active loading={isLoad}>
-              <Button
-                onClick={(e) => hendleCreateContactUSerSecretario(e)}
-                style={{
-                  display: "flex",
-                  background: "#a31543",
-                  borderRadius: "10px",
-                  color: "#fff",
-                  padding: "10px",
-                  alignItems: "center",
-                }}
-                title='Contactar a Secretária'
-                icon={<MessageOutlined />}>
-                Secretaria
-              </Button>
-            </Skeleton>
-          </div>
-        )}
-        {admin[0]?.fk_user !== sessionStorage.getItem("id") && (
-          <div className='admin'>
-            <Skeleton loading={isLoad} active>
-              <Button
-                onClick={(e) => hendleCreateContactUSerAdmin(e)}
-                style={{
-                  display: "flex",
-                  background: "#a31543",
-                  borderRadius: "10px",
-                  color: "#fff",
-                  padding: "10px",
-                  alignItems: "center",
-                }}
-                title='Contactar a Finança'
-                icon={<MessageOutlined />}>
-                Finança
-              </Button>
-            </Skeleton>
-          </div>
-        )}
+        {secretario[0]?.fk_user !== sessionStorage.getItem("id") &&
+          secretario[0] !== undefined && (
+            <div className='secretario'>
+              <Skeleton active loading={isLoad}>
+                <Button
+                  onClick={(e) => hendleCreateContactUSerSecretario(e)}
+                  style={{
+                    display: "flex",
+                    background: "#a31543",
+                    borderRadius: "10px",
+                    color: "#fff",
+                    padding: "10px",
+                    alignItems: "center",
+                  }}
+                  title='Contactar a Secretária'
+                  icon={<MessageOutlined />}>
+                  Secretaria
+                </Button>
+              </Skeleton>
+            </div>
+          )}
+        {admin[0]?.fk_user !== sessionStorage.getItem("id") &&
+          admin[0] !== undefined && (
+            <div className='admin'>
+              <Skeleton loading={isLoad} active>
+                <Button
+                  onClick={(e) => hendleCreateContactUSerAdmin(e)}
+                  style={{
+                    display: "flex",
+                    background: "#a31543",
+                    borderRadius: "10px",
+                    color: "#fff",
+                    padding: "10px",
+                    alignItems: "center",
+                  }}
+                  title='Contactar a Finança'
+                  icon={<MessageOutlined />}>
+                  Finança
+                </Button>
+              </Skeleton>
+            </div>
+          )}
 
         <PegarPermissoes permissoes={["admin", "secretário"]}>
           {users.length > 0 &&

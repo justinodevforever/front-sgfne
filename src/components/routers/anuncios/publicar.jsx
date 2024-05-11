@@ -49,7 +49,7 @@ const Publicar = () => {
         socketInstance?.current.emit("publication", data.data);
 
         setPublicacao("");
-        navigate(`/dashboard/comunicado?page=${1}`);
+        navigate(`/main/comunicado?page=${1}`);
       });
   };
   return (

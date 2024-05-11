@@ -65,6 +65,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
           navigate("/login");
           return;
         }
+        console.log(data.data);
         if (data.data !== null || data.data) {
           setAbrir(true);
           setReconfirmacao(data.data);
@@ -77,36 +78,35 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
     <>
       {visivel && (
         <>
-          <div className="relatorioReconformacao">
-            <div className="opcoes">
+          <div className='relatorioReconformacao'>
+            <div className='opcoes'>
               <h2>Relatório </h2>
 
               <BiX
                 size={20}
-                color="red"
+                color='red'
                 cursor={"pointer"}
-                className="closed"
+                className='closed'
                 onClick={(e) => closed(e)}
               />
             </div>
 
             {abrir && (
               <>
-                <div className="tabelaReconfirmacao" id="tabela">
-                  <img src="./Logo.png" alt="ISPM" />
-                  <div className="extra">
+                <div className='tabelaReconfirmacao' id='tabela'>
+                  <img src='./Logo.png' alt='ISPM' />
+                  <div className='extra'>
                     <div>
-                      <span>{reconfirmacao?.Curso?.curso}</span>
-                      <span>Ano Lectivo: {reconfirmacao?.AnoLetivo?.ano}</span>
-                      <span>Recibo Nº: {reconfirmacao?.id}</span>
+                      <span>{reconfirmacao?.curso?.curso}</span>
+                      <span>Ano Lectivo: {reconfirmacao?.anoLectivo?.ano}</span>
                     </div>
                     <br />
-                    <span className="tipo">{tipo} </span>
+                    <span className='tipo'>{tipo} </span>
                   </div>
 
                   <table>
                     <thead>
-                      <tr className="estudante">
+                      <tr className='estudante'>
                         <th colSpan={6}> Dados de Estudante</th>
                       </tr>
                     </thead>
@@ -114,17 +114,17 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                     <tbody>
                       <tr>
                         <td>Estudante</td>
-                        <td>{reconfirmacao?.Estudante?.nome}</td>
+                        <td>{reconfirmacao?.estudante?.nome}</td>
                       </tr>
                       <tr>
                         <td>Bilhete de Identidade</td>
-                        <td>{reconfirmacao?.Estudante?.bi}</td>
+                        <td>{reconfirmacao?.estudante?.bi}</td>
                       </tr>
                     </tbody>
                   </table>
                   <table>
                     <thead>
-                      <tr className="estudante">
+                      <tr className='estudante'>
                         <th colSpan={6}> Dados de Reconfirmação</th>
                       </tr>
                     </thead>
@@ -133,7 +133,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                       <tr>
                         <td>Semestre</td>
 
-                        <td>{reconfirmacao?.Semestre?.nome}</td>
+                        <td>{reconfirmacao?.semestre?.nome}</td>
                       </tr>
                       <tr>
                         <td>Total Pago</td>
@@ -141,7 +141,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                       </tr>
                       <tr>
                         <td>Ano de Frquência</td>
-                        <td>{reconfirmacao?.AnoFrequencia?.ano}</td>
+                        <td>{reconfirmacao?.frequencia?.ano}</td>
                       </tr>
                       <tr>
                         <td>Solicitado</td>
@@ -149,7 +149,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                       </tr>
                     </tbody>
                   </table>
-                  <div className="assinar">
+                  <div className='assinar'>
                     <div>
                       <hr />
                       <span>{"(Assinatura do Estudante)"}</span>
@@ -160,19 +160,18 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                     </div>
                   </div>
                   <hr />
-                  <div className="extra">
+                  <div className='extra'>
                     <div>
-                      <span>{reconfirmacao?.Curso?.curso}</span>
-                      <span>Ano Lectivo: {reconfirmacao?.AnoLetivo?.ano}</span>
-                      <span>Recibo Nº: {reconfirmacao?.id}</span>
+                      <span>{reconfirmacao?.curso?.curso}</span>
+                      <span>Ano Lectivo: {reconfirmacao?.anoLectivo?.ano}</span>
                     </div>
                     <br />
-                    <span className="tipo">{tipo} </span>
+                    <span className='tipo'>{tipo} </span>
                   </div>
 
                   <table>
                     <thead>
-                      <tr className="estudante">
+                      <tr className='estudante'>
                         <th colSpan={6}> Dados de Estudante</th>
                       </tr>
                     </thead>
@@ -180,17 +179,17 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                     <tbody>
                       <tr>
                         <td>Estudante</td>
-                        <td>{reconfirmacao?.Estudante?.nome}</td>
+                        <td>{reconfirmacao?.estudante?.nome}</td>
                       </tr>
                       <tr>
                         <td>Bilhete de Identidade</td>
-                        <td>{reconfirmacao?.Estudante?.bi}</td>
+                        <td>{reconfirmacao?.estudante?.bi}</td>
                       </tr>
                     </tbody>
                   </table>
                   <table>
                     <thead>
-                      <tr className="estudante">
+                      <tr className='estudante'>
                         <th colSpan={6}> Dados de Reconfirmação</th>
                       </tr>
                     </thead>
@@ -199,7 +198,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                       <tr>
                         <td>Semestre</td>
 
-                        <td>{reconfirmacao?.Semestre?.nome}</td>
+                        <td>{reconfirmacao?.semestre?.nome}</td>
                       </tr>
                       <tr>
                         <td>Total Pago</td>
@@ -207,7 +206,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                       </tr>
                       <tr>
                         <td>Ano de Frquência</td>
-                        <td>{reconfirmacao?.AnoFrequencia?.ano}</td>
+                        <td>{reconfirmacao?.frequencia?.ano}</td>
                       </tr>
                       <tr>
                         <td>Solicitado</td>
@@ -215,7 +214,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                       </tr>
                     </tbody>
                   </table>
-                  <div className="assinar">
+                  <div className='assinar'>
                     <div>
                       <hr />
                       <span>{"(Assinatura do Estudante)"}</span>
@@ -227,7 +226,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                   </div>
                 </div>
 
-                <div className="imprimir">
+                <div className='imprimir'>
                   <Link onClick={(e) => imprimir(e)}>
                     {" "}
                     <BiPrinter /> Imprimir{" "}
@@ -236,7 +235,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
               </>
             )}
           </div>
-          <div className="overley"></div>
+          <div className='overley'></div>
         </>
       )}
     </>

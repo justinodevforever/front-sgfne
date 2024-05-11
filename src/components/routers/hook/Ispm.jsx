@@ -45,27 +45,31 @@ const Ispm = ({ isClic }) => {
     animacao();
   }, [isClic]);
   return (
-    <div className="container-ispm">
-      <div className="carregar" id="cr"></div>
-      <div className="carregar" id="cr1"></div>
-      <div className="carregar" id="cr2"></div>
-      <div className="carregar" id="cr3"></div>
+    <>
+      {isClic && (
+        <div className='container-ispm'>
+          <div className='carregar' id='cr'></div>
+          <div className='carregar' id='cr1'></div>
+          <div className='carregar' id='cr2'></div>
+          <div className='carregar' id='cr3'></div>
 
-      <div className="conteudo-ispm">
-        <div className="letras i">
-          <h1 id="i">I</h1>
+          <div className='conteudo-ispm'>
+            <div className='letras i'>
+              <h1 id='i'>I</h1>
+            </div>
+            <div className='letras s'>
+              <h1 id='s'>S</h1>
+            </div>
+            <div className='letras p'>
+              <h1 id='p'>P</h1>
+            </div>
+            <div className='letras m'>
+              <h1 id='m'>M</h1>
+            </div>
+          </div>
         </div>
-        <div className="letras s">
-          <h1 id="s">S</h1>
-        </div>
-        <div className="letras p">
-          <h1 id="p">P</h1>
-        </div>
-        <div className="letras m">
-          <h1 id="m">M</h1>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

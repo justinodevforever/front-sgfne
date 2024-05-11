@@ -43,7 +43,7 @@ export default function Login() {
         sessionStorage.setItem("id", data.data?.User?.id);
         dispatch(setId(data.data?.User?.id));
         setClick(false);
-        navigate(`/main/comunicado?${1}`);
+        navigate(`/main/comunicado?page=${1}`);
       })
       .catch((error) => console.log(error));
   }
@@ -65,9 +65,10 @@ export default function Login() {
         <div
           style={{
             display: "flex",
+            width: "100%",
             justifyContent: "center",
             alignItems: "center",
-            width: "100%",
+            height: "100vh",
           }}>
           <div className='container-login'>
             <div className='img'>

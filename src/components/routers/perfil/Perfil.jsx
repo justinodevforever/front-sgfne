@@ -73,7 +73,6 @@ function Perfil() {
       })
       .catch((err) => console.log(err));
   }
-
   useEffect(() => {
     setPublicacoes(publicacoes?.filter((pub) => pub?.id !== id1));
     clicou = false;
@@ -98,12 +97,10 @@ function Perfil() {
           />
         )}
 
-        {user?.id == sessionStorage.getItem("id") ? (
+        {user?.id == sessionStorage.getItem("id") && (
           <Link to={"/fotoperfil"} className='linkes'>
             Trocar foto do perfil
           </Link>
-        ) : (
-          <div></div>
         )}
         <Link to={`/fotos/${id}`} className='linkes'>
           Fotos

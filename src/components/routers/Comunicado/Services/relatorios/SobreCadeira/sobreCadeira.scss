@@ -31,12 +31,12 @@
   margin: auto;
   flex-direction: column;
   width: 70%;
-  height: 550px;
+  height: 500px;
   background-color: #fff;
-  top: 40px;
+  top: 50px;
   z-index: 3;
   left: 15%;
-  border-radius: 20px;
+  bottom: 30px;
   overflow-y: auto;
 }
 .relatorioCadeira .opcoes {
@@ -134,8 +134,8 @@
   padding: 20px;
   position: fixed;
   z-index: 1;
-  bottom: 60px;
-  right: 180px;
+  bottom: 20px;
+  right: 100px;
   align-items: center;
   justify-content: center;
 }

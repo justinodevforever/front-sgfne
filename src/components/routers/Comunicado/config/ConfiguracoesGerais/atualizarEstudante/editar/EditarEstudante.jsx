@@ -32,8 +32,8 @@ const EditarEstudante = ({ estudante }) => {
     getCurso();
   }, []);
   useEffect(() => {
-    setCurso(estudante?.fk_curso + " " + estudante?.Curso?.curso);
-    setcontato(estudante?.contato);
+    setCurso(estudante?.fk_curso + " " + estudante?.curso?.curso);
+    setcontato(estudante?.contacto);
     setNome(estudante?.nome);
     setPeriodo(estudante.periodo);
   }, [estudante]);
@@ -110,7 +110,7 @@ const EditarEstudante = ({ estudante }) => {
             </div>
             <form className='formBi'>
               <div className='cc'>
-                <div>
+                <div style={{ color: "#000" }}>
                   Nome:{""}
                   <input
                     type='text'
@@ -118,7 +118,7 @@ const EditarEstudante = ({ estudante }) => {
                     value={nome}
                   />
                 </div>
-                <div>
+                <div style={{ color: "#000" }}>
                   Período:{""}
                   <select onChange={(e) => setPeriodo(e.target.value)}>
                     <option value={periodo}>{periodo}</option>
@@ -126,7 +126,7 @@ const EditarEstudante = ({ estudante }) => {
                     <option value={"Diúrno"}>Diúrno</option>
                   </select>
                 </div>
-                <div>
+                <div style={{ color: "#000" }}>
                   Curso:{" "}
                   <select onChange={(e) => setCurso(e.target.value)}>
                     <option
@@ -142,7 +142,7 @@ const EditarEstudante = ({ estudante }) => {
                     ))}
                   </select>
                 </div>
-                <div>
+                <div style={{ color: "#000" }}>
                   Contacto: {""}
                   <input
                     type='text'
@@ -169,7 +169,7 @@ const EditarEstudante = ({ estudante }) => {
                       <td>{estudante?.nome}</td>
                       <td>{estudante?.bi}</td>
                       <td>{estudante?.user?.email}</td>
-                      <td>{estudante?.user?.contato}</td>
+                      <td>{estudante?.user?.contacto}</td>
                       <td>{estudante?.curso?.curso}</td>
                     </tr>
                   </tbody>

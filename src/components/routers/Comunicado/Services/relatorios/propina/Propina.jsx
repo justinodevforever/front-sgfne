@@ -5,7 +5,7 @@ import { Dayjs } from "dayjs";
 import { formatDate } from "../../../../hook/timeout";
 import { api } from "../../../../../../../auth/auth";
 import { useEffect, useState } from "react";
-import { Input, Modal, Space } from "antd";
+import { Input, Modal, Space, Alert } from "antd";
 
 function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [semestres, setSemestres] = useState([]);
@@ -19,8 +19,10 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [bi, setBi] = useState("");
   const [anual, setAnual] = useState(false);
   const [mensal, setMensal] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [dados, setDados] = useState({});
   const [userName, setUserName] = useState("");
+  const [message, setMessage] = useState("");
   const [dividas, setDividas] = useState([]);
   const navigate = useNavigate();
 
@@ -57,7 +59,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
 
     const win = window.open();
     win.document.write("<html><head>");
-    win.document.write("<title>ISPMOXICO</title>");
+    win.document.write("<title>ISP_MOXICO</title>");
     win.document.write(estilo);
     win.document.write("</head>");
     win.document.write("<body>");
@@ -67,10 +69,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
     win.print();
     win.close();
   };
-  function closed(e) {
-    e.preventDefault();
-    setVisivel(false);
-  }
 
   const getMes = async () => {
     await api
@@ -102,6 +100,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   };
 
   const buscaPropinaMensal = async () => {
+    setIsLoading(true);
     const { data } = await api.post("/divida", { bi });
     setDividas(data.dividas);
 
@@ -116,9 +115,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           navigate("/login");
           return;
         }
-
-        console.log("shjhks", data.data);
-        // console.log(data.data);
+        console.log(data);
+        setIsLoading(false);
         if (data.data) {
           setUserName(data.data?.usuario?.nome);
           setDados(data.data);
@@ -130,7 +128,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
 
   const buscaPropina = async (e) => {
     const { data } = await api.post("/divida", { bi });
-    setDividas(data.dividas);
+    if (data) setDividas(data.dividas);
     await api
       .post("/propina/anual", {
         ano,
@@ -179,7 +177,11 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
             }}
             okText='Imprimir'
             cancelText='Sair'
-            onOk={() => imprimir()}>
+            onOk={() => {
+              if (propinasAnual.length > 0 || propinasMensal.length > 0)
+                imprimir();
+            }}
+            width={"90%"}>
             <div className='opcoes'>
               <h2>Relatório</h2>
               <span
@@ -200,8 +202,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                   <label htmlFor='anoLetivo' style={{ marginTop: "10px" }}>
                     Ano Lectivo
                     <select onChange={(e) => setAno(e.target.value)}>
-                      <option value={"Escolhe"}>Escolha...</option>
-
                       {anos.map((ano) => (
                         <option value={ano.ano} key={ano.id}>
                           {ano.ano}
@@ -218,15 +218,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                       className='search'
                       maxLength={14}
                       onSearch={() => buscaPropina()}
+                      loading={isLoading}
                     />
-                    <button type='submit'>
-                      <BiSearch
-                        size={30}
-                        color='fff'
-                        cursor={"pointer"}
-                        // onClick={(e) => buscaPropina(e)}
-                      />
-                    </button>
                   </div>
                 </form>
 
@@ -344,8 +337,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                     <label htmlFor='mes'>
                       Mês:
                       <select onChange={(e) => setMes(e.target.value)}>
-                        <option value={"Escolhe"}>Escolha...</option>
-
                         {meses.map((m) => (
                           <option value={m.mes} key={m.id}>
                             {m.mes}
@@ -356,8 +347,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                     <label htmlFor='anoLetivo'>
                       Ano Lectivo
                       <select onChange={(e) => setAno(e.target.value)}>
-                        <option value={"Escolhe"}>Escolha...</option>
-
                         {anos.map((ano) => (
                           <option value={ano.ano} key={ano.id}>
                             {ano.ano}
@@ -376,7 +365,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                       onSearch={() => buscaPropinaMensal()}
                       style={{
                         width: "100%",
-                        // border: "2px solid #a31543",
                       }}
                     />
                   </div>
@@ -391,7 +379,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <span>Ano Lectivo: {dados?.anoLectivo?.ano}</span>
                         </div>
                         <br />
-                        <span className='tipo'>Tipo de Serviço: {tipo} </span>
+                        <span className='tipo'>Tipo de Serviço: Propina </span>
                       </div>
                       <table>
                         <thead>
@@ -464,7 +452,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                             <tr key={index}>
                               <td>{prop?.estudante?.nome}</td>
                               <td>{prop?.rupe}</td>
-                              <td>{prop?.Me?.mes}</td>
+                              <td>{prop?.mes?.mes}</td>
                               <td>{prop?.valor} Kz</td>
                               <td>{formatDate(prop?.createdAt)}</td>
                               <td>{prop?.usuario?.nome}</td>
@@ -507,20 +495,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                 </div>
               </>
             )}
-
-            {propinasAnual.length > 0 || propinasMensal.length > 0 ? (
-              <div className='imprimir'>
-                <span onClick={(e) => imprimir(e)} className='b'>
-                  <BiPrinter size={40} color='#fff' />
-                  Imprimir
-                </span>
-              </div>
-            ) : (
-              <></>
-            )}
           </Modal>
-
-          <div className='overley'></div>
         </>
       )}
     </>

@@ -80,9 +80,9 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
           navigate("/login");
           return;
         }
-        if (data.data !== null || data.data) {
-          setCadeira(data.data);
-          console.log(data.data);
+
+        if (data.data.message === "sucess") {
+          setCadeira(data.data.response);
         }
       })
       .catch((err) => console.log(err));
@@ -97,9 +97,9 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
           navigate("/login");
           return;
         }
-        if (data.data !== null || data.data) {
-          setCadeira(data.data);
-          console.log(data.data);
+
+        if (data.data.message === "sucess") {
+          setCadeira(data.data.response);
         }
       })
       .catch((err) => console.log(err));
@@ -115,9 +115,8 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
           navigate("/login");
           return;
         }
-        if (data.data !== null || data.data) {
-          setCadeira(data.data);
-          console.log(data.data);
+        if (data.data.message === "sucess") {
+          setCadeira(data.data.response);
         }
       })
       .catch((err) => console.log(err));
@@ -127,37 +126,36 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
     <>
       {visivel && (
         <>
-          <div className="relatorioCadeira">
-            <div className="opcoes">
+          <div className='relatorioCadeira'>
+            <div className='opcoes'>
               <h2>Relatório </h2>
 
               <BiX
                 size={20}
-                color="red"
+                color='red'
                 cursor={"pointer"}
-                className="closed"
+                className='closed'
                 onClick={(e) => closed(e)}
               />
             </div>
 
-            <h2 className="h2">{tipo}</h2>
+            <h2 className='h2'>{tipo}</h2>
 
             <>
-              <div className="tabelaSobreCadeira" id="tabela">
-                <div className="extra">
-                  <img src="./Logo.png" alt="hhsjd" />
+              <div className='tabelaSobreCadeira' id='tabela'>
+                <div className='extra'>
+                  <img src='./Logo.png' alt='ISPM' />
                   <div>
-                    <span>{cadeira?.Curso?.curso}</span>
-                    <span>Ano Lectivo: {cadeira?.AnoLetivo?.ano}</span>
-                    <span>Recibo Nº: {cadeira?.id}</span>
+                    <span>Curso: {cadeira?.Curso?.curso}</span>
+                    <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
                   </div>
                   <br />
-                  <span className="tipo">Tipo de Serviço: {tipo} </span>
+                  <span className='tipo'>Tipo de Serviço: {tipo} </span>
                 </div>
 
                 <table>
                   <thead>
-                    <tr className="estudante">
+                    <tr className='estudante'>
                       <th colSpan={6}> Dados de Estudante</th>
                     </tr>
                   </thead>
@@ -165,18 +163,18 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                   <tbody>
                     <tr>
                       <td>Estudante</td>
-                      <td>{cadeira?.Estudante?.nome}</td>
+                      <td>{cadeira?.estudante?.nome}</td>
                     </tr>
                     <tr>
                       <td>Bilhete de Identidade</td>
-                      <td>{cadeira?.Estudante?.bi}</td>
+                      <td>{cadeira?.estudante?.bi}</td>
                     </tr>
                   </tbody>
                 </table>
                 <br />
                 <table>
                   <thead>
-                    <tr className="estudante">
+                    <tr className='estudante'>
                       <th colSpan={6}> Dados da Cadeira</th>
                     </tr>
                   </thead>
@@ -184,7 +182,7 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                   <tbody>
                     <tr>
                       <td>Cadeira</td>
-                      <td>{cadeira?.Disciplina?.nome}</td>
+                      <td>{cadeira?.disciplina?.nome}</td>
                     </tr>
                     <tr>
                       <td>Total Pago</td>
@@ -193,11 +191,11 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                     <tr>
                       <td>Semestre</td>
 
-                      <td>{cadeira?.Semestre?.nome}</td>
+                      <td>{cadeira?.semestre?.nome}</td>
                     </tr>
                     <tr>
                       <td>Ano de Frquência</td>
-                      <td>{cadeira?.AnoFrequencia?.ano}</td>
+                      <td>{cadeira?.AnoFrequncia?.ano}</td>
                     </tr>
                     <tr>
                       <td>Solicitado</td>
@@ -205,7 +203,7 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                     </tr>
                   </tbody>
                 </table>
-                <div className="assinar">
+                <div className='assinar'>
                   <div>
                     <hr />
                     <span>{"(Assinatura do Estudante)"}</span>
@@ -217,18 +215,17 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                 </div>
 
                 <hr />
-                <div className="extra">
+                <div className='extra'>
                   <div>
-                    <span>{cadeira?.Curso?.curso}</span>
-                    <span>Ano Lectivo: {cadeira?.AnoLetivo?.ano}</span>
-                    <span>Recibo Nº: {cadeira?.id}</span>
+                    <span>Curso: {cadeira?.curso?.curso}</span>
+                    <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
                   </div>
                   <br />
-                  <span className="tipo">Tipo de Serviço: {tipo} </span>
+                  <span className='tipo'>Tipo de Serviço: {tipo} </span>
                 </div>
                 <table>
                   <thead>
-                    <tr className="estudante">
+                    <tr className='estudante'>
                       <th colSpan={6}> Dados de Estudante</th>
                     </tr>
                   </thead>
@@ -236,18 +233,18 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                   <tbody>
                     <tr>
                       <td>Estudante</td>
-                      <td>{cadeira?.Estudante?.nome}</td>
+                      <td>{cadeira?.estudante?.nome}</td>
                     </tr>
                     <tr>
                       <td>Bilhete de Identidade</td>
-                      <td>{cadeira?.Estudante?.bi}</td>
+                      <td>{cadeira?.estudante?.bi}</td>
                     </tr>
                   </tbody>
                 </table>
                 <br />
                 <table>
                   <thead>
-                    <tr className="estudante">
+                    <tr className='estudante'>
                       <th colSpan={6}> Dados da Cadeira</th>
                     </tr>
                   </thead>
@@ -255,7 +252,7 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                   <tbody>
                     <tr>
                       <td>Cadeira</td>
-                      <td>{cadeira?.Disciplina?.nome}</td>
+                      <td>{cadeira?.disciplina?.nome}</td>
                     </tr>
                     <tr>
                       <td>Total Pago</td>
@@ -264,11 +261,11 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                     <tr>
                       <td>Semestre</td>
 
-                      <td>{cadeira?.Semestre?.nome}</td>
+                      <td>{cadeira?.semestre?.nome}</td>
                     </tr>
                     <tr>
                       <td>Ano de Frquência</td>
-                      <td>{cadeira?.AnoFrequencia?.ano}</td>
+                      <td>{cadeira?.AnoFrequncia?.ano}</td>
                     </tr>
                     <tr>
                       <td>Solicitado</td>
@@ -276,7 +273,7 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                     </tr>
                   </tbody>
                 </table>
-                <div className="assinar">
+                <div className='assinar'>
                   <div>
                     <hr />
                     <span>{"(Assinatura do Estudante)"}</span>
@@ -288,12 +285,12 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                 </div>
               </div>
 
-              <div className="imprimir">
+              <div className='imprimir'>
                 <Link onClick={(e) => imprimir(e)}>Imprimir</Link>
               </div>
             </>
           </div>
-          <div className="overley"></div>
+          <div className='overley'></div>
         </>
       )}
     </>
