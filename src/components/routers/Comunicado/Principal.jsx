@@ -37,6 +37,7 @@ import {
   BiListUl,
   BiSolidDashboard,
 } from "react-icons/bi";
+import PegarPermissoes from "../../../configs/permissoes/PegarPermissoes";
 
 const Principal = ({ mostrar, setMostrar }) => {
   const clickRef = useRef();
@@ -144,7 +145,6 @@ const Principal = ({ mostrar, setMostrar }) => {
               color: "#a31543",
               justifyItems: "flex-start",
             }}>
-            <h3>Menu</h3>
             <Menu
               onClick={({ key }) => {
                 navigate(key);
@@ -167,11 +167,7 @@ const Principal = ({ mostrar, setMostrar }) => {
                   key: `comunicado?page=${1}`,
                   icon: <BiHome size={23} />,
                 },
-                {
-                  label: "Painel",
-                  key: "/dashboard",
-                  icon: <BiSolidDashboard size={23} />,
-                },
+
                 {
                   label: "Serviços",
                   icon: <PiCurrencyDollar size={23} />,
@@ -222,6 +218,7 @@ const Principal = ({ mostrar, setMostrar }) => {
               ]}
             />
           </Drawer>
+
           <Link
             to={`servicos`}
             className='Propina'

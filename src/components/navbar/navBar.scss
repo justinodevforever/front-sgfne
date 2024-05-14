@@ -6,37 +6,28 @@
   position: fixed;
   width: 100%;
   align-items: center;
-  opacity: 1;
-  z-index: 2;
-  text-align: center;
-  flex-shrink: 1;
   color: #a31543;
-  position: relative;
   justify-content: space-between;
-  opacity: 1;
   z-index: 3;
-}
-
-.container-nav .titlediv {
-  display: flex;
-  position: absolute;
-  left: 10px;
+  padding: 4px 0px;
 }
 
 .container-nav .barra-menu {
   display: flex;
-  // gap: 1rem;
   font-size: 14pt;
   position: relative;
-  float: right;
-  justify-content: space-between;
+  align-items: center;
+  background-color: #ddd;
+  border-radius: 30px;
+  padding: 3px 0px 0px 8px;
 }
 
 .container-nav .perfil img {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 1px solid #000;
+  border: 1px solid $rosa;
+  padding: 2px;
 }
 .container-nav .imgP {
   display: flex;
@@ -68,20 +59,12 @@
   border-radius: 50%;
 }
 
-.container-nav .barra-menu li img {
-  cursor: pointer;
-}
-
 .container-nav .containair-div .home {
   width: 500px;
   height: 5000px;
   font-size: 24pt;
   background-color: #fff;
 }
-.container-nav .botaoMenu {
-  display: none;
-}
-
 .container-nav .open {
   display: flex;
   position: fixed;
@@ -131,16 +114,17 @@
   font-size: 10pt;
   font-family: Arial, Helvetica, sans-serif;
   opacity: 1;
-  top: 4px;
+  top: -4px;
   font-weight: 500;
   background-color: red;
   border-radius: 50%;
-  width: 15px;
+  width: 17px;
   height: 15px;
   align-items: center;
   text-align: right;
   left: 13px;
   justify-content: center;
+  cursor: pointer;
 }
 .container-nav .noitifysms .maior {
   display: flex;
@@ -149,19 +133,19 @@
   font-size: 7pt;
   font-family: Arial, Helvetica, sans-serif;
   opacity: 1;
-  top: 4px;
+  top: -4px;
   font-weight: 500;
   background-color: red;
   border-radius: 50%;
-  width: 17px;
+  width: 18px;
   height: 17px;
   align-items: center;
   text-align: right;
   left: 10px;
+  cursor: pointer;
 }
 
 .container-nav .nos {
-  display: flex;
   position: relative;
 }
 .container-nav .div-noitify .maior {
@@ -171,11 +155,11 @@
   font-size: 7pt;
   font-family: Arial, Helvetica, sans-serif;
   opacity: 1;
-  top: 0px;
+  top: -3px;
   font-weight: 500;
   background-color: red;
   border-radius: 50%;
-  width: 17px;
+  width: 18px;
   height: 17px;
   align-items: center;
   text-align: right;
@@ -185,31 +169,21 @@
   display: flex;
   position: absolute;
   color: white;
-  font-size: 10pt;
+  font-size: 9pt;
   font-family: Arial, Helvetica, sans-serif;
   opacity: 1;
-  top: 4px;
+  top: -4px;
   font-weight: 500;
   background-color: red;
   border-radius: 50%;
-  width: 15px;
+  width: 17px;
   height: 15px;
   align-items: center;
   text-align: right;
   left: 10px;
   justify-content: center;
 }
-.container-nav .pesquisa {
-  display: flex;
-  position: relative;
-}
-.container-nav .pesquisa input {
-  display: flex;
-  padding: 4px 20px;
-  border: none;
-  max-width: 100%;
-  border-radius: 10px;
-}
+
 .container-nav .pesquisa .searchDate {
   display: flex;
   position: absolute;
@@ -263,48 +237,26 @@
   padding: 10px;
   border-radius: 10px;
 }
-
-@media (max-width: 2000px) {
-  .container-nav.imglogo {
-    width: 1px;
-    visibility: hidden;
-  }
-  .container-nav {
-    position: fixed;
-  }
-  .container-nav .closed {
-    display: none;
-  }
-
-  .container-nav .botaoMenu {
-    display: flex;
-  }
+.container-nav .bDashbord {
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
-@media (max-width: 900px) {
-}
-@media (max-width: 600px) {
-  .container-nav .botaoMenu {
-    display: flex;
-  }
-  .container-nav .closed {
-    display: none;
-  }
-  .container-nav .titlediv {
-    display: flex;
-    position: static;
-    left: 10px;
-  }
+.container-nav .bDashbord .nameTitle {
+  // display: flex;
+  color: $rosa;
+  // left: 30px;
 }
 
-@media (max-width: 400px) {
-  .container-nav .title {
+@media (max-width: 310px) {
+  .container-nav .bDashbord .nameTitle {
     display: none;
   }
 }
 @media (max-height: 320px) {
   .container-nav .perfil img {
     width: 20px;
-    height: 20px;
+    height: 200px;
     margin-top: 8px;
   }
   .container-nav .open {

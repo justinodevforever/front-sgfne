@@ -19,7 +19,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [bi, setBi] = useState("");
   const [anual, setAnual] = useState(false);
   const [mensal, setMensal] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [dados, setDados] = useState({});
   const [userName, setUserName] = useState("");
   const [message, setMessage] = useState("");

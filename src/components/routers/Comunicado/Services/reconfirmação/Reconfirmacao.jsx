@@ -275,21 +275,29 @@ const Reconfirmacao = () => {
               marginTop: "40px",
               justifyContent: "center",
             }}>
-            <Input
-              onChange={(e) => setRupe(e.target.value)}
-              type='number'
-              style={{
-                border: "1px solid #a31541",
-              }}
-              maxLength={24}
-            />
-            <Input
-              onChange={(e) => setValor(e.target.value)}
-              type='number'
-              style={{
-                border: "1px solid #a31541",
-              }}
-            />
+            <label htmlFor='rupe'>
+              Nº Rupe
+              <Input
+                onChange={(e) => setRupe(e.target.value)}
+                type='number'
+                placeholder='Digite o Número de Rupe'
+                style={{
+                  border: "1px solid #a31541",
+                }}
+                maxLength={24}
+              />
+            </label>
+            <label htmlFor='valor'>
+              Valor:
+              <Input
+                onChange={(e) => setValor(e.target.value)}
+                type='number'
+                placeholder='Digite o Número Valor'
+                style={{
+                  border: "1px solid #a31541",
+                }}
+              />
+            </label>
           </div>
           <div
             style={{

@@ -1,86 +1,93 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./solicitacao.scss";
 import { BiX } from "react-icons/bi";
 import { OKIcon } from "react-share";
 import { FcOk } from "react-icons/fc";
-import { Card } from "antd";
+import { Card, InputNumber, Input } from "antd";
+import { useEffect, useState } from "react";
+import { api } from "../../../../../../auth/auth";
+import Grid from "@mui/material/Unstable_Grid2";
+import {
+  InputLabel,
+  OutlinedInput,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
+import { FileTextFilled } from "@ant-design/icons";
+import {
+  Email,
+  EmailRounded,
+  EmailSharp,
+  Person,
+  Visibility,
+} from "@mui/icons-material";
 
 const MinhaSolicitacao = () => {
+  const [solicitacoes, setSolicitacoes] = useState([]);
+  const navigate = useNavigate();
+  useEffect(() => {
+    getSolicitacoes();
+  }, []);
+  const getSolicitacoes = async () => {
+    const { data } = await api.post("/estudante/user", {
+      fk_user: sessionStorage.getItem("id"),
+    });
+
+    if (data === null || !data?.id) {
+      return;
+    }
+    await api
+      .post("/solicitacao/specific", {
+        fk_estudante: data?.id,
+      })
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+        setSolicitacoes(data.data);
+      });
+  };
   return (
     <div className='solicitacao'>
-      <h1>Minhas Solitações</h1>
-      <div className='conteudo'>
-        <div className='divNome'>
-          <h3>Justino Chitombi</h3>
-          <span>
-            <strong>Serviço: Propina</strong>
-          </span>
-        </div>
-        <div className='divOpcoes'>
-          <Link>Verificar</Link>
-          <Link>
-            <BiX size={23} color='red' />
-          </Link>
-          <Link
-            style={{
-              background: "#00f",
-              padding: "4px",
-              color: "#fff",
-              borderRadius: "5px",
-            }}>
-            Pendente
-          </Link>
-        </div>
-      </div>
-      <div className='conteudo'>
-        <div className='divNome'>
-          <h3>Justino Chitombi</h3>
-          <span>
-            <strong>Serviço: Propina</strong>
-          </span>
-        </div>
-        <div className='divOpcoes'>
-          <Link>Verificar</Link>
-          <Link>
-            <BiX size={23} color='red' />
-          </Link>
-          <Link
-            style={{
-              background: "#0f0",
-              padding: "4px",
-              color: "#fff",
-              borderRadius: "5px",
-            }}>
-            Aceite
-          </Link>
-        </div>
-      </div>
-      <div className='conteudo'>
-        <div className='divNome'>
-          <h3>Justino Chitombi</h3>
-          <span>
-            <strong>Serviço: Propina</strong>
-          </span>
-        </div>
-        <div className='divOpcoes'>
-          <Link>Verificar</Link>
-          <Link>
-            <BiX size={23} color='red' />
-          </Link>
-          <div>
-            <Link>Detalhes</Link>
-            <Link
-              style={{
-                background: "#f00",
-                padding: "4px",
-                color: "#fff",
-                borderRadius: "5px",
-              }}>
-              Negado
-            </Link>
-          </div>
-        </div>
-      </div>
+      {solicitacoes?.length > 0 && (
+        <>
+          <h1>Minhas Solitações</h1>
+
+          {solicitacoes.map((s) => (
+            <div className='conteudo' key={s?.id}>
+              <div className='divNome'>
+                <h3>{s?.estudante?.nome}</h3>
+                <span>
+                  <strong>Serviço: {s?.tipoServico}</strong>
+                </span>
+              </div>
+              <div className='divOpcoes'>
+                <Link>Verificar</Link>
+                <Link>
+                  <BiX size={23} color='red' />
+                </Link>
+                <Link
+                  style={{
+                    background: "#00f",
+                    padding: "4px",
+                    color: "#fff",
+                    borderRadius: "5px",
+                  }}>
+                  {s?.status}
+                </Link>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
+      {solicitacoes?.length === 0 && (
+        <h3 style={{ display: "flex", marginTop: "40%" }}>
+          Nenhuma Solicitação Feita
+        </h3>
+      )}
     </div>
   );
 };

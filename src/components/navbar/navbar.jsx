@@ -10,8 +10,10 @@ import {
 import {
   BiExit,
   BiHome,
+  BiMenu,
   BiSelection,
   BiSolidBellOff,
+  BiSolidDashboard,
   BiSolidHome,
 } from "react-icons/bi";
 import { CiHome } from "react-icons/ci";
@@ -19,7 +21,7 @@ import { BiSolidBell } from "react-icons/bi";
 import { BsSearch } from "react-icons/bs";
 import { api } from "../../../auth/auth";
 import { io } from "socket.io-client";
-import { GrConsole, GrUnorderedList } from "react-icons/gr";
+import { GrConsole, GrMenu, GrUnorderedList } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import Logaut from "../routers/login/Logaut";
 import { Socket } from "../../socketIO";
@@ -152,135 +154,155 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
   }
   return (
     <nav className='container-nav'>
-      <div className='titlediv'>
-        <h3 className='title'>SGFNE</h3>
-      </div>
-      <div className='pesquisa'></div>
-
-      <ul className='barra-menu'>
-        <li className='home focus' onLoad={(e) => toggle(e)}>
-          <div className='nos'>
+      <div className='bDashbord'>
+        <div>
+          <Link
+            style={{
+              marginLeft: "0.7rem",
+            }}>
+            <BiMenu
+              size={24}
+              color='#a31543'
+              onClick={toggleOpen}
+              cursor={"pointer"}
+              title='Ver o Menu'
+            />
+          </Link>
+        </div>
+        <PegarPermissoes permissoes={["admin"]}>
+          <div
+            style={{
+              display: "flex",
+              height: "100%",
+              marginTop: "-20px",
+            }}>
             <Link
-              className='home'
-              to={`/main/comunicado?page=${1}`}
-              title='Página Inicial'>
-              <BiSolidHome size={"20px"} className='link-nav' color='a31543' />
+              to={"/dashboard"}
+              style={{
+                display: "flex",
+                height: "100%",
+                gap: "4px",
+              }}>
+              <BiSolidDashboard size={23} color='#a31543' title='Painel' />
+              <div className='nameTitle'> Painel</div>
             </Link>
           </div>
-        </li>
-
-        <li>
-          <div className='nos'>
-            <Link to={`/chat/${sessionStorage.getItem("id")}`} className='sms'>
-              <BsMessenger
-                size={"20px"}
-                className='link-nav focus'
-                color={"a31543"}
-                title='Ver Mensagens'
-              />
-            </Link>
-            {Number(receiveSms) > 0 ? (
-              <div className='noitifysms'>
-                {Number(receiveSms) < 10 ? (
-                  <span className='menor'>{receiveSms}</span>
-                ) : (
-                  <span className='maior'>+10</span>
-                )}
-              </div>
-            ) : null}
-          </div>
-        </li>
-
-        <li className='focus'>
-          <div className='nos'>
-            {notify?.length > 0 ? (
-              <Link className='notify-li focus' title='Ver Notifições'>
-                <BiSolidBell
+        </PegarPermissoes>
+      </div>
+      <div>
+        <ul className='barra-menu'>
+          <li className='home focus' onLoad={(e) => toggle(e)}>
+            <div className='nos'>
+              <Link
+                className='home'
+                to={`/main/comunicado?page=${1}`}
+                title='Página Inicial'>
+                <BiSolidHome
                   size={"20px"}
-                  className='link-nav '
-                  color='#a31543'
-                  onClick={(e) => toggleLerNotificacao(e)}
+                  className='link-nav'
+                  color='a31543'
                 />
               </Link>
-            ) : (
-              <Link className='notify-li focus' title='Ver Notifições'>
-                <BiSolidBellOff
-                  size={"20px"}
-                  className='link-nav '
-                  color='#a31543'
-                />
-              </Link>
-            )}
-            {notify?.length > 0 ? (
-              <div className='div-noitify'>
-                {notify?.length < 10 ? (
-                  <span
-                    className='menor'
-                    onClick={(e) => toggleLerNotificacao(e)}>
-                    {notify.length}
-                  </span>
-                ) : (
-                  <span
-                    className='maior'
-                    onClick={(e) => toggleLerNotificacao(e)}>
-                    +10
-                  </span>
-                )}
-              </div>
-            ) : null}
-          </div>
-        </li>
-        <li>
-          <div className=' botaoMenu'>
-            <Link>
-              <GrUnorderedList
-                size={"20px"}
-                color='#a31543'
-                onClick={toggleOpen}
-                cursor={"pointer"}
-                className=' barra link-nav'
-                title='Ver o Menu'
-              />
-            </Link>
-          </div>
-        </li>
-        {lerNotificacao && notify.length >= 1 && (
-          <li className='notificacoes'>
-            <div>
-              {notify.length === 1 ? (
-                <p>Estás a Dever o Mês de: </p>
-              ) : (
-                <p>Estás a Dever os Meses de: </p>
-              )}
-              {notify?.map((n, index) => (
-                <span key={index}>
-                  {index + Number(1) + " - "}
-                  {n}
-                </span>
-              ))}
             </div>
           </li>
-        )}
-      </ul>
 
-      <div className='image'>
-        {image == undefined || null || image.length == 0 ? (
-          <Link className='perfil img' onClick={(e) => MenuOpen(e)}>
-            <img src={`../../../image/emptyImage.jpg`} alt={""} />
-          </Link>
-        ) : (
-          <div>
-            <Link className='perfil' onClick={(e) => MenuOpen(e)}>
-              <img
-                src={`${url}/files/users/${image?.nome}`}
-                alt={""}
-                className='perfil-image'
-              />
+          <li>
+            <div className='nos'>
+              <Link to={`/chat/${sessionStorage.getItem("id")}`}>
+                <BsMessenger
+                  size={"20px"}
+                  color={"a31543"}
+                  title='Ver Mensagens'
+                />
+              </Link>
+              {Number(receiveSms) > 0 ? (
+                <div className='noitifysms'>
+                  {Number(receiveSms) < 10 ? (
+                    <span className='menor'>{receiveSms}</span>
+                  ) : (
+                    <span className='maior'>+10</span>
+                  )}
+                </div>
+              ) : null}
+            </div>
+          </li>
+
+          <li className='focus'>
+            <div className='nos'>
+              {notify?.length > 0 ? (
+                <Link className='notify-li focus' title='Ver Notifições'>
+                  <BiSolidBell
+                    size={"20px"}
+                    className='link-nav '
+                    color='#a31543'
+                    onClick={(e) => toggleLerNotificacao(e)}
+                  />
+                </Link>
+              ) : (
+                <Link className='notify-li focus' title='Ver Notifições'>
+                  <BiSolidBellOff
+                    size={"20px"}
+                    className='link-nav '
+                    color='#a31543'
+                  />
+                </Link>
+              )}
+              {notify?.length > 0 ? (
+                <div className='div-noitify'>
+                  {notify?.length < 10 ? (
+                    <span
+                      className='menor'
+                      onClick={(e) => toggleLerNotificacao(e)}>
+                      {notify.length}
+                    </span>
+                  ) : (
+                    <span
+                      className='maior'
+                      onClick={(e) => toggleLerNotificacao(e)}>
+                      +10
+                    </span>
+                  )}
+                </div>
+              ) : null}
+            </div>
+          </li>
+
+          {lerNotificacao && notify.length >= 1 && (
+            <li className='notificacoes'>
+              <div>
+                {notify.length === 1 ? (
+                  <p>Estás a Dever o Mês de: </p>
+                ) : (
+                  <p>Estás a Dever os Meses de: </p>
+                )}
+                {notify?.map((n, index) => (
+                  <span key={index}>
+                    {index + Number(1) + " - "}
+                    {n}
+                  </span>
+                ))}
+              </div>
+            </li>
+          )}
+
+          {image == undefined || null || image.length == 0 ? (
+            <Link className='perfil img' onClick={(e) => MenuOpen(e)}>
+              <img src={`../../../image/emptyImage.jpg`} alt={""} />
             </Link>
-          </div>
-        )}
+          ) : (
+            <div>
+              <Link className='perfil' onClick={(e) => MenuOpen(e)}>
+                <img
+                  src={`${url}/files/users/${image?.nome}`}
+                  alt={""}
+                  className='perfil-image'
+                />
+              </Link>
+            </div>
+          )}
 
-        {isOpen && <MenuPerfil />}
+          {isOpen && <MenuPerfil />}
+        </ul>
       </div>
     </nav>
   );

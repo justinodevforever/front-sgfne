@@ -199,12 +199,17 @@ const Propina = ({ tipo }) => {
         valor,
         rupe,
       })
-      .then((data) => {
+      .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        console.log(data.data);
+
+        if (data.data.message === "error") {
+          dispatchError(toggleModalError(true));
+
+          return;
+        }
         if (data.data.message === "exist") {
           setMessage("O Mês Já Foi Pago! ");
           dispatchWarning(toggleModalWarning(true));
@@ -212,9 +217,21 @@ const Propina = ({ tipo }) => {
           return;
         }
         if (data.data.message === "sucess") {
-          dispatch(setIsClic(true));
-          setId(data.data?.response?.id);
-          dispatchConfirmar(toggleModalConfirmar(true));
+          const response = await api.post("/solicitacao", {
+            fk_estudante,
+            tipoServico: "Propina",
+          });
+          console.log(response.data);
+          if (response.data.message === "error") {
+            dispatchError(toggleModalError(true));
+
+            return;
+          }
+          if (response.data.message === "sucess") {
+            dispatch(setIsClic(true));
+            setId(data.data?.response?.id);
+            dispatchConfirmar(toggleModalConfirmar(true));
+          }
           return;
         }
       });

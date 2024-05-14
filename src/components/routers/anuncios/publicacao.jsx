@@ -103,27 +103,30 @@ const Publicacao = () => {
 
   return (
     <>
-      <Skeleton loading={isClic} active avatar={{ shape: "circle" }}>
-        <Modal />
-        <div className='container-publicacao1'>
-          <PegarPermissoes permissoes={["admin"]}>
-            <div>
-              <div className='div-publicar'>
-                <Link
-                  className='publicar'
-                  name='publicacao'
-                  id='publicacao'
-                  to={"/publicar"}>
-                  Comunicar
-                </Link>
-              </div>
+      <Modal />
+      <div className='container-publicacao1'>
+        <PegarPermissoes permissoes={["admin"]}>
+          <div>
+            <div className='div-publicar'>
+              <Link
+                className='publicar'
+                name='publicacao'
+                id='publicacao'
+                to={"/publicar"}>
+                Comunicar
+              </Link>
             </div>
-          </PegarPermissoes>
+          </div>
+        </PegarPermissoes>
 
-          <div className='container-publicacao'>
-            {publicacao.map((publ) => (
-              // <div className='container-conteudo' key={publ?.id}>
-              <div className='publicacao' id='publicacao' key={publ?.id}>
+        <div className='container-publicacao'>
+          {publicacao.map((publ) => (
+            <Skeleton
+              loading={isClic}
+              key={publ?.id}
+              active
+              avatar={{ shape: "circle" }}>
+              <div className='publicacao' id='publicacao'>
                 <div className='opcoesBarra'>
                   <Link
                     to={`/perfil/${publ?.usuario?.id}`}
@@ -148,11 +151,10 @@ const Publicacao = () => {
                   <Comentario publ={publ} id={publ?.id} verC={verComentarios} />
                 </div>
               </div>
-              // </div>
-            ))}
-          </div>
+            </Skeleton>
+          ))}
         </div>
-      </Skeleton>
+      </div>
     </>
   );
 };
