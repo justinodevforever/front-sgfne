@@ -90,11 +90,7 @@ function Perfil() {
         {image == undefined || null || image.length == 0 ? (
           <img src={"../../../image/emptyImage.jpg"} alt={""} className='img' />
         ) : (
-          <img
-            src={`${url}/files/users/${image?.nome}`}
-            alt={""}
-            className='img'
-          />
+          <img src={image?.nome} alt={""} className='img' />
         )}
 
         {user?.id == sessionStorage.getItem("id") && (

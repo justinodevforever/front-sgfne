@@ -93,11 +93,7 @@ const ContactChat = ({ contact }) => {
                     className='perfil'
                     to={`/perfil/${sessionStorage.getItem("id")}`}>
                     <div className='online'></div>
-                    <img
-                      src={`${url}/files/users/${image.nome}`}
-                      alt={""}
-                      className='perfil-image'
-                    />
+                    <img src={image.nome} alt={""} className='perfil-image' />
                   </Link>
                 )}
               </div>
@@ -137,7 +133,7 @@ const ContactChat = ({ contact }) => {
                     to={`/perfil/${sessionStorage.getItem("id")}`}>
                     <div className='online'></div>
                     <img
-                      src={`${url}/files/users/${imageReceiver?.nome}`}
+                      src={imageReceiver?.nome}
                       alt={""}
                       className='perfil-image'
                     />

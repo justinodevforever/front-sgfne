@@ -130,6 +130,8 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           navigate("/login");
           return;
         }
+        console.log(data.data);
+
         setImage(data.data[0]);
       })
       .catch((err) => console.log(err));
@@ -293,11 +295,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           ) : (
             <div>
               <Link className='perfil' onClick={(e) => MenuOpen(e)}>
-                <img
-                  src={`${url}/files/users/${image?.nome}`}
-                  alt={""}
-                  className='perfil-image'
-                />
+                <img src={image?.nome} alt={""} className='perfil-image' />
               </Link>
             </div>
           )}

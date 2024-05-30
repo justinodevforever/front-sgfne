@@ -48,7 +48,7 @@ export const ProfilePublication = ({
             <LerMais publ={publicacao} id={id_publicacao} isImage={isImage} />
 
             <img
-              src={`${url}/files/imagePublication/${image?.nome}`}
+              src={image?.nome}
               alt=''
               style={{
                 height: "270px",

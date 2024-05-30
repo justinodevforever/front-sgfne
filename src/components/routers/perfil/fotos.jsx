@@ -53,7 +53,7 @@ function Fotos() {
             {image == undefined || null || image?.length == 0 ? (
               <div></div>
             ) : (
-              <img src={`${url}/files/users/${image?.nome}`} className='foto' />
+              <img src={image?.nome} className='foto' />
             )}
 
             {image?.usuario?.nome !== sessionStorage.getItem("user") ? (
