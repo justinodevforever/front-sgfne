@@ -230,6 +230,7 @@ const Reconfirmacao = () => {
           navigate("/login");
           return;
         }
+        console.log(data.data);
         if (data.data?.message === "error") {
           dispatchError(toggleModalError(true));
           setLoading(false);
