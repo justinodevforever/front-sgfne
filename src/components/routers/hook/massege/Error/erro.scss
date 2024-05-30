@@ -3,10 +3,10 @@
 .erro {
   display: flex;
   position: fixed;
-  width: 120px;
-  padding: 20px 0px;
-  top: 200px;
-  left: 47%;
+  width: 20%;
+  height: 20%;
+  left: calc(80% / 2);
+  top: calc(65% / 2);
   z-index: 5;
   background-color: $white;
   flex-direction: column;
@@ -41,5 +41,21 @@
   }
   to {
     scale: 1.4;
+  }
+}
+@media (max-width: 600px) {
+  .erro {
+    width: 30%;
+    height: 17%;
+    left: calc(70% / 2);
+    top: calc(65% / 2);
+  }
+}
+@media (max-width: 400px) {
+  .erro {
+    width: 50%;
+    height: 17%;
+    left: calc(50% / 2);
+    top: calc(65% / 2);
   }
 }

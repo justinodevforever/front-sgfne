@@ -13,7 +13,7 @@ import Modal from "./modal/Modal";
 import PegarRoles from "../../../configs/roles/Roles";
 import PegarPermissoes from "../../../configs/permissoes/PegarPermissoes";
 import Ispm from "../hook/Ispm";
-import { Skeleton } from "antd";
+import { Skeleton, Space } from "antd";
 
 let clicou = false;
 let id1;
@@ -119,7 +119,16 @@ const Publicacao = () => {
           </div>
         </PegarPermissoes>
 
-        <div className='container-publicacao'>
+        <Space
+          wrap
+          align='center'
+          className='container-publicacao'
+          style={
+            publicacao.length <= 2 && {
+              justifyContent: "center",
+              alignItems: "center",
+            }
+          }>
           {publicacao.map((publ) => (
             <Skeleton
               loading={isClic}
@@ -153,7 +162,7 @@ const Publicacao = () => {
               </div>
             </Skeleton>
           ))}
-        </div>
+        </Space>
       </div>
     </>
   );

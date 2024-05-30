@@ -6,6 +6,7 @@ import { formatDate } from "../../../../hook/timeout";
 import { api } from "../../../../../../../auth/auth";
 import { useEffect, useState } from "react";
 import { Input, Modal, Space, Alert } from "antd";
+import imageLogo from "./Logo.png";
 
 function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [semestres, setSemestres] = useState([]);
@@ -140,7 +141,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           navigate("/login");
           return;
         }
-        console.log(data.data);
         if (data.data) {
           setUserName(data.data?.usuario?.nome);
           setDados(data.data[0]);
@@ -199,9 +199,12 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
               <>
                 <h3>Propina Anual</h3>
                 <form className='formBi'>
-                  <label htmlFor='anoLetivo' style={{ marginTop: "10px" }}>
+                  <label
+                    htmlFor='anoLetivo'
+                    style={{ marginTop: "10px", marginBottom: "10px" }}>
                     Ano Lectivo
                     <select onChange={(e) => setAno(e.target.value)}>
+                      <option value='Escolha'>Escolha...</option>
                       {anos.map((ano) => (
                         <option value={ano.ano} key={ano.id}>
                           {ano.ano}
@@ -224,9 +227,9 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                 </form>
 
                 <div className='tabelaPropina' id='tabela'>
-                  <img src='./image/ISP_Moxico/Logo.png' alt='ISPM' />
                   {propinasAnual.length >= 1 && (
                     <>
+                      <img src={imageLogo} alt='ISPM' />
                       <div className='extra'>
                         <div>
                           <div>
@@ -333,7 +336,13 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
               <>
                 <h3>Propina Mensal</h3>
                 <form className='formBi'>
-                  <Space wrap style={{ width: "100%" }}>
+                  <Space
+                    wrap
+                    style={{
+                      width: "100%",
+                      justifyContent: "center",
+                      marginBottom: "10px",
+                    }}>
                     <label htmlFor='mes'>
                       Mês:
                       <select onChange={(e) => setMes(e.target.value)}>
@@ -372,7 +381,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                 <div className='tabelaPropina' id='tabela'>
                   {propinasMensal.length >= 1 && (
                     <>
-                      <img src='./Logo.png' alt='ISPM' />
+                      <img src={imageLogo} alt='ISPM' />
                       <div className='extra'>
                         <div>
                           <span>Curso: {dados?.estudante?.curso?.curso}</span>

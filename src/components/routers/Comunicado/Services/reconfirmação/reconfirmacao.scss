@@ -1,0 +1,96 @@
+.container-reconfirmacao {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+}
+.container-reconfirmacao .container-reconfirmacao {
+  display: flex;
+  flex-direction: column;
+  width: 98%;
+  margin: auto;
+  align-items: center;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+
+.form {
+  width: 100%;
+  margin: auto;
+}
+
+.container-reconfirmacao hr {
+  width: 80%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.container-reconfirmacao select {
+  width: 130px;
+  height: 30px;
+  font-size: 14pt;
+}
+.container-reconfirmacao .opcoesReconfirmacao label {
+  display: flex;
+  font-size: 12pt;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 9px;
+}
+.container-reconfirmacao .dados-estudanteReconfirmacao label {
+  display: flex;
+  width: 100%;
+  font-size: 12pt;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.container-reconfirmacao .dados-estudanteReconfirmacao {
+  display: flex;
+  width: 99%;
+  margin: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #b7b6b6;
+  padding-bottom: 10px;
+}
+
+.container-reconfirmacao .dados-estudanteReconfirmacao input {
+  width: 40%;
+  padding: 3px;
+  margin-bottom: 10px;
+  font-size: 14pt;
+}
+.container-reconfirmacao .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 30%;
+  padding: 20px;
+  border: none;
+  color: #fff;
+  background-color: #a31543;
+  font-size: 14pt;
+  border-radius: 5px;
+  margin-top: 20px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .container-reconfirmacao .dados-estudanteReconfirmacao input {
+    width: 90%;
+  }
+}
+@media (max-width: 800px) {
+  label {
+    display: flex;
+    font-size: 12pt;
+    flex-direction: column;
+  }
+}

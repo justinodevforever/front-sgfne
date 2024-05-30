@@ -17,6 +17,8 @@ p {
   text-align: start;
   word-break: break-all;
   padding: 7px;
+  color: #000;
+  font-family: "Times New Roman", Times, serif;
 }
 
 .container-imagePublicacao img {

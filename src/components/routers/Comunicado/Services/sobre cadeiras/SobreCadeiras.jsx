@@ -1,10 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import "./sobreCadeira.scss";
 import { api } from "../../../../../../auth/auth";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { BiSearch } from "react-icons/bi";
-import RelatorioSobreCadeira from "../relatorios/SobreCadeira/SobreCadeira";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import UseWarning from "../../../hook/massege/warning/UseWarning";
 import UseSucess from "../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../hook/massege/Error/UseErro";
@@ -15,6 +13,8 @@ import {
 import Loader from "../../../hook/load/Loader";
 import { Button, Form, Input, Space, Alert, message, Popconfirm } from "antd";
 import { AlertHeading } from "react-bootstrap";
+import Processing from "../../../hook/process/Processing";
+import { CurtainsOutlined } from "@mui/icons-material";
 
 const SobreCadeiras = () => {
   const [bi, setBi] = useState("");
@@ -32,7 +32,6 @@ const SobreCadeiras = () => {
   const [fk_semestre, setFk_semestre] = useState(0);
   const [fk_frequencia, setFk_frequencia] = useState(0);
   const [fk_disciplina, setFk_disciplina] = useState(0);
-  const [meses, setMeses] = useState([]);
   const [semestres, setSemestres] = useState([]);
   const [anos, setAnos] = useState([]);
   const [frequencias, setFrequencias] = useState([]);
@@ -41,18 +40,11 @@ const SobreCadeiras = () => {
   const [semestre, setSemestre] = useState("");
   const navigate = useNavigate();
   const [valor, setValor] = useState("");
-  const [ativar, setAtivar] = useState(false);
-  const [visivel, setVisivel] = useState(false);
-  const [type, setType] = useState("");
+  const [isProcessing, setIsProcessing] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [id, setId] = useState(0);
   const [message, setMessage] = useState("");
-  const { isClic } = useSelector((state) => state.ui.pagou);
-  const { isVisibleConfirmar } = useSelector(
-    (state) => state.ui.ModalConfirmar
-  );
-  const { isVisibleError } = useSelector((state) => state.ui.ModalError);
-  const { isVisibleWarning } = useSelector((state) => state.ui.ModalWarning);
-  const dispatch = useDispatch();
+
   const dispatchError = useDispatch();
   const dispatchConfirmar = useDispatch();
   const dispatchWarning = useDispatch();
@@ -64,6 +56,7 @@ const SobreCadeiras = () => {
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
     getAno();
+    buscarEstudante();
   }, []);
   useEffect(() => {
     buscaSemestre();
@@ -95,19 +88,26 @@ const SobreCadeiras = () => {
   }, [disciplina]);
 
   const buscarEstudante = async () => {
-    const { data } = await api.post("/divida", { bi });
-    console.log(data);
+    const response = await api.post("/estudante/user", {
+      fk_user: sessionStorage.getItem("id"),
+    });
+    if (!response.data) {
+      setMessage("Não Es Estudante!");
+      return;
+    }
+    const { data } = await api.post("/divida", {
+      fk_estudante: response.data.id,
+    });
     if (data?.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
-      dispatchWarning(toggleModalWarning(true));
-
+      setIsProcessing(true);
       return;
     }
 
     await api
-      .post("/search/estudante/bi", {
-        bi,
+      .post("/estudante/user", {
+        fk_user: sessionStorage.getItem("id"),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -115,10 +115,12 @@ const SobreCadeiras = () => {
           return;
         }
 
-        setCurso(data.data.curso.curso);
-        setFk_curso(data.data.curso.id);
-        setNome(data.data.nome);
-        setFk_estudante(data.data.id);
+        setCurso(data.data?.curso?.curso);
+        setFk_curso(data.data?.curso?.id);
+        setNome(data.data?.nome);
+        setFk_estudante(data.data?.id);
+        setBi(data.data?.bi);
+        setIsProcessing(false);
       })
       .catch((err) => console.log(err));
   };
@@ -130,8 +132,10 @@ const SobreCadeiras = () => {
           navigate("/login");
           return;
         }
-        setSemestre(data.data[0].nome);
-        setSemestres(data.data);
+        if (!data.data && data.data !== null) {
+          setSemestre(data.data[0].nome);
+          setSemestres(data.data);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -146,8 +150,8 @@ const SobreCadeiras = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
-        setFk_disciplina(data.data.id);
+
+        setFk_disciplina(data.data?.id);
       })
       .catch((err) => console.log(err));
   };
@@ -160,9 +164,10 @@ const SobreCadeiras = () => {
           navigate("/login");
           return;
         }
-
-        setAnos(data.data);
-        setAno(data.data[0].ano);
+        if (!data.data && data.data !== null) {
+          setAnos(data.data);
+          setAno(data.data[0].ano);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -194,7 +199,7 @@ const SobreCadeiras = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
+
         if (data.data.message === "error") return;
         setDisciplinas(data.data);
       })
@@ -256,7 +261,7 @@ const SobreCadeiras = () => {
           navigate("/login");
           return;
         }
-        setFk_ano(data.data.id);
+        setFk_ano(data.data?.id);
       })
       .catch((err) => console.log(err));
   };
@@ -278,7 +283,7 @@ const SobreCadeiras = () => {
 
       return;
     }
-    setAtivar(true);
+    setLoading(true);
     await api
       .post("/cadeira/atraso", {
         valor,
@@ -290,17 +295,28 @@ const SobreCadeiras = () => {
         fk_semestre,
         fk_ano,
       })
-      .then((data) => {
+      .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
 
-        setAtivar(false);
         if (data.data.message === "sucess") {
+          const response = await api.post("/solicitacao", {
+            fk_estudante,
+            tipoServico: "Cadeira em atraso",
+            status: "Pendente",
+          });
+
+          if (response.data.message === "error") {
+            dispatchError(toggleModalError(true));
+            setLoading(false);
+
+            return;
+          }
           dispatchConfirmar(toggleModalConfirmar(true));
-          setId(data.data.response.id);
-          setVisivel(true);
+          setId(data.data.response?.id);
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -310,194 +326,177 @@ const SobreCadeiras = () => {
 
   return (
     <>
+      {isProcessing && <Processing message={message} />}
       <UseSucess />
       <UseErro />
       <UseWarning message={message} />
 
-      {tipos.get("tipos") === "Cadeira em Atrazo" ||
-      tipos.get("tipos") === "Recurso" ||
-      tipos.get("tipos") === "Exame Especial" ? (
-        <Space
-          style={{
-            margin: "30px auto",
-            marginTop: "30px",
-            alignItems: "center",
-            justifyContent: "center",
-          }}>
-          <div className='conteudo'>
-            <Form className='formBir' onSubmitCapture={() => buscarEstudante()}>
-              <Input.Search
-                placeholder='Número de BI do Estudante'
-                onChange={(e) => setBi(e.target.value)}
-                className='search'
-                autoFocus
-                maxLength={14}
-                onSearch={() => buscarEstudante()}
-                style={{ width: "90%" }}
-              />
-            </Form>
-
-            <Space
-              wrap
-              style={{
-                alignItems: "center",
-                justifyContent: "center",
-              }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "20px",
-                }}>
-                <label htmlFor='valor'>
-                  Valor
-                  <Input
-                    onChange={(e) => setValor(e.target.value)}
-                    type='number'
-                    placeholder='Digite o valor'
-                    aria-labelledby='home'
-                    style={{
-                      border: "1px solid #a31541",
-                    }}
-                  />
-                </label>
-                <label htmlFor='rupe'>
-                  RUPE:
-                  <Input
-                    type='number'
-                    value={rupe}
-                    onChange={(e) => setRupe(e.target.value)}
-                    placeholder='Digite o Nº de RUPE'
-                    maxLength={20}
-                    className='rupe'
-                    style={{
-                      border: "1px solid #a31541",
-                    }}
-                  />
-                </label>
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "20px",
-                }}>
-                <label htmlFor='cadeira'>
-                  Ano Lectivo:
-                  <select
-                    style={{ width: "100px" }}
-                    className='selecte'
-                    onChange={(e) => setAno(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
-
-                    {anos.map((s) => (
-                      <option value={s.ano} key={s.id}>
-                        {s.ano}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label htmlFor='frequencia'>
-                  Frequência:
-                  <select
-                    style={{ width: "100px" }}
-                    className='selecte'
-                    nome='frequencia'
-                    id='frequencia'
-                    onChange={(e) => setFrequencia(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
-
-                    {frequencias.map((f) => (
-                      <option value={f.ano} key={f.id}>
-                        {f.ano}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label htmlFor='semestre'>
-                  Semestre:
-                  <select
-                    style={{ width: "100px" }}
-                    className='selecte'
-                    onChange={(e) => setSemestre(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
-
-                    {semestres.map((s) => (
-                      <option value={s.nome} key={s.id}>
-                        {s.nome}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label htmlFor='cadeira'>
-                  Cadeira:
-                  <select
-                    style={{ width: "100px" }}
-                    className='selecte'
-                    onChange={(e) => setDisciplina(e.target.value)}>
-                    <option value={"Escolha"}>Escolha...</option>
-
-                    {disciplinas?.map((s) => (
-                      <option value={s.nome} key={s.id}>
-                        {s.nome}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-            </Space>
-
-            <hr />
+      <Space
+        wrap
+        style={{
+          width: "100%",
+          marginTop: "10px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+        <div className='conteudo-cadeira'>
+          <h3>Pagamento de Cadeira em Atraso</h3>
+          <Space
+            wrap
+            style={{
+              width: "98%",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "10px 0px",
+              background: "#b7b6b6",
+              margin: "auto",
+            }}>
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                width: "100%",
-                alignItems: "center",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                gap: "10px",
               }}>
-              {curso && <h3>Dados do Estudante</h3>}
-              <br />
-              {curso && (
-                <label htmlFor='nome'>
-                  Nome:
-                  <Input type='text' value={nome} disabled className='input' />
-                </label>
-              )}
-              {curso && (
-                <label htmlFor='curso'>
-                  Curso:
-                  <input type='text' value={curso} disabled className='input' />
-                </label>
-              )}
+              <label htmlFor='valor'>
+                Valor
+                <Input
+                  onChange={(e) => setValor(e.target.value)}
+                  type='number'
+                  placeholder='Digite o valor'
+                  aria-labelledby='home'
+                />
+              </label>
+              <label htmlFor='rupe'>
+                RUPE:
+                <Input
+                  type='number'
+                  value={rupe}
+                  onChange={(e) => setRupe(e.target.value)}
+                  placeholder='Digite o Nº de RUPE'
+                  maxLength={20}
+                />
+              </label>
             </div>
-            {!ativar && (
-              <Button
-                onClick={(e) => hendleCadeiraAtrazo(e)}
-                className='btn'
-                type='primary'
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "auto",
-                }}>
-                Fazer Pagamento
-              </Button>
-            )}
-            {ativar && <Loader />}
-          </div>
-        </Space>
-      ) : (
-        <></>
-      )}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}>
+              <label htmlFor='cadeira'>
+                Ano Lectivo:
+                <select
+                  style={{ width: "100px" }}
+                  className='selecte'
+                  onChange={(e) => setAno(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
 
-      <RelatorioSobreCadeira
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo={tipos.get("tipos")}
-        id={id}
-      />
+                  {anos.map((s) => (
+                    <option value={s.ano} key={s.id}>
+                      {s.ano}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label htmlFor='frequencia'>
+                Frequência:
+                <select
+                  style={{ width: "100px" }}
+                  className='selecte'
+                  nome='frequencia'
+                  id='frequencia'
+                  onChange={(e) => setFrequencia(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
+
+                  {frequencias.map((f) => (
+                    <option value={f.ano} key={f.id}>
+                      {f.ano}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label htmlFor='semestre'>
+                Semestre:
+                <select
+                  style={{ width: "100px" }}
+                  className='selecte'
+                  onChange={(e) => setSemestre(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
+
+                  {semestres.map((s) => (
+                    <option value={s.nome} key={s.id}>
+                      {s.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label htmlFor='cadeira'>
+                Cadeira:
+                <select
+                  style={{ width: "100px" }}
+                  className='selecte'
+                  onChange={(e) => setDisciplina(e.target.value)}>
+                  <option value={"Escolha"}>Escolha...</option>
+
+                  {disciplinas?.map((s) => (
+                    <option value={s.nome} key={s.id}>
+                      {s.nome}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </Space>
+
+          <hr />
+          {curso && nome && bi && (
+            <div
+              className='dados-estudante'
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "98%",
+                alignItems: "center",
+                background: "#b7b6b6",
+                padding: "10px 0px",
+                margin: "auto",
+              }}>
+              <h3>Dados do Estudante</h3>
+
+              <label htmlFor='nome'>
+                Nome:
+                <Input type='text' value={nome} readOnly />
+              </label>
+              <label htmlFor='nome'>
+                Curso:
+                <Input type='text' value={curso} readOnly />
+              </label>
+              <label htmlFor='nome'>
+                Nº B.I:
+                <Input type='text' value={bi} readOnly />
+              </label>
+
+              {!loading && (
+                <Button
+                  onClick={(e) => hendleCadeiraAtrazo(e)}
+                  className='btn'
+                  type='primary'
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "50%",
+                  }}>
+                  Pagar
+                </Button>
+              )}
+              {loading && <Loader />}
+            </div>
+          )}
+        </div>
+      </Space>
     </>
   );
 };

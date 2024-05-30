@@ -15,6 +15,7 @@ import {
 import Loader from "../../../hook/load/Loader";
 import { Button, Form, Input, Space, Alert, message, Popconfirm } from "antd";
 import { AlertHeading } from "react-bootstrap";
+import Processing from "../../../hook/process/Processing";
 
 const ExameEspecial = () => {
   const [bi, setBi] = useState("");
@@ -46,13 +47,9 @@ const ExameEspecial = () => {
   const [type, setType] = useState("");
   const [id, setId] = useState(0);
   const [message, setMessage] = useState("");
-  const { isClic } = useSelector((state) => state.ui.pagou);
-  const { isVisibleConfirmar } = useSelector(
-    (state) => state.ui.ModalConfirmar
-  );
-  const { isVisibleError } = useSelector((state) => state.ui.ModalError);
-  const { isVisibleWarning } = useSelector((state) => state.ui.ModalWarning);
-  const dispatch = useDispatch();
+  const [isProcessing, setIsProcessing] = useState(true);
+  const [loading, setLoading] = useState(false);
+
   const dispatchError = useDispatch();
   const dispatchConfirmar = useDispatch();
   const dispatchWarning = useDispatch();
@@ -64,7 +61,7 @@ const ExameEspecial = () => {
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
     getAno();
-    tiposServicos();
+    buscarEstudante();
   }, []);
   useEffect(() => {
     buscaSemestre();
@@ -96,19 +93,27 @@ const ExameEspecial = () => {
   }, [disciplina]);
 
   const buscarEstudante = async () => {
-    const { data } = await api.post("/divida", { bi });
-    console.log("data");
+    const response = await api.post("/estudante/user", {
+      fk_user: sessionStorage.getItem("id"),
+    });
+    if (!response.data) {
+      setMessage("Não Es Estudante!");
+      return;
+    }
+    const { data } = await api.post("/divida", {
+      fk_estudante: response.data.id,
+    });
     if (data?.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
-      dispatchWarning(toggleModalWarning(true));
+      setIsProcessing(true);
 
       return;
     }
 
     await api
-      .post("/search/estudante/bi", {
-        bi,
+      .post("/estudante/user", {
+        fk_user: sessionStorage.getItem("id"),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -116,10 +121,12 @@ const ExameEspecial = () => {
           return;
         }
 
-        setCurso(data.data.curso.curso);
+        setCurso(data.data?.curso?.curso);
         setFk_curso(data.data.curso?.id);
-        setNome(data.data.nome);
+        setNome(data.data?.nome);
         setFk_estudante(data.data?.id);
+        setBi(data.data?.bi);
+        setIsProcessing(false);
       })
       .catch((err) => console.log(err));
   };
@@ -259,7 +266,7 @@ const ExameEspecial = () => {
           navigate("/login");
           return;
         }
-        setFk_ano(data.data.id);
+        setFk_ano(data.data?.id);
       })
       .catch((err) => console.log(err));
   };
@@ -291,7 +298,7 @@ const ExameEspecial = () => {
       dispatchWarning(toggleModalWarning(true));
       return;
     }
-    setAtivar(true);
+    setLoading(true);
     await api
       .post("/exame/especial", {
         valor,
@@ -303,16 +310,28 @@ const ExameEspecial = () => {
         fk_semestre,
         fk_ano,
       })
-      .then((data) => {
+      .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
         setAtivar(false);
         if (data.data?.message === "sucess") {
+          const response = await api.post("/solicitacao", {
+            fk_estudante,
+            tipoServico: "Exame Especial",
+            status: "Pendente",
+          });
+
+          if (response.data.message === "error") {
+            dispatchError(toggleModalError(true));
+            setLoading(false);
+
+            return;
+          }
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response.id);
-          setVisivel(true);
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -322,35 +341,26 @@ const ExameEspecial = () => {
 
   return (
     <>
+      {isProcessing && <Processing message={message} />}
       <UseSucess />
       <UseErro />
       <UseWarning message={message} />
 
       <Space
         style={{
-          margin: "30px auto",
-          marginTop: "30px",
+          width: "100%",
+          marginTop: "10px",
           alignItems: "center",
           justifyContent: "center",
         }}>
-        <div className='conteudo'>
-          <Form
-            className='formBir'
-            onSubmitCapture={(e) => setBi(e.target.value)}>
-            <Input.Search
-              placeholder='Número de BI do Estudante'
-              onChange={(e) => setBi(e.target.value)}
-              className='search'
-              autoFocus
-              maxLength={14}
-              onSearch={() => buscarEstudante()}
-              style={{ width: "90%" }}
-            />
-          </Form>
-
+        <div className='conteudo-exame'>
+          <h3>Pagamento de Exame Especial</h3>
           <Space
             wrap
             style={{
+              width: "98%",
+              padding: "10px 0px",
+              background: "#b7b6b6",
               alignItems: "center",
               justifyContent: "center",
             }}>
@@ -358,7 +368,8 @@ const ExameEspecial = () => {
               style={{
                 display: "flex",
                 flexWrap: "wrap",
-                gap: "20px",
+                justifyContent: "center",
+                gap: "10px",
               }}>
               <label htmlFor='valor'>
                 Valor
@@ -367,9 +378,6 @@ const ExameEspecial = () => {
                   type='number'
                   placeholder='Digite o valor'
                   aria-labelledby='home'
-                  style={{
-                    border: "1px solid #a31541",
-                  }}
                 />
               </label>
               <label htmlFor='rupe'>
@@ -380,10 +388,6 @@ const ExameEspecial = () => {
                   onChange={(e) => setRupe(e.target.value)}
                   placeholder='Digite o Nº de RUPE'
                   maxLength={20}
-                  className='rupe'
-                  style={{
-                    border: "1px solid #a31541",
-                  }}
                 />
               </label>
             </div>
@@ -460,52 +464,54 @@ const ExameEspecial = () => {
           </Space>
 
           <hr />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              alignItems: "center",
-            }}>
-            {curso && <h3>Dados do Estudante</h3>}
-            <br />
-            {curso && (
-              <label htmlFor='nome'>
-                Nome:
-                <Input type='text' value={nome} disabled className='input' />
-              </label>
-            )}
-            {curso && (
-              <label htmlFor='curso'>
-                Curso:
-                <input type='text' value={curso} disabled className='input' />
-              </label>
-            )}
-          </div>
-          {!ativar && (
-            <Button
-              onClick={(e) => hendleExameEspecial(e)}
-              className='btn'
-              type='primary'
+          {curso && nome && bi && (
+            <div
+              className='dados-estudante'
               style={{
                 display: "flex",
+                flexDirection: "column",
+                width: "98%",
                 alignItems: "center",
-                justifyContent: "center",
+                background: "#b7b6b6",
+                padding: "10px 0px",
                 margin: "auto",
               }}>
-              Fazer Pagamento
-            </Button>
+              <h3>Dados do Estudante</h3>
+
+              <label htmlFor='nome'>
+                Nome:
+                <Input type='text' value={nome} readOnly className='input' />
+              </label>
+
+              <label htmlFor='curso'>
+                Curso:
+                <Input type='text' value={curso} readOnly className='input' />
+              </label>
+
+              <label htmlFor='curso'>
+                Nº B.I:
+                <Input type='text' value={bi} readOnly className='input' />
+              </label>
+
+              {!loading && (
+                <Button
+                  onClick={(e) => hendleExameEspecial(e)}
+                  className='btn'
+                  type='primary'
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "auto",
+                  }}>
+                  Pagar
+                </Button>
+              )}
+              {loading && <Loader />}
+            </div>
           )}
-          {ativar && <Loader />}
         </div>
       </Space>
-
-      <RelatorioSobreCadeira
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo={"Exame Especial"}
-        id={id}
-      />
     </>
   );
 };

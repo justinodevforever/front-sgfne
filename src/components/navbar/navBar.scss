@@ -204,11 +204,31 @@
   background-color: #a31543;
   border: 2px solid #fff;
   color: #fff;
-  width: 300px;
+  width: 200px;
   top: 40px;
   padding: 10px;
   right: 0;
   border-radius: 10px;
+}
+.container-nav .notificacoes span,
+p {
+  color: #fff;
+}
+.container-nav .notificacoes button:hover {
+  background-color: $rosa;
+  color: $white;
+  border: 1px solid $white;
+}
+.container-nav .notificacoes button {
+  width: 90%;
+  margin: auto;
+  margin-top: 10px;
+  background-color: #fff;
+  border: none;
+  color: $rosa;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 .barra-mobile .ativado {
   background-color: #a31543;
@@ -254,11 +274,6 @@
   }
 }
 @media (max-height: 320px) {
-  .container-nav .perfil img {
-    width: 20px;
-    height: 200px;
-    margin-top: 8px;
-  }
   .container-nav .open {
     top: 37px;
     width: 70px;
@@ -313,18 +328,5 @@
     height: 11px;
     left: 8px;
     padding: 2px;
-  }
-}
-@media (max-width: 384px) {
-  .container-nav .notificacoes {
-    position: absolute;
-    background-color: #a31543;
-    border: 2px solid #fff;
-    color: #fff;
-    width: 300px;
-    top: 40px;
-    padding: 10px;
-    right: -100px;
-    border-radius: 10px;
   }
 }

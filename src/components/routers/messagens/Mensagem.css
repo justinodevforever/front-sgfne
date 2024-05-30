@@ -136,6 +136,9 @@
   color: blue;
   opacity: 1;
 }
+.container-mensagem p {
+  color: #fff;
+}
 
 @media (max-width: 500px) {
   .content {

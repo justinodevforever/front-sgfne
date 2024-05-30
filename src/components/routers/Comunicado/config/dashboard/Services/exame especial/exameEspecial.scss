@@ -1,33 +1,27 @@
-.container-reconfirmacao {
+@import "../../../../../../../style/variable.scss";
+.container-exame {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   margin-top: 20px;
 }
-.container-reconfirmacao .container-reconfirmacao {
-  display: flex;
-  flex-direction: column;
-  width: 98%;
-  margin: auto;
-  align-items: center;
-  margin-top: 20px;
-  padding-bottom: 20px;
-}
-.formBir {
+
+.container-exame .formBir {
   display: flex;
   width: 100%;
   background-color: #a31543;
-  padding: 4px 0px;
+  padding: 10px 0px;
   align-items: center;
   justify-content: center;
-  /* margin-bottom: 20px; */
 }
 
 .form {
   width: 100%;
   margin: auto;
 }
-.container-reconfirmacao .imprimir {
+.container-exame .imprimir {
   display: flex;
   width: 100px;
   padding: 10px;
@@ -39,11 +33,11 @@
   gap: 10;
   cursor: pointer;
 }
-.container-reconfirmacao .imprimir span {
+.container-exame .imprimir span {
   color: #fff;
   margin-left: 5px;
 }
-.container-reconfirmacao hr {
+.container-exame hr {
   width: 80%;
   margin: auto;
   margin-top: 10px;
@@ -54,17 +48,17 @@
   display: flex;
   margin: auto;
 }
-.container-reconfirmacao h1,
+.container-exame h1,
 h2 {
   color: #a31543;
   margin-bottom: 20px;
 }
-.container-reconfirmacao h1,
+.container-exame h1,
 input,
 select {
   margin-bottom: 10px;
 }
-.container-reconfirmacao select {
+.container-exame select {
   width: 130px;
   height: 30px;
   font-size: 14pt;
@@ -73,7 +67,7 @@ select {
   border: 2px solid #a31543;
   /* margin-top: 20px; */
 }
-.container-reconfirmacao label {
+.container-exame label {
   display: flex;
   font-size: 12pt;
   align-items: center;
@@ -87,18 +81,18 @@ select {
   margin-left: 10px;
   color: #000;
 }
-.container-reconfirmacao input::placeholder {
+.container-exame input::placeholder {
   margin-left: 20px;
   font-size: 14pt;
 }
-.container-reconfirmacao .dados-estudante {
+.container-exame .dados-estudante {
   display: flex;
   flex-direction: column;
   width: 600px;
   margin: auto;
   margin-top: 10px;
 }
-.container-reconfirmacao .opcoes label {
+.container-exame .opcoes label {
   display: flex;
   flex-direction: column;
   font-size: 14pt;
@@ -106,13 +100,14 @@ select {
   margin-bottom: 20px;
 }
 
-.container-reconfirmacao .input {
-  width: 10%;
+.container-exame .input {
+  width: 80%;
   padding: 3px;
   margin-bottom: 10px;
   font-size: 14pt;
 }
-.container-reconfirmacao .btn {
+
+.container-exame .btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,18 +122,19 @@ select {
   margin-top: 20px;
   cursor: pointer;
   opacity: 0.8;
+  padding: 20px;
 }
-.container-reconfirmacao .btn:hover {
+.container-exame .btn:hover {
   opacity: 1;
 }
-.container-reconfirmacao .opcoes {
+.container-exame .opcoes {
   display: flex;
   width: 100%;
   justify-content: space-between;
   margin-top: 10px;
 }
 @media (max-width: 800px) {
-  .container-reconfirmacao .opcoes {
+  .container-exame .opcoes {
     display: flex;
     width: 100%;
     flex-direction: column;

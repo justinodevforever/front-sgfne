@@ -4,112 +4,57 @@
   flex-direction: column;
   width: 100%;
 }
-.container-sobreCadeira .conteudo {
-  display: flex;
-  flex-direction: column;
-  width: 98%;
-  margin: auto;
-  align-items: center;
-  margin-top: 20px;
-  padding-bottom: 20px;
-}
-.conteudo .formBir {
+.conteudo-exame {
   display: flex;
   width: 100%;
-  background-color: #a31543;
-  padding: 4px;
+  flex-direction: column;
+  gap: 4px;
   align-items: center;
   justify-content: center;
 }
 
-.conteudo .form {
+.conteudo-exame .form {
   width: 100%;
   margin: auto;
 }
-.conteudo .imprimir {
-  display: flex;
-  width: 100px;
-  padding: 10px;
-  /* background-color: #a31543; */
-  position: fixed;
-  right: 20px;
-  bottom: 10px;
-  border-radius: 20px;
-  gap: 10;
-  cursor: pointer;
-}
-.conteudo .imprimir span {
-  margin-left: 5px;
-}
-.conteudo hr {
+
+.conteudo-exame hr {
   width: 80%;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.conteudo .pagamento-co.conteudo {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  margin: auto;
-  margin-top: 10px;
-}
-.cc {
-  display: flex;
-  margin: auto;
-}
-.conteudo h1,
-h2 {
-  color: #a31543;
-  margin-bottom: 20px;
-}
-.conteudo h1,
-input,
-select {
-  margin-bottom: 10px;
-}
 .select {
   width: 70px;
   height: 24px;
   font-size: 14pt;
-  margin-right: 10px;
-  margin-left: 10px;
-  border: 2px solid #a31543;
-  /* margin-top: 20px; */
 }
-.conteudo label {
+.dados-estudante label {
   display: flex;
+  width: 100%;
   font-size: 12pt;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
-.search {
-  width: 300px;
+.conteudo-exame .dados-estudante input {
+  width: 40%;
   height: 30px;
-  margin-right: 10px;
-  margin-left: 10px;
-  color: #000;
-}
-.conteudo .pagamento-co.conteudo input::placeholder {
-  margin-left: 20px;
+  margin: auto;
+  margin-bottom: 10px;
   font-size: 14pt;
 }
-.conteudo .dados-estudante {
+
+.conteudo-exame .dados-estudante {
   display: flex;
   flex-direction: column;
   width: 600px;
   margin: auto;
   margin-top: 10px;
 }
-.conteudo label {
-  display: flex;
-  flex-direction: column;
-  font-size: 14pt;
-  align-items: center;
-}
 
-.conteudo .input {
+.conteudo-exame .input {
   width: 400px;
   height: 30px;
   margin-right: 10px;
@@ -118,7 +63,8 @@ select {
   font-size: 14pt;
   margin-left: 10px;
 }
-.conteudo .btn {
+
+.conteudo-exame .btn {
   width: 30%;
   padding: 10px;
   border: none;
@@ -131,35 +77,12 @@ select {
   cursor: pointer;
   opacity: 0.8;
 }
-.conteudo .btn:hover {
-  opacity: 1;
-}
-.container-sobreCadeira .opcoes {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  flex-direction: column;
-}
 
-.container-sobreCadeira .opcoes .rupe {
-  border: 2px solid $rosa;
-  padding: 3px;
-  border-radius: 5px;
-}
-.container-sobreCadeira .opcoes .rupe::placeholder {
-  font-size: 13pt;
-}
 @media (max-width: 500px) {
-  .container-sobreCadeira .opcoes div {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
+  .conteudo-exame .dados-estudante input {
+    width: 90%;
   }
-  .conteudo .opcoes label {
-    display: flex;
-    flex-direction: column;
-    font-size: 12pt;
-    align-items: center;
+  .conteudo-exame .btn {
+    width: 80%;
   }
 }

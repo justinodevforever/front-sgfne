@@ -281,6 +281,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
                     {n}
                   </span>
                 ))}
+                <button onClick={() => setLerNotificacao(false)}>Ok</button>
               </div>
             </li>
           )}

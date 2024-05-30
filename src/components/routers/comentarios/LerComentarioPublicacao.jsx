@@ -37,6 +37,7 @@ export default function LerComentarioPublicacao() {
   const [publicacoes, setPublicacoes] = useState("");
   const [isPick, setIsPick] = useState(false);
   const [page] = useSearchParams();
+  const [take] = useSearchParams();
   const [pagination, setPagination] = useState({});
   const [images, setImages] = useState([]);
   const [lerMais, setLerMais] = useState(false);
@@ -87,6 +88,7 @@ export default function LerComentarioPublicacao() {
         setPublicacoes(data.data.publicacao);
         setUSer(data.data.Usuario);
         setLoading(false);
+        console.lgo;
       })
       .catch((err) => console.log(err));
   }
@@ -155,15 +157,20 @@ export default function LerComentarioPublicacao() {
 
   async function getComent() {
     await api
-      .post(`/comentario/publicacao/specific?page=${page.get("page") || 1}`, {
-        fk_publicacao: id,
-      })
+      .post(
+        `/comentario/publicacao/specific?page=${
+          page.get("page") || 1
+        }&take=${take.get("take")}`,
+        {
+          fk_publicacao: id,
+        }
+      )
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-
+        console.log(data.data);
         setComentarios(data.data.response);
         setPagination(data.data.pagination);
       })
@@ -186,7 +193,7 @@ export default function LerComentarioPublicacao() {
   }, []);
 
   return (
-    <>
+    <div className='com'>
       <MenuBack />
       <div className='container-lerComentario'>
         <Skeleton loading={loading}>
@@ -209,7 +216,9 @@ export default function LerComentarioPublicacao() {
 
             {pagination?.prev_page && (
               <Link
-                to={`/coment/publication/${id}?page=${page.get("page") - 1}`}>
+                to={`/coment/publication/${id}?page=${
+                  page.get("page") - 1
+                }&take=${take.get("take") / 2}`}>
                 {" "}
                 Comentários Anteriores
               </Link>
@@ -266,16 +275,16 @@ export default function LerComentarioPublicacao() {
                   )}
                 </div>
 
-                <p>{comentario?.comentario}</p>
+                <p style={{ color: "#000" }}>{comentario?.comentario}</p>
                 <LikeComentarioPublicacao coment={comentario} />
               </div>
             ))}
 
-            {pagination.next_page && (
+            {pagination?.next_page && (
               <Link
                 to={`/coment/publication/${id}?page=${
                   Number(page.get("page")) + Number(1)
-                }`}>
+                }&take=${take.get("take") * 2}`}>
                 Comentários Posteriores
               </Link>
             )}
@@ -329,6 +338,6 @@ export default function LerComentarioPublicacao() {
           </div>
         </footer>
       </div>
-    </>
+    </div>
   );
 }

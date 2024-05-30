@@ -178,6 +178,10 @@ const Principal = ({ mostrar, setMostrar }) => {
                       key: "propina",
                     },
                     {
+                      label: "Rencofirmação",
+                      key: `reconfirmacao`,
+                    },
+                    {
                       label: "Recurso",
                       key: `recurso`,
                     },
@@ -200,10 +204,6 @@ const Principal = ({ mostrar, setMostrar }) => {
                     {
                       label: "Declaração Linceciatura",
                       key: `declaracao?tipos=${"linceciatura"}`,
-                    },
-                    {
-                      label: "Rencofirmação",
-                      key: `reconfirmacao`,
                     },
                     {
                       label: "Pagamento de Folha",

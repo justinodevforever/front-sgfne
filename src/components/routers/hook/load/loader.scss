@@ -4,8 +4,11 @@
   width: 100%;
   display: flex;
   color: #000;
+  justify-content: center;
+  align-items: center;
 }
 .container2 .loader {
+  display: flex;
   border: 5px solid #f3f3f3;
   border-top: 5px solid #b71c1c;
   border-radius: 50%;

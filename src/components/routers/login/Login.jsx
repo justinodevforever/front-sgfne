@@ -9,6 +9,7 @@ import { setId } from "../../../store/ui-slice";
 import { Input } from "antd";
 import { UserOutlined } from "@ant-design/icons/lib/icons";
 import { PiPassword } from "react-icons/pi";
+import { Checkbox, TextField } from "@mui/material";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -77,10 +78,10 @@ export default function Login() {
 
             <form onSubmit={hendleLogar} className='form'>
               <div className='inputEmail'>
-                <Input
+                <TextField
                   type='text'
                   name='email'
-                  placeholder='Digite o seu email'
+                  label='E-mail'
                   required
                   value={email}
                   onChange={(e) => {
@@ -89,28 +90,31 @@ export default function Login() {
                   title='Digite um email Válido'
                   ref={refEmail}
                   prefix={<UserOutlined />}
-                  style={{ border: "1px solid #000" }}
+                  style={{ width: "98%" }}
                 />
               </div>
 
               <div className='inputPassword' style={{ marginTop: 10 }}>
-                <Input.Password
+                <TextField
                   type={check ? "text" : "password"}
                   name='password'
-                  placeholder='Digite a sua senha'
+                  label='Palavra Passe'
                   required
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
-                  autoComplete='of'
                   title='8 ou 24 character, Maiúscula e Minúscula, número e entre !@#$%*'
-                  prefix={<PiPassword />}
-                  style={{ border: "1px solid #000" }}
+                  style={{
+                    width: "98%",
+                  }}
                 />
               </div>
 
               <p className='sms'>{sms}</p>
+              <div>
+                <Checkbox onClick={() => setCheck(!check)} /> Mostrar a Senha
+              </div>
               <button>Entrar</button>
               <div className='link'>
                 <Link

@@ -49,6 +49,7 @@ function Chat() {
           navigate("/login");
           return;
         }
+
         setUsers(data.data);
         setId(data.data?.id);
       })

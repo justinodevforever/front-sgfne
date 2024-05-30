@@ -202,6 +202,11 @@ a {
 
 @media (max-width: 604px) {
   .container-publicacao1 .publicacao {
-    width: 90%;
+    width: 94%;
+  }
+}
+@media (max-width: 904px) {
+  .container-publicacao1 .publicacao {
+    width: 94%;
   }
 }

@@ -22,12 +22,12 @@ const UseErro = () => {
   return (
     <>
       {isVisibleError && (
-        <div className="erro">
-          <BiSolidErrorCircle size={80} color="red" className="check" />
+        <div className='erro'>
+          <BiSolidErrorCircle size={80} color='red' className='check' />
           <h2>Erro!</h2>
         </div>
       )}
-      {isVisibleError && <div className="ovefloyError"></div>}
+      {isVisibleError && <div className='ovefloyError'></div>}
     </>
   );
 };

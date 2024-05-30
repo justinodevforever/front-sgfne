@@ -21,6 +21,8 @@ import {
 import { Next, Prev } from "react-bootstrap/esm/PageItem";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { RiRegisteredFill } from "react-icons/ri";
+import { TextField, Checkbox } from "@mui/material";
+
 // import { In } from "react-bootstrap";
 
 const EMAIL_REGEX = /^([a-zA-Z])+([0-9])*@gmail([\.])com$/;
@@ -176,87 +178,60 @@ function CadastrarUsuario() {
         </div>
         {form === 1 && (
           <>
-            <div className='input'>
-              <Input
-                type='text'
+            <div>
+              <TextField
                 name='nome'
-                placeholder='Digite o seu Nome'
+                label='Nome Completo'
                 required
                 value={nome}
                 onChange={(e) => {
                   setNome(e.target.value);
                 }}
-                autoComplete='false'
                 autoFocus
                 title='Digite o Seu Nome'
                 prefix={<UserOutlined />}
                 style={{
-                  border: "1px solid #000",
                   marginTop: "10px",
-                  padding: "10px",
+                  width: "98%",
                 }}
                 allowClear
               />
             </div>
             <div>
-              <div className='input'>
-                <Input
-                  type='text'
+              <div>
+                <TextField
                   name='bi'
-                  placeholder='Digite o seu Número do BI'
+                  label='Número do BI'
                   required
                   value={bi}
                   onChange={(e) => {
                     setBi(e.target.value);
                   }}
-                  autoComplete='false'
                   title='Digite o Seu Nº de BI'
-                  maxLength={14}
-                  showCount
-                  prefix={<PiIdentificationCard />}
-                  style={
-                    bi && bi.length === 14
-                      ? {
-                          marginTop: "10px",
-                          border: "1px solid green",
-                          padding: "10px",
-                        }
-                      : {
-                          marginTop: "10px",
-                          border: "1px solid red",
-                          padding: "10px",
-                        }
-                  }
-                  allowClear
+                  error={!bi || (bi.length !== 14 && true)}
+                  style={{
+                    marginTop: "14px",
+                    width: "98%",
+                  }}
                 />
               </div>
 
-              <div className='inputEmail input'>
-                <Input
+              <div>
+                <TextField
                   type='text'
                   name='email'
-                  placeholder='Digite o seu número de email'
                   required
                   value={email}
+                  label='E-mail'
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
-                  autoComplete='false'
                   title='Digite um email Válido'
-                  className={email && validEmail ? "valido" : "invalido"}
-                  style={
-                    email && validEmail
-                      ? {
-                          marginTop: "10px",
-                          border: "1px solid green",
-                          padding: "10px",
-                        }
-                      : {
-                          marginTop: "10px",
-                          border: "1px solid red",
-                          padding: "10px",
-                        }
-                  }
+                  style={{
+                    marginTop: "14px",
+                    width: "98%",
+                  }}
+                  error={!validEmail && true}
                   allowClear
                 />
               </div>
@@ -271,7 +246,6 @@ function CadastrarUsuario() {
                 justifyContent: "end",
               }}>
               <Button
-                icon={<Next />}
                 type='primary'
                 style={{
                   textAlign: "center",
@@ -286,8 +260,9 @@ function CadastrarUsuario() {
                     ? false
                     : true
                 }
-                onClick={(e) => avancar(e)}
-              />
+                onClick={(e) => avancar(e)}>
+                Avançar
+              </Button>
             </div>
           </>
         )}
@@ -295,62 +270,37 @@ function CadastrarUsuario() {
         {form === 2 && (
           <>
             <div>
-              <div className='input'>
-                <Input
+              <div>
+                <TextField
                   type='number'
                   value={contacto}
                   onChange={(e) => setContacto(e.target.value)}
-                  placeholder='Digite Seu Contacto'
+                  label='Contacto'
                   title='Digite o Seu Contacto'
-                  showCount
-                  maxLength={9}
-                  prefix={<ContactsFilled />}
-                  style={
-                    contacto.length === 9
-                      ? {
-                          marginTop: "10px",
-                          border: "1px solid green",
-                          padding: "10px",
-                        }
-                      : {
-                          marginTop: "10px",
-                          border: "1px solid red",
-                          padding: "10px",
-                        }
-                  }
-                  allowClear
+                  style={{
+                    marginTop: "10px",
+                    width: "98%",
+                  }}
+                  error={contacto.length !== 9 && true}
                 />
               </div>
-              <div className='inputPassword input'>
-                <Input.Password
-                  className={password && validPassword ? "valido" : "invalido"}
+              <div>
+                <TextField
                   type={check ? "text" : "password"}
                   name='password'
-                  placeholder='Digite a sua senha'
+                  label='Palavra Passe'
                   required
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
-                  autoComplete='of'
                   title='8 ou 24 character, Maiúscula e Minúscula, número e entre !@#$%*'
-                  showCount
-                  minLength={8}
                   prefix={<PiPassword />}
-                  style={
-                    password && validPassword
-                      ? {
-                          marginTop: "10px",
-                          border: "1px solid green",
-                          padding: "10px",
-                        }
-                      : {
-                          marginTop: "10px",
-                          border: "1px solid red",
-                          padding: "10px",
-                        }
-                  }
-                  allowClear
+                  style={{
+                    marginTop: "12px",
+                    width: "98%",
+                  }}
+                  error={!password || (!validPassword && true)}
                 />
               </div>
 
@@ -448,39 +398,32 @@ function CadastrarUsuario() {
                 </div>
               </div>
 
-              <div className='input'>
-                <Input.Password
+              <div>
+                <TextField
                   type={check ? "text" : "password"}
                   name='confirmarPassword'
-                  placeholder='Confirme a sua senha'
+                  label='Confirme a senha'
                   required
                   value={confPassword}
                   onChange={(e) => {
                     setConfPassword(e.target.value);
                   }}
                   title='Confirme a Sua Senha'
-                  showCount
-                  minLength={9}
                   prefix={<PiPassword />}
-                  style={
-                    senhaDif
-                      ? {
-                          marginTop: "10px",
-                          border: "1px solid red",
-                          padding: "10px",
-                        }
-                      : {
-                          marginTop: "10px",
-                          border: "1px solid #000",
-                          padding: "10px",
-                        }
-                  }
-                  allowClear
+                  style={{
+                    marginTop: "14px",
+
+                    width: "98%",
+                  }}
+                  error={!confPassword || (password !== confPassword && true)}
                 />
               </div>
             </div>
 
             <p className='errorPasswordConf'>{errorPasswordConf}</p>
+            <div>
+              <Checkbox onClick={() => setCheck(!check)} /> Mostrar a Senha
+            </div>
             <div
               style={{
                 display: "flex",
@@ -489,16 +432,16 @@ function CadastrarUsuario() {
               }}>
               <Button
                 style={{
-                  display: "flex",
                   textAlign: "center",
-                  padding: "10px",
                   marginLeft: "10px",
+                  color: "#fff",
+                  width: "80px",
                 }}
                 type='primary'
                 title='Voltar'
-                onClick={(e) => voltar(e)}
-                icon={<FcPrevious />}
-              />
+                onClick={(e) => voltar(e)}>
+                Voltar
+              </Button>
 
               <Button
                 style={
@@ -507,11 +450,13 @@ function CadastrarUsuario() {
                   nome &&
                   bi &&
                   contacto.length === 9 &&
+                  confPassword === password &&
                   confPassword && {
                     display: "flex",
-                    textAlign: "center",
-                    padding: "10px",
                     justifyContent: "center",
+                    alignContent: "center",
+                    textAlign: "center",
+                    fontSize: "14pt",
                     background: "green",
                     color: "#fff",
                   }
@@ -524,7 +469,7 @@ function CadastrarUsuario() {
                   nome &&
                   bi &&
                   contacto.length === 9 &&
-                  confPassword
+                  confPassword === password
                     ? false
                     : true
                 }>

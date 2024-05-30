@@ -40,6 +40,10 @@ const Modal = () => {
         open={isVisible}
         zIndex={3}
         okText='Fechar'
+        cancelText=''
+        cancelButtonProps={{
+          disabled: true,
+        }}
         closable={false}
         onOk={() => dispatch(toggleModal(!isVisible))}>
         {publicacao?.publicacao !== null ? (

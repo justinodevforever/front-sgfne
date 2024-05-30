@@ -24,11 +24,11 @@ const UseWarning = ({ message }) => {
     <>
       {isVisibleWarning && (
         <>
-          <div className="warning">
-            <CiWarning size={80} color="orange" className="check" />
+          <div className='warning'>
+            <CiWarning size={80} color='orange' className='check' />
             <h2>{message}</h2>
           </div>
-          <div className="ovefloyWarning"></div>
+          <div className='ovefloyWarning'></div>
         </>
       )}
     </>

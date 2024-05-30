@@ -1,4 +1,4 @@
-@import '../../../../../../style/variable.scss';
+@import "../../../../../../style/variable.scss";
 .opcoes {
   display: flex;
   justify-content: space-between;
@@ -95,8 +95,8 @@ h3 {
 img {
   width: 50px;
   height: 50px;
-  // position: absolute;
   right: 20px;
+  margin-bottom: 0px;
 }
 .imprimir span {
   display: flex;
@@ -111,7 +111,7 @@ img {
   gap: 10px;
 }
 
-select {
+.tabelaPropina select {
   width: 100px;
   height: 30px;
   font-size: 14pt;
@@ -125,11 +125,11 @@ label {
   align-items: center;
   justify-content: center;
 }
-.input button{
+.input button {
   background-color: #a31543;
   color: $white;
 }
-.input input{
+.input input {
   border: 1px solid #000;
   width: 20%;
 }
@@ -161,6 +161,7 @@ label {
   display: flex;
   flex-direction: column;
   margin: auto;
+  margin-top: 0px;
 }
 
 @media (max-width: 300px) {
@@ -168,8 +169,6 @@ label {
     justify-content: space-between;
   }
 }
-
-
 
 @keyframes outline {
   from {

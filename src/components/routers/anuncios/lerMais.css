@@ -3,3 +3,7 @@
   cursor: pointer;
   overflow-y: auto;
 }
+p {
+  display: flex;
+  white-space: break-spaces;
+}

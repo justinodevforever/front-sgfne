@@ -67,14 +67,12 @@ const Root = () => {
                 <Link onClick={(e) => clicRecurso(e)}>Ir</Link>
               </li>
             </ul>
+            <div className='divlink'>
+              <Link to={"/login"}>Entrar</Link>
+              <Link to={"/cadastro"}>Criar Conta</Link>
+            </div>
           </div>
         </Content>
-        <Footer>
-          <div className='divlink'>
-            <Link to={"/login"}>Entrar</Link>
-            <Link to={"/cadastro"}>Criar Conta</Link>
-          </div>
-        </Footer>
       </Layout>
     </div>
   );

@@ -14,6 +14,7 @@ import {
 } from "../../../../../store/ui-slice";
 import Loader from "../../../hook/load/Loader";
 import { Button, Form, Input, Space, Alert, message, Popconfirm } from "antd";
+import Processing from "../../../hook/process/Processing";
 
 const Recurso = () => {
   const [bi, setBi] = useState("");
@@ -41,16 +42,12 @@ const Recurso = () => {
   const navigate = useNavigate();
   const [valor, setValor] = useState("");
   const [ativar, setAtivar] = useState(false);
-  const [visivel, setVisivel] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(true);
   const [id, setId] = useState(0);
   const [message, setMessage] = useState("");
-  const { isClic } = useSelector((state) => state.ui.pagou);
-  const { isVisibleConfirmar } = useSelector(
-    (state) => state.ui.ModalConfirmar
-  );
+
   const { isVisibleError } = useSelector((state) => state.ui.ModalError);
-  const { isVisibleWarning } = useSelector((state) => state.ui.ModalWarning);
-  const dispatch = useDispatch();
+
   const dispatchError = useDispatch();
   const dispatchConfirmar = useDispatch();
   const dispatchWarning = useDispatch();
@@ -62,6 +59,7 @@ const Recurso = () => {
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
     getAno();
+    buscarEstudante();
   }, []);
   useEffect(() => {
     buscaSemestre();
@@ -93,19 +91,25 @@ const Recurso = () => {
   }, [disciplina]);
 
   const buscarEstudante = async () => {
-    const { data } = await api.post("/divida", { bi });
-    console.log(data);
-    if (data?.message === "está com dívida") {
-      setCurso("");
-      setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
-      dispatchWarning(toggleModalWarning(true));
+    const response = await api.post("/estudante/user", {
+      fk_user: sessionStorage.getItem("id"),
+    });
+    if (!response.data) {
+      setMessage("Não Es Estudante!");
+      return;
+    }
+    const { data } = await api.post("/divida", {
+      fk_estudante: response.data.id,
+    });
 
+    if (data?.message === "está com dívida") {
+      setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
       return;
     }
 
     await api
-      .post("/search/estudante/bi", {
-        bi,
+      .post("/estudante/user", {
+        fk_user: sessionStorage.getItem("id"),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -117,6 +121,8 @@ const Recurso = () => {
         setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
+        setBi(data.data.bi);
+        setIsProcessing(false);
       })
       .catch((err) => console.log(err));
   };
@@ -128,7 +134,7 @@ const Recurso = () => {
           navigate("/login");
           return;
         }
-        setSemestre(data.data[0].nome);
+        setSemestre(data.data[0]?.nome);
         setSemestres(data.data);
       })
       .catch((err) => console.log(err));
@@ -144,8 +150,8 @@ const Recurso = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
-        setFk_disciplina(data.data.id);
+
+        setFk_disciplina(data.data?.id);
       })
       .catch((err) => console.log(err));
   };
@@ -160,7 +166,7 @@ const Recurso = () => {
         }
 
         setAnos(data.data);
-        setAno(data.data[0].ano);
+        setAno(data.data[0]?.ano);
       })
       .catch((err) => console.log(err));
   };
@@ -252,7 +258,7 @@ const Recurso = () => {
           navigate("/login");
           return;
         }
-        setFk_ano(data.data.id);
+        setFk_ano(data.data?.id);
       })
       .catch((err) => console.log(err));
   };
@@ -298,7 +304,7 @@ const Recurso = () => {
         fk_semestre,
         fk_ano,
       })
-      .then((data) => {
+      .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
@@ -308,9 +314,23 @@ const Recurso = () => {
           return dispatchError(toggleModalError(isVisibleError));
         }
         if (data.data?.message === "sucess") {
-          dispatchConfirmar(toggleModalConfirmar(true));
-          setId(data.data.response.id);
-          setVisivel(true);
+          const response = await api.post("/solicitacao", {
+            fk_estudante,
+            tipoServico: "Recurso",
+            status: "Pendente",
+          });
+
+          if (response.data.message === "error") {
+            dispatchError(toggleModalError(true));
+            setAtivar(false);
+
+            return;
+          }
+          if (response.data.message === "sucess") {
+            dispatchConfirmar(toggleModalConfirmar(true));
+            setId(data.data.response.id);
+            setAtivar(false);
+          }
         }
       })
       .catch((error) => console.log(error));
@@ -321,49 +341,45 @@ const Recurso = () => {
       <UseSucess />
       <UseErro />
       <UseWarning message={message} />
+      {isProcessing && <Processing message={message} />}
 
       <Space
         style={{
-          margin: "30px auto",
-          marginTop: "30px",
+          width: "100%",
+          marginTop: "10px",
           alignItems: "center",
           justifyContent: "center",
         }}>
-        <div className='conteudo'>
-          <Form className='formBir' onSubmitCapture={() => buscarEstudante()}>
-            <Input.Search
-              placeholder='Número de BI do Estudante'
-              onChange={(e) => setBi(e.target.value)}
-              className='search'
-              autoFocus
-              maxLength={14}
-              onSearch={() => buscarEstudante()}
-              style={{ width: "90%" }}
-            />
-          </Form>
-
+        <div className='conteudo-recurso'>
+          <h3>Pagamento de Recurso</h3>
           <Space
             wrap
+            align='center'
             style={{
+              width: "98%",
               alignItems: "center",
               justifyContent: "center",
+              padding: "10px 0px",
+              background: "#b7b6b6",
+              margin: "auto",
             }}>
-            <div
+            <Space
+              wrap
+              align='center'
               style={{
                 display: "flex",
-                flexWrap: "wrap",
-                gap: "20px",
+                width: "100%",
+                gap: "3px",
+                alignItems: "center",
+                justifyContent: "center",
               }}>
               <label htmlFor='valor'>
-                Valor
+                Valor:{" "}
                 <Input
                   onChange={(e) => setValor(e.target.value)}
                   type='number'
                   placeholder='Digite o valor'
                   aria-labelledby='home'
-                  style={{
-                    border: "1px solid #a31541",
-                  }}
                 />
               </label>
               <label htmlFor='rupe'>
@@ -374,18 +390,15 @@ const Recurso = () => {
                   onChange={(e) => setRupe(e.target.value)}
                   placeholder='Digite o Nº de RUPE'
                   maxLength={20}
-                  className='rupe'
-                  style={{
-                    border: "1px solid #a31541",
-                  }}
                 />
               </label>
-            </div>
-            <div
+            </Space>
+            <Space
+              wrap
               style={{
                 display: "flex",
-                flexWrap: "wrap",
-                gap: "20px",
+                alignItems: "center",
+                justifyContent: "center",
               }}>
               <label htmlFor='cadeira'>
                 Ano Lectivo:
@@ -450,63 +463,77 @@ const Recurso = () => {
                   ))}
                 </select>
               </label>
-            </div>
+            </Space>
           </Space>
 
           <hr />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
-              alignItems: "center",
-            }}>
-            {curso && <h3>Dados do Estudante</h3>}
-            <br />
-            {curso && (
+          {curso && nome && bi && (
+            <div
+              className='dados-estudante'
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "98%",
+                alignItems: "center",
+                background: "#b7b6b6",
+                padding: "10px 0px",
+                margin: "auto",
+              }}>
+              <h3>Dados do Estudante</h3>
+              <br />
               <label htmlFor='nome'>
                 Nome:
-                <Input type='text' value={nome} readOnly className='input' />
+                <Input type='text' value={nome} readOnly />
               </label>
-            )}
-            {curso && (
-              <label htmlFor='curso'>
+              <label htmlFor='nome'>
                 Curso:
-                <input type='text' value={curso} readOnly className='input' />
+                <Input type='text' value={curso} readOnly />
               </label>
-            )}
-          </div>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "auto",
-            }}>
-            {!ativar && (
-              <Button
-                onClick={() => hendleRecurso()}
-                className='btn'
+              <label htmlFor='nome'>
+                Nº B.I::
+                <Input
+                  type='text'
+                  value={bi}
+                  readOnly
+                  onChange={(e) => setBi(e.target.value)}
+                />
+              </label>
+
+              {!ativar && (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <Button
+                    type='primary'
+                    onClick={() => hendleRecurso()}
+                    className='btn'
+                    style={{
+                      display: "flex",
+                      width: "50%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}>
+                    Pagar
+                  </Button>
+                </div>
+              )}
+              <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
+                  width: "100%",
                   justifyContent: "center",
+                  alignItems: "center",
                 }}>
-                Fazer Pagamento
-              </Button>
-            )}
-            {ativar && <Loader />}
-          </div>
+                {ativar && <Loader />}
+              </div>
+            </div>
+          )}
         </div>
       </Space>
-
-      <RelatorioSobreCadeira
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo={"Recurso"}
-        id={id}
-      />
     </>
   );
 };

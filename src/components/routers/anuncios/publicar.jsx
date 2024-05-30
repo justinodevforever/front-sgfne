@@ -53,12 +53,12 @@ const Publicar = () => {
       });
   };
   return (
-    <div className="container-publicar">
+    <div className='container-publicar'>
       <form onSubmit={(e) => hendlePublicacao(e)}>
         <textarea
-          name="publicacao"
-          placeholder="O que estas a pensar!"
-          id="publicacao"
+          name='publicacao'
+          placeholder='O que estas a pensar!'
+          id='publicacao'
           value={publicacao}
           onChange={(e) => {
             setPublicacao(e.target.value);
@@ -67,18 +67,18 @@ const Publicar = () => {
         />
 
         <input
-          type="file"
-          name="file"
-          id="input_file"
-          className="foto-publicacaos"
+          type='file'
+          name='file'
+          id='input_file'
+          className='foto-publicacaos'
           onChange={(e) => {
             setFile(e.target.files[0]);
           }}
           hidden
         />
-        <div className="imojiPublicar">
+        <div className='imojiPublicar'>
           <div
-            className="image"
+            className='image'
             style={{
               width: "90px",
               height: "90px",
@@ -87,8 +87,8 @@ const Publicar = () => {
             }}>
             {!file && (
               <img
-                src="../../../image/emptyImage.jpg"
-                alt="image"
+                src='../../../image/emptyImage.jpg'
+                alt='image'
                 width={"50px"}
                 height={"50px"}
                 style={{
@@ -99,7 +99,7 @@ const Publicar = () => {
             {file && (
               <img
                 src={URL.createObjectURL(file)}
-                alt="image"
+                alt='image'
                 width={"90px"}
                 height={"90px"}
                 style={{
@@ -108,14 +108,14 @@ const Publicar = () => {
               />
             )}
           </div>
-          <label htmlFor="input_file">
-            <BiSolidImage className="imagePublicar" color="#000" />
+          <label htmlFor='input_file'>
+            <BiSolidImage className='imagePublicar' color='#000' />
           </label>
           <div className={"container-emojiPublicar"}>
             <BiWinkSmile
               cursor={"pointer"}
               size={"30px"}
-              color="#000"
+              color='#000'
               onClick={() => {
                 setIsPick(!isPick);
               }}
@@ -123,14 +123,14 @@ const Publicar = () => {
 
             <div className={isPick ? "abrirEmoji" : "feicharEmoji"}>
               <Picker
-                width="40px"
-                size="20px"
+                width='40px'
+                size='20px'
                 data={data}
-                previewPosition="fixed"
+                previewPosition='fixed'
                 onEmojiSelect={(e) => {
                   setPublicacao(publicacao + e.native);
                 }}
-                className="emoji"
+                className='emoji'
               />
             </div>
           </div>
@@ -139,7 +139,7 @@ const Publicar = () => {
         {publicacao && (
           <>
             {!clicou && (
-              <button type="submit" id="btnPublicar">
+              <button type='submit' id='btnPublicar'>
                 Publicar
               </button>
             )}

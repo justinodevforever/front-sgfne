@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import "./confirmar.scss";
+import "./sucess.scss";
 import { FaCheck } from "react-icons/fa";
 import { CiCircleCheck } from "react-icons/ci";
 import { useEffect } from "react";
@@ -24,12 +24,12 @@ const UseSucess = () => {
   return (
     <>
       {isVisibleConfirmar && (
-        <div className="confirmar">
-          <CiCircleCheck size={80} color="green" className="check" />
+        <div className='confirmar'>
+          <CiCircleCheck size={80} color='green' className='check' />
           <h2>Sucesso!</h2>
         </div>
       )}
-      {isVisibleConfirmar && <div className="ovefloyConfirmar"></div>}
+      {isVisibleConfirmar && <div className='ovefloyConfirmar'></div>}
     </>
   );
 };

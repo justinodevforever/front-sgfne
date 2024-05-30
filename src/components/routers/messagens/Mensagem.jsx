@@ -27,6 +27,7 @@ function Mensagem() {
 
   const bottonRef = useRef();
   const [contact] = useSearchParams();
+  const [sms] = useSearchParams();
   const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
@@ -69,21 +70,21 @@ function Mensagem() {
       contactId: contact.get("contact"),
     };
     await api
-      .get(`message/naolida/${sessionStorage.getItem("id")}`)
+      .get(`message/naolida/${sms.get("sms")}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        if (!data.data) return
-          data.data?.map(async (m) => {
-            // console.log(m);
-         const response =   await api.put(`/updatemensagem/${m.id}`, {
-              lida: true,
-            });
-            
-            socket.emit("notifyMessage", notify);
-          });
+        console.log(data.data, contact.get("sms"));
+        if (!data.data) return;
+        // data.data?.map(async (m) => {
+        //   await api.put(`/updatemensagem/${m.id}`, {
+        //     lida: true,
+        //   });
+
+        //   socket.emit("notifyMessage", notify);
+        // });
       })
       .catch((err) => console.log(err));
   };
@@ -95,7 +96,7 @@ function Mensagem() {
           navigate("/login");
           return;
         }
-   
+
         setMessage(data.data);
       })
       .catch((err) => console.log(err));

@@ -55,6 +55,12 @@ import Recurso from "./Comunicado/Services/recurso/Recurso.jsx";
 import Solicitacao from "./Comunicado/config/solicitções/Solicitacao.jsx";
 import MinhaSolicitacao from "./Comunicado/estudante/minhas Solicitações/MinhaSolicitacao.jsx";
 import AtualizarPropina from "./Comunicado/config/dashboard/actualizações de serviços/actualizacao Propina/AtualizarPropina.jsx";
+import PropinaDashboard from "./Comunicado/config/dashboard/Services/propinas/Propinas.jsx";
+import ExameEspecialDashboard from "./Comunicado/config/dashboard/Services/exame especial/ExameEspecial.jsx";
+import SobreCadeirasDashboard from "./Comunicado/config/dashboard/Services/sobre cadeiras/SobreCadeiras.jsx";
+import DeclaracaoDashboard from "./Comunicado/config/dashboard/Services/declarações/Declaracao.jsx";
+import ReconfirmacaoDashboard from "./Comunicado/config/dashboard/Services/reconfirmação/Reconfirmacao.jsx";
+import RecursoDashboard from "./Comunicado/config/dashboard/Services/recurso/Recurso.jsx";
 
 const Routeting = () => {
   return (
@@ -72,6 +78,62 @@ const Routeting = () => {
               </ProtectRouter>
             }
           />
+
+          <Route
+            exact
+            path='propina'
+            element={
+              <ProtectRouter>
+                <PropinaDashboard />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='exame especial'
+            element={
+              <ProtectRouter>
+                <ExameEspecialDashboard />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='cadeira de atraso'
+            element={
+              <ProtectRouter>
+                <SobreCadeirasDashboard />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='recurso'
+            element={
+              <ProtectRouter>
+                <RecursoDashboard />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='declaracao'
+            element={
+              <ProtectRouter roles={"user"}>
+                <DeclaracaoDashboard />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='reconfirmacao'
+            element={
+              <ProtectRouter>
+                <ReconfirmacaoDashboard />
+              </ProtectRouter>
+            }
+          />
+
           <Route
             path='atualizar propina'
             element={

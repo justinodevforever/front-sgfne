@@ -25,7 +25,10 @@
 }
 
 .root .benvindo ul li:hover {
-  scale: 1.1;
+  scale: 0.9;
+}
+.root .benvindo a:hover {
+  opacity: 0.7;
 }
 .root .benvindo ul li .title {
   color: $rosa;

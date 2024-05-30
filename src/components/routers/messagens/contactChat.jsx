@@ -62,7 +62,6 @@ const ContactChat = ({ contact }) => {
           navigate("/login");
           return;
         }
-
         setMessage(data.data[0]);
       })
       .catch((err) => console.log(err));
@@ -76,7 +75,7 @@ const ContactChat = ({ contact }) => {
       paragraph={{ rows: 4 }}>
       <div className='container-contactChat'>
         <div className='conteudoChat'>
-          {contact?.sender?.id !== userId && (
+          {message?.conactUSaer?.sender?.id !== userId && (
             <div
               className={
                 message?.lida === false &&
@@ -104,8 +103,8 @@ const ContactChat = ({ contact }) => {
               </div>
 
               <Link
-                to={`/main/mensagem/${contact?.sender?.id}?contact=${contact?.id}`}>
-                {contact?.sender?.nome}
+                to={`/main/mensagem/${message?.conactUSaer?.sender?.id}?contact=${message?.conactUSaer?.id}?sms=${message?.id}`}>
+                {message?.conactUSaer?.sender?.nome}
                 <br />
                 {message?.sms && (
                   <span className='sms'>
@@ -115,7 +114,7 @@ const ContactChat = ({ contact }) => {
               </Link>
             </div>
           )}
-          {contact?.receiver?.id !== userId && (
+          {message?.conactUSaer?.receiver?.id !== userId && (
             <div
               className={
                 message?.lida === false &&
@@ -146,8 +145,8 @@ const ContactChat = ({ contact }) => {
                 )}
               </div>
               <Link
-                to={`/main/mensagem/${contact?.receiver?.id}?contact=${contact?.id}`}>
-                {contact?.receiver?.nome}
+                to={`/main/mensagem/${message?.conactUSaer?.receiver?.id}?contact=${message?.conactUSaer?.id}?sms=${message?.id}`}>
+                {message?.conactUSaer?.receiver?.nome}
                 <br />
                 {message?.sms && (
                   <span className='sms'>

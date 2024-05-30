@@ -14,6 +14,7 @@ import {
   IconButton,
   InputAdornment,
   TextField,
+  Select,
 } from "@mui/material";
 import { FileTextFilled } from "@ant-design/icons";
 import {
@@ -26,6 +27,7 @@ import {
 
 const MinhaSolicitacao = () => {
   const [solicitacoes, setSolicitacoes] = useState([]);
+  const [tex, setTex] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     getSolicitacoes();
@@ -50,11 +52,18 @@ const MinhaSolicitacao = () => {
         setSolicitacoes(data.data);
       });
   };
+  const data = [
+    {
+      value: "homem",
+      label: "home",
+    },
+  ];
+  console.log(tex);
   return (
     <div className='solicitacao'>
       {solicitacoes?.length > 0 && (
         <>
-          <h1>Minhas Solitações</h1>
+          <h1>Minhas Solicitações</h1>
 
           {solicitacoes.map((s) => (
             <div className='conteudo' key={s?.id}>
@@ -84,7 +93,12 @@ const MinhaSolicitacao = () => {
         </>
       )}
       {solicitacoes?.length === 0 && (
-        <h3 style={{ display: "flex", marginTop: "40%" }}>
+        <h3
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "40px",
+          }}>
           Nenhuma Solicitação Feita
         </h3>
       )}

@@ -14,6 +14,8 @@ import UseWarning from "../../../hook/massege/warning/UseWarning";
 import UseSucess from "../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../hook/massege/Error/UseErro";
 import { Form, Input, Space } from "antd";
+import Loader from "../../../hook/load/Loader";
+import Processing from "../../../hook/process/Processing";
 
 const Propina = ({ tipo }) => {
   const [bi, setBi] = useState("");
@@ -34,6 +36,8 @@ const Propina = ({ tipo }) => {
   const [ano, setAno] = useState("");
   const [semestre, setSemestre] = useState("");
   const [visivel, setVisivel] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(true);
   const navigate = useNavigate();
   const [periodo, setPeriodo] = useState("");
   const [id, setId] = useState("");
@@ -49,7 +53,7 @@ const Propina = ({ tipo }) => {
     getSemestre();
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
-    // tiposServicos();
+    buscarEstudante();
   }, []);
   useEffect(() => {
     buscaSemestre();
@@ -68,9 +72,18 @@ const Propina = ({ tipo }) => {
   }, [ano]);
 
   const buscarEstudante = async () => {
+    const response = await api.post("/estudante/user", {
+      fk_user: sessionStorage.getItem("id"),
+    });
+
+    if (!response.data || response.data === null) {
+      setMessage("Não Es Estudante!");
+      return;
+    }
+
     await api
-      .post("search/estudante/bi", {
-        bi,
+      .post("estudante/user", {
+        fk_user: sessionStorage.getItem("id"),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -79,12 +92,14 @@ const Propina = ({ tipo }) => {
         }
 
         setCurso(data.data.curso.curso);
+        setBi(data.data.bi);
         setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
         setPeriodo(data?.data?.periodo);
         if (data.data.periodo === "Diúrno") setValor(1900);
         else if (data.data.periodo === "Pós-Laboral") setValor(15000);
+        setIsProcessing(false);
       })
       .catch((err) => console.log(err));
   };
@@ -124,8 +139,10 @@ const Propina = ({ tipo }) => {
           return;
         }
 
-        setAnos(data.data);
-        setAno(data.data[0].ano);
+        if (!data.data || data.data !== null) {
+          setAnos(data.data);
+          setAno(data.data[0].ano);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -155,7 +172,7 @@ const Propina = ({ tipo }) => {
           navigate("/login");
           return;
         }
-        setFk_semestre(data.data.id);
+        setFk_semestre(data.data?.id);
       })
       .catch((err) => console.log(err));
   };
@@ -170,7 +187,7 @@ const Propina = ({ tipo }) => {
           navigate("/login");
           return;
         }
-        setFk_ano(data.data.id);
+        setFk_ano(data.data?.id);
       })
       .catch((err) => console.log(err));
   };
@@ -187,6 +204,7 @@ const Propina = ({ tipo }) => {
       dispatchError(toggleModalError(true));
       return;
     }
+    setIsLoad(true);
 
     await api
       .post("/propina", {
@@ -213,17 +231,19 @@ const Propina = ({ tipo }) => {
         if (data.data.message === "exist") {
           setMessage("O Mês Já Foi Pago! ");
           dispatchWarning(toggleModalWarning(true));
-
+          setIsLoad(false);
           return;
         }
         if (data.data.message === "sucess") {
           const response = await api.post("/solicitacao", {
             fk_estudante,
             tipoServico: "Propina",
+            status: "Pendente",
           });
-          console.log(response.data);
+
           if (response.data.message === "error") {
             dispatchError(toggleModalError(true));
+            setIsLoad(false);
 
             return;
           }
@@ -231,6 +251,7 @@ const Propina = ({ tipo }) => {
             dispatch(setIsClic(true));
             setId(data.data?.response?.id);
             dispatchConfirmar(toggleModalConfirmar(true));
+            setIsLoad(false);
           }
           return;
         }
@@ -242,48 +263,92 @@ const Propina = ({ tipo }) => {
       <UseWarning message={message} />
       <UseSucess />
       <UseErro />
+      {isProcessing && <Processing message={message} />}
 
       <div className='propina'>
         <div className='conteudoProp'>
+          <h3>Pagamento de Propina</h3>
           <Form className='formBiPropina'>
-            <Space wrap>
-              <Input.Search
-                type='search'
-                placeholder='Número de BI do Estudante'
-                onChange={(e) => setBi(e.target.value)}
-                value={bi}
-                autoFocus
-                maxLength={14}
-                onSearch={() => buscarEstudante()}
-                style={{ width: "90%", border: "1px solid #000" }}
-              />
-              <div className='inputDesabled'>
-                <label htmlFor='valor'>
-                  Valor:{""}
-                  <input
+            <Space
+              wrap
+              style={{
+                display: "flex",
+                width: "100%",
+                padding: "10px 0px",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#fff",
+                gap: "9px",
+              }}>
+              <label
+                htmlFor='valor'
+                style={{
+                  color: "#fff",
+                  alignItems: "center",
+                }}>
+                Valor:{""}
+                <div
+                  style={{
+                    color: "#fff",
+                  }}>
+                  <Input
                     type='number'
-                    className='inpform valor'
-                    disabled
+                    className='inpform1'
+                    readOnly
                     value={valor}
                     onChange={(e) => setValor(e.target.value)}
-                  />
-                </label>
-                <label htmlFor='period'>
-                  Período:{""}
-                  <Input
-                    type='text'
-                    disabled
-                    value={periodo}
-                    onChange={(e) => setPeriodo(e.target.value)}
-                    className='inpform'
-                  />
-                </label>
-              </div>
+                  />{" "}
+                  Kz
+                </div>
+              </label>
+              <label
+                htmlFor='period'
+                style={{
+                  color: "#fff",
+                  alignItems: "center",
+                }}>
+                Período:{""}
+                <Input
+                  type='text'
+                  className='inpform1'
+                  readOnly
+                  value={periodo}
+                  onChange={(e) => setPeriodo(e.target.value)}
+                />
+              </label>
             </Space>
           </Form>
           <form className='form' onSubmit={(e) => hendlePagamento(e)}>
-            <Space wrap style={{ padding: "12px" }}>
-              <label htmlFor='mes'>
+            <Space
+              wrap
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                background: "#b7b6b6",
+                paddingBottom: "10px",
+                paddingTop: "10px",
+              }}>
+              <label
+                htmlFor='rupe'
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  alignItems: "center",
+                }}>
+                Nº RUPE:
+                <Input
+                  type='number'
+                  placeholder='Digite o Nº de RUPE'
+                  value={rupe}
+                  onChange={(e) => setRupe(e.target.value)}
+                  maxLength={20}
+                />
+              </label>
+              <label
+                htmlFor='mes'
+                style={{
+                  alignItems: "center",
+                }}>
                 Mês:
                 <select onChange={(e) => setMes(e.target.value)}>
                   <option value={"Escolha"}>Escolha...</option>
@@ -295,7 +360,11 @@ const Propina = ({ tipo }) => {
                 </select>
               </label>
 
-              <label htmlFor='semestre'>
+              <label
+                htmlFor='semestre'
+                style={{
+                  alignItems: "center",
+                }}>
                 Semestre:
                 <select onChange={(e) => setSemestre(e.target.value)}>
                   <option value={"Escolha"}>Escolha...</option>
@@ -306,7 +375,11 @@ const Propina = ({ tipo }) => {
                   ))}
                 </select>
               </label>
-              <label htmlFor='anoLetivo'>
+              <label
+                htmlFor='anoLetivo'
+                style={{
+                  alignItems: "center",
+                }}>
                 Ano Lectivo
                 <select onChange={(e) => setAno(e.target.value)}>
                   <option value={"Escolha"}>Escolha...</option>
@@ -317,17 +390,7 @@ const Propina = ({ tipo }) => {
                   ))}
                 </select>
               </label>
-              <label htmlFor='rupe'>
-                Nº RUPE:
-                <Input
-                  type='number'
-                  placeholder='Digite o Nº de RUPE'
-                  value={rupe}
-                  onChange={(e) => setRupe(e.target.value)}
-                  maxLength={20}
-                  style={{ width: "100%", border: "1px solid #a31543" }}
-                />
-              </label>
+
               <input
                 type='text'
                 value={fk_mes}
@@ -348,68 +411,81 @@ const Propina = ({ tipo }) => {
               />
             </Space>
             <hr />
-            {bi !== "" && nome !== "" && curso !== "" ? (
+            {nome !== "" && curso !== "" && bi && (
               <div
+                className='dados-estudantePropina'
                 style={{
                   display: "flex",
+                  width: "100%",
                   flexDirection: "column",
                   alignItems: "center",
+                  background: "#b7b6b6",
                 }}>
                 <h2>Dados do Estudante</h2>
-                <Space wrap align='center'>
-                  <br />
+                <Space
+                  align='center'
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    flexDirection: "column",
+                  }}>
                   <label htmlFor='nome'>
                     {" "}
                     Nome:
-                    <input
+                    <Input
                       type='text'
                       value={nome}
                       onChange={(e) => setNome(e.target.value)}
-                      disabled
-                      className='input'
-                      style={{
-                        padding: "4px",
-                        fontSize: "12pt",
-                        width: "auto",
-                      }}
+                      readOnly
                     />
                   </label>
-                  <label htmlFor='curso'>
+
+                  <label htmlFor='nome'>
+                    {" "}
                     Curso:
-                    <input
+                    <Input
                       type='text'
                       value={curso}
                       onChange={(e) => setCurso(e.target.value)}
-                      disabled
-                      name='curso'
-                      className='input'
-                      style={{
-                        padding: "4px",
-                        fontSize: "12pt",
-                        width: "auto",
-                      }}
+                      readOnly
+                    />
+                  </label>
+                  <label htmlFor='nome'>
+                    {" "}
+                    Nº B.I:
+                    <Input
+                      type='text'
+                      value={bi}
+                      onChange={(e) => setBi(e.target.value)}
+                      readOnly
                     />
                   </label>
                 </Space>
-                <button className='btn'>Fazer Pagamento</button>
+
+                {!isLoad && (
+                  <button className='btn' onClick={(e) => hendlePagamento(e)}>
+                    Fazer Pagamento
+                  </button>
+                )}
+                {isLoad && (
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginTop: "20px",
+                    }}>
+                    <Loader />
+                  </div>
+                )}
               </div>
-            ) : (
-              <></>
             )}
           </form>
-          <div className='imprimirPropina' onClick={() => setVisivel(true)}>
-            <PiPrinter color='#fff' size={20} cursor={"pointer"} />
-            <span>Relatório</span>
-          </div>
         </div>
       </div>
-
-      <RelatorioPropina
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo={tipo}
-        id={id}
-      />
     </>
   );
 };

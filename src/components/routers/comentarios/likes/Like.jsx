@@ -6,9 +6,11 @@ import { api } from "../../../../../auth/auth";
 import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { Spin } from "antd";
+import Loader from "../../hook/load/Loader";
 
 const LikeComentarioPublicacao = ({ coment }) => {
   const [clickLike, setClickLike] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [like, setLike] = useState(0);
   const [likes, setLikes] = useState({});
   const id = sessionStorage.getItem("id");
@@ -38,6 +40,7 @@ const LikeComentarioPublicacao = ({ coment }) => {
   };
   async function updateLike(e) {
     e.preventDefault();
+    setIsLoading(true);
     const sms = {
       userId: id,
       adId: coment?.id,
@@ -45,14 +48,16 @@ const LikeComentarioPublicacao = ({ coment }) => {
     socketInstance.current.emit("clicLikeComentarioPublicacao", sms);
 
     if (likes?.fk_user === id) {
-      const { data } = await api.put(`/like/coment/publicacao/${likes?.id}`, {
+      await api.put(`/like/coment/publicacao/${likes?.id}`, {
         like: false,
       });
       setClickLike(true);
+      setIsLoading(false);
     }
   }
   async function updateLikeFalse(e) {
     e.preventDefault();
+    setIsLoading(true);
     const sms = {
       userId: id,
       adId: coment?.id,
@@ -64,7 +69,7 @@ const LikeComentarioPublicacao = ({ coment }) => {
         like: true,
       });
       setClickLike(true);
-      co;
+      setIsLoading(false);
     } else {
       await api.post(`/like/coment/publicacao`, {
         like: true,
@@ -73,9 +78,9 @@ const LikeComentarioPublicacao = ({ coment }) => {
       });
 
       setClickLike(true);
+      setIsLoading(false);
     }
   }
-  useEffect(() => {}, []);
 
   useEffect(() => {
     const receiverCom = (data) => {
@@ -95,27 +100,32 @@ const LikeComentarioPublicacao = ({ coment }) => {
 
   return (
     <div className='container-likeComent'>
-      <Link className='likeComent'>
-        {likes?.like === true ? (
-          <FcLike
-            onClick={(e) => {
-              updateLike(e);
-            }}
-            size={"20px"}
-          />
-        ) : (
-          <FcDislike
-            onClick={(e) => {
-              updateLikeFalse(e);
-            }}
-            size={"20px"}
-          />
-        )}
+      {!isLoading && (
+        <Link className='likeComent'>
+          {likes?.like === true ? (
+            <FcLike
+              onClick={(e) => {
+                updateLike(e);
+              }}
+              size={"20px"}
+            />
+          ) : (
+            <FcDislike
+              onClick={(e) => {
+                updateLikeFalse(e);
+              }}
+              size={"20px"}
+            />
+          )}
 
-        {like !== 0 && (
-          <>{Number(like) > 100 ? <span>{+100}</span> : <span>{like}</span>}</>
-        )}
-      </Link>
+          {like !== 0 && (
+            <>
+              {Number(like) > 100 ? <span>{+100}</span> : <span>{like}</span>}
+            </>
+          )}
+        </Link>
+      )}
+      <div>{isLoading && <Loader />}</div>
     </div>
   );
 };
