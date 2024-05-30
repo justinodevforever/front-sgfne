@@ -119,16 +119,7 @@ const Publicacao = () => {
           </div>
         </PegarPermissoes>
 
-        <Space
-          wrap
-          align='center'
-          className='container-publicacao'
-          style={
-            publicacao.length <= 2 && {
-              justifyContent: "center",
-              alignItems: "center",
-            }
-          }>
+        <div className='container-publicacao'>
           {publicacao.map((publ) => (
             <Skeleton
               loading={isClic}
@@ -162,7 +153,7 @@ const Publicacao = () => {
               </div>
             </Skeleton>
           ))}
-        </Space>
+        </div>
       </div>
     </>
   );

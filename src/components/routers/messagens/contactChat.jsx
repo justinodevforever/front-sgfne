@@ -103,7 +103,7 @@ const ContactChat = ({ contact }) => {
               </div>
 
               <Link
-                to={`/main/mensagem/${message?.conactUSaer?.sender?.id}?contact=${message?.conactUSaer?.id}?sms=${message?.id}`}>
+                to={`/main/mensagem/${message?.conactUSaer?.sender?.id}?contact=${message?.conactUSaer?.id}&sms=${message?.id}`}>
                 {message?.conactUSaer?.sender?.nome}
                 <br />
                 {message?.sms && (
@@ -137,7 +137,7 @@ const ContactChat = ({ contact }) => {
                     to={`/perfil/${sessionStorage.getItem("id")}`}>
                     <div className='online'></div>
                     <img
-                      src={`${url}/files/users/${imageReceiver.nome}`}
+                      src={`${url}/files/users/${imageReceiver?.nome}`}
                       alt={""}
                       className='perfil-image'
                     />
@@ -145,7 +145,7 @@ const ContactChat = ({ contact }) => {
                 )}
               </div>
               <Link
-                to={`/main/mensagem/${message?.conactUSaer?.receiver?.id}?contact=${message?.conactUSaer?.id}?sms=${message?.id}`}>
+                to={`/main/mensagem/${message?.conactUSaer?.receiver?.id}?contact=${message?.conactUSaer?.id}&sms=${message?.id}`}>
                 {message?.conactUSaer?.receiver?.nome}
                 <br />
                 {message?.sms && (

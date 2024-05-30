@@ -71,20 +71,19 @@ function Mensagem() {
     };
     await api
       .get(`message/naolida/${sms.get("sms")}`)
-      .then((data) => {
+      .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        console.log(data.data, contact.get("sms"));
-        if (!data.data) return;
-        // data.data?.map(async (m) => {
-        //   await api.put(`/updatemensagem/${m.id}`, {
-        //     lida: true,
-        //   });
 
-        //   socket.emit("notifyMessage", notify);
-        // });
+        if (!data.data) return;
+
+        await api.put(`/updatemensagem/${contact.get("sms")}`, {
+          lida: true,
+        });
+
+        socket.emit("notifyMessage", notify);
       })
       .catch((err) => console.log(err));
   };
@@ -108,7 +107,6 @@ function Mensagem() {
   const hourFomrmat = (data) => {
     return formaHouser(data);
   };
-
   async function hendleSubmitEnviada(e) {
     e.preventDefault();
     setIsVisible(true);
@@ -128,7 +126,6 @@ function Mensagem() {
           navigate("/login");
           return;
         }
-
         const notify = {
           sendId: sessionStorage.getItem("id"),
           receiveId: id,
@@ -148,19 +145,14 @@ function Mensagem() {
   const scrollDown = () => {
     bottonRef.current.scrollIntoView({ behavior: "smooth" });
   };
-  // if (isVisible) {
-  //   const c = document.getElementById("c");
-  //   c?.classList.add("opacity");
-  // }
 
   return (
     <div className='mens'>
       <div className='container-mensagem' id='c'>
-        {/* <OnlineUser online={online} /> */}
         <div className='container-conteudo'>
           <div>
             {message?.map((sms) => (
-              <div className='dv' key={sms.id}>
+              <div className='dv' key={sms?.id}>
                 <span className='spanDate'>
                   {dataFormatada(sms?.createdAt)}
                 </span>
