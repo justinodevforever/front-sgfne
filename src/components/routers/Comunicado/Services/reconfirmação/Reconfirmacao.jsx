@@ -190,7 +190,6 @@ const Reconfirmacao = () => {
             tipoServico: "Reconfirmação",
             status: "Pendente",
           });
-          console.log();
 
           if (response.data.message === "error") {
             dispatchError(toggleModalError(true));
