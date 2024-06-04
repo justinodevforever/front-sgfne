@@ -14,7 +14,7 @@ const MinhaSolicitacao = () => {
   }, []);
   const getSolicitacoes = async () => {
     const { data } = await api.post("/estudante/user", {
-      fk_user: sessionStorage.getItem("id"),
+      fk_user: sessionStorage?.getItem("id"),
     });
 
     if (data === null || !data?.id) {
@@ -29,6 +29,7 @@ const MinhaSolicitacao = () => {
           navigate("/login");
           return;
         }
+        if (data.data?.message === "error") return;
         setSolicitacoes(data.data);
       });
   };
