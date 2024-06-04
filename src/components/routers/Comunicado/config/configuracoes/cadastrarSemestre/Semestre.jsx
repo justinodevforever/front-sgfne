@@ -99,8 +99,10 @@ const Semestre = () => {
                 display: "flex",
                 width: "1",
               }}>
-              <label htmlFor='semestre' style={{ position: "relative" }}>
-                Nome do Semestre
+              <label
+                htmlFor='semestre'
+                style={{ position: "relative", flexDirection: "column" }}>
+                Designação
                 <Input
                   type='text'
                   placeholder='Designação do semestre Ex. 1º ou 2º'
@@ -111,9 +113,11 @@ const Semestre = () => {
                     nome && validSemestre
                       ? {
                           border: "1px solid green",
+                          height: "60px",
                         }
                       : {
                           border: "1px solid red",
+                          height: "60px",
                         }
                   }
                 />
@@ -125,21 +129,28 @@ const Semestre = () => {
                       fontStyle: "italic",
                       marginTop: "10px",
                       position: "absolute",
-                      top: "50px",
+                      top: "80px",
                     }}>
                     é aceite número seguido <br /> de Símbolo " º "
                   </span>
                 )}
               </label>
 
-              <label htmlFor='numero'>
-                Designação em Algarismo
+              <label
+                htmlFor='numero'
+                style={{
+                  flexDirection: "column",
+                }}>
+                Nº Correspondente
                 <Input
                   type='text'
                   placeholder='Designação em Algarismo Ex. 1 ou 2'
                   value={numero}
                   onChange={(e) => setNumero(e.target.value)}
                   name='numero'
+                  style={{
+                    height: "60px",
+                  }}
                 />
               </label>
             </Space>

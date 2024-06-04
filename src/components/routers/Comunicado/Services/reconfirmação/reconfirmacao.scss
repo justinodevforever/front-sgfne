@@ -1,8 +1,8 @@
+@import "../../../../../style/variable.scss";
 .container-reconfirmacao {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-top: 20px;
 }
 .container-reconfirmacao .container-reconfirmacao {
   display: flex;
@@ -20,17 +20,12 @@
 }
 
 .container-reconfirmacao hr {
-  width: 80%;
+  width: 90%;
   margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.container-reconfirmacao select {
-  width: 130px;
-  height: 30px;
-  font-size: 14pt;
-}
 .container-reconfirmacao .opcoesReconfirmacao label {
   display: flex;
   font-size: 12pt;
@@ -38,14 +33,6 @@
   justify-content: center;
   flex-direction: column;
   margin-top: 9px;
-}
-.container-reconfirmacao .dados-estudanteReconfirmacao label {
-  display: flex;
-  width: 100%;
-  font-size: 12pt;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
 }
 
 .container-reconfirmacao .dados-estudanteReconfirmacao {
@@ -55,16 +42,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #b7b6b6;
   padding-bottom: 10px;
+  gap: 20px;
+}
+label {
+  font-size: 14;
+  font-weight: 500;
 }
 
-.container-reconfirmacao .dados-estudanteReconfirmacao input {
-  width: 40%;
-  padding: 3px;
-  margin-bottom: 10px;
-  font-size: 14pt;
-}
 .container-reconfirmacao .btn {
   display: flex;
   align-items: center;
@@ -82,11 +67,6 @@
   opacity: 0.8;
 }
 
-@media (max-width: 600px) {
-  .container-reconfirmacao .dados-estudanteReconfirmacao input {
-    width: 90%;
-  }
-}
 @media (max-width: 800px) {
   label {
     display: flex;

@@ -77,14 +77,15 @@ const Dashboard = () => {
               flexDirection: "column",
               width: "200px",
               height: "100%",
-              border: "2px solid #000",
+              border: "0.5px solid #000",
+              paddingTop: "20px",
             }}
             mode='inline'
             items={[
               {
                 label: "Home",
                 icon: <HomeFilled />,
-                key: `/dashboard`,
+                key: `/dashboard/dados`,
               },
               {
                 label: "Estudante",
@@ -127,14 +128,13 @@ const Dashboard = () => {
                   },
                   {
                     label: "Reconfirmação",
-                    key: "l",
+                    key: "atualizar reconfirmacao",
                   },
                   {
-                    label: "Cadeira em Atraso",
+                    label: "Serviços de Cadeira",
+                    key: "atualizar cadeira",
                   },
-                  {
-                    label: "Exame expecial",
-                  },
+
                   {
                     label: "Declaração",
                   },
@@ -156,7 +156,13 @@ const Dashboard = () => {
               },
             ]}
           />
-          <div style={{ width: "100%" }}>
+          <div
+            style={{
+              width: "100%",
+              overflowY: "auto",
+              paddingBottom: "100px",
+              marginTop: "10px",
+            }}>
             <Outlet />
           </div>
         </Content>

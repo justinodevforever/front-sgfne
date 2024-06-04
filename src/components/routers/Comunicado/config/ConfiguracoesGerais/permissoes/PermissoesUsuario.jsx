@@ -10,6 +10,7 @@ import UseWarning from "../../../../hook/massege/warning/UseWarning";
 import { useDispatch } from "react-redux";
 import { toggleModalWarning } from "../../../../../../store/ui-slice";
 import { Input, Form } from "antd";
+import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
 
 const PermissoesUSuario = () => {
   const [nome, setNome] = useState("");
@@ -447,7 +448,7 @@ const PermissoesUSuario = () => {
 
   const hendlePermissions = async () => {};
   return (
-    <>
+    <PegarPermissoes permissoes={["admin"]}>
       <UseWarning message={message} />
       <div className='permissoesUsuario'>
         <Form className='form' onClick={(e) => pegarUSuario(e)}>
@@ -623,7 +624,7 @@ const PermissoesUSuario = () => {
           )}
         </div>
       </div>
-    </>
+    </PegarPermissoes>
   );
 };
 

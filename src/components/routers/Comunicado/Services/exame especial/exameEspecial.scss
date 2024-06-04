@@ -11,6 +11,7 @@
   gap: 4px;
   align-items: center;
   justify-content: center;
+  margin-top: 10px;
 }
 
 .conteudo-exame .form {
@@ -30,21 +31,6 @@
   height: 24px;
   font-size: 14pt;
 }
-.dados-estudante label {
-  display: flex;
-  width: 100%;
-  font-size: 12pt;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.conteudo-exame .dados-estudante input {
-  width: 40%;
-  height: 30px;
-  margin: auto;
-  margin-bottom: 10px;
-  font-size: 14pt;
-}
 
 .conteudo-exame .dados-estudante {
   display: flex;
@@ -52,16 +38,6 @@
   width: 600px;
   margin: auto;
   margin-top: 10px;
-}
-
-.conteudo-exame .input {
-  width: 400px;
-  height: 30px;
-  margin-right: 10px;
-  margin: auto;
-  margin-bottom: 10px;
-  font-size: 14pt;
-  margin-left: 10px;
 }
 
 .conteudo-exame .btn {
@@ -79,9 +55,6 @@
 }
 
 @media (max-width: 500px) {
-  .conteudo-exame .dados-estudante input {
-    width: 90%;
-  }
   .conteudo-exame .btn {
     width: 80%;
   }

@@ -112,34 +112,47 @@ const Actualizar = () => {
       <div className='atualizar'>
         <form>
           <div>
-            <label htmlFor='curso'>
+            <label
+              htmlFor='curso'
+              style={{
+                position: "relative",
+                flexDirection: "column",
+              }}>
               Nome
               <Input
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
                 style={
                   !nome || (nome && !ValidSemestre)
-                    ? { border: "1px solid red" }
-                    : { border: "1px solid green" }
+                    ? { border: "1px solid red", height: "60px" }
+                    : { border: "1px solid green", height: "60px" }
                 }
               />
               {!ValidSemestre && nome && (
                 <span
                   style={{
                     color: "red",
+                    position: "absolute",
                     fontSize: "11pt",
                     fontStyle: "italic",
-                    marginTop: "10px",
+                    top: "86px",
                   }}>
                   é aceite número seguido <br /> de Símbolo " º "
                 </span>
               )}
             </label>
-            <label htmlFor='fre'>
+            <label
+              htmlFor='fre'
+              style={{
+                flexDirection: "column",
+              }}>
               Número
               <Input
                 value={numero}
                 onChange={(e) => setNumero(e.target.value)}
+                style={{
+                  height: "60px",
+                }}
               />
             </label>
           </div>
@@ -147,7 +160,11 @@ const Actualizar = () => {
             type='primary'
             loading={isLoading}
             disabled={!ValidSemestre || !numero}
-            onClick={() => upDateSemestre()}>
+            onClick={() => upDateSemestre()}
+            style={{
+              marginTop: "70px",
+              marginBottom: "30px",
+            }}>
             <BiSave />
             Actualizar
           </Button>

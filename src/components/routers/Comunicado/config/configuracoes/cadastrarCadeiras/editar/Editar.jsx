@@ -12,6 +12,7 @@ import {
   toggleModalWarning,
 } from "../../../../../../../store/ui-slice";
 import { Modal, Space } from "antd";
+import { TextField } from "@mui/material";
 
 const Editar = ({ isVisible, setIsVisible, id }) => {
   const [nome, setNome] = useState("");
@@ -136,17 +137,31 @@ const Editar = ({ isVisible, setIsVisible, id }) => {
           justifyContent: "center",
         }}>
         <div>
-          <label htmlFor='nome'>
-            Disciplina
-            <input
-              type='text'
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-            />
-          </label>
-          <label htmlFor='curso'>
+          <TextField
+            type='text'
+            label='Disciplina'
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+          />
+
+          <label
+            htmlFor='curso'
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}>
             Curso
-            <select onChange={(e) => setFk_curso(e.target.value)} name='curso'>
+            <select
+              onChange={(e) => setFk_curso(e.target.value)}
+              name='curso'
+              style={{
+                width: "225px",
+                borderRadius: "5px",
+                height: "60px",
+                fontWeight: "200",
+                fontSize: "20px",
+                border: "1px solid #ddd",
+              }}>
               <option value={disciplina?.curso?.id}>
                 {disciplina?.curso?.curso}
               </option>
@@ -157,11 +172,24 @@ const Editar = ({ isVisible, setIsVisible, id }) => {
               ))}
             </select>
           </label>
-          <label htmlFor='fre'>
+          <label
+            htmlFor='fre'
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}>
             Frequência
             <select
               onChange={(e) => setFk_frequencia(e.target.value)}
-              name='fre'>
+              name='fre'
+              style={{
+                width: "225px",
+                borderRadius: "5px",
+                height: "60px",
+                fontWeight: "200",
+                fontSize: "20px",
+                border: "1px solid #ddd",
+              }}>
               <option value={disciplina?.frequencia?.id}>
                 {disciplina?.frequencia?.ano}
               </option>
@@ -172,11 +200,24 @@ const Editar = ({ isVisible, setIsVisible, id }) => {
               ))}
             </select>
           </label>
-          <label htmlFor='seme'>
+          <label
+            htmlFor='seme'
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}>
             Semestre
             <select
               onChange={(e) => setFk_semestre(e.target.value)}
-              name='seme'>
+              name='seme'
+              style={{
+                width: "225px",
+                borderRadius: "5px",
+                height: "60px",
+                fontWeight: "200",
+                fontSize: "20px",
+                border: "1px solid #ddd",
+              }}>
               <option value={disciplina?.semestre?.nome}>
                 {" "}
                 {disciplina?.semestre?.nome}

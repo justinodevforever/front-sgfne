@@ -57,6 +57,7 @@ function CadastrarUsuario() {
   const [length, setLength] = useState(false);
   const [check, setCheck] = useState(false);
   const [senhaDif, setSenhaDif] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (password) {
@@ -84,17 +85,22 @@ function CadastrarUsuario() {
       setSenhaDif(true);
       return;
     }
-    const response = await chatflech.post("/user", {
-      nome,
-      email,
-      password,
-      contacto,
-      bi,
-    });
-
-    sessionStorage.setItem("id", response.data.response?.id);
-    sessionStorage.setItem("user", response.data.response?.nome);
-    navigate("/login");
+    setLoading(true);
+    await chatflech
+      .post("/user", {
+        nome,
+        email,
+        password,
+        contacto,
+        bi,
+      })
+      .then((data) => {
+        sessionStorage.setItem("id", data.data.response?.id);
+        sessionStorage.setItem("user", data.data.response?.nome);
+        setLoading(false);
+        navigate("/login");
+      })
+      .catch((error) => console.log(error));
   }
   useEffect(() => {
     setConfPassword("");
@@ -437,6 +443,7 @@ function CadastrarUsuario() {
                   color: "#fff",
                   width: "80px",
                 }}
+                loading={loading}
                 type='primary'
                 title='Voltar'
                 onClick={(e) => voltar(e)}>

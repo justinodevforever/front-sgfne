@@ -97,7 +97,9 @@ const Frequencia = () => {
                 display: "flex",
                 width: "1",
               }}>
-              <label htmlFor='semestre' style={{ position: "relative" }}>
+              <label
+                htmlFor='semestre'
+                style={{ position: "relative", flexDirection: "column" }}>
                 Ano de Frequência
                 <Input
                   type='text'
@@ -109,9 +111,11 @@ const Frequencia = () => {
                     frequencia && validFrequencia
                       ? {
                           border: "1px solid green",
+                          height: "60px",
                         }
                       : {
                           border: "1px solid red",
+                          height: "60px",
                         }
                   }
                 />
@@ -123,7 +127,7 @@ const Frequencia = () => {
                       fontStyle: "italic",
                       marginTop: "10px",
                       position: "absolute",
-                      top: "50px",
+                      top: "70px",
                     }}>
                     é aceite número seguido <br /> de Símbolo " º "
                   </span>

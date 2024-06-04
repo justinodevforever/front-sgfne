@@ -188,10 +188,10 @@ function Chat() {
             </div>
           )}
 
-        <PegarPermissoes permissoes={["admin", "secretário"]}>
-          {users.length > 0 &&
-            users?.map((u) => <ContactChat contact={u} key={u?.id} />)}
-        </PegarPermissoes>
+        {/* <PegarPermissoes permissoes={["admin", "secretário"]}> */}
+        {users.length > 0 &&
+          users?.map((u) => <ContactChat contact={u} key={u?.id} />)}
+        {/* </PegarPermissoes> */}
       </div>
     </>
   );

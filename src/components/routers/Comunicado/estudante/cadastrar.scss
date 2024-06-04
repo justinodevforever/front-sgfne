@@ -13,9 +13,6 @@
   margin-top: 10px;
 }
 
-.container-cadastrar .form label {
-  display: flex;
-}
 .container-cadastrar form .novos {
   display: flex;
   width: 70%;
@@ -29,11 +26,7 @@
   display: flex;
   gap: 10px;
 }
-.container-cadastrar form div input {
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-}
+
 .container-cadastrar form select {
   border: 1px solid $preto;
   font-size: 12pt;
@@ -55,16 +48,6 @@
   width: 100%;
   flex-direction: column;
   align-items: center;
-}
-
-.container-cadastrar form fieldset {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  align-items: center;
-  padding: 20px 0px;
-  border-radius: 10px;
-  margin-top: 20px;
 }
 
 .container-cadastrar .form-cad button:hover {
@@ -103,9 +86,7 @@
     display: flex;
     width: 96%;
   }
-  .container-cadastrar form input:not(input[type="radio"]) {
-    width: 90%;
-  }
+
   .container-cadastrar form .novos {
     display: flex;
     width: 90%;

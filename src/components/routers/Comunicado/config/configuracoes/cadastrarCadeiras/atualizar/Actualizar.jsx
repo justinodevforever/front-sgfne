@@ -116,45 +116,62 @@ const Actualizar = () => {
             <Skeleton
               loading={isLoadingCourse && isLoadingS && IsLoandigYear}
               active>
-              <label htmlFor='curso'>
-                Curso
-                <select onChange={(e) => setCurso(e.target.value)} name='curso'>
-                  <option value=''>Escolha...</option>
-                  {cursos.map((c) => (
-                    <option value={c.curso} key={c.id}>
-                      {c.curso}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <select
+                onChange={(e) => setCurso(e.target.value)}
+                name='curso'
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}>
+                <option value=''>Curso</option>
+                {cursos.map((c) => (
+                  <option value={c.curso} key={c.id}>
+                    {c.curso}
+                  </option>
+                ))}
+              </select>
 
-              <label htmlFor='fre'>
-                Frequência
-                <select
-                  onChange={(e) => setFrequencia(e.target.value)}
-                  name='fre'>
-                  <option value=''>Escolha...</option>
-                  {frequencias.map((c) => (
-                    <option value={c.ano} key={c.id}>
-                      {c.ano}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <select
+                onChange={(e) => setFrequencia(e.target.value)}
+                name='fre'
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}>
+                <option value=''>Ano de Frequência</option>
+                {frequencias.map((c) => (
+                  <option value={c.ano} key={c.id}>
+                    {c.ano}
+                  </option>
+                ))}
+              </select>
 
-              <label htmlFor='seme'>
-                Semestre
-                <select
-                  onChange={(e) => setSemestre(e.target.value)}
-                  name='seme'>
-                  <option value=''>Escolha...</option>
-                  {semestres.map((c) => (
-                    <option value={c.nome} key={c.id}>
-                      {c.nome}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <select
+                onChange={(e) => setSemestre(e.target.value)}
+                name='seme'
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}>
+                <option value=''>Semestre</option>
+                {semestres.map((c) => (
+                  <option value={c.nome} key={c.id}>
+                    {c.nome}
+                  </option>
+                ))}
+              </select>
             </Skeleton>
           </div>
           <Button

@@ -87,7 +87,9 @@ const Curso = () => {
                 display: "flex",
                 width: "1",
               }}>
-              <label htmlFor='semestre' style={{ position: "relative" }}>
+              <label
+                htmlFor='semestre'
+                style={{ position: "relative", flexDirection: "column" }}>
                 Nome do Curso
                 <Input
                   type='text'
@@ -95,7 +97,7 @@ const Curso = () => {
                   value={curso}
                   onChange={(e) => setCurso(e.target.value)}
                   name='semestre'
-                  style={{ width: "300px" }}
+                  style={{ width: "300px", height: "60px" }}
                 />
               </label>
             </Space>

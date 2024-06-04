@@ -29,7 +29,7 @@ const Solicitacao = () => {
       <Skeleton
         active
         loading={loading}
-        style={{ width: "90%", marginTop: "30px" }}
+        style={{ width: "90%", marginTop: "30px", overflowY: "auto" }}
         avatar={false}
         paragraph={{
           rows: 2,

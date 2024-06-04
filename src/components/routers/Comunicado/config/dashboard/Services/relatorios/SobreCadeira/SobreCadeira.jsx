@@ -107,7 +107,6 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
           navigate("/login");
           return;
         }
-        console.log(data.data);
         if (data.data.message === "sucess") {
           setCadeira(data.data.response);
         }
@@ -191,6 +190,10 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                       <td>{cadeira?.AnoFrequncia?.ano}</td>
                     </tr>
                     <tr>
+                      <td>Forma de Pagamento</td>
+                      <td>Por RUPE {cadeira?.rupe}</td>
+                    </tr>
+                    <tr>
                       <td>Solicitado</td>
                       <td>{formatDate(cadeira?.createdAt)}</td>
                     </tr>
@@ -259,6 +262,10 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                     <tr>
                       <td>Ano de Frquência</td>
                       <td>{cadeira?.AnoFrequncia?.ano}</td>
+                    </tr>
+                    <tr>
+                      <td>Forma de Pagamento</td>
+                      <td>Por RUPE {cadeira?.rupe}</td>
                     </tr>
                     <tr>
                       <td>Solicitado</td>

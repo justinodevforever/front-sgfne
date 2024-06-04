@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./useRemoverConfirm.scss";
-import { api } from "../../../../../../../../../auth/auth";
+import { api } from "../../../../../../../../auth/auth";
 import { PiWarning } from "react-icons/pi";
 
 const UseRemoverConfirm = ({ id, setIsClick }) => {
@@ -14,18 +14,16 @@ const UseRemoverConfirm = ({ id, setIsClick }) => {
           return;
         }
 
-        if (data.data) {
-          setIsClick(true);
-        }
+        setIsClick(true);
       })
       .catch((err) => console.log(err));
   }
 
   return (
     <>
-      <div className='container-RemoverConfirm'>
+      <div className='container-RemoverConfirmacao'>
         <h2>Pretendes Eliminar Este Mês?</h2>
-        <p>Caso Eliminar Deixará de Existe, na Base de Dados!</p>
+        <p>Caso Eliminar Deixará de Existe, Queres Continuar</p>
         <div className='div-removerConfirm'>
           <button
             className='btnCancelar'

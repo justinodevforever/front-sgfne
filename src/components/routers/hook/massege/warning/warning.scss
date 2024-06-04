@@ -4,6 +4,7 @@
   display: flex;
   position: fixed;
   width: 20%;
+  height: 20%;
   left: calc(80% / 2);
   top: calc(65% / 2);
   z-index: 5;
@@ -56,5 +57,10 @@
     height: 17%;
     left: calc(50% / 2);
     top: calc(65% / 2);
+  }
+}
+@media (max-height: 690px) {
+  .warning {
+    height: 30%;
   }
 }

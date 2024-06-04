@@ -15,6 +15,7 @@ import {
 import { Form, Input, Space, Alert, Button } from "antd";
 import Processing from "../../../../../hook/process/Processing";
 import { TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 const ReconfirmacaoDashboard = () => {
   const [bi, setBi] = useState("");
@@ -39,6 +40,8 @@ const ReconfirmacaoDashboard = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [id, setId] = useState("");
   const [message, setMessage] = useState("");
+  const form = useForm();
+  const { register, handleSubmit } = form;
 
   const dispatchError = useDispatch();
   const dispatchConfirmar = useDispatch();
@@ -194,14 +197,13 @@ const ReconfirmacaoDashboard = () => {
       .catch((err) => console.log(err));
   };
 
-  const hendlePagamento = async () => {
+  const handlePagamento = async (data) => {
     if (
-      ano === "Escolha" ||
-      semestre === "Escolha" ||
-      frequencia === "Escolha" ||
-      ano === "" ||
-      semestre == "" ||
-      frequencia == ""
+      data.fk_ano === undefined ||
+      data.fk_semestre === undefined ||
+      data.fk_frequencia === undefined ||
+      data.rupe === undefined ||
+      data.rupe === 0
     ) {
       setMessage("Existe Campo vazio!");
       dispatchWarning(toggleModalWarning(true));
@@ -211,12 +213,12 @@ const ReconfirmacaoDashboard = () => {
       .post("/reconfirmacao", {
         fk_curso,
         fk_estudante,
-        fk_semestre,
+        fk_semestre: data.fk_semestre,
         fk_user,
-        fk_ano,
-        valor: Number(valor),
-        rupe,
-        fk_frequencia,
+        fk_ano: data.fk_ano,
+        valor: Number(data.valor),
+        rupe: Number(data.rupe),
+        fk_frequencia: data.fk_frequencia,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -226,12 +228,14 @@ const ReconfirmacaoDashboard = () => {
         if (data.data?.message === "sucess") {
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response.id);
-          let id;
+          let id = null;
+          let co = 0;
 
           id = setInterval(() => {
             setVisivel(true);
+            if (co === 4) return clearInterval(id);
+            co++;
           }, 4000);
-          return () => clearInterval(id);
         }
         if (data.data?.message === "error") {
           dispatchError(toggleModalError(true));
@@ -252,8 +256,10 @@ const ReconfirmacaoDashboard = () => {
       <UseErro />
       {isProcessing && <Processing message={message} />}
 
-      <div className='container-reconfirmacao'>
-        <Form className='formBir'>
+      <form
+        className='container-reconfirmacao'
+        onSubmit={handleSubmit(handlePagamento)}>
+        <Form className='formBir' onSubmitCapture={buscarEstudante}>
           <Input.Search
             placeholder='Número de BI do Estudante'
             value={bi}
@@ -272,47 +278,45 @@ const ReconfirmacaoDashboard = () => {
             width: "100%",
             flexDirection: "column",
             justifyContent: "center",
-            background: "red",
           }}
           align='center'>
           <div
             style={{
               display: "flex",
-              gap: "20px",
-              marginTop: "40px",
+              gap: "10px",
+              marginTop: "10px",
               justifyContent: "center",
             }}>
-            <label htmlFor='rupe'>
-              <TextField
-                onChange={(e) => setRupe(e.target.value)}
-                type='number'
-                label='Nº Rupe'
-                maxLength={24}
-                style={{
-                  background: "#fff",
-                }}
-              />
-            </label>
-            <label htmlFor='valor'>
-              <TextField
-                onChange={(e) => setValor(e.target.value)}
-                type='number'
-                label='Valor'
-              />
-            </label>
+            <TextField label='Valor' type='number' {...register("valor")} />
+
+            <TextField
+              type='number'
+              label='Rupe'
+              maxLength={24}
+              {...register("rupe")}
+            />
           </div>
           <div
             style={{
               display: "flex",
               width: "100%",
               flexWrap: "wrap",
-              marginTop: "40px",
+              marginTop: "10px",
               justifyContent: "center",
             }}>
             <label htmlFor='frequencia'>
               Frequência:
-              <select onChange={(e) => setFk_frequencia(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
+              <select
+                {...register("fk_frequencia")}
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}>
+                <option value={"Escolhe"}>Escolha Frequência</option>
 
                 {frequencias.map((f) => (
                   <option value={f.id} key={f.id}>
@@ -323,11 +327,19 @@ const ReconfirmacaoDashboard = () => {
             </label>
             <label htmlFor='semestre'>
               Semestre:
-              <select onChange={(e) => setSemestre(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
+              <select
+                {...register("fk_semestre")}
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}>
+                <option value={"Escolhe"}>Escolha Semestre</option>
 
                 {semestres.map((s) => (
-                  <option value={s.nome} key={s.id}>
+                  <option value={s.id} key={s.id}>
                     {s.nome}
                   </option>
                 ))}
@@ -335,11 +347,19 @@ const ReconfirmacaoDashboard = () => {
             </label>
             <label htmlFor='cadeira'>
               Ano Lectivo:
-              <select onChange={(e) => setAno(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
+              <select
+                {...register("fk_ano")}
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}>
+                <option value={"Escolhe"}>Escolha Lectivo</option>
 
                 {anos.map((s) => (
-                  <option value={s.ano} key={s.id}>
+                  <option value={s.id} key={s.id}>
                     {s.ano}
                   </option>
                 ))}
@@ -356,75 +376,61 @@ const ReconfirmacaoDashboard = () => {
               width: "100%",
               flexDirection: "column",
               alignItems: "center",
-              background: "#b7b6b6",
               padding: "10px 0px",
+              gap: "10px",
             }}>
             <h3>Dados do Estudante</h3>
             <br />
 
-            <label htmlFor='nome' style={{ width: "70%" }}>
-              Nome:
-              <Input
-                type='text'
-                value={nome}
-                readOnly
-                className='input'
-                onChange={(e) => setNome(e.target.value)}
-                style={{
-                  width: "50%",
-                  justifyContent: "center",
-                  textAlign: "center",
-                }}
-              />
-            </label>
+            <TextField
+              type='text'
+              value={nome}
+              label='Nome'
+              name='nome'
+              variant='outlined'
+              readOnly
+              style={{
+                width: "60%",
+              }}
+              {...register("nome")}
+            />
 
-            <label htmlFor='curso' style={{ width: "70%" }}>
-              Curso:
-              <Input
-                type='text'
-                value={curso}
-                readOnly
-                className='input'
-                onChange={(e) => setCurso(e.target.value)}
-                style={{
-                  width: "50%",
-                  justifyContent: "center",
-                  textAlign: "center",
-                }}
-              />
-            </label>
+            <TextField
+              type='text'
+              value={curso}
+              label='Curso'
+              readOnly
+              variant='outlined'
+              style={{
+                width: "60%",
+              }}
+              {...register("curso")}
+            />
 
-            <Button
-              onClick={(e) => hendlePagamento(e)}
-              className='btn'
-              type='primary'>
+            <TextField
+              type='text'
+              value={bi}
+              id='bi n'
+              label='B.I'
+              readOnly
+              variant='outlined'
+              style={{
+                width: "60%",
+              }}
+              {...register("bi")}
+            />
+
+            <button className='btn' type='submit'>
               Pagar
-            </Button>
+            </button>
           </div>
         )}
-        <input
-          type='text'
-          value={fk_frequencia}
-          onChange={(e) => setFk_frequencia(e.target.value)}
-          hidden
-        />
-        <input
-          type='text'
-          value={fk_ano}
-          onChange={(e) => setFk_ano(e.target.value)}
-          hidden
-        />
-        <input
-          type='text'
-          value={fk_semestre}
-          onChange={(e) => setFk_semestre(e.target.value)}
-          hidden
-        />
+
         {/* <div className="imprimir" onClick={() => setVisivel(true)}>
             <PiPrinter color="#fff" size={20} cursor={"pointer"} />
             <span>Relatório</span>
           </div> */}
-      </div>
+      </form>
     </>
   );
 };

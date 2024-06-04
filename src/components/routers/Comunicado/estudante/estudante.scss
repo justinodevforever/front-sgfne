@@ -1,7 +1,7 @@
 @import "../../../../style/variable.scss";
 .container-estudante {
   display: flex;
-  width: 100%;
+  width: 97%;
   flex-direction: column;
   margin: auto;
 }
@@ -10,7 +10,6 @@
   display: flex;
   width: 80%;
   margin: auto;
-  margin-top: 20px;
   margin-left: 0px;
 }
 .container-estudante .focus {
@@ -36,6 +35,9 @@
 }
 .container-estudante ul li a:hover {
   scale: 0.9;
+}
+table th {
+  background-color: #a31543;
 }
 
 @keyframes meuHover {

@@ -107,7 +107,9 @@ const Ano = () => {
                 display: "flex",
                 width: "1",
               }}>
-              <label htmlFor='semestre' style={{ position: "relative" }}>
+              <label
+                htmlFor='semestre'
+                style={{ position: "relative", flexDirection: "column" }}>
                 Mês
                 <Input
                   type='text'
@@ -119,9 +121,11 @@ const Ano = () => {
                     mes && validMes
                       ? {
                           border: "1px solid green",
+                          height: "60px",
                         }
                       : {
                           border: "1px solid red",
+                          height: "60px",
                         }
                   }
                 />
@@ -133,7 +137,7 @@ const Ano = () => {
                       fontStyle: "italic",
                       marginTop: "10px",
                       position: "absolute",
-                      top: "50px",
+                      top: "80px",
                       textAlign: "justify",
                       border: "1px solid red",
                       padding: "2px",
@@ -143,7 +147,9 @@ const Ano = () => {
                   </span>
                 )}
               </label>
-              <label htmlFor='semestre' style={{ position: "relative" }}>
+              <label
+                htmlFor='semestre'
+                style={{ position: "relative", flexDirection: "column" }}>
                 Nº Correspondente
                 <Input
                   type='number'
@@ -155,9 +161,11 @@ const Ano = () => {
                     algarismo && validAlgarismo
                       ? {
                           border: "1px solid green",
+                          height: "60px",
                         }
                       : {
                           border: "1px solid red",
+                          height: "60px",
                         }
                   }
                 />
@@ -169,7 +177,7 @@ const Ano = () => {
                       fontStyle: "italic",
                       marginTop: "10px",
                       position: "absolute",
-                      top: "50px",
+                      top: "80px",
                       textAlign: "justify",
                       marginLeft: "20px",
                       border: "1px solid red",

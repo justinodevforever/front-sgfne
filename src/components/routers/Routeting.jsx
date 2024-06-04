@@ -54,13 +54,16 @@ import ExameEspecial from "./Comunicado/Services/exame especial/ExameEspecial.js
 import Recurso from "./Comunicado/Services/recurso/Recurso.jsx";
 import Solicitacao from "./Comunicado/config/solicitções/Solicitacao.jsx";
 import MinhaSolicitacao from "./Comunicado/estudante/minhas Solicitações/MinhaSolicitacao.jsx";
-import AtualizarPropina from "./Comunicado/config/dashboard/actualizações de serviços/actualizacao Propina/AtualizarPropina.jsx";
 import PropinaDashboard from "./Comunicado/config/dashboard/Services/propinas/Propinas.jsx";
 import ExameEspecialDashboard from "./Comunicado/config/dashboard/Services/exame especial/ExameEspecial.jsx";
 import SobreCadeirasDashboard from "./Comunicado/config/dashboard/Services/sobre cadeiras/SobreCadeiras.jsx";
 import DeclaracaoDashboard from "./Comunicado/config/dashboard/Services/declarações/Declaracao.jsx";
 import ReconfirmacaoDashboard from "./Comunicado/config/dashboard/Services/reconfirmação/Reconfirmacao.jsx";
 import RecursoDashboard from "./Comunicado/config/dashboard/Services/recurso/Recurso.jsx";
+import Grafico from "./Comunicado/config/grafico/Grafico.jsx";
+import AtualizarPropina from "./Comunicado/config/ConfiguracoesGerais/atualizarPropina/AtualizarPropina.jsx";
+import AtualizarCadeira from "./Comunicado/config/ConfiguracoesGerais/atualizarCadeira/AtualizarCadeira.jsx";
+import AtualizarReconfirmacao from "./Comunicado/config/ConfiguracoesGerais/atualizarReconfirmacao/AtualizarReconfirmacao.jsx";
 
 const Routeting = () => {
   return (
@@ -69,6 +72,15 @@ const Routeting = () => {
         <Route exact path='/' element={<Root />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/dashboard' element={<Dashboard />}>
+          <Route
+            exact
+            path='dados'
+            element={
+              <ProtectRouter>
+                <Grafico />
+              </ProtectRouter>
+            }
+          />
           <Route
             exact
             path='definicoes'
@@ -134,6 +146,22 @@ const Routeting = () => {
             }
           />
 
+          <Route
+            path='atualizar cadeira'
+            element={
+              <ProtectRouter>
+                <AtualizarCadeira />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            path='atualizar reconfirmacao'
+            element={
+              <ProtectRouter>
+                <AtualizarReconfirmacao />
+              </ProtectRouter>
+            }
+          />
           <Route
             path='atualizar propina'
             element={

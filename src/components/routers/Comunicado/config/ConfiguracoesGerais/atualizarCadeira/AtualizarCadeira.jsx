@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import EditarCadeira from "./editar/EditarCadeira";
 import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
+import { Input } from "antd";
 
 const AtualizarCadeira = () => {
   const [isClick, setIsClick] = useState(false);
@@ -129,9 +130,7 @@ const AtualizarCadeira = () => {
       })
       .catch((err) => console.log(err));
   };
-  const buscaCadeira = async (e) => {
-    e.preventDefault();
-
+  const buscaCadeira = async () => {
     if (
       !frequencia ||
       !ano ||
@@ -164,7 +163,7 @@ const AtualizarCadeira = () => {
           navigate("/login");
           return;
         }
-
+        console.log(data.data);
         if (data.data) {
           setCadeiraAtraso(data.data);
           setId(data.data?.id);
@@ -178,9 +177,7 @@ const AtualizarCadeira = () => {
       })
       .catch((err) => console.log(err));
   };
-  const buscaExameEspecial = async (e) => {
-    e.preventDefault();
-
+  const buscaExameEspecial = async () => {
     if (
       !frequencia ||
       !ano ||
@@ -227,9 +224,7 @@ const AtualizarCadeira = () => {
       })
       .catch((err) => console.log(err));
   };
-  const buscaRecurso = async (e) => {
-    e.preventDefault();
-
+  const buscaRecurso = async () => {
     if (
       !frequencia ||
       !ano ||
@@ -289,26 +284,54 @@ const AtualizarCadeira = () => {
     <>
       {isClick && <UseRemoverConfirm id={id} setIsClick={setIsClick} />}
       <EditarCadeira cadeiraAtraso={cadeiraAtraso} tipo={tipo} />
-      <div className="atualizarPropina">
-        <div className="opcoes">
-          <form className="formBi">
-            <div className="cc">
-              <label htmlFor="tipo">
-                Tipo{" "}
-                <select onChange={(e) => setTipo(e.target.value)}>
-                  <option defaultValue={"Escolha"}>Escolha o Tipo...</option>
+      <div className='atualizarCadeira'>
+        <div className='opcoes'>
+          <form className='formBi' style={{ color: "#fff" }}>
+            <div
+              className='ccCadeira'
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                color: "#fff",
+              }}>
+              <label
+                htmlFor='tipo'
+                style={{
+                  color: "#fff",
+                }}>
+                <select
+                  onChange={(e) => setTipo(e.target.value)}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option defaultValue={"Escolha"}>Tipo de Serviço</option>
 
                   <option value={"Recurso"}>Recurso</option>
                   <option value={"Exame Especial"}>Exame Especial</option>
                   <option value={"Cadeira em Atrazo"}>Cadeira em Atrazo</option>
                 </select>
               </label>
-              <label htmlFor="frequencia">
-                Frequência{" "}
-                <select onChange={(e) => setFrequencia(e.target.value)}>
-                  <option defaultValue={"Escolha"}>
-                    Escolha a Frequência...
-                  </option>
+              <label
+                htmlFor='frequencia'
+                style={{
+                  color: "#fff",
+                }}>
+                <select
+                  onChange={(e) => setFrequencia(e.target.value)}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option defaultValue={"Escolha"}>Ano Frequência</option>
                   {frequencias.map((f) => (
                     <option value={f.ano} key={f.id}>
                       {f.ano}
@@ -316,10 +339,22 @@ const AtualizarCadeira = () => {
                   ))}
                 </select>
               </label>
-              <label htmlFor="ano">
-                Ano Lectivo{" "}
-                <select onChange={(e) => setAno(e.target.value)}>
-                  <option defaultValue={"Escolha"}>Escolha o Ano...</option>
+              <label
+                htmlFor='ano'
+                style={{
+                  color: "#fff",
+                }}>
+                <select
+                  onChange={(e) => setAno(e.target.value)}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option defaultValue={"Escolha"}>Ano Lectivo</option>
                   {anos.map((ano) => (
                     <option value={ano.ano} key={ano.id}>
                       {ano.ano}
@@ -327,10 +362,22 @@ const AtualizarCadeira = () => {
                   ))}
                 </select>
               </label>
-              <label htmlFor="semestre">
-                Semestre{" "}
-                <select onChange={(e) => setSemestre(e.target.value)}>
-                  <option defaultValue={"Escolha"}>Escolha o Ano...</option>
+              <label
+                htmlFor='semestre'
+                style={{
+                  color: "#fff",
+                }}>
+                <select
+                  onChange={(e) => setSemestre(e.target.value)}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option defaultValue={"Escolha"}>Semestre</option>
                   {semestres.map((s) => (
                     <option value={s.nome} key={s.id}>
                       {s.nome}
@@ -338,10 +385,22 @@ const AtualizarCadeira = () => {
                   ))}
                 </select>
               </label>
-              <label htmlFor="curso">
-                Curso{" "}
-                <select onChange={(e) => setCurso(e.target.value)}>
-                  <option defaultValue={"Escolha"}>Escolha o Curso...</option>
+              <label
+                htmlFor='curso'
+                style={{
+                  color: "#fff",
+                }}>
+                <select
+                  onChange={(e) => setCurso(e.target.value)}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option defaultValue={"Escolha"}>Curso</option>
                   {cursos.map((c) => (
                     <option value={c.curso} key={c.id}>
                       {c.curso}
@@ -349,12 +408,22 @@ const AtualizarCadeira = () => {
                   ))}
                 </select>
               </label>
-              <label htmlFor="disciplina">
-                Disciplina{" "}
-                <select onChange={(e) => setDisciplina(e.target.value)}>
-                  <option defaultValue={"Escolha"}>
-                    Escolha a Disciplina...
-                  </option>
+              <label
+                htmlFor='disciplina'
+                style={{
+                  color: "#fff",
+                }}>
+                <select
+                  onChange={(e) => setDisciplina(e.target.value)}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option defaultValue={"Escolha"}>Disciplina</option>
                   {disciplinas.map((d) => (
                     <option value={d.nome} key={d.id}>
                       {d.nome}
@@ -364,51 +433,55 @@ const AtualizarCadeira = () => {
               </label>
             </div>
           </form>
-          <div className="form">
-            <div className="pagamento-propina">
-              <input
-                type="search"
-                placeholder="Número de BI do Estudante"
-                onChange={(e) => setBi(e.target.value)}
-                className="search"
-                value={bi}
-                autoFocus
-                maxLength={14}
-              />
+          <div className='form'>
+            <div>
               {tipo === "Exame Especial" ? (
-                <BiSearch
-                  size={30}
-                  color="a31543"
-                  cursor={"pointer"}
-                  onClick={(e) => buscaExameEspecial(e)}
+                <Input.Search
+                  placeholder='Número de BI do Estudante'
+                  onChange={(e) => setBi(e.target.value)}
+                  value={bi}
+                  autoFocus
+                  maxLength={14}
+                  onSearch={() => buscaExameEspecial()}
+                  style={{ marginTop: "10px", width: "50%" }}
                 />
               ) : (
                 <></>
               )}
               {tipo === "Cadeira em Atrazo" ? (
-                <BiSearch
-                  size={30}
-                  color="a31543"
-                  cursor={"pointer"}
-                  onClick={(e) => buscaCadeira(e)}
+                <Input.Search
+                  placeholder='Número de BI do Estudante'
+                  onChange={(e) => setBi(e.target.value)}
+                  value={bi}
+                  autoFocus
+                  maxLength={14}
+                  onSearch={() => buscaCadeira()}
+                  style={{ marginTop: "10px", width: "50%" }}
                 />
               ) : (
                 <></>
               )}
               {tipo === "Recurso" ? (
-                <BiSearch
-                  size={30}
-                  color="a31543"
-                  cursor={"pointer"}
-                  onClick={(e) => buscaRecurso(e)}
+                <Input.Search
+                  placeholder='Número de BI do Estudante'
+                  onChange={(e) => setBi(e.target.value)}
+                  value={bi}
+                  autoFocus
+                  maxLength={14}
+                  onSearch={() => buscaRecurso()}
+                  style={{ marginTop: "10px", width: "50%" }}
                 />
               ) : (
                 <></>
               )}
             </div>
-            <hr />
+            <hr
+              style={{
+                marginTop: "30px",
+              }}
+            />
 
-            {cadeiraAtraso?.Estudante?.nome && (
+            {cadeiraAtraso?.estudante?.nome && (
               <table>
                 <thead>
                   <tr>
@@ -427,20 +500,20 @@ const AtualizarCadeira = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{cadeiraAtraso?.Estudante?.nome}</td>
-                    <td>{cadeiraAtraso?.Estudante?.bi}</td>
-                    <td>{cadeiraAtraso?.Disciplina?.nome}</td>
-                    <td>{cadeiraAtraso?.AnoFrequencia?.ano}</td>
-                    <td>{cadeiraAtraso?.AnoLetivo?.ano}</td>
+                    <td>{cadeiraAtraso?.estudante?.nome}</td>
+                    <td>{cadeiraAtraso?.estudante?.bi}</td>
+                    <td>{cadeiraAtraso?.disciplina?.nome}</td>
+                    <td>{cadeiraAtraso?.AnoFrequncia?.ano}</td>
+                    <td>{cadeiraAtraso?.anoLectivo?.ano}</td>
                     <td>{cadeiraAtraso?.Curso?.curso}</td>
-                    <td>{cadeiraAtraso?.Semestre?.nome}</td>
+                    <td>{cadeiraAtraso?.semestre?.nome}</td>
                     <PegarPermissoes
                       permissoes={["admin", "remover", "edição"]}>
                       <td>
                         <BiEdit
-                          title="Editar"
+                          title='Editar'
                           cursor={"pointer"}
-                          color="blue"
+                          color='blue'
                           onClick={(e) => editarCadeira(e)}
                         />
                       </td>
@@ -449,8 +522,8 @@ const AtualizarCadeira = () => {
                       permissoes={["admin", "remover", "edição"]}>
                       <td>
                         <BiX
-                          title="Eliminar"
-                          color="red"
+                          title='Eliminar'
+                          color='red'
                           cursor={"pointer"}
                           size={20}
                           onClick={(e) => deleteCadeira(e)}

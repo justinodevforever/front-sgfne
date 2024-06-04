@@ -68,14 +68,13 @@ const Buscar = () => {
             allowClear
             onSearch={() => getBi()}
             style={{
-              width: "90%",
-              border: "1px solid #000",
+              width: "50%",
             }}
           />
         </Form>
       </div>
       <div className='conteudo' id='tabela'>
-        {estudante && (
+        {estudante?.nome && (
           <>
             <br />
             <h3>Dados do Estudante</h3>

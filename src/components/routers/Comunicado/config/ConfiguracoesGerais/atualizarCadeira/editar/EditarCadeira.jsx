@@ -60,20 +60,8 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
   }, []);
 
   useEffect(() => {
-    if (bi === "") {
-      setNome("");
-      setCurso("");
-    }
-  }, [bi]);
-
-  useEffect(() => {
     getDisplina();
-  }, [
-    cadeiraAtraso?.AnoFrequencia?.ano,
-    cadeiraAtraso?.AnoLetivo?.ano,
-    cadeiraAtraso?.Semestre?.nome,
-    cadeiraAtraso?.Curso?.curso,
-  ]);
+  }, [curso, frequencia, ano, semestre]);
 
   function close(e) {
     e.preventDefault();
@@ -123,12 +111,14 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
   };
 
   const getDisplina = async () => {
+    const [newsemestre, fkm] = semestre.split(",");
+    const [newano, fka] = frequencia.split(",");
+    const [newcurso, fkae] = curso.split(",");
     await api
       .post("/disciplina/restringido", {
-        semestre: cadeiraAtraso?.Semestre?.nome,
-        ano: cadeiraAtraso?.AnoFrequencia?.ano,
-        curso: cadeiraAtraso?.Curso?.curso,
-        anoLetivo: cadeiraAtraso?.AnoLetivo?.ano,
+        semestre: newsemestre,
+        curso: newcurso,
+        ano: newano,
       })
 
       .then((data) => {
@@ -136,6 +126,7 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
           navigate("/login");
           return;
         }
+        console.log(data.data);
         if (data.data.message === "error") return;
         setDisciplinas(data.data);
       })
@@ -227,7 +218,7 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
     const [fkf, newfrequencia] = frequencia.split(",");
     const [fka, newano] = ano.split(",");
     const [fkd, newdisciplina] = disciplina.split(",");
-    console.log(newdisciplina, newsemestre);
+
     if (!newano || !newsemestre || !newfrequencia || !newdisciplina) {
       setMessage("Exite Um Campo Vazio!");
       dispatchWarning(toggleModalWarning(true));
@@ -269,29 +260,31 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
       <UseWarning message={message} />
       {isVisible && (
         <>
-          <div className="editarPropina">
-            <div className="opcoesEditar">
+          <div className='editarPropina'>
+            <div className='opcoesEditar'>
               <div>
-                <h2>Editar Propina</h2>
+                <h2>{tipo}</h2>
               </div>
 
               <BiX
-                color="red"
+                color='red'
                 size={20}
                 onClick={(e) => close(e)}
-                className="closed"
+                className='closed'
               />
             </div>
-            <form className="formBi">
-              <div className="cc">
-                <label htmlFor="cadeira">
+            <form className='formBi'>
+              <div className='cc'>
+                <label htmlFor='cadeira' style={{ color: "#fff" }}>
                   Ano Lectivo
                   <select onChange={(e) => setAno(e.target.value)}>
                     <option
                       value={
-                        cadeiraAtraso.AnoLetivo.ano + "," + cadeiraAtraso.fk_ano
+                        cadeiraAtraso?.anoLectivo?.ano +
+                        "," +
+                        cadeiraAtraso?.fk_ano
                       }>
-                      {cadeiraAtraso.AnoLetivo.ano}
+                      {cadeiraAtraso?.anoLectivo?.ano}
                     </option>
 
                     {anos.map((s) => (
@@ -301,19 +294,19 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                     ))}
                   </select>
                 </label>
-                <label htmlFor="frequencia">
+                <label htmlFor='frequencia' style={{ color: "#fff" }}>
                   Frequência
                   <select
-                    nome="frequencia"
-                    id="frequencia"
+                    nome='frequencia'
+                    id='frequencia'
                     onChange={(e) => setFrequencia(e.target.value)}>
                     <option
                       value={
-                        cadeiraAtraso.AnoFrequencia.ano +
+                        cadeiraAtraso?.AnoFrequncia?.ano +
                         "," +
-                        cadeiraAtraso.fk_frequencia
+                        cadeiraAtraso?.fk_frequencia
                       }>
-                      {cadeiraAtraso.AnoFrequencia.ano}
+                      {cadeiraAtraso?.AnoFrequncia?.ano}
                     </option>
 
                     {frequencias.map((f) => (
@@ -323,16 +316,16 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                     ))}
                   </select>
                 </label>
-                <label htmlFor="semestre">
+                <label htmlFor='semestre' style={{ color: "#fff" }}>
                   Semestre
                   <select onChange={(e) => setSemestre(e.target.value)}>
                     <option
                       value={
-                        cadeiraAtraso.Semestre.nome +
+                        cadeiraAtraso?.semestre?.nome +
                         "," +
-                        cadeiraAtraso.fk_semestre
+                        cadeiraAtraso?.fk_semestre
                       }>
-                      {cadeiraAtraso.Semestre.nome}
+                      {cadeiraAtraso?.semestre?.nome}
                     </option>
 
                     {semestres.map((s) => (
@@ -342,16 +335,16 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                     ))}
                   </select>
                 </label>
-                <label htmlFor="cadeira">
+                <label htmlFor='cadeira' style={{ color: "#fff" }}>
                   Cadeira
                   <select onChange={(e) => setDisciplina(e.target.value)}>
                     <option
                       value={
-                        cadeiraAtraso.Disciplina.nome +
+                        cadeiraAtraso?.disciplina?.nome +
                         "," +
-                        cadeiraAtraso.fk_disciplina
+                        cadeiraAtraso?.fk_disciplina
                       }>
-                      {cadeiraAtraso.Disciplina.nome}
+                      {cadeiraAtraso?.disciplina?.nome}
                     </option>
 
                     {disciplinas.map((s) => (
@@ -365,15 +358,15 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
               <div>
                 RUPE {""}
                 <input
-                  type="number"
-                  placeholder="Digite o Nº de RUPE"
+                  type='number'
+                  placeholder='Digite o Nº de RUPE'
                   value={rupe}
                   onChange={(e) => setRupe(e.target.value)}
                   maxLength={20}
                 />
               </div>
             </form>
-            {cadeiraAtraso?.Estudante?.nome && (
+            {cadeiraAtraso?.estudante?.nome && (
               <>
                 <table>
                   <thead>
@@ -389,34 +382,34 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>{cadeiraAtraso?.Estudante?.nome}</td>
-                      <td>{cadeiraAtraso?.Estudante?.bi}</td>
-                      <td>{cadeiraAtraso?.Disciplina.nome}</td>
-                      <td>{cadeiraAtraso?.AnoFrequencia.ano}</td>
-                      <td>{cadeiraAtraso?.AnoLetivo?.ano}</td>
+                      <td>{cadeiraAtraso?.estudante?.nome}</td>
+                      <td>{cadeiraAtraso?.estudante?.bi}</td>
+                      <td>{cadeiraAtraso?.disciplina?.nome}</td>
+                      <td>{cadeiraAtraso?.AnoFrequncia?.ano}</td>
+                      <td>{cadeiraAtraso?.anoLectivo?.ano}</td>
                       <td>{cadeiraAtraso?.Curso?.curso}</td>
-                      <td>{cadeiraAtraso?.Semestre?.nome}</td>
+                      <td>{cadeiraAtraso?.semestre?.nome}</td>
                     </tr>
                   </tbody>
                 </table>
 
                 {tipo === "Cadeira em Atrazo" ? (
                   <button onClick={(e) => hendleCadeiraAtrazo(e)}>
-                    <FaSave size={20} color="fff" /> Salvar
+                    <FaSave size={20} color='fff' /> Salvar
                   </button>
                 ) : (
                   <></>
                 )}
                 {tipo === "Exame Especial" ? (
                   <button onClick={(e) => hendleExameEspecial(e)}>
-                    <FaSave size={20} color="fff" /> Salvar
+                    <FaSave size={20} color='fff' /> Salvar
                   </button>
                 ) : (
                   <></>
                 )}
                 {tipo === "Recurso" ? (
                   <button onClick={(e) => hendleRecurso(e)}>
-                    <FaSave size={20} color="fff" /> Salvar
+                    <FaSave size={20} color='fff' /> Salvar
                   </button>
                 ) : (
                   <></>
@@ -425,7 +418,7 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
             )}
           </div>
 
-          <div className="ovefloy"></div>
+          <div className='ovefloy'></div>
         </>
       )}
     </>

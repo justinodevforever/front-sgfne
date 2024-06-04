@@ -1,8 +1,9 @@
 import "./reconfirmacao.scss";
-import { BiPrinter, BiSearch, BiX } from "react-icons/bi";
+import { BiPrinter, BiX } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../../../../../../hook/timeout";
 import { api } from "../../../../../../../../../auth/auth";
+import image from "./Logo.png";
 import { useEffect, useState } from "react";
 
 function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
@@ -52,7 +53,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
   };
   function closed(e) {
     e.preventDefault();
-    setVisivel(false);
+    setVisivel(!visivel);
   }
 
   const relatorioReconfirmacao = async () => {
@@ -65,7 +66,6 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
           navigate("/login");
           return;
         }
-        console.log(data.data);
         if (data.data !== null || data.data) {
           setAbrir(true);
           setReconfirmacao(data.data);
@@ -94,7 +94,7 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
             {abrir && (
               <>
                 <div className='tabelaReconfirmacao' id='tabela'>
-                  <img src='./Logo.png' alt='ISPM' />
+                  <img src={image} alt='ISPM' />
                   <div className='extra'>
                     <div>
                       <span>{reconfirmacao?.curso?.curso}</span>
@@ -142,6 +142,10 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                       <tr>
                         <td>Ano de Frquência</td>
                         <td>{reconfirmacao?.frequencia?.ano}</td>
+                      </tr>
+                      <tr>
+                        <td>Forma de Pagamento</td>
+                        <td>Por Rupe {reconfirmacao?.rupe}</td>
                       </tr>
                       <tr>
                         <td>Solicitado</td>
@@ -207,6 +211,10 @@ function RelatorioReconfirmacao({ setVisivel, visivel, tipo, id }) {
                       <tr>
                         <td>Ano de Frquência</td>
                         <td>{reconfirmacao?.frequencia?.ano}</td>
+                      </tr>
+                      <tr>
+                        <td>Forma de Pagamento</td>
+                        <td>Por Rupe {reconfirmacao?.rupe}</td>
                       </tr>
                       <tr>
                         <td>Solicitado</td>

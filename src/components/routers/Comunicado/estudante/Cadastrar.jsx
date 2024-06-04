@@ -12,14 +12,19 @@ import {
   toggleModalError,
   toggleModalWarning,
 } from "../../../../store/ui-slice";
-import { Button, Form, Input, Alert, Modal, ConfigProvider } from "antd";
-import {
-  UserOutlined,
-  SaveOutlined,
-  ContactsOutlined,
-  ContactsFilled,
-} from "@ant-design/icons/lib/icons";
+import { Button, Form, Input } from "antd";
+import { SaveOutlined } from "@ant-design/icons/lib/icons";
 import { PiIdentificationBadge, PiStudent } from "react-icons/pi";
+import {
+  FormControl,
+  FormControlLabel,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  TextField,
+} from "@mui/material";
 
 const Cadastrar = () => {
   const [bi, setBi] = useState("");
@@ -137,7 +142,6 @@ const Cadastrar = () => {
       })
       .catch((err) => console.log(err));
   };
-
   return (
     <>
       <UseErro />
@@ -160,7 +164,7 @@ const Cadastrar = () => {
               showCount={true}
               style={{
                 border: "1px solid #a31543",
-                width: "90%",
+                width: "50%",
                 marginTop: "10px",
                 fontSize: "14pt",
               }}
@@ -170,92 +174,89 @@ const Cadastrar = () => {
         <Form className='form-cad'>
           <h2>Cadastro do Estudante</h2>
           <div className='novos'>
-            <label htmlFor='curso'>
-              Curso:
-              <select onChange={(e) => setCurso(e.target.value)} id='curso'>
-                <option value='Escolha'>Escolha Curso...</option>
-                {cursos.map((curso) => (
-                  <option value={curso.curso} key={curso.id}>
-                    {curso.curso}
-                  </option>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>Curso</InputLabel>
+              <Select
+                style={{
+                  width: "200px",
+                }}
+                labelId='demo-simple-select-label'
+                onChange={(e) => setCurso(e.target.value)}
+                label='Curso'
+                id='demo-simple-select'>
+                {cursos.map((s) => (
+                  <MenuItem value={s.curso} key={s.id}>
+                    {s.curso}
+                  </MenuItem>
                 ))}
-              </select>
-            </label>
+              </Select>
+            </FormControl>
+
             <div className='periodo'>
               <div>
-                <input
-                  type='radio'
-                  id='diurno'
-                  name='periodo'
-                  value={"Diúrno"}
-                  onChange={(e) => setPeriodo(e.target.value)}
-                />
-                <label htmlFor='diurno'>Diúrno</label>
-              </div>
-              <div>
-                <input
-                  type='radio'
-                  id='posLaboral'
-                  name='periodo'
-                  value={"Pós-Laboral"}
-                  onChange={(e) => setPeriodo(e.target.value)}
-                />
-                <label htmlFor='posLaboral'>Pós-Laboral</label>
+                <RadioGroup
+                  name='use-radio-group'
+                  onChange={(e) => setPeriodo(e.target.value)}>
+                  <FormControlLabel
+                    value='Diúrno'
+                    label='Diúrno'
+                    control={<Radio />}
+                  />
+                  <FormControlLabel
+                    value='Pós-Laboral'
+                    label='Pós-Laboral'
+                    control={<Radio />}
+                  />
+                </RadioGroup>
               </div>
             </div>
           </div>
-          <Input
-            type='text'
-            id='nome'
-            placeholder='Nome do Estudante'
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            required
-            prefix={<PiStudent />}
-            color='black'
-            allowClear
+          <div
             style={{
-              border: "1px solid #a31543",
-              width: "90%",
-              marginTop: "10px",
-              fontSize: "14pt",
-            }}
-          />
-          <Input
-            type='text'
-            id='bi'
-            placeholder='Nº de BI do Estudante'
-            required
-            disabled
-            value={userBi}
-            onChange={(e) => setUserBi(e.target.value)}
-            style={{
-              border: "1px solid #a31543",
-              width: "90%",
-              marginTop: "10px",
-              fontSize: "14pt",
-            }}
-            prefix={<PiIdentificationBadge />}
-          />
-          <Input
-            type='number'
-            id='contacto'
-            placeholder='Contacto do Estudante'
-            required
-            value={contato}
-            onChange={(e) => setContato(e.target.value)}
-            prefix={<ContactsFilled />}
-            allowClear
-            maxLength={9}
-            showCount={true}
-            style={{
-              border: "1px solid #a31543",
-              width: "90%",
-              marginTop: "10px",
-              fontSize: "14pt",
-            }}
-          />
-          {nome && bi && contato && fk_curso && fk_user && (
+              display: "flex",
+              width: "100%",
+              flexDirection: "column",
+              gap: "20px",
+              marginTop: "20px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+            <TextField
+              type='text'
+              id='nome'
+              label='Nome do Estudante'
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+              style={{
+                width: "60%",
+              }}
+            />
+            <TextField
+              type='text'
+              id='bi'
+              label='Nº de BI do Estudante'
+              required
+              disabled
+              value={userBi}
+              onChange={(e) => setUserBi(e.target.value)}
+              style={{
+                width: "60%",
+              }}
+            />
+            <TextField
+              type='number'
+              id='contacto'
+              label='Contacto do Estudante'
+              required
+              value={contato}
+              onChange={(e) => setContato(e.target.value)}
+              style={{
+                width: "60%",
+              }}
+            />
+          </div>
+          {nome && bi && contato && fk_curso && fk_user && periodo && (
             <Button
               onClick={() => hendleEstudante()}
               prefix={<SaveOutlined />}

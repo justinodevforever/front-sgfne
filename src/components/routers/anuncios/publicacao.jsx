@@ -27,6 +27,7 @@ export const deletePublicacao = async (id) => {
         navigate("/login");
         return;
       }
+      console.log(data.data);
     })
     .catch((err) => console.log(err));
 };

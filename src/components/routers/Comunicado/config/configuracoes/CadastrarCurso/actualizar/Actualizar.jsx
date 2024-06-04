@@ -97,13 +97,18 @@ const Actualizar = () => {
       <div className='atualizar'>
         <form>
           <div>
-            <label htmlFor='curso'>
+            <label
+              htmlFor='curso'
+              style={{
+                flexDirection: "column",
+              }}>
               Nome do Curso
               <Input
                 value={curso}
                 onChange={(e) => setCurso(e.target.value)}
                 style={{
                   width: "300px",
+                  height: "60px",
                 }}
               />
             </label>

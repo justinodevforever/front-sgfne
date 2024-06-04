@@ -98,7 +98,7 @@ const EditarEstudante = ({ estudante }) => {
           <div className='editarPropina'>
             <div className='opcoesEditar'>
               <div>
-                <h2>Editar Propina</h2>
+                <h2>Editar Estudante</h2>
               </div>
 
               <BiX

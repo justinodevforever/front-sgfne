@@ -103,24 +103,30 @@ const Actualizar = () => {
       <div className='atualizar'>
         <form>
           <div>
-            <label htmlFor='curso'>
+            <label
+              htmlFor='curso'
+              style={{
+                position: "relative",
+                flexDirection: "column",
+              }}>
               Ano Lectivo
               <Input
                 value={ano}
                 onChange={(e) => setAno(e.target.value)}
                 style={
                   !ano || (ano && !ValidAno)
-                    ? { border: "1px solid red" }
-                    : { border: "1px solid green" }
+                    ? { border: "1px solid red", height: "60px" }
+                    : { border: "1px solid green", height: "60px" }
                 }
               />
-              {!ValidAno && ano && (
+              {!ValidAno && (
                 <span
                   style={{
                     color: "red",
+                    position: "absolute",
                     fontSize: "11pt",
                     fontStyle: "italic",
-                    marginTop: "10px",
+                    top: "85px",
                   }}>
                   Exemplo: 2023/2024
                 </span>
@@ -131,7 +137,10 @@ const Actualizar = () => {
             type='primary'
             loading={isLoading}
             disabled={!ValidAno}
-            onClick={() => upDateAno()}>
+            onClick={() => upDateAno()}
+            style={{
+              marginTop: "60px",
+            }}>
             <BiSave />
             Actualizar
           </Button>

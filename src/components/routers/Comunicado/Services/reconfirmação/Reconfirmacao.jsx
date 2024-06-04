@@ -14,6 +14,14 @@ import {
 import { Form, Input, Space, Alert, Button } from "antd";
 import Loader from "../../../hook/load/Loader";
 import Processing from "../../../hook/process/Processing";
+import { useForm } from "react-hook-form";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 const Reconfirmacao = () => {
   const [bi, setBi] = useState("");
@@ -22,11 +30,6 @@ const Reconfirmacao = () => {
   const [fk_estudante, setFk_estudante] = useState("");
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
-  const [fk_ano, setFk_ano] = useState("");
-  const [fk_semestre, setFk_semestre] = useState("");
-  const [valor, setValor] = useState(0);
-  const [rupe, setRupe] = useState(0);
-  const [fk_frequencia, setFk_frequencia] = useState("");
   const [semestres, setSemestres] = useState([]);
   const [anos, setAnos] = useState([]);
   const [frequencias, setFrequencias] = useState([]);
@@ -38,6 +41,9 @@ const Reconfirmacao = () => {
   const [message, setMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  const form = useForm();
+  const { register, handleSubmit } = form;
 
   const dispatchError = useDispatch();
   const dispatchConfirmar = useDispatch();
@@ -52,23 +58,11 @@ const Reconfirmacao = () => {
   }, []);
 
   useEffect(() => {
-    buscaSemestre();
-  }, [semestre]);
-
-  useEffect(() => {
     if (bi === "") {
       setNome("");
       setCurso("");
     }
   }, [bi]);
-
-  useEffect(() => {
-    buscaAnoLeivo();
-  }, [ano]);
-
-  useEffect(() => {
-    buscaFrequencia();
-  }, [frequencia]);
 
   const buscarEstudante = async () => {
     const response = await api.post("/estudante/user", {
@@ -155,52 +149,7 @@ const Reconfirmacao = () => {
       .catch((err) => console.log(err));
   };
 
-  const buscaFrequencia = async () => {
-    await api
-      .post("/search/frequencia", {
-        frequencia,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        setFk_frequencia(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-  const buscaSemestre = async () => {
-    await api
-      .post("/search/semestre", {
-        nome: semestre,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_semestre(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const buscaAnoLeivo = async () => {
-    await api
-      .post("/search/letivo", {
-        ano,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_ano(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const hendlePagamento = async () => {
+  const handlePagamento = async (data) => {
     if (
       ano === "Escolha" ||
       semestre === "Escolha" ||
@@ -218,19 +167,18 @@ const Reconfirmacao = () => {
       .post("/reconfirmacao", {
         fk_curso,
         fk_estudante,
-        fk_semestre,
+        fk_semestre: data.fk_semestre,
         fk_user,
-        fk_ano,
-        valor: Number(valor),
-        rupe,
-        fk_frequencia,
+        fk_ano: data.fk_ano,
+        valor: Number(data.valor),
+        rupe: Number(data.rupe),
+        fk_frequencia: data.fk_frequencia,
       })
       .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        console.log(data.data);
         if (data.data?.message === "error") {
           dispatchError(toggleModalError(true));
           setLoading(false);
@@ -265,7 +213,9 @@ const Reconfirmacao = () => {
       <UseSucess />
       <UseErro />
 
-      <div className='container-reconfirmacao'>
+      <form
+        className='container-reconfirmacao'
+        onSubmit={handleSubmit(handlePagamento)}>
         <h3>Pagamento Reconfirmação</h3>
         <Space
           wrap
@@ -274,131 +224,144 @@ const Reconfirmacao = () => {
             width: "98%",
             margin: "auto",
             flexDirection: "column",
-            marginTop: "10",
+            marginTop: "10px",
             justifyContent: "center",
-            background: "#b7b6b6",
             paddingBottom: "10px",
           }}
           align='center'>
           <div
             style={{
               display: "flex",
-              gap: "20px",
+              gap: "10px",
               marginTop: "10px",
               flexWrap: "wrap",
               justifyContent: "center",
             }}>
-            <label htmlFor='valor'>
-              Valor:
-              <Input
-                value={valor}
-                onChange={(e) => setValor(e.target.value)}
-                type='number'
-                placeholder='Digite o Número Valor'
-              />
-            </label>
-            <label htmlFor='rupe'>
-              Nº Rupe
-              <Input
-                value={rupe}
-                onChange={(e) => setRupe(e.target.value)}
-                type='number'
-                placeholder='Digite o Número de Rupe'
-                maxLength={24}
-              />
-            </label>
+            <TextField label='Valor' type='number' {...register("valor")} />
+
+            <TextField
+              type='number'
+              label='Rupe'
+              maxLength={24}
+              {...register("rupe")}
+            />
           </div>
-          <div
-            className='opcoesReconfirmacao'
+          <Space
+            wrap
             style={{
               display: "flex",
               width: "100%",
               flexWrap: "wrap",
-              marginTop: "40px",
               justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
             }}>
-            <label htmlFor='frequencia'>
-              Frequência:
-              <select onChange={(e) => setFk_frequencia(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
-
-                {frequencias.map((f) => (
-                  <option value={f.id} key={f.id}>
-                    {f.ano}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor='semestre'>
-              Semestre:
-              <select onChange={(e) => setSemestre(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
-
-                {semestres.map((s) => (
-                  <option value={s.nome} key={s.id}>
-                    {s.nome}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor='cadeira'>
-              Ano Lectivo:
-              <select onChange={(e) => setAno(e.target.value)}>
-                <option value={"Escolhe"}>Escolha...</option>
-
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>
+                Ano Lectivo
+              </InputLabel>
+              <Select
+                style={{
+                  width: "200px",
+                }}
+                labelId='demo-simple-select-label'
+                {...register("fk_ano")}
+                label='Ano Lectivo'
+                id='demo-simple-select'>
                 {anos.map((s) => (
-                  <option value={s.ano} key={s.id}>
+                  <MenuItem value={s.id} key={s.id}>
                     {s.ano}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </label>
-          </div>
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>
+                Frequência
+              </InputLabel>
+              <Select
+                style={{
+                  width: "200px",
+                }}
+                labelId='demo-simple-select-label'
+                {...register("fk_frequencia")}
+                label='Frequência'
+                id='demo-simple-select'>
+                {frequencias.map((s) => (
+                  <MenuItem value={s.id} key={s.id}>
+                    {s.ano}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>
+                Semestre
+              </InputLabel>
+              <Select
+                style={{
+                  width: "200px",
+                }}
+                labelId='demo-simple-select-label'
+                label='semestre'
+                id='demo-simple-select'
+                {...register("fk_semestre")}>
+                {semestres.map((s) => (
+                  <MenuItem value={s.id} key={s.id}>
+                    {s.nome}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Space>
         </Space>
         <hr />
         {curso && bi && nome && (
           <div className='dados-estudanteReconfirmacao'>
             <h3>Dados do Estudante</h3>
 
-            <label htmlFor='nome'>
-              Nome:
-              <Input
-                type='text'
-                value={nome}
-                readOnly
-                className='input'
-                onChange={(e) => setNome(e.target.value)}
-              />
-            </label>
+            <TextField
+              type='text'
+              value={nome}
+              label='Nome'
+              name='nome'
+              variant='outlined'
+              readOnly
+              style={{
+                width: "60%",
+              }}
+              {...register("nome")}
+            />
 
-            <label htmlFor='curso'>
-              Curso:
-              <Input
-                type='text'
-                value={curso}
-                readOnly
-                className='input'
-                onChange={(e) => setCurso(e.target.value)}
-              />
-            </label>
-            <label htmlFor='bi'>
-              Nº B.I:
-              <Input
-                type='text'
-                value={bi}
-                readOnly
-                className='input'
-                onChange={(e) => setBi(e.target.value)}
-              />
-            </label>
+            <TextField
+              type='text'
+              value={curso}
+              label='Curso'
+              readOnly
+              variant='outlined'
+              style={{
+                width: "60%",
+              }}
+              {...register("curso")}
+            />
+
+            <TextField
+              type='text'
+              value={bi}
+              id='bi n'
+              label='B.I'
+              readOnly
+              variant='outlined'
+              style={{
+                width: "60%",
+              }}
+              {...register("bi")}
+            />
 
             {!loading && (
-              <Button
-                onClick={(e) => hendlePagamento(e)}
-                className='btn'
-                type='primary'>
+              <button className='btn' type='submit'>
                 Pagar
-              </Button>
+              </button>
             )}
             {loading && (
               <div
@@ -414,26 +377,7 @@ const Reconfirmacao = () => {
             )}
           </div>
         )}
-
-        <input
-          type='text'
-          value={fk_frequencia}
-          onChange={(e) => setFk_frequencia(e.target.value)}
-          hidden
-        />
-        <input
-          type='text'
-          value={fk_ano}
-          onChange={(e) => setFk_ano(e.target.value)}
-          hidden
-        />
-        <input
-          type='text'
-          value={fk_semestre}
-          onChange={(e) => setFk_semestre(e.target.value)}
-          hidden
-        />
-      </div>
+      </form>
     </>
   );
 };

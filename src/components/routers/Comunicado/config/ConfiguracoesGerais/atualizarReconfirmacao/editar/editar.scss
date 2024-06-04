@@ -1,4 +1,4 @@
-@import "../../../../../../../../style/variable.scss";
+@import "../../../../../../../style/variable.scss";
 
 .ovefloy {
   display: flex;
@@ -16,7 +16,8 @@
   display: flex;
   position: fixed;
   width: 70%;
-  left: 20%;
+  left: calc(30% / 2);
+
   background-color: $white;
   flex-direction: column;
   z-index: 3;

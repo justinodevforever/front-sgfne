@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./atualizarPropina.scss";
+import "./atualizarReconfirmacao.scss";
 import { api } from "../../../../../../../auth/auth";
 import { BiEdit, BiSearch, BiX } from "react-icons/bi";
 import UseRemoverConfirm from "./remover/UseRemoverConfirm";
@@ -8,37 +8,55 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
 import { Input } from "antd";
+import { useNavigate } from "react-router-dom";
 
-const AtualizarPropina = () => {
+const AtualizarReconfirmacao = () => {
   const [isClick, setIsClick] = useState(false);
   const [isClickEdit, setIsClickEdit] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [meses, setMeses] = useState([]);
+  const [frequencias, setFrequencias] = useState([]);
   const [anos, setAnos] = useState([]);
-  const [mes, setMes] = useState("");
+  const [semestres, setSemestres] = useState([]);
+  const [frequencia, setFrequencia] = useState("");
+  const [semestre, setSemestre] = useState("");
   const [ano, setAno] = useState("");
   const [id, setId] = useState("");
   const [bi, setBi] = useState("");
   const [sms, setSms] = useState("");
   const { isVisible } = useSelector((state) => state.ui.ModalEdit);
   const dispatch = useDispatch();
-  const [propinas, setPropinas] = useState({});
+  const [reconfirmacoes, setReconfirmacoes] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getMes();
+    getFrequencia();
     getAnoLetivo();
+    getSemestre();
   }, []);
 
-  const getMes = async () => {
+  const getSemestre = async () => {
     await api
-      .get("/mes")
+      .get("/semestre")
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        setMes(data.data[0].mes);
-        setMeses(data.data);
+        setSemestre(data.data[0].mes);
+        setSemestres(data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  const getFrequencia = async () => {
+    await api
+      .get("/ano")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+        setFrequencia(data.data[0].mes);
+        setFrequencias(data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -57,17 +75,25 @@ const AtualizarPropina = () => {
       })
       .catch((err) => console.log(err));
   };
-  const buscaPropina = async () => {
-    if (!mes || !ano || !bi || mes === "Escolha" || ano === "Escolha") {
+  const buscaReconfirmacao = async () => {
+    if (
+      !frequencia ||
+      !ano ||
+      !bi ||
+      frequencia === "Escolha" ||
+      semestre === "Escolha" ||
+      ano === "Escolha"
+    ) {
       alert("Existe um Campo Vazio!");
       return;
     }
     setLoading(true);
     await api
-      .post("/propina/mensal", {
-        mes,
+      .post("/reconfirmacao/atualizacao", {
+        frequencia,
         bi,
         ano,
+        semestre,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -76,12 +102,12 @@ const AtualizarPropina = () => {
         }
         setLoading(false);
         if (data.data) {
-          setPropinas(data.data);
+          setReconfirmacoes(data.data);
           setId(data.data.id);
         }
         if (!data.data) {
-          alert(`O Mês de ${mes} do Ano Lectivo ${ano} Ainda Não Foi Pago!`);
-          setPropinas([]);
+          alert(`Não existe nenhuma reconfirmção com esses dados`);
+          setReconfirmacoes([]);
         }
       })
       .catch((err) => console.log(err));
@@ -98,27 +124,11 @@ const AtualizarPropina = () => {
   return (
     <>
       {isClick && <UseRemoverConfirm id={id} setIsClick={setIsClick} />}
-      <EditarPropina propinas={propinas} />
-      <div className='atualizarPropinas'>
+      <EditarPropina propinas={reconfirmacoes} />
+      <div className='atualizarReconfirmacao'>
         <div className='opcoes'>
           <form className='formBi'>
             <div className='cc'>
-              <select
-                onChange={(e) => setMes(e.target.value)}
-                style={{
-                  width: "300px",
-                  borderRadius: "5px",
-                  height: "50px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
-                }}>
-                {meses.map((m) => (
-                  <option value={m.mes} key={m.id}>
-                    {m.mes}
-                  </option>
-                ))}
-              </select>
               <select
                 onChange={(e) => setAno(e.target.value)}
                 style={{
@@ -129,15 +139,52 @@ const AtualizarPropina = () => {
                   fontSize: "20px",
                   border: "1px solid #ddd",
                 }}>
+                <option value='Escolha'>Ano Lectivo</option>
+
                 {anos.map((ano) => (
                   <option value={ano.ano} key={ano.id}>
                     {ano.ano}
                   </option>
                 ))}
               </select>
+              <select
+                onChange={(e) => setFrequencia(e.target.value)}
+                style={{
+                  width: "300px",
+                  borderRadius: "5px",
+                  height: "50px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}>
+                <option value='Escolha'>Ano de Frequência</option>
+                {frequencias.map((m) => (
+                  <option value={m.ano} key={m.id}>
+                    {m.ano}
+                  </option>
+                ))}
+              </select>
+              <select
+                onChange={(e) => setSemestre(e.target.value)}
+                style={{
+                  width: "300px",
+                  borderRadius: "5px",
+                  height: "50px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}>
+                <option value='Escolha'>Semestre</option>
+
+                {semestres.map((s) => (
+                  <option value={s.nome} key={s.id}>
+                    {s.nome}
+                  </option>
+                ))}
+              </select>
             </div>
           </form>
-          <form className='form' onSubmitCapture={() => buscaPropina()}>
+          <form className='form' onSubmitCapture={() => buscaReconfirmacao()}>
             <div style={{ marginTop: "10px" }}>
               <Input.Search
                 placeholder='Número de BI do Estudante'
@@ -145,7 +192,7 @@ const AtualizarPropina = () => {
                 value={bi}
                 autoFocus
                 maxLength={14}
-                onSearch={() => buscaPropina()}
+                onSearch={() => buscaReconfirmacao()}
                 loading={loading}
                 style={{ width: "70%" }}
               />
@@ -156,15 +203,14 @@ const AtualizarPropina = () => {
               }}
             />
 
-            {propinas?.estudante?.nome && (
+            {reconfirmacoes?.estudante?.nome && (
               <table>
                 <thead>
                   <tr>
                     <th>Nome</th>
                     <th>B.I</th>
-                    <th>RUPE</th>
-                    <th>Valor</th>
-                    <th>Mês</th>
+                    <th>Semestre</th>
+                    <th>Frequência</th>
                     <th>Ano Letivo</th>
                     <PegarPermissoes
                       permissoes={["admin", "remover", "edição"]}>
@@ -174,12 +220,11 @@ const AtualizarPropina = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{propinas?.estudante?.nome}</td>
-                    <td>{propinas?.estudante?.bi}</td>
-                    <td>{propinas?.rupe}</td>
-                    <td>{propinas?.valor} Kz</td>
-                    <td>{propinas?.mes?.mes}</td>
-                    <td>{propinas?.anoLectivo?.ano}</td>
+                    <td>{reconfirmacoes?.estudante?.nome}</td>
+                    <td>{reconfirmacoes?.estudante?.bi}</td>
+                    <td>{reconfirmacoes?.semestre.nome}</td>
+                    <td>{reconfirmacoes?.frequencia.ano} Ano</td>
+                    <td>{reconfirmacoes?.anoLectivo?.ano}</td>
                     <PegarPermissoes permissoes={["admin", "edição"]}>
                       <td>
                         <BiEdit
@@ -212,4 +257,4 @@ const AtualizarPropina = () => {
   );
 };
 
-export default AtualizarPropina;
+export default AtualizarReconfirmacao;

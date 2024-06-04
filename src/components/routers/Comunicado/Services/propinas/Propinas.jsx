@@ -16,32 +16,38 @@ import UseErro from "../../../hook/massege/Error/UseErro";
 import { Form, Input, Space } from "antd";
 import Loader from "../../../hook/load/Loader";
 import Processing from "../../../hook/process/Processing";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
 
 const Propina = ({ tipo }) => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
-  const [fk_mes, setFk_mes] = useState("");
   const [fk_estudante, setFk_estudante] = useState("");
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
-  const [fk_ano, setFk_ano] = useState("");
   const [valor, setValor] = useState("");
   const [rupe, setRupe] = useState(0);
-  const [fk_semestre, setFk_semestre] = useState("");
   const [mes, setMes] = useState("");
   const [meses, setMeses] = useState([]);
   const [semestres, setSemestres] = useState([]);
   const [anos, setAnos] = useState([]);
   const [ano, setAno] = useState("");
   const [semestre, setSemestre] = useState("");
-  const [visivel, setVisivel] = useState(false);
   const [isLoad, setIsLoad] = useState(false);
   const [isProcessing, setIsProcessing] = useState(true);
   const navigate = useNavigate();
   const [periodo, setPeriodo] = useState("");
   const [id, setId] = useState("");
   const [message, setMessage] = useState("");
+  const form = useForm();
+  const { register, handleSubmit } = form;
 
   const dispatch = useDispatch();
   const dispatchError = useDispatch();
@@ -55,21 +61,13 @@ const Propina = ({ tipo }) => {
     setFk_user(sessionStorage.getItem("id"));
     buscarEstudante();
   }, []);
-  useEffect(() => {
-    buscaSemestre();
-  }, [semestre]);
+
   useEffect(() => {
     if (bi === "") {
       setNome("");
       setCurso("");
     }
   }, [bi]);
-  useEffect(() => {
-    buscaMes();
-  }, [mes]);
-  useEffect(() => {
-    buscaAnoLeivo();
-  }, [ano]);
 
   const buscarEstudante = async () => {
     const response = await api.post("/estudante/user", {
@@ -147,61 +145,15 @@ const Propina = ({ tipo }) => {
       .catch((err) => console.log(err));
   };
 
-  const buscaMes = async () => {
-    await api
-      .post("/search/mes", {
-        mes,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        setFk_mes(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-  const buscaSemestre = async () => {
-    await api
-      .post("/search/semestre", {
-        nome: semestre,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_semestre(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const buscaAnoLeivo = async () => {
-    await api
-      .post("/search/letivo", {
-        ano,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_ano(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const hendlePagamento = async (e) => {
-    e.preventDefault();
+  const handlePagamento = async (data) => {
     if (
-      ano === "Escolha" ||
-      semestre === "Escolha" ||
-      mes === "Escolha" ||
-      rupe === 0 ||
-      !rupe
+      data?.fk_ano === undefined ||
+      data?.fk_semestre === undefined ||
+      data?.fk_mes === undefined ||
+      data?.rupe === 0 ||
+      !data?.rupe
     ) {
-      dispatchError(toggleModalError(true));
+      alert("Todos os Campos são Obrigatóro");
       return;
     }
     setIsLoad(true);
@@ -210,12 +162,12 @@ const Propina = ({ tipo }) => {
       .post("/propina", {
         fk_curso,
         fk_estudante,
-        fk_mes,
-        fk_semestre,
+        fk_mes: data.fk_mes,
+        fk_semestre: data.fk_semestre,
         fk_user,
-        fk_ano,
+        fk_ano: data.fk_ano,
         valor,
-        rupe,
+        rupe: Number(data.rupe),
       })
       .then(async (data) => {
         if (data.data === "Token Invalid") {
@@ -225,7 +177,7 @@ const Propina = ({ tipo }) => {
 
         if (data.data.message === "error") {
           dispatchError(toggleModalError(true));
-
+          setIsLoad(false);
           return;
         }
         if (data.data.message === "exist") {
@@ -234,6 +186,7 @@ const Propina = ({ tipo }) => {
           setIsLoad(false);
           return;
         }
+
         if (data.data.message === "sucess") {
           const response = await api.post("/solicitacao", {
             fk_estudante,
@@ -318,154 +271,141 @@ const Propina = ({ tipo }) => {
               </label>
             </Space>
           </Form>
-          <form className='form' onSubmit={(e) => hendlePagamento(e)}>
+          <form className='form' onSubmit={handleSubmit(handlePagamento)}>
             <Space
               wrap
               style={{
                 display: "flex",
                 justifyContent: "center",
-                background: "#b7b6b6",
+                gap: "10px",
+                alignItems: "center",
                 paddingBottom: "10px",
                 paddingTop: "10px",
               }}>
               <label
                 htmlFor='rupe'
                 style={{
-                  display: "flex",
-                  width: "100%",
                   alignItems: "center",
                 }}>
-                Nº RUPE:
-                <Input
+                <TextField
                   type='number'
-                  placeholder='Digite o Nº de RUPE'
-                  value={rupe}
-                  onChange={(e) => setRupe(e.target.value)}
-                  maxLength={20}
+                  label='Rupe'
+                  id='rupe'
+                  placeholder='Digite o Número de Rupe'
+                  maxLength={24}
+                  {...register("rupe")}
                 />
               </label>
-              <label
-                htmlFor='mes'
-                style={{
-                  alignItems: "center",
-                }}>
-                Mês:
-                <select onChange={(e) => setMes(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
-                  {meses.map((m) => (
-                    <option value={m.mes} key={m.id}>
-                      {m.mes}
-                    </option>
-                  ))}
-                </select>
-              </label>
 
-              <label
-                htmlFor='semestre'
-                style={{
-                  alignItems: "center",
-                }}>
-                Semestre:
-                <select onChange={(e) => setSemestre(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>Mês</InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  {...register("fk_mes")}
+                  label='Frequência'
+                  id='demo-simple-select'>
+                  {meses.map((s) => (
+                    <MenuItem value={s.id} key={s.id}>
+                      {s.mes}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Semestre
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  {...register("fk_semestre")}
+                  label='Frequência'
+                  id='demo-simple-select'>
                   {semestres.map((s) => (
-                    <option value={s.nome} key={s.id}>
+                    <MenuItem value={s.id} key={s.id}>
                       {s.nome}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-              <label
-                htmlFor='anoLetivo'
-                style={{
-                  alignItems: "center",
-                }}>
-                Ano Lectivo
-                <select onChange={(e) => setAno(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
-                  {anos.map((ano) => (
-                    <option value={ano.ano} key={ano.id}>
-                      {ano.ano}
-                    </option>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Ano Lectivo
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  label='Ano Lectivo'
+                  id='demo-simple-select'
+                  {...register("fk_ano")}>
+                  {anos.map((s) => (
+                    <MenuItem value={s.id} key={s.id}>
+                      {s.ano}
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-
-              <input
-                type='text'
-                value={fk_mes}
-                onChange={(e) => setFk_mes(e.target.value)}
-                hidden
-              />
-              <input
-                type='text'
-                value={fk_semestre}
-                onChange={(e) => setFk_semestre(e.target.value)}
-                hidden
-              />
-              <input
-                type='text'
-                value={fk_ano}
-                onChange={(e) => setFk_ano(e.target.value)}
-                hidden
-              />
+                </Select>
+              </FormControl>
             </Space>
             <hr />
             {nome !== "" && curso !== "" && bi && (
               <div
-                className='dados-estudantePropina'
                 style={{
                   display: "flex",
                   width: "100%",
                   flexDirection: "column",
                   alignItems: "center",
-                  background: "#b7b6b6",
+                  gap: "20px",
                 }}>
                 <h2>Dados do Estudante</h2>
-                <Space
-                  align='center'
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection: "column",
-                  }}>
-                  <label htmlFor='nome'>
-                    {" "}
-                    Nome:
-                    <Input
-                      type='text'
-                      value={nome}
-                      onChange={(e) => setNome(e.target.value)}
-                      readOnly
-                    />
-                  </label>
 
-                  <label htmlFor='nome'>
-                    {" "}
-                    Curso:
-                    <Input
-                      type='text'
-                      value={curso}
-                      onChange={(e) => setCurso(e.target.value)}
-                      readOnly
-                    />
-                  </label>
-                  <label htmlFor='nome'>
-                    {" "}
-                    Nº B.I:
-                    <Input
-                      type='text'
-                      value={bi}
-                      onChange={(e) => setBi(e.target.value)}
-                      readOnly
-                    />
-                  </label>
-                </Space>
+                <TextField
+                  type='text'
+                  value={nome}
+                  label='Nome'
+                  name='nome'
+                  variant='outlined'
+                  readOnly
+                  {...register("nome")}
+                  style={{
+                    width: "60%",
+                  }}
+                />
+
+                <TextField
+                  type='text'
+                  value={curso}
+                  label='Curso'
+                  readOnly
+                  variant='outlined'
+                  style={{
+                    width: "60%",
+                  }}
+                  {...register("curso")}
+                />
+
+                <TextField
+                  type='text'
+                  value={bi}
+                  id='bi n'
+                  label='B.I'
+                  readOnly
+                  variant='outlined'
+                  style={{
+                    width: "60%",
+                  }}
+                  {...register("bi")}
+                />
 
                 {!isLoad && (
-                  <button className='btn' onClick={(e) => hendlePagamento(e)}>
+                  <button className='btn' type='submit'>
                     Fazer Pagamento
                   </button>
                 )}

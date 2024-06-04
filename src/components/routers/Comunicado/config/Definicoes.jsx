@@ -1,13 +1,11 @@
 import { useState } from "react";
 import "./definicoes.scss";
 import { Link } from "react-router-dom";
-import { RiUserSettingsFill } from "react-icons/ri";
-import ConfiguracoesGerais from "./ConfiguracoesGerais/ConfiguracoesGerais";
 import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
 import Config from "./configuracoes/Config";
-import { GrConfigure } from "react-icons/gr";
-import { PiConfettiLight } from "react-icons/pi";
 import { ToolOutlined } from "@ant-design/icons";
+import { FaUserLock } from "react-icons/fa";
+import PermissoesUSuario from "./ConfiguracoesGerais/permissoes/PermissoesUsuario";
 
 const Definicoes = () => {
   const [permissao, setPermissao] = useState(true);
@@ -33,7 +31,7 @@ const Definicoes = () => {
                 <Link
                   onClick={(e) => togglePermissoes(e)}
                   className={permissao ? "ative" : "noative"}>
-                  <RiUserSettingsFill /> Configurações Gerais
+                  <FaUserLock /> Permissões
                 </Link>
               </PegarPermissoes>
             </li>
@@ -52,7 +50,7 @@ const Definicoes = () => {
 
         {permissao && (
           <div className='conteudo'>
-            <ConfiguracoesGerais />
+            <PermissoesUSuario />
           </div>
         )}
         {config && (

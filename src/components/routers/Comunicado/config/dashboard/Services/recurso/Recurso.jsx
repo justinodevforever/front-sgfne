@@ -286,7 +286,11 @@ const RecursoDashboard = () => {
       ano === "" ||
       semestre === "" ||
       frequencia === "" ||
-      disciplina === ""
+      disciplina === "" ||
+      rupe === 0 ||
+      valor === 0 ||
+      !rupe ||
+      !valor
     ) {
       setMessage("Existe Campo vazio!");
       dispatchWarning(toggleModalWarning(true));
@@ -317,12 +321,14 @@ const RecursoDashboard = () => {
         if (data.data?.message === "sucess") {
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response.id);
-          let id;
+          let id = null;
+          let co = 0;
 
           id = setInterval(() => {
             setVisivel(true);
+            if (co === 4) return clearInterval(id);
+            co++;
           }, 4000);
-          return () => clearInterval(id);
         }
       })
       .catch((error) => console.log(error));
@@ -386,15 +392,22 @@ const RecursoDashboard = () => {
             style={{
               display: "flex",
               flexWrap: "wrap",
-              gap: "20px",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
             }}>
-            <label htmlFor='cadeira'>
-              Ano Lectivo:
+            <label htmlFor='ano'>
               <select
-                style={{ width: "100px" }}
-                className='selecte'
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}
                 onChange={(e) => setAno(e.target.value)}>
-                <option value={"Escolha"}>Escolha...</option>
+                <option value={"Escolha"}>Escolha Ano Lectivo</option>
 
                 {anos.map((s) => (
                   <option value={s.ano} key={s.id}>
@@ -404,14 +417,17 @@ const RecursoDashboard = () => {
               </select>
             </label>
             <label htmlFor='frequencia'>
-              Frequência:
               <select
-                style={{ width: "100px" }}
-                className='selecte'
-                nome='frequencia'
-                id='frequencia'
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}
                 onChange={(e) => setFrequencia(e.target.value)}>
-                <option value={"Escolha"}>Escolha...</option>
+                <option value={"Escolha"}>Escolha Frequência</option>
 
                 {frequencias.map((f) => (
                   <option value={f.ano} key={f.id}>
@@ -422,12 +438,17 @@ const RecursoDashboard = () => {
             </label>
 
             <label htmlFor='semestre'>
-              Semestre:
               <select
-                style={{ width: "100px" }}
-                className='selecte'
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}
                 onChange={(e) => setSemestre(e.target.value)}>
-                <option value={"Escolha"}>Escolha...</option>
+                <option value={"Escolha"}>Escolha Semestre</option>
 
                 {semestres.map((s) => (
                   <option value={s.nome} key={s.id}>
@@ -437,12 +458,17 @@ const RecursoDashboard = () => {
               </select>
             </label>
             <label htmlFor='cadeira'>
-              Cadeira:
               <select
-                style={{ width: "100px" }}
-                className='selecte'
+                style={{
+                  width: "225px",
+                  borderRadius: "5px",
+                  height: "60px",
+                  fontWeight: "200",
+                  fontSize: "20px",
+                  border: "1px solid #ddd",
+                }}
                 onChange={(e) => setDisciplina(e.target.value)}>
-                <option value={"Escolha"}>Escolha...</option>
+                <option value={"Escolha"}>Escolha a Cadeira</option>
 
                 {disciplinas?.map((s) => (
                   <option value={s.nome} key={s.id}>
@@ -462,23 +488,48 @@ const RecursoDashboard = () => {
               width: "100%",
               flexDirection: "column",
               alignItems: "center",
-              background: "#b7b6b6",
               padding: "10px 0px",
+              gap: "10px",
             }}>
             <h3>Dados do Estudante</h3>
             <br />
-            <label htmlFor='nome'>
-              Nome:
-              <Input type='text' value={nome} readOnly className='input' />
-            </label>
+            <TextField
+              type='text'
+              value={nome}
+              label='Nome'
+              name='nome'
+              variant='outlined'
+              readOnly
+              style={{
+                width: "60%",
+              }}
+            />
 
-            <label htmlFor='curso'>
-              Curso:
-              <Input type='text' value={curso} readOnly className='input' />
-            </label>
+            <TextField
+              type='text'
+              value={curso}
+              label='Curso'
+              name='Curso'
+              variant='outlined'
+              readOnly
+              style={{
+                width: "60%",
+              }}
+            />
+            <TextField
+              type='text'
+              value={bi}
+              label='Curso'
+              name='Curso'
+              variant='outlined'
+              readOnly
+              style={{
+                width: "60%",
+              }}
+            />
 
             {!ativar && (
-              <Button
+              <button
                 onClick={() => hendleRecurso()}
                 className='btn'
                 style={{
@@ -487,7 +538,7 @@ const RecursoDashboard = () => {
                   justifyContent: "center",
                 }}>
                 Pagar
-              </Button>
+              </button>
             )}
             {ativar && <Loader />}
           </div>

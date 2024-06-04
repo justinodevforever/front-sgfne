@@ -98,7 +98,9 @@ const Ano = () => {
                 display: "flex",
                 width: "1",
               }}>
-              <label htmlFor='semestre' style={{ position: "relative" }}>
+              <label
+                htmlFor='semestre'
+                style={{ position: "relative", flexDirection: "column" }}>
                 Ano Lectivo
                 <Input
                   type='text'
@@ -110,9 +112,11 @@ const Ano = () => {
                     ano && validAno
                       ? {
                           border: "1px solid green",
+                          height: "60px",
                         }
                       : {
                           border: "1px solid red",
+                          height: "60px",
                         }
                   }
                 />
@@ -124,7 +128,7 @@ const Ano = () => {
                       fontStyle: "italic",
                       marginTop: "10px",
                       position: "absolute",
-                      top: "50px",
+                      top: "80px",
                     }}>
                     Exemplo: 2021/2021
                   </span>

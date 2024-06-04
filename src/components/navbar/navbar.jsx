@@ -2,35 +2,22 @@ import "./navBar.scss";
 import { Link } from "react-router-dom";
 import "../routers/respossividade.css";
 import { useEffect, useRef, useState } from "react";
+import { BsMessenger } from "react-icons/bs";
 import {
-  BsFillArrowUpRightSquareFill,
-  BsMessenger,
-  BsOption,
-} from "react-icons/bs";
-import {
-  BiExit,
-  BiHome,
   BiMenu,
-  BiSelection,
   BiSolidBellOff,
   BiSolidDashboard,
   BiSolidHome,
 } from "react-icons/bi";
-import { CiHome } from "react-icons/ci";
 import { BiSolidBell } from "react-icons/bi";
-import { BsSearch } from "react-icons/bs";
 import { api } from "../../../auth/auth";
 import { io } from "socket.io-client";
-import { GrConsole, GrMenu, GrUnorderedList } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
-import Logaut from "../routers/login/Logaut";
 import { Socket } from "../../socketIO";
-import { PiCurrencyCircleDollar, PiStudentBold } from "react-icons/pi";
-import { AiFillContacts, AiOutlineSetting } from "react-icons/ai";
-import PegarRoles from "../../configs/roles/Roles";
 import { useSelector } from "react-redux";
 import PegarPermissoes from "../../configs/permissoes/PegarPermissoes";
 import MenuPerfil from "./Menu Perfil/MenuPerfil";
+import imageLogo from "./Logo.png";
 
 function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
   const [nome, setNome] = useState();
@@ -130,7 +117,6 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
           navigate("/login");
           return;
         }
-        console.log(data.data);
 
         setImage(data.data[0]);
       })
@@ -157,13 +143,18 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
   return (
     <nav className='container-nav'>
       <div className='bDashbord'>
-        <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginLeft: "0.7rem",
+          }}>
           <Link
             style={{
-              marginLeft: "0.7rem",
+              display: "flex",
             }}>
             <BiMenu
-              size={24}
+              size={30}
               color='#a31543'
               onClick={toggleOpen}
               cursor={"pointer"}
@@ -179,7 +170,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
               marginTop: "-20px",
             }}>
             <Link
-              to={"/dashboard"}
+              to={"/dashboard/dados"}
               style={{
                 display: "flex",
                 height: "100%",
@@ -200,7 +191,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
                 to={`/main/comunicado?page=${1}`}
                 title='Página Inicial'>
                 <BiSolidHome
-                  size={"20px"}
+                  size={"25px"}
                   className='link-nav'
                   color='a31543'
                 />
@@ -212,7 +203,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
             <div className='nos'>
               <Link to={`/chat/${sessionStorage.getItem("id")}`}>
                 <BsMessenger
-                  size={"20px"}
+                  size={"25px"}
                   color={"a31543"}
                   title='Ver Mensagens'
                 />
@@ -243,7 +234,7 @@ function NavBar({ setMostrar, setIsVisible, isVisible, mostrar }) {
               ) : (
                 <Link className='notify-li focus' title='Ver Notifições'>
                   <BiSolidBellOff
-                    size={"20px"}
+                    size={"25px"}
                     className='link-nav '
                     color='#a31543'
                   />

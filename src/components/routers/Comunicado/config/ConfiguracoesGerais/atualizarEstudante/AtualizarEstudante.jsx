@@ -83,7 +83,7 @@ const AtualizarEstudante = () => {
                 <th>Nome</th>
                 <th>B.I</th>
                 <th>E-mail</th>
-                <th>Conacto</th>
+                <th>Contacto</th>
                 <th>Curso</th>
                 <th>Período</th>
                 <PegarPermissoes permissoes={["admin", "remover", "edição"]}>

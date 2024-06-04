@@ -114,26 +114,26 @@ const EditarPropina = ({ propinas }) => {
       <UseWarning message={message} />
       {isVisible && (
         <>
-          <div className="editarPropina">
-            <div className="opcoesEditar">
+          <div className='editarPropina'>
+            <div className='opcoesEditar'>
               <div>
                 <h2>Editar Propina</h2>
               </div>
 
               <BiX
-                color="red"
+                color='red'
                 size={20}
                 onClick={(e) => close(e)}
-                className="closed"
+                className='closed'
               />
             </div>
-            <form className="formBi">
-              <div className="cc">
+            <form className='formBi'>
+              <div className='cc'>
                 <div>
                   Mês{" "}
                   <select onChange={(e) => setMes(e.target.value)}>
-                    <option value={propinas.Me.mes + "," + propinas.fk_mes}>
-                      {propinas.Me.mes}
+                    <option value={propinas?.mes?.mes + "," + propinas.fk_mes}>
+                      {propinas?.mes?.mes}
                     </option>
                     {meses.map((m) => (
                       <>
@@ -148,12 +148,12 @@ const EditarPropina = ({ propinas }) => {
                   Ano{" "}
                   <select onChange={(e) => setAno(e.target.value)}>
                     <option
-                      value={propinas.AnoLetivo.ano + "," + propinas.fk_ano}>
-                      {propinas.AnoLetivo.ano}
+                      value={propinas?.anoLectivo?.ano + "," + propinas.fk_ano}>
+                      {propinas?.anoLectivo?.ano}
                     </option>
                     {anos.map((ano) => (
-                      <option value={ano.ano + "," + ano.id} key={ano.id}>
-                        {ano.ano}
+                      <option value={ano?.ano + "," + ano?.id} key={ano?.id}>
+                        {ano?.ano}
                       </option>
                     ))}
                   </select>
@@ -161,15 +161,15 @@ const EditarPropina = ({ propinas }) => {
                 <div>
                   RUPE: {""}
                   <input
-                    type="number"
-                    placeholder="Digite o Nº de RUPE"
+                    type='number'
+                    placeholder='Digite o Nº de RUPE'
                     value={rupe}
                     onChange={(e) => setRupe(e.target.value)}
                   />
                 </div>
               </div>
             </form>
-            {propinas?.Estudante?.nome && (
+            {propinas?.estudante?.nome && (
               <>
                 <table>
                   <thead>
@@ -184,24 +184,24 @@ const EditarPropina = ({ propinas }) => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>{propinas?.Estudante?.nome}</td>
-                      <td>{propinas?.Estudante?.bi}</td>
+                      <td>{propinas?.estudante?.nome}</td>
+                      <td>{propinas?.estudante?.bi}</td>
                       <td>{propinas?.rupe}</td>
                       <td>{propinas?.valor} Kz</td>
-                      <td>{propinas?.Me?.mes}</td>
-                      <td>{propinas?.AnoLetivo?.ano}</td>
+                      <td>{propinas?.mes?.mes}</td>
+                      <td>{propinas?.anoLectivo?.ano}</td>
                     </tr>
                   </tbody>
                 </table>
 
                 <button onClick={(e) => atualizarPropina(e)}>
-                  <FaSave size={20} color="fff" /> Salvar
+                  <FaSave size={20} color='fff' /> Salvar
                 </button>
               </>
             )}
           </div>
 
-          <div className="ovefloy"></div>
+          <div className='ovefloy'></div>
         </>
       )}
     </>

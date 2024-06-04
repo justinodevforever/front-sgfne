@@ -1,27 +1,32 @@
 @import "../../../../../../style/variable.scss";
-.atualizarPropina {
+.atualizarReconfirmacao {
   display: flex;
-  width: 78%;
-  margin-top: 0px;
+  width: 98%;
+  margin-top: 40px;
   border: 1px solid $rosa;
   margin-left: 20px;
 }
-.atualizarPropina .opcoes {
+.atualizarReconfirmacao .opcoes {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 0px;
 }
-.atualizarPropina th {
+.atualizarReconfirmacao .formBi {
+  display: flex;
+  background-color: $rosa;
+  padding: 10px 0px;
+}
+.atualizarReconfirmacao th {
   background-color: $rosa;
   border: none;
 }
-.atualizarPropina td {
+.atualizarReconfirmacao td {
   font-size: 11pt;
   border: none;
   text-align: center;
 }
-.atualizarPropina .pagamento-propina {
+.atualizarReconfirmacao .pagamento-propina {
   display: flex;
   width: 50%;
   margin: auto;
@@ -29,25 +34,16 @@
   margin-top: 20px;
 }
 
-.atualizarPropina .pagamento-propina input {
+.atualizarReconfirmacao .pagamento-propina input {
   border: 2px solid $rosa;
   border-radius: 10px;
   padding: 10px;
 }
-.atualizarPropina .pagamento-propina input::placeholder {
+.atualizarReconfirmacao .pagamento-propina input::placeholder {
   font-size: 12pt;
 }
-.atualizarPropina .opcoes .cc {
-  display: flex;
+.atualizarReconfirmacao .opcoes .cc {
   width: 50%;
   align-items: center;
   color: $white;
-  gap: 10px;
-}
-.atualizarPropina .opcoes .cc label {
-  display: flex;
-  flex-direction: column;
-}
-.atualizarPropina .opcoes .cc select {
-  width: 100px;
 }

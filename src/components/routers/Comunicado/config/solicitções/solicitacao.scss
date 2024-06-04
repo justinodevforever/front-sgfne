@@ -1,4 +1,9 @@
 @import "../../../../../style/variable.scss";
+.solicitacao {
+  display: flex;
+  overflow-y: auto;
+  padding-bottom: 10px;
+}
 
 .solicitacao .conteudo {
   display: flex;

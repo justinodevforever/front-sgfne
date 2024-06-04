@@ -18,6 +18,7 @@ import UseSucess from "../../../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../../../hook/massege/Error/UseErro";
 import { Form, Input, Space } from "antd";
 import Processing from "../../../../../hook/process/Processing";
+import { useForm } from "react-hook-form";
 
 const PropinaDashboard = ({ tipo }) => {
   const [bi, setBi] = useState("");
@@ -44,6 +45,8 @@ const PropinaDashboard = ({ tipo }) => {
   const [message, setMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const form = useForm();
+  const { register, handleSubmit } = form;
 
   const dispatch = useDispatch();
   const dispatchError = useDispatch();
@@ -193,14 +196,13 @@ const PropinaDashboard = ({ tipo }) => {
       .catch((err) => console.log(err));
   };
 
-  const hendlePagamento = async (e) => {
-    e.preventDefault();
+  const handlePagamento = async (data) => {
     if (
-      ano === "Escolha" ||
-      semestre === "Escolha" ||
-      mes === "Escolha" ||
-      rupe === 0 ||
-      !rupe
+      data.fk_mes === undefined ||
+      data.fk_ano === undefined ||
+      data.fk_semestre === undefined ||
+      data.rupe === 0 ||
+      !data.rupe
     ) {
       dispatchError(toggleModalError(true));
       return;
@@ -210,12 +212,12 @@ const PropinaDashboard = ({ tipo }) => {
       .post("/propina", {
         fk_curso,
         fk_estudante,
-        fk_mes,
-        fk_semestre,
+        fk_mes: data.fk_mes,
+        fk_semestre: data.fk_semestre,
         fk_user,
-        fk_ano,
+        fk_ano: data.fk_ano,
         valor,
-        rupe,
+        rupe: Number(data.rupe),
       })
       .then(async (data) => {
         if (data.data === "Token Invalid") {
@@ -308,79 +310,99 @@ const PropinaDashboard = ({ tipo }) => {
               </div>
             </Space>
           </Form>
-          <form className='form' onSubmit={(e) => hendlePagamento(e)}>
+          <form className='form' onSubmit={handleSubmit(handlePagamento)}>
             <Space
               wrap
               style={{
                 display: "flex",
                 justifyContent: "center",
-                background: "#b7b6b6",
                 paddingBottom: "10px",
                 paddingTop: "10px",
               }}>
-              <label htmlFor='mes'>
-                Mês:
-                <select onChange={(e) => setMes(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+              <label
+                htmlFor='rupe'
+                style={{
+                  alignItems: "center",
+                }}>
+                <TextField
+                  type='number'
+                  label='Rupe'
+                  id='rupe'
+                  placeholder='Digite o Número de Rupe'
+                  maxLength={24}
+                  {...register("rupe")}
+                />
+              </label>
+              <label
+                htmlFor='mes'
+                style={{
+                  alignItems: "center",
+                }}>
+                <select
+                  {...register("fk_mes")}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option value={"Escolha"}>Escolha Mês</option>
                   {meses.map((m) => (
-                    <option value={m.mes} key={m.id}>
+                    <option value={m.id} key={m.id}>
                       {m.mes}
                     </option>
                   ))}
                 </select>
               </label>
 
-              <label htmlFor='semestre'>
-                Semestre:
-                <select onChange={(e) => setSemestre(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+              <label
+                htmlFor='semestre'
+                style={{
+                  alignItems: "center",
+                }}>
+                <select
+                  {...register("fk_semestre")}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option value={"Escolha"}>Escolha Semestre</option>
                   {semestres.map((s) => (
-                    <option value={s.nome} key={s.id}>
+                    <option value={s.id} key={s.id}>
                       {s.nome}
                     </option>
                   ))}
                 </select>
               </label>
-              <label htmlFor='anoLetivo'>
-                Ano Lectivo
-                <select onChange={(e) => setAno(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
+              <label
+                htmlFor='anoLetivo'
+                style={{
+                  alignItems: "center",
+                }}>
+                <select
+                  {...register("fk_ano")}
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option value={"Escolha"}>Escolha Ano Lectivo</option>
                   {anos.map((ano) => (
-                    <option value={ano.ano} key={ano.id}>
+                    <option value={ano.id} key={ano.id}>
                       {ano.ano}
                     </option>
                   ))}
                 </select>
               </label>
-              <label htmlFor='rupe'>
-                Nº RUPE:
-                <Input
-                  type='number'
-                  placeholder='Digite o Nº de RUPE'
-                  value={rupe}
-                  onChange={(e) => setRupe(e.target.value)}
-                  maxLength={20}
-                  style={{ width: "100%", border: "1px solid #a31543" }}
-                />
-              </label>
-              <input
-                type='text'
-                value={fk_mes}
-                onChange={(e) => setFk_mes(e.target.value)}
-                hidden
-              />
-              <input
-                type='text'
-                value={fk_semestre}
-                onChange={(e) => setFk_semestre(e.target.value)}
-                hidden
-              />
-              <input
-                type='text'
-                value={fk_ano}
-                onChange={(e) => setFk_ano(e.target.value)}
-                hidden
-              />
             </Space>
             <hr />
             {bi !== "" && nome !== "" && curso !== "" ? (
@@ -390,42 +412,49 @@ const PropinaDashboard = ({ tipo }) => {
                   width: "100%",
                   flexDirection: "column",
                   alignItems: "center",
-                  background: "#b7b6b6",
+                  gap: "10px",
                 }}>
                 <h2>Dados do Estudante</h2>
-                <Space wrap align='center'>
-                  <br />
-                  <label htmlFor='nome'>
-                    {" "}
-                    Nome:
-                    <Input
-                      type='text'
-                      value={nome}
-                      onChange={(e) => setNome(e.target.value)}
-                      readOnly
-                      className='input'
-                      style={{
-                        fontSize: "12pt",
-                        width: "auto",
-                      }}
-                    />
-                  </label>
-                  <label htmlFor='curso'>
-                    Curso:
-                    <Input
-                      type='text'
-                      value={curso}
-                      onChange={(e) => setCurso(e.target.value)}
-                      readOnly
-                      name='curso'
-                      className='input'
-                      style={{
-                        fontSize: "12pt",
-                        width: "auto",
-                      }}
-                    />
-                  </label>
-                </Space>
+
+                <br />
+                <TextField
+                  type='text'
+                  value={nome}
+                  label='Nome'
+                  name='nome'
+                  variant='outlined'
+                  readOnly
+                  {...register("nome")}
+                  style={{
+                    width: "60%",
+                  }}
+                />
+
+                <TextField
+                  type='text'
+                  value={curso}
+                  label='Curso'
+                  readOnly
+                  variant='outlined'
+                  style={{
+                    width: "60%",
+                  }}
+                  {...register("curso")}
+                />
+
+                <TextField
+                  type='text'
+                  value={bi}
+                  id='bi n'
+                  label='B.I'
+                  readOnly
+                  variant='outlined'
+                  style={{
+                    width: "60%",
+                  }}
+                  {...register("bi")}
+                />
+
                 <button className='btn'>Fazer Pagamento</button>
               </div>
             ) : (

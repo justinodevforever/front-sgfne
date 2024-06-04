@@ -14,6 +14,7 @@ import {
 } from "../../../../../../store/ui-slice";
 import Actualizar from "./atualizar/Actualizar";
 import { Input, Space } from "antd";
+import { TextField } from "@mui/material";
 
 const Cadeira = () => {
   const [clicCadatrar, setClicCadatrar] = useState(true);
@@ -137,58 +138,68 @@ const Cadeira = () => {
           <div className='opcoes'>
             <form onSubmit={(e) => hendleSave(e)}>
               <Space wrap>
-                <label htmlFor='disciplina'>
-                  Disciplina
-                  <Input
-                    type='text'
-                    placeholder='Designação da Disciplina'
-                    value={disciplina}
-                    onChange={(e) => setDisciplina(e.target.value)}
-                    name='disciplina'
-                  />
-                </label>
+                <TextField
+                  label='Disciplina'
+                  value={disciplina}
+                  onChange={(e) => setDisciplina(e.target.value)}
+                />
 
-                <label htmlFor='fre'>
-                  Frequência
-                  <select
-                    onChange={(e) => setFrequencia(e.target.value)}
-                    name='fre'
-                    style={{ width: "100px" }}>
-                    <option value=''>Escolha...</option>
-                    {frequencias.map((c) => (
-                      <option value={c.id} key={c.id}>
-                        {c.ano}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label htmlFor='seme'>
-                  Semestre
-                  <select
-                    onChange={(e) => setSemestre(e.target.value)}
-                    name='seme'
-                    style={{ width: "100px" }}>
-                    <option value=''>Escolha...</option>
-                    {semestres.map((c) => (
-                      <option value={c.id} key={c.id}>
-                        {c.nome}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-                <label htmlFor='curso'>
-                  Curso
-                  <select
-                    onChange={(e) => setCurso(e.target.value)}
-                    name='curso'>
-                    <option value=''>Escolha...</option>
-                    {cursos.map((c) => (
-                      <option value={c.id} key={c.id}>
-                        {c.curso}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                <select
+                  onChange={(e) => setFrequencia(e.target.value)}
+                  name='fre'
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option value=''>Ano Frequência</option>
+                  {frequencias.map((c) => (
+                    <option value={c.id} key={c.id}>
+                      {c.ano}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  onChange={(e) => setSemestre(e.target.value)}
+                  name='seme'
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option value=''>Semestre</option>
+                  {semestres.map((c) => (
+                    <option value={c.id} key={c.id}>
+                      {c.nome}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  onChange={(e) => setCurso(e.target.value)}
+                  name='curso'
+                  style={{
+                    width: "225px",
+                    borderRadius: "5px",
+                    height: "60px",
+                    fontWeight: "200",
+                    fontSize: "20px",
+                    border: "1px solid #ddd",
+                  }}>
+                  <option value=''>Curso</option>
+                  {cursos.map((c) => (
+                    <option value={c.id} key={c.id}>
+                      {c.curso}
+                    </option>
+                  ))}
+                </select>
               </Space>
               {semestre && frequencia && curso && disciplina && (
                 <button type='submit'>

@@ -1,65 +1,70 @@
 import { BiEdit, BiX } from "react-icons/bi";
 import "./editar.scss";
 import { useDispatch, useSelector } from "react-redux";
-
-import { useEffect, useState } from "react";
-import { FaSave } from "react-icons/fa";
 import {
   toggleModalConfirmar,
   toggleModalEdit,
+  toggleModalError,
   toggleModalWarning,
-} from "../../../../../../../../store/ui-slice";
-import { api } from "../../../../../../../../../auth/auth";
-import UseSucess from "../../../../../../hook/massege/sucess/UseSucess";
-import UseErro from "../../../../../../hook/massege/Error/UseErro";
-import UseWarning from "../../../../../../hook/massege/warning/UseWarning";
+} from "../../../../../../../store/ui-slice";
+import { api } from "../../../../../../../../auth/auth";
+import { useEffect, useState } from "react";
+import { FaSave } from "react-icons/fa";
+import UseSucess from "../../../../../hook/massege/sucess/UseSucess";
+import UseErro from "../../../../../hook/massege/Error/UseErro";
+import UseWarning from "../../../../../hook/massege/warning/UseWarning";
 
 const EditarPropina = ({ propinas }) => {
-  const [meses, setMeses] = useState([]);
+  const [frequencias, setFrequencias] = useState([]);
   const [anos, setAnos] = useState([]);
-  const [mes, setMes] = useState("");
-
-  const [fk_mes, setFk_mes] = useState("");
+  const [semestres, setSemestres] = useState([]);
+  const [fk_semestre, setFk_semestre] = useState("");
   const [fk_ano, setFk_ano] = useState("");
-  const [ano, setAno] = useState("");
-  const [rupe, setRupe] = useState("");
+  const [fk_frequencia, setFk_frequencia] = useState("");
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
   const { isVisible } = useSelector((state) => state.ui.ModalEdit);
-  const { isVisibleConfirmar } = useSelector(
-    (state) => state.ui.ModalConfirmar
-  );
-  const { isVisibleError } = useSelector((state) => state.ui.ModalError);
-  const { isVisibleWarning } = useSelector((state) => state.ui.ModalWarning);
+
   const dispatchConfirmar = useDispatch();
   const dispatchError = useDispatch();
   const dispatchWarning = useDispatch();
 
   useEffect(() => {
-    getMes();
+    getFrequencia();
+    getSemestre();
     getAnoLetivo();
   }, []);
   useEffect(() => {
-    setMes(propinas?.mes?.mes + "," + propinas?.fk_mes);
-    setAno(propinas?.anoLetivo?.ano + "," + propinas?.fk_ano);
-    setRupe(propinas?.rupe);
+    setFk_frequencia(propinas?.fk_frequencia);
+    setFk_ano(propinas?.fk_ano);
+    setFk_semestre(propinas?.fk_semestre);
   }, [propinas]);
 
   function close(e) {
     e.preventDefault();
     dispatch(toggleModalEdit(!isVisible));
   }
-
-  const getMes = async () => {
+  const getFrequencia = async () => {
     await api
-      .get("/mes")
+      .get("/ano")
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-        setMes(data.data[0].mes);
-        setMeses(data.data);
+        setFrequencias(data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  const getSemestre = async () => {
+    await api
+      .get("/semestre")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+        setSemestres(data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -74,33 +79,34 @@ const EditarPropina = ({ propinas }) => {
         }
 
         setAnos(data.data);
-        setAno(data.data[0].ano);
       })
       .catch((err) => console.log(err));
   };
   const atualizarPropina = async (e) => {
     e.preventDefault();
-    const [a, newAno] = ano.split(",");
-    const [b, newMes] = mes.split(",");
 
-    if (!newAno || !newMes || !rupe) {
+    if (!fk_ano || !fk_semestre || !fk_frequencia) {
       setMessage("Existe Um Campo Vazio!");
       dispatchWarning(toggleModalWarning(true));
       return;
     }
     await api
-      .put(`/propina/${propinas.id}`, { rupe, fk_mes: newMes, fk_ano: newAno })
+      .put(`/reconfirmacao/${propinas.id}`, {
+        fk_frequencia,
+        fk_ano,
+        fk_semestre,
+      })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-
-        if (data.data.message === "Error") {
+        console.log(data.data);
+        if (data.data.message === "error") {
           dispatchError(toggleModalError(true));
           return;
         }
-        if (data.data.message === "Sucess") {
+        if (data.data.message === "sucess") {
           dispatchConfirmar(toggleModalConfirmar(true));
         }
       })
@@ -130,15 +136,15 @@ const EditarPropina = ({ propinas }) => {
             <form className='formBi'>
               <div className='cc'>
                 <div>
-                  Mês{" "}
-                  <select onChange={(e) => setMes(e.target.value)}>
-                    <option value={propinas.Me.mes + "," + propinas.fk_mes}>
-                      {propinas.Me.mes}
+                  Frequência{" "}
+                  <select onChange={(e) => setFk_frequencia(e.target.value)}>
+                    <option value={propinas.fk_frequencia}>
+                      {propinas?.frequencia?.ano}
                     </option>
-                    {meses.map((m) => (
+                    {frequencias.map((m) => (
                       <>
-                        <option value={m.mes + "," + m.id} key={m.id}>
-                          {m.mes}
+                        <option value={m.id} key={m.id}>
+                          {m.ano}
                         </option>
                       </>
                     ))}
@@ -146,50 +152,51 @@ const EditarPropina = ({ propinas }) => {
                 </div>
                 <div>
                   Ano{" "}
-                  <select onChange={(e) => setAno(e.target.value)}>
-                    <option
-                      value={propinas.AnoLetivo.ano + "," + propinas.fk_ano}>
-                      {propinas.AnoLetivo.ano}
+                  <select onChange={(e) => setFk_ano(e.target.value)}>
+                    <option value={propinas.fk_ano}>
+                      {propinas?.anoLectivo?.ano}
                     </option>
                     {anos.map((ano) => (
-                      <option value={ano.ano + "," + ano.id} key={ano.id}>
-                        {ano.ano}
+                      <option value={ano?.id} key={ano?.id}>
+                        {ano?.ano}
                       </option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  RUPE: {""}
-                  <input
-                    type='number'
-                    placeholder='Digite o Nº de RUPE'
-                    value={rupe}
-                    onChange={(e) => setRupe(e.target.value)}
-                  />
+                  Semestre{" "}
+                  <select onChange={(e) => setFk_semestre(e.target.value)}>
+                    <option value={propinas.fk_semestre}>
+                      {propinas?.semestre?.nome}
+                    </option>
+                    {semestres.map((s) => (
+                      <option value={s?.id} key={s?.id}>
+                        {s?.nome}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </form>
-            {propinas?.Estudante?.nome && (
+            {propinas?.estudante?.nome && (
               <>
                 <table>
                   <thead>
                     <tr>
                       <th>Nome</th>
                       <th>B.I</th>
-                      <th>RUPE</th>
-                      <th>Valor</th>
-                      <th>Mês</th>
+                      <th>Semestre</th>
+                      <th>Frequência</th>
                       <th>Ano Letivo</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>{propinas?.Estudante?.nome}</td>
-                      <td>{propinas?.Estudante?.bi}</td>
-                      <td>{propinas?.rupe}</td>
-                      <td>{propinas?.valor} Kz</td>
-                      <td>{propinas?.Me?.mes}</td>
-                      <td>{propinas?.AnoLetivo?.ano}</td>
+                      <td>{propinas?.estudante?.nome}</td>
+                      <td>{propinas?.estudante?.bi}</td>
+                      <td>{propinas?.semestre.nome}</td>
+                      <td>{propinas?.frequencia.ano} ano</td>
+                      <td>{propinas?.anoLectivo?.ano}</td>
                     </tr>
                   </tbody>
                 </table>

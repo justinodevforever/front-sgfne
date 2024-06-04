@@ -16,32 +16,6 @@
   margin-bottom: 10px;
 }
 
-.select {
-  width: 70px;
-  height: 24px;
-  font-size: 14pt;
-  margin-right: 10px;
-  margin-left: 10px;
-}
-.conteudo-cadeira label {
-  display: flex;
-  font-size: 12pt;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-}
-
-.conteudo-cadeira .dados-estudante label {
-  width: 100%;
-  padding: 4px 0px;
-}
-.conteudo-cadeira .dados-estudante input {
-  width: 40%;
-  padding: 10px;
-  border: none;
-  font-size: 14pt;
-  border-radius: 5px;
-}
 .conteudo-cadeira .dados-estudante button {
   width: 30%;
   padding: 10px;
@@ -58,16 +32,5 @@
 @media (max-width: 500px) {
   .conteudo-cadeira .btn {
     width: 80%;
-  }
-  .conteudo-cadeira .dados-estudante label {
-    width: 100%;
-    padding: 4px 0px;
-  }
-  .conteudo-cadeira .dados-estudante input {
-    width: 90%;
-    padding: 10px;
-    border: none;
-    font-size: 14pt;
-    border-radius: 5px;
   }
 }

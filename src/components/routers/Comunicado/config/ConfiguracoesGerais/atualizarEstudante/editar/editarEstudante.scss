@@ -16,7 +16,8 @@
   display: flex;
   position: fixed;
   width: 70%;
-  left: 10%;
+  left: calc(70% - 10% / 2);
+  top: 90px;
   background-color: $white;
   flex-direction: column;
   z-index: 3;
@@ -25,7 +26,8 @@
 .editarPropina .formBi {
   width: 100%;
   justify-content: space-between;
-  color: #000;
+  background-color: $rosa;
+  color: #fff;
 }
 .editarPropina .opcoesEditar {
   display: flex;

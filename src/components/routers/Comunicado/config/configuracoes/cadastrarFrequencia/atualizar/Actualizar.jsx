@@ -31,9 +31,11 @@ const Actualizar = () => {
       setValidFrequencia(FREQUENCIA.test(frequencia));
     }
   }, [frequencia]);
+
   useEffect(() => {
     getFrequencia();
   }, []);
+
   const upDateFrequencia = async () => {
     await api
       .put(`/ano/${id}`, {
@@ -104,21 +106,26 @@ const Actualizar = () => {
       <div className='atualizar'>
         <form>
           <div>
-            <label htmlFor='curso'>
+            <label
+              htmlFor='curso'
+              style={{
+                flexDirection: "column",
+              }}>
               Ano de Frequência
               <Input
                 value={frequencia}
                 onChange={(e) => setFrequencia(e.target.value)}
                 style={
                   !frequencia || (frequencia && !ValidFrequencia)
-                    ? { border: "1px solid red" }
-                    : { border: "1px solid green" }
+                    ? { border: "1px solid red", height: "60px" }
+                    : { border: "1px solid green", height: "60px" }
                 }
               />
-              {!ValidFrequencia && frequencia && (
+              {!ValidFrequencia && (
                 <span
                   style={{
                     color: "red",
+                    position: "absolute",
                     fontSize: "11pt",
                     fontStyle: "italic",
                     marginTop: "10px",

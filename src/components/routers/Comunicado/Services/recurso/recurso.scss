@@ -13,17 +13,9 @@
   flex-direction: column;
   width: 100%;
   gap: 10px;
+  margin-top: 10px;
 }
-.conteudo-recurso .dados-estudante label {
-  flex-direction: column;
-  width: 40%;
-}
-.conteudo-recurso .dados-estudante input {
-  width: 90%;
-  border-radius: 4px;
-  padding: 10;
-  border: none;
-}
+
 .conteudo-recurso .dados-estudante button {
   display: flex;
   background-color: #a31543;
@@ -41,12 +33,5 @@
   .servicos .tipoServico {
     flex-direction: column;
     width: 90%;
-  }
-  .conteudo-recurso .dados-estudante label {
-    flex-direction: column;
-    width: 98%;
-  }
-  .conteudo-recurso .dados-estudante input {
-    width: 100%;
   }
 }

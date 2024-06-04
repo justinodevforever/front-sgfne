@@ -266,7 +266,7 @@ const SobreCadeirasDashboard = () => {
       .catch((err) => console.log(err));
   };
 
-  const hendleCadeiraAtrazo = async () => {
+  const handleCadeiraAtrazo = async () => {
     if (
       ano === "Escolha" ||
       semestre === "Escolha" ||
@@ -275,7 +275,11 @@ const SobreCadeirasDashboard = () => {
       ano === "" ||
       semestre === "" ||
       frequencia === "" ||
-      disciplina === ""
+      disciplina === "" ||
+      rupe === 0 ||
+      valor === 0 ||
+      !rupe ||
+      !valor
     ) {
       setMessage("Existe Campo vazio!");
       dispatchWarning(toggleModalWarning(true));
@@ -309,8 +313,14 @@ const SobreCadeirasDashboard = () => {
         if (data.data.message === "sucess") {
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response.id);
+          let id = null;
+          let co = 0;
 
-          setVisivel(true);
+          id = setInterval(() => {
+            setVisivel(true);
+            if (co === 4) return clearInterval(id);
+            co++;
+          }, 4000);
         }
       })
       .catch((error) => {
@@ -349,31 +359,38 @@ const SobreCadeirasDashboard = () => {
           }}>
           <TextField
             type='number'
+            label='Valor'
+            value={valor}
+            onChange={(e) => setValor(e.target.value)}
+          />
+          <TextField
+            type='number'
             value={rupe}
             onChange={(e) => setRupe(e.target.value)}
             label='Nº de RUPE'
             maxLength={20}
-          />
-          <TextField
-            type='number'
-            label='Valor'
-            value={valor}
-            onChange={(e) => setValor(e.target.value)}
           />
         </div>
         <div
           style={{
             display: "flex",
             flexWrap: "wrap",
-            gap: "20px",
+            gap: "10px",
+            justifyContent: "center",
+            alignItems: "center",
           }}>
-          <label htmlFor='cadeira'>
-            Ano Lectivo:
+          <label htmlFor='ano'>
             <select
-              style={{ width: "100px" }}
-              className='selecte'
+              style={{
+                width: "225px",
+                borderRadius: "5px",
+                height: "60px",
+                fontWeight: "200",
+                fontSize: "20px",
+                border: "1px solid #ddd",
+              }}
               onChange={(e) => setAno(e.target.value)}>
-              <option value={"Escolha"}>Escolha...</option>
+              <option value={"Escolha"}>Escolha Ano Lectivo</option>
 
               {anos.map((s) => (
                 <option value={s.ano} key={s.id}>
@@ -383,14 +400,17 @@ const SobreCadeirasDashboard = () => {
             </select>
           </label>
           <label htmlFor='frequencia'>
-            Frequência:
             <select
-              style={{ width: "100px" }}
-              className='selecte'
-              nome='frequencia'
-              id='frequencia'
+              style={{
+                width: "225px",
+                borderRadius: "5px",
+                height: "60px",
+                fontWeight: "200",
+                fontSize: "20px",
+                border: "1px solid #ddd",
+              }}
               onChange={(e) => setFrequencia(e.target.value)}>
-              <option value={"Escolha"}>Escolha...</option>
+              <option value={"Escolha"}>Escolha Frequência</option>
 
               {frequencias.map((f) => (
                 <option value={f.ano} key={f.id}>
@@ -401,12 +421,17 @@ const SobreCadeirasDashboard = () => {
           </label>
 
           <label htmlFor='semestre'>
-            Semestre:
             <select
-              style={{ width: "100px" }}
-              className='selecte'
+              style={{
+                width: "225px",
+                borderRadius: "5px",
+                height: "60px",
+                fontWeight: "200",
+                fontSize: "20px",
+                border: "1px solid #ddd",
+              }}
               onChange={(e) => setSemestre(e.target.value)}>
-              <option value={"Escolha"}>Escolha...</option>
+              <option value={"Escolha"}>Escolha Semestre</option>
 
               {semestres.map((s) => (
                 <option value={s.nome} key={s.id}>
@@ -416,12 +441,17 @@ const SobreCadeirasDashboard = () => {
             </select>
           </label>
           <label htmlFor='cadeira'>
-            Cadeira:
             <select
-              style={{ width: "100px" }}
-              className='selecte'
+              style={{
+                width: "225px",
+                borderRadius: "5px",
+                height: "60px",
+                fontWeight: "200",
+                fontSize: "20px",
+                border: "1px solid #ddd",
+              }}
               onChange={(e) => setDisciplina(e.target.value)}>
-              <option value={"Escolha"}>Escolha...</option>
+              <option value={"Escolha"}>Escolha a Cadeira</option>
 
               {disciplinas?.map((s) => (
                 <option value={s.nome} key={s.id}>
@@ -441,47 +471,49 @@ const SobreCadeirasDashboard = () => {
               width: "100%",
               flexDirection: "column",
               alignItems: "center",
-              background: "#b7b6b6",
+              gap: "10px",
               padding: "10px 0px",
             }}>
             <h3>Dados do Estudante</h3>
-            <br />
 
-            <label htmlFor='nome' style={{ width: "70%" }}>
-              Nome:
-              <Input
-                type='text'
-                value={nome}
-                readOnly
-                className='input'
-                onChange={(e) => setNome(e.target.value)}
-                style={{
-                  width: "50%",
-                  justifyContent: "center",
-                  textAlign: "center",
-                }}
-              />
-            </label>
+            <TextField
+              type='text'
+              value={nome}
+              label='Nome'
+              name='nome'
+              variant='outlined'
+              readOnly
+              style={{
+                width: "60%",
+              }}
+            />
 
-            <label htmlFor='curso' style={{ width: "70%" }}>
-              Curso:
-              <Input
-                type='text'
-                value={curso}
-                readOnly
-                className='input'
-                onChange={(e) => setCurso(e.target.value)}
-                style={{
-                  width: "50%",
-                  justifyContent: "center",
-                  textAlign: "center",
-                }}
-              />
-            </label>
+            <TextField
+              type='text'
+              value={curso}
+              label='Curso'
+              name='Curso'
+              variant='outlined'
+              readOnly
+              style={{
+                width: "60%",
+              }}
+            />
+            <TextField
+              type='text'
+              value={bi}
+              label='Curso'
+              name='Curso'
+              variant='outlined'
+              readOnly
+              style={{
+                width: "60%",
+              }}
+            />
 
             {!ativar && (
-              <Button
-                onClick={() => hendleCadeiraAtrazo()}
+              <button
+                onClick={() => handleCadeiraAtrazo()}
                 className='btn'
                 style={{
                   display: "flex",
@@ -489,7 +521,7 @@ const SobreCadeirasDashboard = () => {
                   justifyContent: "center",
                 }}>
                 Pagar
-              </Button>
+              </button>
             )}
             {ativar && <Loader />}
           </div>

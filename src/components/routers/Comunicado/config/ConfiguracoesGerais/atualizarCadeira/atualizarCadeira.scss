@@ -1,27 +1,27 @@
 @import "../../../../../../style/variable.scss";
-.atualizarPropina {
+.atualizarCadeira {
   display: flex;
-  width: 78%;
-  margin-top: 0px;
+  width: 98%;
+  margin-top: 20px;
   border: 1px solid $rosa;
   margin-left: 20px;
 }
-.atualizarPropina .opcoes {
+.atualizarCadeira .opcoes {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 0px;
 }
-.atualizarPropina th {
+.atualizarCadeira th {
   background-color: $rosa;
   border: none;
 }
-.atualizarPropina td {
+.atualizarCadeira td {
   font-size: 11pt;
   border: none;
   text-align: center;
 }
-.atualizarPropina .pagamento-propina {
+.atualizarCadeira .pagamento-Cadeira {
   display: flex;
   width: 50%;
   margin: auto;
@@ -29,25 +29,23 @@
   margin-top: 20px;
 }
 
-.atualizarPropina .pagamento-propina input {
+.atualizarCadeira .pagamento-Cadeira input {
   border: 2px solid $rosa;
   border-radius: 10px;
   padding: 10px;
 }
-.atualizarPropina .pagamento-propina input::placeholder {
+.atualizarCadeira .pagamento-Cadeira input::placeholder {
   font-size: 12pt;
 }
-.atualizarPropina .opcoes .cc {
-  display: flex;
-  width: 50%;
-  align-items: center;
+.atualizarCadeira .opcoes .ccCadeira {
   color: $white;
-  gap: 10px;
 }
-.atualizarPropina .opcoes .cc label {
+.atualizarCadeira .opcoes .ccCadeira label {
   display: flex;
   flex-direction: column;
+  color: "#fff";
 }
-.atualizarPropina .opcoes .cc select {
-  width: 100px;
+.atualizarCadeira .opcoes .ccCadeira select {
+  width: 120px;
+  font-size: 14pt;
 }

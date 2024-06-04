@@ -15,6 +15,13 @@ import { Button, Form, Input, Space, Alert, message, Popconfirm } from "antd";
 import { AlertHeading } from "react-bootstrap";
 import Processing from "../../../hook/process/Processing";
 import { CurtainsOutlined } from "@mui/icons-material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 const SobreCadeiras = () => {
   const [bi, setBi] = useState("");
@@ -59,20 +66,11 @@ const SobreCadeiras = () => {
     buscarEstudante();
   }, []);
   useEffect(() => {
-    buscaSemestre();
-  }, [semestre]);
-  useEffect(() => {
     if (bi === "") {
       setNome("");
       setCurso("");
     }
   }, [bi]);
-  useEffect(() => {
-    buscaMes();
-  }, [mes]);
-  useEffect(() => {
-    buscaAnoLeivo();
-  }, [ano]);
   useEffect(() => {
     buscaAnoLeivo();
     getDisplina();
@@ -80,6 +78,15 @@ const SobreCadeiras = () => {
   useEffect(() => {
     getDisplina();
   }, [semestre, curso, ano, frequencia]);
+  useEffect(() => {
+    buscaMes();
+  }, [mes]);
+  useEffect(() => {
+    buscaSemestre();
+  }, [semestre]);
+  useEffect(() => {
+    buscaAnoLeivo();
+  }, [ano]);
   useEffect(() => {
     buscaFrequencia();
   }, [frequencia]);
@@ -132,8 +139,10 @@ const SobreCadeiras = () => {
           navigate("/login");
           return;
         }
-        if (!data.data && data.data !== null) {
+        if (!data.data || data.data !== null) {
+          console.log(data.data);
           setSemestre(data.data[0].nome);
+
           setSemestres(data.data);
         }
       })
@@ -164,7 +173,7 @@ const SobreCadeiras = () => {
           navigate("/login");
           return;
         }
-        if (!data.data && data.data !== null) {
+        if (!data.data || data.data !== null) {
           setAnos(data.data);
           setAno(data.data[0].ano);
         }
@@ -345,11 +354,9 @@ const SobreCadeiras = () => {
             wrap
             style={{
               width: "98%",
+              padding: "10px 0px",
               alignItems: "center",
               justifyContent: "center",
-              padding: "10px 0px",
-              background: "#b7b6b6",
-              margin: "auto",
             }}>
             <div
               style={{
@@ -358,96 +365,115 @@ const SobreCadeiras = () => {
                 justifyContent: "center",
                 gap: "10px",
               }}>
-              <label htmlFor='valor'>
-                Valor
-                <Input
-                  onChange={(e) => setValor(e.target.value)}
-                  type='number'
-                  placeholder='Digite o valor'
-                  aria-labelledby='home'
-                />
-              </label>
-              <label htmlFor='rupe'>
-                RUPE:
-                <Input
-                  type='number'
-                  value={rupe}
-                  onChange={(e) => setRupe(e.target.value)}
-                  placeholder='Digite o Nº de RUPE'
-                  maxLength={20}
-                />
-              </label>
+              <TextField
+                type='text'
+                value={valor}
+                label='Valor'
+                name='Valor'
+                variant='outlined'
+                readOnly
+                onChange={(e) => setValor(e.target.value)}
+              />
+
+              <TextField
+                type='text'
+                value={rupe}
+                label='Rupe'
+                name='Rupe'
+                variant='outlined'
+                readOnly
+                onChange={(e) => setRupe(e.target.value)}
+              />
             </div>
-            <div
+            <Space
+              wrap
+              align='center'
               style={{
-                display: "flex",
-                flexWrap: "wrap",
                 justifyContent: "center",
+                alignItems: "center",
+                marginTop: "20px",
               }}>
-              <label htmlFor='cadeira'>
-                Ano Lectivo:
-                <select
-                  style={{ width: "100px" }}
-                  className='selecte'
-                  onChange={(e) => setAno(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
-
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Ano Lectivo
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setAno(e.target.value)}
+                  label='Ano Lectivo'
+                  id='demo-simple-select'
+                  value={ano}>
                   {anos.map((s) => (
-                    <option value={s.ano} key={s.id}>
+                    <MenuItem value={s.ano} key={s.id}>
                       {s.ano}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-              <label htmlFor='frequencia'>
-                Frequência:
-                <select
-                  style={{ width: "100px" }}
-                  className='selecte'
-                  nome='frequencia'
-                  id='frequencia'
-                  onChange={(e) => setFrequencia(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
-
-                  {frequencias.map((f) => (
-                    <option value={f.ano} key={f.id}>
-                      {f.ano}
-                    </option>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Frequência
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setFrequencia(e.target.value)}
+                  label='Frequência'
+                  id='demo-simple-select'
+                  value={frequencia}>
+                  {frequencias.map((s) => (
+                    <MenuItem value={s.ano} key={s.id}>
+                      {s.ano}
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-
-              <label htmlFor='semestre'>
-                Semestre:
-                <select
-                  style={{ width: "100px" }}
-                  className='selecte'
-                  onChange={(e) => setSemestre(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
-
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Semestre
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setSemestre(e.target.value)}
+                  label='Frequência'
+                  id='demo-simple-select'
+                  value={semestre}>
                   {semestres.map((s) => (
-                    <option value={s.nome} key={s.id}>
+                    <MenuItem value={s.nome} key={s.id}>
                       {s.nome}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-              <label htmlFor='cadeira'>
-                Cadeira:
-                <select
-                  style={{ width: "100px" }}
-                  className='selecte'
-                  onChange={(e) => setDisciplina(e.target.value)}>
-                  <option value={"Escolha"}>Escolha...</option>
-
-                  {disciplinas?.map((s) => (
-                    <option value={s.nome} key={s.id}>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Disciplina
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setDisciplina(e.target.value)}
+                  label='disciplina'
+                  id='demo-simple-select'
+                  value={disciplina}>
+                  {disciplinas.map((s) => (
+                    <MenuItem value={s.nome} key={s.id}>
                       {s.nome}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-            </div>
+                </Select>
+              </FormControl>
+            </Space>
           </Space>
 
           <hr />
@@ -459,24 +485,47 @@ const SobreCadeiras = () => {
                 flexDirection: "column",
                 width: "98%",
                 alignItems: "center",
-                background: "#b7b6b6",
                 padding: "10px 0px",
                 margin: "auto",
+                gap: "10px",
               }}>
               <h3>Dados do Estudante</h3>
+              <TextField
+                type='text'
+                value={nome}
+                label='Nome'
+                name='nome'
+                variant='outlined'
+                readOnly
+                style={{
+                  width: "60%",
+                }}
+              />
 
-              <label htmlFor='nome'>
-                Nome:
-                <Input type='text' value={nome} readOnly />
-              </label>
-              <label htmlFor='nome'>
-                Curso:
-                <Input type='text' value={curso} readOnly />
-              </label>
-              <label htmlFor='nome'>
-                Nº B.I:
-                <Input type='text' value={bi} readOnly />
-              </label>
+              <TextField
+                type='text'
+                value={curso}
+                label='Curso'
+                name='Curso'
+                variant='outlined'
+                readOnly
+                style={{
+                  width: "60%",
+                }}
+              />
+
+              <TextField
+                type='text'
+                value={nome}
+                label='B.I'
+                name='B.I'
+                variant='outlined'
+                readOnly
+                style={{
+                  width: "60%",
+                }}
+                onChange={(e) => setBi(e.target.value)}
+              />
 
               {!loading && (
                 <Button

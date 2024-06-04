@@ -6,31 +6,31 @@ import { chatflech } from "../../../configs/axios/chatfletch";
 import AnimationComponentLogin from "../hook/AnimationComponentLogin";
 import { useDispatch } from "react-redux";
 import { setId } from "../../../store/ui-slice";
-import { Input } from "antd";
 import { UserOutlined } from "@ant-design/icons/lib/icons";
 import { PiPassword } from "react-icons/pi";
 import { Checkbox, TextField } from "@mui/material";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [sms, setSms] = useState("");
   const [clik, setClick] = useState(false);
   const [check, setCheck] = useState(false);
   const refEmail = useRef();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const form = useForm();
 
-  async function hendleLogar(e) {
-    e.preventDefault();
+  const { register, control, handleSubmit, formState } = form;
+  const { errors } = formState;
 
+  async function handleLogar(data) {
     setClick(true);
     await chatflech
       .post("/logar", {
-        email,
-        password,
+        email: data.email,
+        password: data.password,
       })
       .then((data) => {
         if (data.data?.mensage === "email ou senha Errada") {
@@ -47,16 +47,6 @@ export default function Login() {
         navigate(`/main/comunicado?page=${1}`);
       })
       .catch((error) => console.log(error));
-  }
-  useEffect(() => {
-    setPassword("");
-    setEmail("");
-    refEmail.current.focus();
-  }, []);
-
-  function toggleCheck(e) {
-    e.preventDefault();
-    setCheck(!check);
   }
 
   return (
@@ -76,21 +66,18 @@ export default function Login() {
               <img src='./image/ISP_Moxico/Logo.png' alt='Logo do ISPM' />
             </div>
 
-            <form onSubmit={hendleLogar} className='form'>
+            <form onSubmit={handleSubmit(handleLogar)} className='form'>
               <div className='inputEmail'>
                 <TextField
                   type='text'
                   name='email'
                   label='E-mail'
                   required
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
                   title='Digite um email Válido'
                   ref={refEmail}
                   prefix={<UserOutlined />}
                   style={{ width: "98%" }}
+                  {...register("email")}
                 />
               </div>
 
@@ -100,14 +87,11 @@ export default function Login() {
                   name='password'
                   label='Palavra Passe'
                   required
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
                   title='8 ou 24 character, Maiúscula e Minúscula, número e entre !@#$%*'
                   style={{
                     width: "98%",
                   }}
+                  {...register("password")}
                 />
               </div>
 

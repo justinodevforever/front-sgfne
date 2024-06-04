@@ -55,14 +55,14 @@
   height: 30px;
   font-size: 14pt;
 }
-.propina .dados-estudantePropina input {
-  width: 90%;
-  height: 30px;
-  font-size: 14pt;
-  padding: 0px 8px;
-  border-radius: 5px;
-  border: none;
-}
+// .propina .dados-estudantePropina input {
+//   width: 90%;
+//   height: 30px;
+//   font-size: 14pt;
+//   padding: 0px 8px;
+//   border-radius: 5px;
+//   border: none;
+// }
 .propina .dados-estudantePropina label {
   display: flex;
   width: 100%;
@@ -79,14 +79,14 @@
   padding-top: 10px;
 }
 
-.propina .dados-estudantePropina input {
-  display: flex;
-  width: 90%;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  font-size: 14pt;
-  margin-left: 10px;
-}
+// .propina .dados-estudantePropina input {
+//   display: flex;
+//   width: 90%;
+//   margin-right: 10px;
+//   margin-bottom: 10px;
+//   font-size: 14pt;
+//   margin-left: 10px;
+// }
 .propina .btn {
   width: 30%;
   padding: 10px;
@@ -121,17 +121,7 @@
     margin-top: 0px;
   }
 }
-@media (max-width: 600px) {
-  .propina .btn {
-    width: 90%;
-  }
-  .propina .dados-estudantePropina input {
-    width: 90%;
-  }
-  .propina .dados-estudantePropina label {
-    width: 100%;
-  }
-}
+
 @media (max-width: 236px) {
   .propina .propina .conteudoProp .formBiPropina label {
     flex-direction: row;

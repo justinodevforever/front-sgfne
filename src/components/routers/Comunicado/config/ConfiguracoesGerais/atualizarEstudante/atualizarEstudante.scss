@@ -28,10 +28,11 @@
   padding: 7px 0px;
 }
 .container-buscar table {
-  width: 100%;
+  width: 98%;
+  margin-top: 20px;
 }
 .container-buscar th {
-  background-color: #000;
+  background-color: $rosa;
   border: none;
 }
 .container-buscar td {

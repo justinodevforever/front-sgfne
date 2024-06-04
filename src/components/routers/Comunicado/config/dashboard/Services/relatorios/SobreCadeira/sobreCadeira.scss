@@ -12,12 +12,10 @@
 .extra div {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
 }
 .extra {
   display: flex;
   flex-direction: column;
-  margin: auto;
 }
 .relatorioCadeira img {
   width: 50px;
@@ -35,7 +33,6 @@
   background-color: #fff;
   z-index: 3;
   left: 15%;
-  border-radius: 20px;
   overflow-y: auto;
 }
 .relatorioCadeira .opcoesCadeira {
@@ -43,10 +40,6 @@
   width: 90%;
   padding: 10px;
   justify-content: space-between;
-  // position: fixed;
-}
-.relatorioCadeira .h2 {
-  margin-top: 20px;
 }
 
 .relatorioCadeira .closed:hover {
@@ -62,7 +55,7 @@
 .tabelaSobreCadeira table {
   border-collapse: collapse;
   width: 78%;
-  margin: auto;
+  // margin: auto;
   margin-top: 7px;
 }
 .tabelaSobreCadeira .assinar {

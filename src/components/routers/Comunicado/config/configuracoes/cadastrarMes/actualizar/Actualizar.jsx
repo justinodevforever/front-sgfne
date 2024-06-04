@@ -117,15 +117,19 @@ const Actualizar = () => {
           <div>
             <label
               htmlFor='curso'
-              style={{ display: "fles", position: "relative" }}>
+              style={{
+                display: "fles",
+                position: "relative",
+                flexDirection: "column",
+              }}>
               Mês
               <Input
                 value={mes}
                 onChange={(e) => setMes(e.target.value)}
                 style={
                   !mes || (mes && !validMes)
-                    ? { border: "1px solid red" }
-                    : { border: "1px solid green" }
+                    ? { border: "1px solid red", height: "60px" }
+                    : { border: "1px solid green", height: "60px" }
                 }
               />
               {!validMes && mes && (
@@ -147,7 +151,9 @@ const Actualizar = () => {
                 </span>
               )}
             </label>
-            <label htmlFor='semestre' style={{ position: "relative" }}>
+            <label
+              htmlFor='semestre'
+              style={{ position: "relative", flexDirection: "column" }}>
               Nº Correspondente
               <Input
                 type='number'
@@ -159,9 +165,11 @@ const Actualizar = () => {
                   algarismo && validAlgarismo
                     ? {
                         border: "1px solid green",
+                        height: "60px",
                       }
                     : {
                         border: "1px solid red",
+                        height: "60px",
                       }
                 }
               />
@@ -191,8 +199,8 @@ const Actualizar = () => {
             onClick={() => upDateMes()}
             style={
               (algarismo || mes) && (!validAlgarismo || !validMes)
-                ? { marginTop: "70px" }
-                : { marginTop: "10px" }
+                ? { marginTop: "80px", marginBottom: "30px" }
+                : { marginTop: "80px", marginBottom: "30px" }
             }>
             <BiSave />
             Actualizar

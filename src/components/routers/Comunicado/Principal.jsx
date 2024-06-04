@@ -195,15 +195,15 @@ const Principal = ({ mostrar, setMostrar }) => {
                     },
                     {
                       label: "Declaração sem Nota",
-                      key: `declaracao?tipos=${"semNota"}`,
+                      key: `declaracao?tipos=${"Sem Nota"}`,
                     },
                     {
                       label: "Declaração com Nota",
-                      key: `declaracao?tipos=${"comNota"}`,
+                      key: `declaracao?tipos=${"Com Nota"}`,
                     },
                     {
                       label: "Declaração Linceciatura",
-                      key: `declaracao?tipos=${"linceciatura"}`,
+                      key: `declaracao?tipos=${"Linceciatura"}`,
                     },
                     {
                       label: "Pagamento de Folha",

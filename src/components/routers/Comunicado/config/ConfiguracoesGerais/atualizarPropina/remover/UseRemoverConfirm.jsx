@@ -14,28 +14,26 @@ const UseRemoverConfirm = ({ id, setIsClick }) => {
           return;
         }
 
-        if (data.data) {
-          setIsClick(true);
-        }
+        setIsClick(true);
       })
       .catch((err) => console.log(err));
   }
 
   return (
     <>
-      <div className="container-RemoverConfirm">
+      <div className='container-RemoverConfirm'>
         <h2>Pretendes Eliminar Este Mês?</h2>
         <p>Caso Eliminar Deixará de Existe, na Base de Dados!</p>
-        <div className="div-removerConfirm">
+        <div className='div-removerConfirm'>
           <button
-            className="btnCancelar"
+            className='btnCancelar'
             onClick={() => {
               setIsClick(false);
             }}>
             NÃO
           </button>
           <button
-            className="btnRemover"
+            className='btnRemover'
             onClick={(e) => {
               deletePropina(e), setIsClick(false);
             }}>
@@ -44,7 +42,7 @@ const UseRemoverConfirm = ({ id, setIsClick }) => {
         </div>
       </div>
 
-      <div className="ovefloy"></div>
+      <div className='ovefloy'></div>
     </>
   );
 };
