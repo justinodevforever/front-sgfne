@@ -1,29 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./solicitacao.scss";
 import { BiX } from "react-icons/bi";
-import { OKIcon } from "react-share";
-import { FcOk } from "react-icons/fc";
-import { Card, InputNumber, Input } from "antd";
+
 import { useEffect, useState } from "react";
 import { api } from "../../../../../../auth/auth";
-import Grid from "@mui/material/Unstable_Grid2";
-import {
-  InputLabel,
-  OutlinedInput,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Select,
-} from "@mui/material";
-import { FileTextFilled } from "@ant-design/icons";
-import {
-  Email,
-  EmailRounded,
-  EmailSharp,
-  Person,
-  Visibility,
-} from "@mui/icons-material";
 
 const MinhaSolicitacao = () => {
   const [solicitacoes, setSolicitacoes] = useState([]);
@@ -65,7 +45,7 @@ const MinhaSolicitacao = () => {
         <>
           <h1>Minhas Solicitações</h1>
 
-          {solicitacoes.map((s) => (
+          {solicitacoes?.map((s) => (
             <div className='conteudo' key={s?.id}>
               <div className='divNome'>
                 <h3>{s?.estudante?.nome}</h3>
