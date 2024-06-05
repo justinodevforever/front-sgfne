@@ -311,18 +311,18 @@ const SobreCadeiras = () => {
         }
 
         if (data.data.message === "sucess") {
-          const response = await api.post("/solicitacao", {
-            fk_estudante,
-            tipoServico: "Cadeira em atraso",
-            status: "Pendente",
-          });
+          // const response = await api.post("/solicitacao", {
+          //   fk_estudante,
+          //   tipoServico: "Cadeira em atraso",
+          //   status: "Pendente",
+          // });
 
-          if (response.data.message === "error") {
-            dispatchError(toggleModalError(true));
-            setLoading(false);
+          // if (response.data.message === "error") {
+          //   dispatchError(toggleModalError(true));
+          //   setLoading(false);
 
-            return;
-          }
+          //   return;
+          // }
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response?.id);
           setLoading(false);

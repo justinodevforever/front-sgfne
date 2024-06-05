@@ -188,18 +188,18 @@ const Propina = ({ tipo }) => {
         }
 
         if (data.data.message === "sucess") {
-          const response = await api.post("/solicitacao", {
-            fk_estudante,
-            tipoServico: "Propina",
-            status: "Pendente",
-          });
+          // const response = await api.post("/solicitacao", {
+          //   fk_estudante,
+          //   tipoServico: "Propina",
+          //   status: "Pendente",
+          // });
 
-          if (response.data.message === "error") {
-            dispatchError(toggleModalError(true));
-            setIsLoad(false);
+          // if (response.data.message === "error") {
+          //   dispatchError(toggleModalError(true));
+          //   setIsLoad(false);
 
-            return;
-          }
+          //   return;
+          // }
           if (response.data.message === "sucess") {
             dispatch(setIsClic(true));
             setId(data.data?.response?.id);
