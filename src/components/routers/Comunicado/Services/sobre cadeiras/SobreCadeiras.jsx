@@ -311,18 +311,18 @@ const SobreCadeiras = () => {
         }
 
         if (data.data.message === "sucess") {
-          // const response = await api.post("/solicitacao", {
-          //   fk_estudante,
-          //   tipoServico: "Cadeira em atraso",
-          //   status: "Pendente",
-          // });
+          const response = await api.post("/solicitacao", {
+            fk_estudante,
+            tipoServico: "Cadeira em atraso",
+            status: "Pendente",
+          });
 
-          // if (response.data.message === "error") {
-          //   dispatchError(toggleModalError(true));
-          //   setLoading(false);
+          if (response.data.message === "error") {
+            dispatchError(toggleModalError(true));
+            setLoading(false);
 
-          //   return;
-          // }
+            return;
+          }
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response?.id);
           setLoading(false);
@@ -366,7 +366,10 @@ const SobreCadeiras = () => {
                 gap: "10px",
               }}>
               <TextField
-                type='text'
+                type='number'
+                style={{
+                  width: "200px",
+                }}
                 value={valor}
                 label='Valor'
                 name='Valor'
@@ -376,7 +379,10 @@ const SobreCadeiras = () => {
               />
 
               <TextField
-                type='text'
+                type='number'
+                style={{
+                  width: "200px",
+                }}
                 value={rupe}
                 label='Rupe'
                 name='Rupe'

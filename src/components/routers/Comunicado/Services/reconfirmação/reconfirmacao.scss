@@ -74,3 +74,12 @@ label {
     flex-direction: column;
   }
 }
+@media (max-width: 800px) {
+.dados-estudanteReconfirmacao input{
+    width: 100%;
+  }
+  select {
+    width: 100%;
+    background-color: #a31543;
+  }
+}

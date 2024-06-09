@@ -321,18 +321,18 @@ const Recurso = () => {
           return dispatchError(toggleModalError(isVisibleError));
         }
         if (data.data?.message === "sucess") {
-          // const response = await api.post("/solicitacao", {
-          //   fk_estudante,
-          //   tipoServico: "Recurso",
-          //   status: "Pendente",
-          // });
+          const response = await api.post("/solicitacao", {
+            fk_estudante,
+            tipoServico: "Recurso",
+            status: "Pendente",
+          });
 
-          // if (response.data.message === "error") {
-          //   dispatchError(toggleModalError(true));
-          //   setAtivar(false);
+          if (response.data.message === "error") {
+            dispatchError(toggleModalError(true));
+            setAtivar(false);
 
-          //   return;
-          // }
+            return;
+          }
           if (response.data.message === "sucess") {
             dispatchConfirmar(toggleModalConfirmar(true));
             setId(data.data.response.id);
@@ -380,6 +380,9 @@ const Recurso = () => {
               }}>
               <TextField
                 type='number'
+                style={{
+                  width: "200px",
+                }}
                 value={valor}
                 label='Valor'
                 name='Valor'
@@ -390,6 +393,9 @@ const Recurso = () => {
 
               <TextField
                 type='number'
+                style={{
+                  width: "200px",
+                }}
                 value={rupe}
                 label='Rupe'
                 name='Rupe'

@@ -4,6 +4,7 @@ import { BiX } from "react-icons/bi";
 
 import { useEffect, useState } from "react";
 import { api } from "../../../../../../auth/auth";
+import { formatDate } from "../../../hook/timeout";
 
 const MinhaSolicitacao = () => {
   const [solicitacoes, setSolicitacoes] = useState([]);
@@ -30,7 +31,8 @@ const MinhaSolicitacao = () => {
           return;
         }
         if (data.data?.message === "error") return;
-        setSolicitacoes(data.data);
+          setSolicitacoes(data.data);
+          console.log(data.data)
       });
   };
   const data = [
@@ -39,7 +41,9 @@ const MinhaSolicitacao = () => {
       label: "home",
     },
   ];
-  console.log(tex);
+  const dataFormatada = (data) => {
+    return formatDate(data);
+  };
   return (
     <div className='solicitacao'>
       {solicitacoes?.length > 0 && (
@@ -68,6 +72,12 @@ const MinhaSolicitacao = () => {
                   }}>
                   {s?.status}
                 </Link>
+              </div>
+              <div style={{
+                display: "flex",
+                marginTop: "20px"
+              }}>
+                {formatDate(s.createAt)}
               </div>
             </div>
           ))}

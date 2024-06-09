@@ -185,18 +185,18 @@ const Reconfirmacao = () => {
           return;
         }
         if (data.data?.message === "sucess") {
-          // const response = await api.post("/solicitacao", {
-          //   fk_estudante,
-          //   tipoServico: "Reconfirmação",
-          //   status: "Pendente",
-          // });
+          const response = await api.post("/solicitacao", {
+            fk_estudante,
+            tipoServico: "Reconfirmação",
+            status: "Pendente",
+          });
 
-          // if (response.data.message === "error") {
-          //   dispatchError(toggleModalError(true));
-          //   setLoading(false);
+          if (response.data.message === "error") {
+            dispatchError(toggleModalError(true));
+            setLoading(false);
 
-          //   return;
-          // }
+            return;
+          }
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response.id);
           setLoading(false);
@@ -236,9 +236,16 @@ const Reconfirmacao = () => {
               flexWrap: "wrap",
               justifyContent: "center",
             }}>
-            <TextField label='Valor' type='number' {...register("valor")} />
+            <TextField label='Valor' type='number' {...register("valor")} 
+                            style={{
+                              width: "200px",
+                            }}
+            />
 
             <TextField
+                            style={{
+                              width: "200px",
+                            }}
               type='number'
               label='Rupe'
               maxLength={24}
@@ -255,18 +262,22 @@ const Reconfirmacao = () => {
               alignItems: "center",
               gap: "10px",
             }}>
-            <FormControl fullWidth>
+            <FormControl fullWidth
+            
+            >
               <InputLabel htmlFor='demo-simple-select-label'>
                 Ano Lectivo
               </InputLabel>
               <Select
-                style={{
-                  width: "200px",
-                }}
+                
                 labelId='demo-simple-select-label'
                 {...register("fk_ano")}
                 label='Ano Lectivo'
-                id='demo-simple-select'>
+                id='demo-simple-select'
+                style={{
+                  width: "200px",
+                }}
+                >
                 {anos.map((s) => (
                   <MenuItem value={s.id} key={s.id}>
                     {s.ano}
@@ -326,9 +337,7 @@ const Reconfirmacao = () => {
               name='nome'
               variant='outlined'
               readOnly
-              style={{
-                width: "60%",
-              }}
+              
               {...register("nome")}
             />
 
@@ -338,9 +347,7 @@ const Reconfirmacao = () => {
               label='Curso'
               readOnly
               variant='outlined'
-              style={{
-                width: "60%",
-              }}
+
               {...register("curso")}
             />
 
@@ -351,9 +358,6 @@ const Reconfirmacao = () => {
               label='B.I'
               readOnly
               variant='outlined'
-              style={{
-                width: "60%",
-              }}
               {...register("bi")}
             />
 
