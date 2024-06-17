@@ -13,10 +13,9 @@
   padding: 15px;
   text-align: center;
   margin-top: 40px;
-  width: 500px;
+  width: 350px;
   border-radius: 20px;
   box-shadow: 1px 1px #000;
-  /* height: 500px; */
 }
 .form-cadastro .img {
   display: flex;
@@ -103,11 +102,6 @@
   display: flex;
 }
 
-.form-cadastro .input {
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-}
 .form-cadastro .valido {
   border: 3px solid green;
 }
@@ -138,13 +132,7 @@
   .form-cadastro .showScreen {
     width: 80%;
   }
-  /* .container-cadastro button {
-    margin-top: 20px;
-    padding: 10px;
-    font-size: 14pt;
-    margin-bottom: 7px;
-    width: 50%;
-  } */
+
   .form-cadastro .errorPasswordConf {
     margin-top: 10px;
     color: #f40404;

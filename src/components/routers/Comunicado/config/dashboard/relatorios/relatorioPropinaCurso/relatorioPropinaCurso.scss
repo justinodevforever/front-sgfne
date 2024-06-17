@@ -1,0 +1,24 @@
+.relatorioPropinaCurso {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+.relatorioPropinaCurso .table2C th {
+  background-color: #fff;
+  font-size: 8pt;
+  color: #000;
+  font-weight: 700;
+  border: none;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
+.relatorioPropinaCurso .table2C td {
+  background-color: #fff;
+  font-size: 8pt;
+  color: #000;
+  font-weight: 200;
+  padding: 0px;
+  border: none;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}

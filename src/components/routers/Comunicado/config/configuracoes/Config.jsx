@@ -70,62 +70,7 @@ const Config = () => {
     setClicFrequencia(true);
     setClicCurso(false);
   };
-  return (
-    <div className='config'>
-      <ul className='menu'>
-        <li>
-          <Link
-            onClick={(e) => toggleCadeira(e)}
-            className={clicCadeira ? "ativo" : "link"}>
-            Ajustar Disciplina
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleServico(e)}
-            className={clicServico ? "ativo" : "link"}>
-            Ajustar Mês
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleSemestre(e)}
-            className={clicSemestre ? "ativo" : "link"}>
-            Ajustar Semestre
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleFrequencia(e)}
-            className={clicFrequencia ? "ativo" : "link"}>
-            Ajustar Frequência
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleAno(e)}
-            className={clicAno ? "ativo" : "link"}>
-            Ajustar Ano
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleCurso(e)}
-            className={clicCurso ? "ativo" : "link"}>
-            Ajustar Curso
-          </Link>
-        </li>
-      </ul>
-      <div className='painel'>
-        {clicFrequencia && <Frequencia />}
-        {clicCadeira && <Cadeira />}
-        {clicServico && <Mes />}
-        {clicSemestre && <Semestre />}
-        {clicAno && <Ano />}
-        {clicCurso && <Curso />}
-      </div>
-    </div>
-  );
+  return <div className='config'></div>;
 };
 
 export default Config;

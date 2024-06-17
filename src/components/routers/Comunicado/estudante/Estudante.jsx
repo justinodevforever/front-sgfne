@@ -7,40 +7,42 @@ import PegarPermissoes from "../../../../configs/permissoes/PegarPermissoes";
 import AtualizarEstudante from "../config/ConfiguracoesGerais/atualizarEstudante/AtualizarEstudante";
 
 const Estudante = () => {
+  const [isM, setIsM] = useState(true);
   const [isBuscar, setIsBuscar] = useState(false);
-  const [isRegister, setIsRegister] = useState(true);
   const [isRemove, setIsRemove] = useState(false);
 
+  function toggleMatricular(e) {
+    e.preventDefault();
+    setIsM(true);
+    setIsRemove(false);
+    setIsBuscar(false);
+  }
   function toggleBusca(e) {
     e.preventDefault();
+    setIsRemove(false);
+    setIsM(false);
     setIsBuscar(true);
-    setIsRegister(false);
-    setIsRemove(false);
   }
-  function toggleCadastrar(e) {
-    e.preventDefault();
-    setIsRegister(true);
-    setIsBuscar(false);
-    setIsRemove(false);
-  }
+
   function toggleRemove(e) {
     e.preventDefault();
+    setIsM(false);
     setIsBuscar(false);
-    setIsRegister(false);
     setIsRemove(true);
   }
   return (
     <div className='container-estudante'>
       <ul>
-        <PegarPermissoes permissoes={["admin", "salvar"]}>
+        <PegarPermissoes permissoes={["admin", "listar"]}>
           <li>
             <Link
-              onClick={(e) => toggleCadastrar(e)}
-              className={isRegister ? "focus" : "semfocus"}>
-              Cadastrar
+              onClick={(e) => toggleMatricular(e)}
+              className={isM ? "focus" : "semfoCus"}>
+              Matricular
             </Link>
           </li>
         </PegarPermissoes>
+
         <PegarPermissoes permissoes={["admin", "listar"]}>
           <li>
             <Link
@@ -61,9 +63,15 @@ const Estudante = () => {
         </PegarPermissoes>
       </ul>
 
-      {isBuscar && <Buscar />}
-      {isRegister && <Cadastrar />}
-      {isRemove && <AtualizarEstudante />}
+      <PegarPermissoes permissoes={["admin", "listar"]}>
+        {isBuscar && <Buscar />}
+      </PegarPermissoes>
+      <PegarPermissoes permissoes={["admin", "remover", "atualizar"]}>
+        {isRemove && <AtualizarEstudante />}
+      </PegarPermissoes>
+      <PegarPermissoes permissoes={["admin", "salvar"]}>
+        {isM && <Cadastrar />}
+      </PegarPermissoes>
     </div>
   );
 };

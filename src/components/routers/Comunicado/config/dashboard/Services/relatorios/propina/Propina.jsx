@@ -4,7 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { formatDate } from "../../../../../../hook/timeout";
 import { api } from "../../../../../../../../../auth/auth";
 import { useEffect, useState } from "react";
-import { Input, Modal, Space, Alert } from "antd";
+import { Input, Modal, Space, Alert, Button, Form } from "antd";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { PrinterOutlined } from "@ant-design/icons";
 
 function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [semestres, setSemestres] = useState([]);
@@ -23,6 +25,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [userName, setUserName] = useState("");
   const [message, setMessage] = useState("");
   const [dividas, setDividas] = useState([]);
+  const [total, setTotal] = useState(0);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +37,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const imprimir = async () => {
     const con = document.getElementById("tabela").innerHTML;
     let estilo = "<style>";
+    estilo += ".tabelaPropina {display:flex;gap: 20px;width:100%;}";
     estilo +=
       "table { border-collapse: collapse; width: 100%; margin-bottom: 10px;}";
     estilo +=
@@ -42,7 +47,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
     estilo +=
       "table th,td { padding: 8px;text-align: center; padding-right: 20px; border-bottom: 1px solid #ddd;border-right: none;border-left: none;border-top: none;}";
     estilo +=
-      "table th,td { padding: 8px;text-align: center; border: 1px solid #000;}";
+      "table th,td { padding: 8px;font-size:8pt;text-align: center; border: 1px solid #000;}";
     estilo +=
       " .assinar { display: flex;margin: auto;width: 100%;justify-content: space-between;margin-top: 20px;}";
     estilo +=
@@ -53,7 +58,10 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
     estilo += "td,th{font-size: 10pt;}";
     estilo +=
       ".dividas{display: flex; gap: 20px; margin-top: 20px; font-size: 10pt;}";
-    estilo += " img{width: 50px;height: 50px;position: absolute; right: 0;}";
+    estilo += " img{width: 50px;height: 50px; right: 0;}";
+    estilo += " .divRecibo {display: flex; flex-direction: column;}";
+    estilo +=
+      " .recibo {border: 1px solid #000; padding: 4px;border-radius: 4px;margin-top:7px;}";
     estilo += "</style>";
 
     const win = window.open();
@@ -121,6 +129,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           setDados(data.data);
           setPropinasMensal([...propinasMensal, data.data]);
         }
+        setTotal(propinasMensal.length * data.data.valor);
       })
       .catch((err) => console.log(err));
   };
@@ -139,7 +148,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           navigate("/login");
           return;
         }
-        console.log(data.data);
         if (data.data) {
           setUserName(data.data?.usuario?.nome);
           setDados(data.data[0]);
@@ -166,148 +174,332 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
 
   return (
     <>
-      {visivel && (
-        <>
-          <Modal
-            open={visivel}
-            closable={false}
-            onCancel={() => {
-              setVisivel(!visivel);
-            }}
-            okText='Imprimir'
-            cancelText='Sair'
-            onOk={() => {
-              if (propinasAnual.length > 0 || propinasMensal.length > 0)
-                imprimir();
-            }}
-            width={"90%"}>
-            <div className='opcoes'>
-              <h2>Relatório</h2>
-              <span
-                onClick={(e) => toggleMensal(e)}
-                className={mensal ? "clic" : "link"}>
-                Mensal
-              </span>
-              <span
-                onClick={(e) => toggleAnual(e)}
-                className={anual ? "clic" : "link"}>
-                Anual
-              </span>
-            </div>
-            {anual && (
-              <>
-                <h3>Propina Anual</h3>
-                <form className='formBi'>
-                  <label htmlFor='anoLetivo' style={{ marginTop: "10px" }}>
+      <>
+        <div className='relatorioPropina'>
+          <div className='opcoes'>
+            <h2>Recibo</h2>
+            <span
+              onClick={(e) => toggleMensal(e)}
+              className={mensal ? "clicBn" : "link"}
+              style={{
+                fontSize: "14pt",
+              }}>
+              Mensal
+            </span>
+            <span
+              onClick={(e) => toggleAnual(e)}
+              className={anual ? "clicBn" : "link"}
+              style={{
+                fontSize: "14pt",
+              }}>
+              Anual
+            </span>
+          </div>
+          {anual && (
+            <>
+              <Form
+                className='formBiPropina'
+                onSubmitCapture={(e) => setBi(e.target.value)}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor='demo-simple-select-label'>
                     Ano Lectivo
-                    <select onChange={(e) => setAno(e.target.value)}>
-                      {anos.map((ano) => (
-                        <option value={ano.ano} key={ano.id}>
-                          {ano.ano}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <div className='input'>
-                    <Input.Search
-                      type='search'
-                      placeholder='Número de BI  Estudante'
-                      value={bi}
-                      onChange={(e) => setBi(e.target.value)}
-                      className='search'
-                      maxLength={14}
-                      onSearch={() => buscaPropina()}
-                      loading={isLoading}
-                    />
-                  </div>
-                </form>
+                  </InputLabel>
+                  <Select
+                    style={{
+                      width: "200px",
+                    }}
+                    labelId='demo-simple-select-label'
+                    onChange={(e) => setAno(e.target.value)}
+                    label='Ano Lectivo'
+                    id='demo-simple-select'>
+                    {anos.map((s) => (
+                      <MenuItem value={s.ano} key={s.id}>
+                        {s.ano}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
 
-                <div className='tabelaPropina' id='tabela'>
-                  <img src='./image/ISP_Moxico/Logo.png' alt='ISPM' />
-                  {propinasAnual.length >= 1 && (
-                    <>
-                      <div className='extra'>
-                        <div>
-                          <div>
-                            <span>Curso: {dados?.estudante?.curso?.curso}</span>
-                            <span>Ano Lectivo: {dados?.anoLectivo?.ano}</span>
-                          </div>
-                          <br />
-                          <span className='tipo'>
-                            Tipo de Serviço: Propina{" "}
+                <div className='input'>
+                  <Input.Search
+                    type='search'
+                    placeholder='Número de BI  Estudante'
+                    value={bi}
+                    onChange={(e) => setBi(e.target.value)}
+                    className='search'
+                    maxLength={14}
+                    onSearch={() => buscaPropina()}
+                    loading={isLoading}
+                  />
+                </div>
+              </Form>
+
+              <div className='tabelaPropina' id='tabela'>
+                {propinasAnual.length >= 1 && (
+                  <div className='tabelaPropina'>
+                    <div
+                      style={{
+                        width: "50%",
+                      }}>
+                      <div
+                        className='extra'
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "0px 10px",
+                        }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            marginTop: "70px",
+                            alignItems: "start",
+                            justifyContent: "start",
+                          }}>
+                          <span>
+                            <strong>Nome: </strong>{" "}
+                            {propinasAnual[0]?.estudante?.nome}
                           </span>
+                          <span>
+                            <strong>NIF: </strong>{" "}
+                            {propinasAnual[0]?.estudante?.bi}
+                          </span>
+                          <span>
+                            <strong>Curso: </strong>{" "}
+                            {propinasAnual[0]?.estudante?.curso?.curso}/
+                            {propinasAnual[0]?.estudante?.regime}
+                          </span>
+                        </div>
+
+                        <div className='divRecibo'>
+                          <img src='./Logo.png' alt='ISPM' />
+                          <span className='recibo'>
+                            <strong>Recibo Nº.</strong> FR ISPM20
+                          </span>
+                          <span>{formatDate(propinasAnual[0]?.createdAt)}</span>
                         </div>
                       </div>
                       <table>
                         <thead>
                           <tr>
-                            <th>Contribuinte</th>
+                            <th>Descrição</th>
                             <th>Nº RUPE</th>
-                            <th>Mês</th>
-                            <th>Valor</th>
-                            <th>Solicitado</th>
-                            <th>Operador</th>
+                            <th>Mês Pago</th>
+                            <th>Sob-total</th>
                           </tr>
                         </thead>
 
                         <tbody>
-                          {propinasAnual.map((prop) => (
-                            <tr key={prop.id}>
-                              <td>{prop?.estudante?.nome}</td>
+                          {propinasAnual.map((prop, index) => (
+                            <tr key={index}>
+                              <td>
+                                Propina-{prop?.estudante?.regime}/
+                                {dados?.anoLectivo?.ano}
+                              </td>
                               <td>{prop?.rupe}</td>
                               <td>{prop?.mes?.mes}</td>
                               <td>{prop?.valor} Kz</td>
-                              <td>{formatDate(prop?.createdAt)}</td>
-                              <td>{prop?.usuario.nome} </td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
-                      <div className='assinar'>
-                        <div>
-                          <span className='operador'>{"O Operador"}</span>
-                          <hr />
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>FORMA DE PAGAMENTO RUPE</th>
+                            <th colSpan={2}>RESUMO DE PAGAMENTO</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr>
+                            <td rowSpan={4}>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}>
+                                RUPE Nº{" "}
+                                <strong>{propinasAnual[0]?.rupe}</strong>
+                              </span>{" "}
+                              <span
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}>
+                                Valor{" "}
+                                <strong>{propinasAnual[0]?.valor} Akz</strong>
+                              </span>
+                            </td>
+                            <td>Quantia Entregue</td>
+                            <td>
+                              {propinasAnual.length * propinasAnual[0].valor}.00
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Crédito</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>Total/Desconto</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>Total/Multa</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={2}>TOTAL A PAGAR</td>
+                            <td>
+                              {propinasAnual.length * propinasAnual[0].valor}.00
+                            </td>
+                          </tr>
+                          <td colSpan={3} style={{ fontStyle: "italic" }}>
+                            <strong>Responsável:</strong>{" "}
+                            {propinasAnual[0]?.usuario?.nome}
+                          </td>
+                          <tr></tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* <hr className='divisao' /> */}
+                    <div
+                      style={{
+                        width: "50%",
+                      }}>
+                      <div
+                        className='extra'
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "0px 10px",
+                        }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            marginTop: "70px",
+                            alignItems: "start",
+                            justifyContent: "start",
+                          }}>
+                          <span>
+                            <strong>Nome: </strong>{" "}
+                            {propinasAnual[0]?.estudante?.nome}
+                          </span>
+                          <span>
+                            <strong>NIF: </strong>{" "}
+                            {propinasAnual[0]?.estudante?.bi}
+                          </span>
+                          <span>
+                            <strong>Curso: </strong>{" "}
+                            {propinasAnual[0]?.estudante?.curso?.curso}/
+                            {propinasAnual[0]?.estudante?.regime}
+                          </span>
                         </div>
-                      </div>
-                      <hr className='divisao' />
-                      <div className='extra'>
-                        <div>
-                          <span>Curso: {dados?.estudante?.curso?.curso}</span>
-                          <span>Ano Lectivo: {dados?.anoLectivo?.ano}</span>
+
+                        <div className='divRecibo'>
+                          <img src='./Logo.png' alt='ISPM' />
+                          <span className='recibo'>
+                            <strong>Recibo Nº.</strong> FR ISPM20
+                          </span>
+                          <span>{formatDate(propinasAnual[0]?.createdAt)}</span>
                         </div>
-                        <br />
-                        <span className='tipo'>Tipo de Serviço: {tipo} </span>
                       </div>
                       <table>
                         {propinasAnual.length >= 1 && (
                           <thead>
                             <tr>
-                              <th>Contribuinte</th>
+                              <th>Descrição</th>
                               <th>Nº RUPE</th>
-                              <th>Mês</th>
-                              <th>Valor</th>
-                              <th>Solicitado</th>
-                              <th>Operador</th>
+                              <th>Mês Pago</th>
+                              <th>Sob-total</th>
                             </tr>
                           </thead>
                         )}
                         <tbody>
-                          {propinasAnual.map((prop) => (
-                            <tr key={prop.id}>
-                              <td>{prop?.estudante?.nome}</td>
+                          {propinasAnual.map((prop, index) => (
+                            <tr key={index}>
+                              <td>
+                                Propina-{prop?.estudante?.regime}/
+                                {dados?.anoLectivo?.ano}
+                              </td>
                               <td>{prop?.rupe}</td>
                               <td>{prop?.mes?.mes}</td>
                               <td>{prop?.valor} Kz</td>
-                              <td>{formatDate(prop?.createdAt)}</td>
-                              <td>{prop?.usuario?.nome}</td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
-                      <div className='dividas'>
-                        <strong>Nº B.I:</strong>
-                        <span>{bi}</span>
-                      </div>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>FORMA DE PAGAMENTO RUPE</th>
+                            <th colSpan={2}>RESUMO DE PAGAMENTO</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <tr>
+                            <td rowSpan={4}>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}>
+                                RUPE Nº{" "}
+                                <strong>{propinasAnual[0]?.rupe}</strong>
+                              </span>{" "}
+                              <span
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}>
+                                Valor{" "}
+                                <strong>{propinasAnual[0]?.valor} Akz</strong>
+                              </span>
+                            </td>
+                            <td>Quantia Entregue</td>
+                            <td>
+                              {propinasAnual.length * propinasAnual[0].valor}
+                              .00
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Crédito</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>Total/Desconto</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>Total/Multa</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={2}>TOTAL A PAGAR</td>
+                            <td>
+                              {propinasAnual.length * propinasAnual[0].valor}
+                              .00
+                            </td>
+                          </tr>
+                          <tr>
+                            <td colSpan={3} style={{ fontStyle: "italic" }}>
+                              <strong>Responsável:</strong>{" "}
+                              {propinasAnual[0]?.usuario?.nome}
+                            </td>
+                          </tr>
+                          <tr></tr>
+                        </tbody>
+                      </table>
+
                       <div className='dividas'>
                         <strong>Dívidas:</strong>
                         {dividas?.length > 0 ? (
@@ -318,80 +510,125 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <span>Sem Dívidas!</span>
                         )}
                       </div>
-                      <div className='assinar'>
-                        <div>
-                          <span className='operador'>{"O Operador"}</span>
-                          <hr />
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </>
-            )}
-
-            {mensal && (
-              <>
-                <h3>Propina Mensal</h3>
-                <form className='formBi'>
-                  <Space wrap style={{ width: "100%" }}>
-                    <label htmlFor='mes'>
-                      Mês:
-                      <select onChange={(e) => setMes(e.target.value)}>
-                        {meses.map((m) => (
-                          <option value={m.mes} key={m.id}>
-                            {m.mes}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label htmlFor='anoLetivo'>
-                      Ano Lectivo
-                      <select onChange={(e) => setAno(e.target.value)}>
-                        {anos.map((ano) => (
-                          <option value={ano.ano} key={ano.id}>
-                            {ano.ano}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </Space>
-                  <div className='input'>
-                    <Input.Search
-                      placeholder='Número de BI do Estudante'
-                      value={bi}
-                      onChange={(e) => setBi(e.target.value)}
-                      className='search'
-                      maxLength={14}
-                      onSearch={() => buscaPropinaMensal()}
-                      style={{
-                        width: "100%",
-                      }}
-                    />
+                    </div>
                   </div>
-                </form>
-                <div className='tabelaPropina' id='tabela'>
-                  {propinasMensal.length >= 1 && (
-                    <>
-                      <img src='./Logo.png' alt='ISPM' />
-                      <div className='extra'>
-                        <div>
-                          <span>Curso: {dados?.estudante?.curso?.curso}</span>
-                          <span>Ano Lectivo: {dados?.anoLectivo?.ano}</span>
+                )}
+              </div>
+            </>
+          )}
+
+          {mensal && (
+            <>
+              <form className='formBiPropinaMensal'>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                  }}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor='demo-simple-select-label'>
+                      Mês
+                    </InputLabel>
+                    <Select
+                      style={{
+                        width: "200px",
+                      }}
+                      labelId='demo-simple-select-label'
+                      onChange={(e) => setMes(e.target.value)}
+                      label='Frequência'
+                      id='demo-simple-select'>
+                      {meses.map((s) => (
+                        <MenuItem value={s.mes} key={s.id}>
+                          {s.mes}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor='demo-simple-select-label'>
+                      Ano Lectivo
+                    </InputLabel>
+                    <Select
+                      style={{
+                        width: "200px",
+                      }}
+                      labelId='demo-simple-select-label'
+                      label='Ano Lectivo'
+                      id='demo-simple-select'
+                      onChange={(e) => setAno(e.target.value)}>
+                      {anos.map((s) => (
+                        <MenuItem value={s.ano} key={s.id}>
+                          {s.ano}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
+                <div className='input'>
+                  <Input.Search
+                    placeholder='Número de BI do Estudante'
+                    value={bi}
+                    onChange={(e) => setBi(e.target.value)}
+                    className='search'
+                    maxLength={14}
+                    onSearch={() => buscaPropinaMensal()}
+                    style={{
+                      width: "100%",
+                    }}
+                  />
+                </div>
+              </form>
+              <div className='tabelaPropina' id='tabela'>
+                {propinasMensal.length >= 1 && (
+                  <div className='tabelaPropina'>
+                    <div
+                      style={{
+                        width: "50%",
+                      }}>
+                      <div
+                        className='extra'
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "0px 10px",
+                        }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            marginTop: "70px",
+                            alignItems: "start",
+                            justifyContent: "start",
+                          }}>
+                          <span>
+                            <strong>Nome: </strong> {dados?.estudante?.nome}
+                          </span>
+                          <span>
+                            <strong>NIF: </strong> {dados?.estudante?.bi}
+                          </span>
+                          <span>
+                            <strong>Curso: </strong>{" "}
+                            {dados?.estudante?.curso?.curso}/
+                            {dados?.estudante?.regime}
+                          </span>
                         </div>
-                        <br />
-                        <span className='tipo'>Tipo de Serviço: Propina </span>
+
+                        <div className='divRecibo'>
+                          <img src='./Logo.png' alt='ISPM' />
+                          <span className='recibo'>
+                            <strong>Recibo Nº.</strong> FR ISPM20
+                          </span>
+                          <span>{formatDate(dados?.createdAt)}</span>
+                        </div>
                       </div>
                       <table>
                         <thead>
                           <tr>
-                            <th>Contribuinte</th>
+                            <th>Descrição</th>
                             <th>Nº RUPE</th>
                             <th>Mês Pago</th>
-                            <th>Valor</th>
-                            <th>Solicitado</th>
-                            <th>OPerador</th>
-
+                            <th>Sob-total</th>
                             <th className='opc'>Opções</th>
                           </tr>
                         </thead>
@@ -399,12 +636,13 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         <tbody>
                           {propinasMensal.map((prop, index) => (
                             <tr key={index}>
-                              <td>{prop?.estudante?.nome}</td>
+                              <td>
+                                Propina-{prop?.estudante?.regime}/
+                                {dados?.anoLectivo?.ano}
+                              </td>
                               <td>{prop?.rupe}</td>
                               <td>{prop?.mes?.mes}</td>
                               <td>{prop?.valor} Kz</td>
-                              <td>{formatDate(prop?.createdAt)}</td>
-                              <td>{prop?.usuario?.nome}</td>
 
                               <td className='opc'>
                                 <BiX
@@ -418,32 +656,111 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           ))}
                         </tbody>
                       </table>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>FORMA DE PAGAMENTO RUPE</th>
+                            <th colSpan={2}>RESUMO DE PAGAMENTO</th>
+                          </tr>
+                        </thead>
 
-                      <div className='assinar'>
-                        <div>
-                          <span className='operador'>{"O Operador"}</span>
-                          <hr />
+                        <tbody>
+                          <tr>
+                            <td rowSpan={4}>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}>
+                                RUPE Nº <strong>{dados?.rupe}</strong>
+                              </span>{" "}
+                              <span
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}>
+                                Valor <strong>{dados?.valor} Akz</strong>
+                              </span>
+                            </td>
+                            <td>Quantia Entregue</td>
+                            <td>{propinasMensal.length * dados.valor}.00</td>
+                          </tr>
+                          <tr>
+                            <td>Crédito</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>Total/Desconto</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>Total/Multa</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={2}>TOTAL A PAGAR</td>
+                            <td>{propinasMensal.length * dados.valor}.00</td>
+                          </tr>
+                          <td colSpan={3} style={{ fontStyle: "italic" }}>
+                            <strong>Responsável:</strong> {dados?.usuario?.nome}
+                          </td>
+                          <tr></tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* <hr className='divisao' /> */}
+                    <div
+                      style={{
+                        width: "50%",
+                      }}>
+                      <div
+                        className='extra'
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          padding: "0px 10px",
+                        }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            marginTop: "70px",
+                            alignItems: "start",
+                            justifyContent: "start",
+                          }}>
+                          <span>
+                            <strong>Nome: </strong> {dados?.estudante?.nome}
+                          </span>
+                          <span>
+                            <strong>NIF: </strong> {dados?.estudante?.bi}
+                          </span>
+                          <span>
+                            <strong>Curso: </strong>{" "}
+                            {dados?.estudante?.curso?.curso}/
+                            {dados?.estudante?.regime}
+                          </span>
                         </div>
-                      </div>
-                      <hr className='divisao' />
-                      <div className='extra'>
-                        <div>
-                          <span>Curso: {dados?.estudante?.curso?.curso}</span>
-                          <span>Ano Lectivo: {dados?.anoLectivo?.ano}</span>
+
+                        <div className='divRecibo'>
+                          <img src='./Logo.png' alt='ISPM' />
+                          <span className='recibo'>
+                            <strong>Recibo Nº.</strong> FR ISPM20
+                          </span>
+                          <span>{formatDate(dados?.createdAt)}</span>
                         </div>
-                        <br />
-                        <span className='tipo'>Tipo de Serviço: Propina </span>
                       </div>
                       <table>
                         {propinasMensal.length >= 1 && (
                           <thead>
                             <tr>
-                              <th>Contribuinte</th>
+                              <th>Descrição</th>
                               <th>Nº RUPE</th>
                               <th>Mês Pago</th>
-                              <th>Valor</th>
-                              <th>Solicitado</th>
-                              <th>Operador</th>
+                              <th>Sob-total</th>
                               <th className='opc'>Opções</th>
                             </tr>
                           </thead>
@@ -451,12 +768,13 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         <tbody>
                           {propinasMensal.map((prop, index) => (
                             <tr key={index}>
-                              <td>{prop?.estudante?.nome}</td>
+                              <td>
+                                Propina-{prop?.estudante?.regime}/
+                                {dados?.anoLectivo?.ano}
+                              </td>
                               <td>{prop?.rupe}</td>
                               <td>{prop?.mes?.mes}</td>
                               <td>{prop?.valor} Kz</td>
-                              <td>{formatDate(prop?.createdAt)}</td>
-                              <td>{prop?.usuario?.nome}</td>
 
                               <td className='opc'>
                                 <BiX
@@ -470,11 +788,63 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           ))}
                         </tbody>
                       </table>
-                      <div className='dividas'>
-                        <strong>Nº B.I:</strong>
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>FORMA DE PAGAMENTO RUPE</th>
+                            <th colSpan={2}>RESUMO DE PAGAMENTO</th>
+                          </tr>
+                        </thead>
 
-                        <span>{bi}</span>
-                      </div>
+                        <tbody>
+                          <tr>
+                            <td rowSpan={4}>
+                              <span
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}>
+                                RUPE Nº <strong>{dados?.rupe}</strong>
+                              </span>{" "}
+                              <span
+                                style={{
+                                  display: "flex",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}>
+                                Valor <strong>{dados?.valor} Akz</strong>
+                              </span>
+                            </td>
+                            <td>Quantia Entregue</td>
+                            <td>{propinasMensal.length * dados.valor}.00</td>
+                          </tr>
+                          <tr>
+                            <td>Crédito</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>Total/Desconto</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td>Total/Multa</td>
+                            <td>0.00</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={2}>TOTAL A PAGAR</td>
+                            <td>{propinasMensal.length * dados.valor}.00</td>
+                          </tr>
+                          <tr>
+                            <td colSpan={3} style={{ fontStyle: "italic" }}>
+                              <strong>Responsável:</strong>{" "}
+                              {dados?.usuario?.nome}
+                            </td>
+                          </tr>
+                          <tr></tr>
+                        </tbody>
+                      </table>
+
                       <div className='dividas'>
                         <strong>Dívidas:</strong>
                         {dividas?.length > 0 ? (
@@ -485,20 +855,38 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <span>Sem Dívidas!</span>
                         )}
                       </div>
-                      <div className='assinar'>
-                        <div>
-                          <span className='operador'>{"O Operador"}</span>
-                          <hr />
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </>
-            )}
-          </Modal>
-        </>
-      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              marginTop: "30px",
+              gap: "30px",
+            }}>
+            {/* <Button
+              onClick={() => {}}
+              style={{
+                background: "red",
+                color: "#fff",
+              }}>
+              Voltar
+            </Button> */}
+            <Button
+              onClick={() => {
+                if (propinasAnual.length > 0 || propinasMensal.length > 0)
+                  imprimir();
+              }}
+              type='primary'>
+              <PrinterOutlined /> Imprimir
+            </Button>
+          </div>
+        </div>
+      </>
     </>
   );
 }

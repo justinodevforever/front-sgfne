@@ -1,3 +1,4 @@
+import "./actualizar.scss";
 import { useEffect, useState } from "react";
 import { api } from "../../../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +12,13 @@ import {
   toggleModalError,
 } from "../../../../../../../store/ui-slice";
 import { useDispatch } from "react-redux";
+import { TextField } from "@mui/material";
 
 const MES =
   /^(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Augosto|Setembro|Outubro|Novembro|Dezembro)/;
 const ALGARISMO = /^(1|2|3|4|5|6|7|8|9|10|11|12){1,1}$/;
 
-const Actualizar = () => {
+const ActualizarMes = () => {
   const [meses, setMeses] = useState([]);
   const [mes, setMes] = useState("");
   const [validMes, setValidMes] = useState(false);
@@ -25,6 +27,7 @@ const Actualizar = () => {
   const [validAlgarismo, setValidAlgarismo] = useState(false);
   const [id, setId] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -105,6 +108,7 @@ const Actualizar = () => {
       setMes(data.data.mes);
       setAlgarismo(data.data.algarismo);
       setId(data.data.id);
+      setDisabled(true);
     });
   };
   return (
@@ -112,7 +116,7 @@ const Actualizar = () => {
       <UseSucess />
       <UseErro />
       <UseWarning message={message} />
-      <div className='atualizar'>
+      <div className='atualizarMes'>
         <form>
           <div>
             <label
@@ -122,15 +126,11 @@ const Actualizar = () => {
                 position: "relative",
                 flexDirection: "column",
               }}>
-              Mês
-              <Input
+              <TextField
+                label='Nome do Mês'
+                disabled={disabled ? false : true}
                 value={mes}
                 onChange={(e) => setMes(e.target.value)}
-                style={
-                  !mes || (mes && !validMes)
-                    ? { border: "1px solid red", height: "60px" }
-                    : { border: "1px solid green", height: "60px" }
-                }
               />
               {!validMes && mes && (
                 <span
@@ -154,24 +154,14 @@ const Actualizar = () => {
             <label
               htmlFor='semestre'
               style={{ position: "relative", flexDirection: "column" }}>
-              Nº Correspondente
-              <Input
+              <TextField
+                label='Nº Correspondente'
                 type='number'
+                disabled={disabled ? false : true}
                 placeholder='Designação do semestre Ex. 1º ou 2º'
                 value={algarismo}
                 onChange={(e) => setAlgarismo(e.target.value)}
                 name='semestre'
-                style={
-                  algarismo && validAlgarismo
-                    ? {
-                        border: "1px solid green",
-                        height: "60px",
-                      }
-                    : {
-                        border: "1px solid red",
-                        height: "60px",
-                      }
-                }
               />
               {algarismo && !validAlgarismo && (
                 <span
@@ -179,7 +169,7 @@ const Actualizar = () => {
                     color: "red",
                     fontSize: "11pt",
                     fontStyle: "italic",
-                    marginTop: "10px",
+                    marginTop: "30px",
                     position: "absolute",
                     top: "50px",
                     textAlign: "justify",
@@ -203,7 +193,7 @@ const Actualizar = () => {
                 : { marginTop: "80px", marginBottom: "30px" }
             }>
             <BiSave />
-            Actualizar
+            ActualizarMes
           </Button>
         </form>
         {meses.length > 0 ? (
@@ -247,4 +237,4 @@ const Actualizar = () => {
     </>
   );
 };
-export default Actualizar;
+export default ActualizarMes;

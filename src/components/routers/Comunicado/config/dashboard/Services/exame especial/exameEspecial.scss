@@ -10,7 +10,8 @@
 
 .container-exame .formBir {
   display: flex;
-  width: 100%;
+  width: 98%;
+  margin: auto;
   background-color: #a31543;
   padding: 10px 0px;
   align-items: center;
@@ -107,13 +108,16 @@ select {
   font-size: 14pt;
 }
 
-.container-exame .btn {
+.container-exame .btnExame {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
-  width: 30%;
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 50%;
   border: none;
   color: #fff;
   background-color: #a31543;
@@ -122,9 +126,9 @@ select {
   margin-top: 20px;
   cursor: pointer;
   opacity: 0.8;
-  padding: 20px;
+  padding: 10px 0px;
 }
-.container-exame .btn:hover {
+.container-exame .btnExame:hover {
   opacity: 1;
 }
 .container-exame .opcoes {

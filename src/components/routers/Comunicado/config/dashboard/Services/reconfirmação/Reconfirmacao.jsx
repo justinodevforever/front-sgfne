@@ -14,7 +14,13 @@ import {
 } from "../../../../../../../store/ui-slice";
 import { Form, Input, Space, Alert, Button } from "antd";
 import Processing from "../../../../../hook/process/Processing";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 
 const ReconfirmacaoDashboard = () => {
@@ -24,11 +30,7 @@ const ReconfirmacaoDashboard = () => {
   const [fk_estudante, setFk_estudante] = useState("");
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
-  const [fk_ano, setFk_ano] = useState("");
-  const [fk_semestre, setFk_semestre] = useState("");
-  const [valor, setValor] = useState(0);
-  const [rupe, setRupe] = useState(0);
-  const [fk_frequencia, setFk_frequencia] = useState("");
+
   const [semestres, setSemestres] = useState([]);
   const [anos, setAnos] = useState([]);
   const [frequencias, setFrequencias] = useState([]);
@@ -38,6 +40,7 @@ const ReconfirmacaoDashboard = () => {
   const navigate = useNavigate();
   const [visivel, setVisivel] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [id, setId] = useState("");
   const [message, setMessage] = useState("");
   const form = useForm();
@@ -74,12 +77,18 @@ const ReconfirmacaoDashboard = () => {
   }, [frequencia]);
 
   const buscarEstudante = async () => {
+    if (!bi) {
+      alert("O Campo B.I é Obrigatório");
+      return;
+    }
+    setLoading(true);
     const { data } = await api.post("/divida", { bi });
-
+    console.log(data);
     if (data.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
       dispatchWarning(toggleModalWarning(true));
+      setLoading(false);
 
       return;
     }
@@ -99,12 +108,14 @@ const ReconfirmacaoDashboard = () => {
           }, 4000);
           setMessage("Estudante com Este Nº de B.I não Existe!");
           setIsProcessing(true);
+          setLoading(false);
           return () => clearInterval(c);
         }
         setCurso(data.data.curso.curso);
         setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -214,11 +225,12 @@ const ReconfirmacaoDashboard = () => {
         fk_curso,
         fk_estudante,
         fk_semestre: data.fk_semestre,
-        fk_user,
         fk_ano: data.fk_ano,
         valor: Number(data.valor),
         rupe: Number(data.rupe),
         fk_frequencia: data.fk_frequencia,
+        fk_user: sessionStorage.getItem("id"),
+        dataSolicitacao: formatDateNumber(Date.now()),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -256,116 +268,102 @@ const ReconfirmacaoDashboard = () => {
       <UseErro />
       {isProcessing && <Processing message={message} />}
 
+      <Form className='formBir' onSubmitCapture={() => buscarEstudante()}>
+        <Input.Search
+          placeholder='Número de BI do Estudante'
+          value={bi}
+          onChange={(e) => setBi(e.target.value)}
+          autoFocus
+          maxLength={14}
+          style={{ width: "80%" }}
+          loading={loading}
+          onSearch={() => buscarEstudante()}
+        />
+      </Form>
       <form
         className='container-reconfirmacao'
         onSubmit={handleSubmit(handlePagamento)}>
-        <Form className='formBir' onSubmitCapture={buscarEstudante}>
-          <Input.Search
-            placeholder='Número de BI do Estudante'
-            value={bi}
-            onChange={(e) => setBi(e.target.value)}
-            autoFocus
-            maxLength={14}
-            style={{ width: "80%" }}
-            onSearch={() => buscarEstudante()}
-          />
-        </Form>
-
         <Space
           wrap
+          align='center'
           style={{
             display: "flex",
-            width: "100%",
-            flexDirection: "column",
             justifyContent: "center",
-          }}
-          align='center'>
-          <div
+            paddingBottom: "10px",
+          }}>
+          <TextField
+            label='Valor'
+            type='number'
+            {...register("valor")}
             style={{
-              display: "flex",
-              gap: "10px",
-              marginTop: "10px",
-              justifyContent: "center",
-            }}>
-            <TextField label='Valor' type='number' {...register("valor")} />
+              width: "200px",
+            }}
+          />
 
-            <TextField
-              type='number'
-              label='Rupe'
-              maxLength={24}
-              {...register("rupe")}
-            />
-          </div>
-          <div
+          <TextField
+            type='number'
+            label='Rupe'
+            maxLength={24}
+            {...register("rupe")}
             style={{
-              display: "flex",
-              width: "100%",
-              flexWrap: "wrap",
-              marginTop: "10px",
-              justifyContent: "center",
-            }}>
-            <label htmlFor='frequencia'>
-              Frequência:
-              <select
-                {...register("fk_frequencia")}
-                style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
-                }}>
-                <option value={"Escolhe"}>Escolha Frequência</option>
-
-                {frequencias.map((f) => (
-                  <option value={f.id} key={f.id}>
-                    {f.ano}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor='semestre'>
-              Semestre:
-              <select
-                {...register("fk_semestre")}
-                style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
-                }}>
-                <option value={"Escolhe"}>Escolha Semestre</option>
-
-                {semestres.map((s) => (
-                  <option value={s.id} key={s.id}>
-                    {s.nome}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label htmlFor='cadeira'>
-              Ano Lectivo:
-              <select
-                {...register("fk_ano")}
-                style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
-                }}>
-                <option value={"Escolhe"}>Escolha Lectivo</option>
-
-                {anos.map((s) => (
-                  <option value={s.id} key={s.id}>
-                    {s.ano}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
+              width: "200px",
+            }}
+          />
+          <FormControl fullWidth>
+            <InputLabel htmlFor='demo-simple-select-label'>
+              Frequência
+            </InputLabel>
+            <Select
+              style={{
+                width: "200px",
+              }}
+              labelId='demo-simple-select-label'
+              label='Frequência'
+              {...register("fk_frequencia")}
+              id='demo-simple-select'>
+              {frequencias.map((s) => (
+                <MenuItem value={s.id} key={s.id}>
+                  {s.ano}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel htmlFor='demo-simple-select-label'>Semestre</InputLabel>
+            <Select
+              style={{
+                width: "200px",
+              }}
+              labelId='demo-simple-select-label'
+              label='Semestre'
+              {...register("fk_semestre")}
+              id='demo-simple-select'>
+              {semestres.map((s) => (
+                <MenuItem value={s.id} key={s.id}>
+                  {s.nome}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel htmlFor='demo-simple-select-label'>
+              Ano Lectivo
+            </InputLabel>
+            <Select
+              style={{
+                width: "200px",
+              }}
+              labelId='demo-simple-select-label'
+              label='Ano Lectivo'
+              {...register("fk_ano")}
+              id='demo-simple-select'>
+              {anos.map((s) => (
+                <MenuItem value={s.id} key={s.id}>
+                  {s.ano}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Space>
         <hr />
         {curso && bi && nome && (
@@ -420,7 +418,7 @@ const ReconfirmacaoDashboard = () => {
               {...register("bi")}
             />
 
-            <button className='btn' type='submit'>
+            <button className='btnReconfirmacao' type='submit'>
               Pagar
             </button>
           </div>

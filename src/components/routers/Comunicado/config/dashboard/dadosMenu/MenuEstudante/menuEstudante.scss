@@ -1,0 +1,68 @@
+.menuEstudante {
+  display: flex;
+  width: 100%;
+}
+.menuEstudante ul {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 0px 0px 0px 4px;
+}
+.menuEstudante ul .li {
+  display: flex;
+  width: 100%;
+  color: #000;
+  font-weight: 200;
+  height: 30px;
+  text-align: center;
+  padding: 0px 0px 0px 10px;
+  align-items: center;
+  gap: 10px;
+  font-size: 11pt;
+}
+.menuEstudante ul a {
+  display: flex;
+  width: 100%;
+  color: #000;
+  font-weight: 200;
+  opacity: 1;
+  position: relative;
+}
+.menuEstudante ul a .isEme,
+.isMt,
+.isLe,
+.isAe {
+  background-color: #f1cfda;
+  display: flex;
+  width: 100%;
+  color: #000;
+  font-weight: 200;
+  height: 30px;
+  text-align: center;
+  padding: 0px 0px 0px 10px;
+  align-items: center;
+  gap: 10px;
+  opacity: 1;
+  font-size: 11pt;
+}
+
+.menuEstudante ul a li:hover {
+  background-color: #f7e4ea;
+  color: #000;
+  font-weight: 200;
+  opacity: 1;
+  font-size: 11pt;
+}
+.menuEstudante ul a .isEme::before,
+.isMt::before,
+.isLe::before,
+.isAe::before {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  background-color: #a31543;
+  left: 0;
+}

@@ -10,31 +10,17 @@ import { AiOutlineSetting } from "react-icons/ai";
 import {
   PiCurrencyCircleDollar,
   PiCurrencyDollar,
-  PiList,
-  PiListBulletsLight,
   PiListChecks,
   PiStudentBold,
 } from "react-icons/pi";
 import Servicos from "./Services/Servicos";
-import {
-  HomeFilled,
-  HomeOutlined,
-  DollarOutlined,
-  SettingOutlined,
-  MessageFilled,
-  BellOutlined,
-  MessageOutlined,
-  MenuFoldOutlined,
-  MenuOutlined,
-  DollarCircleFilled,
-} from "@ant-design/icons/lib/icons";
+
 import { Menu, Drawer } from "antd";
 import { List } from "antd/es/form/Form";
 import {
   BiHome,
   BiListMinus,
   BiListOl,
-  BiListUl,
   BiSolidDashboard,
 } from "react-icons/bi";
 import PegarPermissoes from "../../../configs/permissoes/PegarPermissoes";

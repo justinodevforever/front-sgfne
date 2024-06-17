@@ -1,5 +1,5 @@
 @import "../../../../../../../style/variable.scss";
-.atualizar form button {
+.atualizarCurso form button {
   display: flex;
   width: 150px;
   margin: auto;
@@ -8,6 +8,8 @@
   color: $white;
   background-color: $rosa;
   text-align: center;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 7px;
   gap: 4px;
@@ -15,10 +17,15 @@
   margin-bottom: 10px;
   cursor: pointer;
 }
-.atualizar form div {
-  display: flex;
-  margin: auto;
-}
-.atualizar table th {
+
+.atualizarCurso table th {
   background-color: $rosa;
+  border: none;
+}
+.atualizarCurso table td {
+  border: none;
+  border-bottom: 1px solid #000;
+}
+.atualizarCurso {
+  margin-top: 20px;
 }

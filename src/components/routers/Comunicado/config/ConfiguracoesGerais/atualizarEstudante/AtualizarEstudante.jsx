@@ -82,7 +82,6 @@ const AtualizarEstudante = () => {
               <tr>
                 <th>Nome</th>
                 <th>B.I</th>
-                <th>E-mail</th>
                 <th>Contacto</th>
                 <th>Curso</th>
                 <th>Período</th>
@@ -95,11 +94,11 @@ const AtualizarEstudante = () => {
               <tr>
                 <td>{estudante?.nome}</td>
                 <td>{estudante?.bi}</td>
-                <td>{estudante?.user?.email}</td>
-                <td>{estudante?.user?.contacto}</td>
+                <td>{estudante?.contacto}</td>
                 <td>{estudante?.curso?.curso}</td>
-                <td>{estudante?.periodo}</td>
-                <PegarPermissoes permissoes={["admin", "remover", "edição"]}>
+                <td>{estudante?.regime}</td>
+                <PegarPermissoes
+                  permissoes={["admin", "remover", "edição", "salvar"]}>
                   <td>
                     <BiEdit
                       title='Editar Este Mês'

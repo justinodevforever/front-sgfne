@@ -5,38 +5,15 @@ import Home from "./Home.jsx";
 import CadastrarUsuario from "../routers/login/cadastrarUsuario.jsx";
 import Login from "../routers/login/Login.jsx";
 
-import Mensagem from "../routers/messagens/Mensagem.jsx";
 import Perfil from "../routers/perfil/Perfil.jsx";
 
 import Fotos from "../routers/perfil/fotos.jsx";
 import TrocaFoto from "../routers/perfil/TrocaFoto.jsx";
 import ProtectRouter from "../../../auth/auth.jsx";
-import Chat from "../routers/messagens/Chat.jsx";
-import CriarPagina from "../page/CriarPagina.jsx";
-import Pagina from "../page/Pagina.jsx";
-import PublicacarPagina from "../page/PublicacaoPagina.jsx";
-import TodasPaginas from "../page/TodasPaginas.jsx";
-import ComentPublicationPage from "../page/coment/ComentPublicationPage.jsx";
-import EditComentPage from "../page/coment/EditComentPage.jsx";
-import EdiatrPublicacaoPagina from "../page/EditarPublicacaoPagina.jsx";
-import SearchPage from "./search/SearchPage.jsx";
 import { Search } from "./search/Search.jsx";
-import LerComentarioPublicacao from "./comentarios/LerComentarioPublicacao.jsx";
-import EditarComentarioPublicacao from "./comentarios/EditarComentarioPublicacao.jsx";
-import Publicar from "./anuncios/publicar.jsx";
 import SearchUser from "./search/SearchUser.jsx";
-import EditarComunicado from "./Comunicado/editarcomunicado.jsx";
 import Lesson from "../lesson/Lesson.jsx";
 import Declaracoes from "./Comunicado/Declaracoes.jsx";
-import EditarPublicacaoPerfil from "./perfil/EditarPublicacaoPerfil.jsx";
-import { EditarPublicacao } from "./anuncios/Editarpublicacao.jsx";
-import Cursos from "./Comunicado/scool/cursos/Cursos.jsx";
-import Professor from "./Comunicado/Professor/Professor.jsx";
-import AnoCurso from "./Comunicado/scool/ano/AnoCurso.jsx";
-import Disciplina from "./Comunicado/scool/disciplina/Disciplina.jsx";
-import Ispm from "./hook/Ispm.jsx";
-import RelatorioPropina from "./Comunicado/Services/relatorios/propina/Propina.jsx";
-import Publicacao from "./anuncios/publicacao.jsx";
 import Estudante from "./Comunicado/estudante/Estudante.jsx";
 import Propina from "./Comunicado/Services/propinas/Propinas.jsx";
 import MenuPagamento from "./Comunicado/Services/menu pagamentos/MenuPagamento.jsx";
@@ -46,14 +23,7 @@ import Frequencia from "./Comunicado/config/configuracoes/cadastrarFrequencia/Fr
 import Semestre from "./Comunicado/config/configuracoes/cadastrarSemestre/Semestre.jsx";
 import Cadeira from "./Comunicado/config/configuracoes/cadastrarCadeiras/Cadeira.jsx";
 import Root from "../root/Root.jsx";
-import Declaracao from "./Comunicado/Services/declarações/Declaracao.jsx";
-import Reconfirmacao from "./Comunicado/Services/reconfirmação/Reconfirmacao.jsx";
-import SobreCadeiras from "./Comunicado/Services/sobre cadeiras/SobreCadeiras.jsx";
 import Dashboard from "./Comunicado/config/dashboard/Dashboard.jsx";
-import ExameEspecial from "./Comunicado/Services/exame especial/ExameEspecial.jsx";
-import Recurso from "./Comunicado/Services/recurso/Recurso.jsx";
-import Solicitacao from "./Comunicado/config/solicitções/Solicitacao.jsx";
-import MinhaSolicitacao from "./Comunicado/estudante/minhas Solicitações/MinhaSolicitacao.jsx";
 import PropinaDashboard from "./Comunicado/config/dashboard/Services/propinas/Propinas.jsx";
 import ExameEspecialDashboard from "./Comunicado/config/dashboard/Services/exame especial/ExameEspecial.jsx";
 import SobreCadeirasDashboard from "./Comunicado/config/dashboard/Services/sobre cadeiras/SobreCadeiras.jsx";
@@ -64,6 +34,23 @@ import Grafico from "./Comunicado/config/grafico/Grafico.jsx";
 import AtualizarPropina from "./Comunicado/config/ConfiguracoesGerais/atualizarPropina/AtualizarPropina.jsx";
 import AtualizarCadeira from "./Comunicado/config/ConfiguracoesGerais/atualizarCadeira/AtualizarCadeira.jsx";
 import AtualizarReconfirmacao from "./Comunicado/config/ConfiguracoesGerais/atualizarReconfirmacao/AtualizarReconfirmacao.jsx";
+import Cadastrar from "./Comunicado/estudante/Cadastrar.jsx";
+import Relatorios from "./Comunicado/config/dashboard/relatorios/Relatorios.jsx";
+import RelatorioPropinaCurso from "./Comunicado/config/dashboard/relatorios/relatorioPropinaCurso/RelatorioPropinaCurso.jsx";
+import Buscar from "./Comunicado/estudante/Buscar.jsx";
+import AtualizarEstudante from "./Comunicado/config/ConfiguracoesGerais/atualizarEstudante/AtualizarEstudante.jsx";
+import ActualizarMes from "./Comunicado/config/configuracoes/cadastrarMes/actualizar/Actualizar.jsx";
+import ActualizarSemestre from "./Comunicado/config/configuracoes/cadastrarSemestre/atualizar/Actualizar.jsx";
+import ActualizarFrequencia from "./Comunicado/config/configuracoes/cadastrarFrequencia/atualizar/Actualizar.jsx";
+import ActualizarAno from "./Comunicado/config/configuracoes/cadastrarAnoLetivo/actualizar/Actualizar.jsx";
+import ActualizarCurso from "./Comunicado/config/configuracoes/CadastrarCurso/actualizar/Actualizar.jsx";
+import RelatorioPropina from "./Comunicado/config/dashboard/Services/relatorios/propina/Propina.jsx";
+import ActualizarDisciplina from "./Comunicado/config/configuracoes/cadastrarCadeiras/atualizar/Actualizar.jsx";
+import Curso from "./Comunicado/config/configuracoes/CadastrarCurso/Curso.jsx";
+import Mes from "./Comunicado/config/configuracoes/cadastrarMes/Mes.jsx";
+import PermissoesUSuario from "./Comunicado/config/ConfiguracoesGerais/permissoes/PermissoesUsuario.jsx";
+import RelatorioListaRecurso from "./Comunicado/config/dashboard/relatorios/relatorioListaRecurso/RelatorioListaRecurso.jsx";
+import RelatorioRegime from "./Comunicado/config/dashboard/relatorios/RelatorioRegime/RelatorioRegime.jsx";
 
 const Routeting = () => {
   return (
@@ -71,10 +58,35 @@ const Routeting = () => {
       <Routes>
         <Route exact path='/' element={<Root />} />
         <Route exact path='/login' element={<Login />} />
+        <Route exact path='/relatorios/:id' element={<Relatorios />} />
+        <Route
+          exact
+          path='/relatorio_listarecurso/:id'
+          element={<RelatorioListaRecurso />}
+        />
+        <Route
+          exact
+          path='/relatorio_regime/:id'
+          element={<RelatorioRegime />}
+        />
+        <Route
+          exact
+          path='/relatorio_propina/:id'
+          element={
+            <ProtectRouter>
+              <RelatorioPropina />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path='/relatorio_curso/:id'
+          element={<RelatorioPropinaCurso />}
+        />
         <Route exact path='/dashboard' element={<Dashboard />}>
           <Route
             exact
-            path='dados'
+            path='dados/:id'
             element={
               <ProtectRouter>
                 <Grafico />
@@ -83,17 +95,170 @@ const Routeting = () => {
           />
           <Route
             exact
-            path='definicoes'
+            path='cadastrar_disciplina/:id'
+            element={
+              <ProtectRouter>
+                <Cadeira />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='cadastrar_anolectivo/:id'
+            element={
+              <ProtectRouter>
+                <Ano />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='cadastrar_frequencia/:id'
+            element={
+              <ProtectRouter>
+                <Frequencia />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='cadastrar_semestre/:id'
+            element={
+              <ProtectRouter>
+                <Semestre />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='cadastrar_curso/:id'
+            element={
+              <ProtectRouter>
+                <Curso />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='cadastrar_mes/:id'
+            element={
+              <ProtectRouter>
+                <Mes />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='matricular_estudante/:id'
+            element={
+              <ProtectRouter>
+                <Cadastrar />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='atualizar_cadeira/:id'
+            element={
+              <ProtectRouter>
+                <AtualizarCadeira />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='atualizar_disciplina/:id'
+            element={
+              <ProtectRouter>
+                <ActualizarDisciplina />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='atualizar_mes/:id'
+            element={
+              <ProtectRouter>
+                <ActualizarMes />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='atualizar_semestre/:id'
+            element={
+              <ProtectRouter>
+                <ActualizarSemestre />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='atualizar_frequencia/:id'
+            element={
+              <ProtectRouter>
+                <ActualizarFrequencia />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='atualizar_ano/:id'
+            element={
+              <ProtectRouter>
+                <ActualizarAno />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='atualizar_curso/:id'
+            element={
+              <ProtectRouter>
+                <ActualizarCurso />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='listar_estudante/:id'
+            element={
+              <ProtectRouter>
+                <Buscar />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='atualizar_estudante/:id'
+            element={
+              <ProtectRouter>
+                <AtualizarEstudante />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='config'
             element={
               <ProtectRouter>
                 <Definicoes />
               </ProtectRouter>
             }
           />
+          <Route
+            exact
+            path='matricula/:id'
+            element={
+              <ProtectRouter>
+                <Cadastrar />
+              </ProtectRouter>
+            }
+          />
 
           <Route
             exact
-            path='propina'
+            path='propina/:id'
             element={
               <ProtectRouter>
                 <PropinaDashboard />
@@ -102,7 +267,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path='exame especial'
+            path='exame especial/:id'
             element={
               <ProtectRouter>
                 <ExameEspecialDashboard />
@@ -111,7 +276,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path='cadeira de atraso'
+            path='cadeira de atraso/:id'
             element={
               <ProtectRouter>
                 <SobreCadeirasDashboard />
@@ -120,7 +285,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path='recurso'
+            path='recurso/:id'
             element={
               <ProtectRouter>
                 <RecursoDashboard />
@@ -129,7 +294,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path='declaracao'
+            path='declaracao/:id'
             element={
               <ProtectRouter roles={"user"}>
                 <DeclaracaoDashboard />
@@ -138,7 +303,7 @@ const Routeting = () => {
           />
           <Route
             exact
-            path='reconfirmacao'
+            path='reconfirmacao/:id'
             element={
               <ProtectRouter>
                 <ReconfirmacaoDashboard />
@@ -147,7 +312,7 @@ const Routeting = () => {
           />
 
           <Route
-            path='atualizar cadeira'
+            path='atualizar cadeira/:id'
             element={
               <ProtectRouter>
                 <AtualizarCadeira />
@@ -155,7 +320,7 @@ const Routeting = () => {
             }
           />
           <Route
-            path='atualizar reconfirmacao'
+            path='atualizar reconfirmacao/:id'
             element={
               <ProtectRouter>
                 <AtualizarReconfirmacao />
@@ -163,28 +328,29 @@ const Routeting = () => {
             }
           />
           <Route
-            path='atualizar propina'
+            path='atualizar propina/:id'
             element={
               <ProtectRouter>
                 <AtualizarPropina />
               </ProtectRouter>
             }
           />
+
           <Route
             exact
-            path='solicitacao'
+            path='estudante/:id'
             element={
               <ProtectRouter>
-                <Solicitacao />
+                <Estudante />
               </ProtectRouter>
             }
           />
           <Route
             exact
-            path='estudante'
+            path='permissoes/:id'
             element={
               <ProtectRouter>
-                <Estudante />
+                <PermissoesUSuario />
               </ProtectRouter>
             }
           />
@@ -197,106 +363,7 @@ const Routeting = () => {
             <ProtectRouter>
               <Home />
             </ProtectRouter>
-          }>
-          <Route
-            exact
-            path='mensagem/:id'
-            element={
-              <ProtectRouter>
-                <Mensagem />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            path='comunicado'
-            element={
-              <ProtectRouter>
-                <Publicacao />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            path='minhas solicitacoes'
-            element={
-              <ProtectRouter>
-                <MinhaSolicitacao />
-              </ProtectRouter>
-            }
-          />
-
-          <Route
-            exact
-            path='propina'
-            element={
-              <ProtectRouter>
-                <Propina />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path='exame especial'
-            element={
-              <ProtectRouter>
-                <ExameEspecial />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path='cadeira'
-            element={
-              <ProtectRouter>
-                <SobreCadeiras />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path='recurso'
-            element={
-              <ProtectRouter>
-                <Recurso />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path='declaracao'
-            element={
-              <ProtectRouter roles={"user"}>
-                <Declaracao />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path='reconfirmacao'
-            element={
-              <ProtectRouter>
-                <Reconfirmacao />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path='reengresso'
-            element={
-              <ProtectRouter>
-                <Estudante />
-              </ProtectRouter>
-            }
-          />
-          <Route
-            exact
-            path='folhas'
-            element={
-              <ProtectRouter>
-                <Estudante />
-              </ProtectRouter>
-            }
-          />
-        </Route>
+          }></Route>
         <Route exact path='/cadastro' element={<CadastrarUsuario />} />
         <Route exact path='/lesson' element={<Lesson />} />
         <Route
@@ -308,15 +375,7 @@ const Routeting = () => {
             </ProtectRouter>
           }
         />
-        <Route
-          exact
-          path='/prim'
-          element={
-            <ProtectRouter>
-              <RelatorioPropina />
-            </ProtectRouter>
-          }
-        />
+
         <Route
           exact
           path='/fotoperfil'
@@ -332,16 +391,6 @@ const Routeting = () => {
           element={
             <ProtectRouter>
               <Fotos />
-            </ProtectRouter>
-          }
-        />
-
-        <Route
-          exact
-          path='/edit/publication/:id'
-          element={
-            <ProtectRouter>
-              <EditarPublicacao />
             </ProtectRouter>
           }
         />
@@ -364,126 +413,6 @@ const Routeting = () => {
             </ProtectRouter>
           }
         />
-        <Route
-          exact
-          path='/coment/:id'
-          element={
-            <ProtectRouter>
-              <LerComentarioPublicacao />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/coment/publication/:id'
-          element={
-            <ProtectRouter>
-              <LerComentarioPublicacao />
-            </ProtectRouter>
-          }
-        />
-
-        <Route
-          exact
-          path='/chat/:userId'
-          element={
-            <ProtectRouter>
-              <Chat />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/publicar'
-          element={
-            <ProtectRouter>
-              <Publicar />
-            </ProtectRouter>
-          }
-        />
-
-        <Route
-          exact
-          path='/home/page'
-          element={
-            <ProtectRouter>
-              <CriarPagina />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/page/:id'
-          element={
-            <ProtectRouter>
-              <Pagina />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/info/page'
-          element={
-            <ProtectRouter>
-              <Pagina />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/publicar/page/:id'
-          element={
-            <ProtectRouter>
-              <PublicacarPagina />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/allpage'
-          element={
-            <ProtectRouter>
-              <TodasPaginas />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/coment/publication/page/:id'
-          element={
-            <ProtectRouter>
-              <ComentPublicationPage />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/edit/coment/:id'
-          element={
-            <ProtectRouter>
-              <EditComentPage />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/edit/coment/publication/:id'
-          element={
-            <ProtectRouter>
-              <EditarComentarioPublicacao />
-            </ProtectRouter>
-          }
-        />
-
-        <Route
-          exact
-          path='/edit/publication/page/:id'
-          element={
-            <ProtectRouter>
-              <EdiatrPublicacaoPagina />
-            </ProtectRouter>
-          }
-        />
 
         <Route
           exact
@@ -494,15 +423,7 @@ const Routeting = () => {
             </ProtectRouter>
           }
         />
-        <Route
-          exact
-          path='/search/page'
-          element={
-            <ProtectRouter>
-              <SearchPage />
-            </ProtectRouter>
-          }
-        />
+
         <Route
           exact
           path='/search/user'
@@ -522,39 +443,7 @@ const Routeting = () => {
             </ProtectRouter>
           }
         />
-        <Route
-          exact
-          path='/editar/comunicado/:id'
-          element={
-            <ProtectRouter>
-              <EditarComunicado />
-            </ProtectRouter>
-          }
-        />
-        <Route
-          exact
-          path='/editar/publicacao/perfil/:id'
-          element={
-            <ProtectRouter>
-              <EditarPublicacaoPerfil />
-            </ProtectRouter>
-          }
-        />
-        <Route exact path='cursos' element={<Cursos />}>
-          <Route path=':id' element={<AnoCurso />}>
-            <Route path='disciplina/:idano' element={<Disciplina />} />
-          </Route>
-        </Route>
 
-        <Route
-          exact
-          path='/professor/:id'
-          element={
-            <ProtectRouter>
-              <Professor />
-            </ProtectRouter>
-          }
-        />
         <Route
           exact
           path='/ano'

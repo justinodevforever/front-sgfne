@@ -15,7 +15,14 @@ import {
 import Loader from "../../../../../hook/load/Loader";
 import { Button, Form, Input, Space, Alert, message, Popconfirm } from "antd";
 import Processing from "../../../../../hook/process/Processing";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import { formatDateNumber } from "../../../../../hook/timeout";
 
 const RecursoDashboard = () => {
   const [bi, setBi] = useState("");
@@ -33,7 +40,6 @@ const RecursoDashboard = () => {
   const [fk_semestre, setFk_semestre] = useState(0);
   const [fk_frequencia, setFk_frequencia] = useState(0);
   const [fk_disciplina, setFk_disciplina] = useState(0);
-  const [meses, setMeses] = useState([]);
   const [semestres, setSemestres] = useState([]);
   const [anos, setAnos] = useState([]);
   const [frequencias, setFrequencias] = useState([]);
@@ -47,6 +53,7 @@ const RecursoDashboard = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [id, setId] = useState(0);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const { isVisibleError } = useSelector((state) => state.ui.ModalError);
   const dispatch = useDispatch();
@@ -92,12 +99,17 @@ const RecursoDashboard = () => {
   }, [disciplina]);
 
   const buscarEstudante = async () => {
+    if (!bi) {
+      alert("O Campo B.I é Obrigatório");
+      return;
+    }
+    setLoading(true);
     const { data } = await api.post("/divida", { bi });
     if (data?.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
       dispatchWarning(toggleModalWarning(true));
-
+      setLoading(false);
       return;
     }
 
@@ -110,6 +122,7 @@ const RecursoDashboard = () => {
           navigate("/login");
           return;
         }
+
         if (!data.data || data.data === null) {
           let c = 0;
           c = setInterval(() => {
@@ -117,6 +130,7 @@ const RecursoDashboard = () => {
           }, 4000);
           setMessage("Estudante com Este Nº de B.I não Existe!");
           setIsProcessing(true);
+          setLoading(false);
           return () => clearInterval(c);
         }
 
@@ -124,6 +138,7 @@ const RecursoDashboard = () => {
         setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -308,19 +323,28 @@ const RecursoDashboard = () => {
         fk_frequencia,
         fk_semestre,
         fk_ano,
+        fk_user: sessionStorage.getItem("id"),
+        dataSolicitacao: formatDateNumber(Date.now()),
       })
-      .then((data) => {
+      .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
         setAtivar(false);
         if (data.data?.message === "error") {
-          return dispatchError(toggleModalError(isVisibleError));
+          return dispatchError(toggleModalError(true));
         }
         if (data.data?.message === "sucess") {
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response.id);
+          const response = await api.post("/listarecurso", {
+            fk_recurso: data.data.response.id,
+          });
+          console.log(response);
+          if (response.data.messae === "error") {
+            return dispatchError(toggleModalError(true));
+          }
           let id = null;
           let co = 0;
 
@@ -366,123 +390,117 @@ const RecursoDashboard = () => {
             flexDirection: "column",
             justifyContent: "center",
           }}>
-          <div
-            style={{
-              display: "flex",
-              gap: "20px",
-              marginTop: "40px",
-              justifyContent: "center",
-              marginBottom: "20px",
-            }}>
-            <TextField
-              type='number'
-              label='Valor'
-              onChange={(e) => setValor(e.target.value)}
-            />
-
-            <TextField
-              type='number'
-              value={rupe}
-              onChange={(e) => setRupe(e.target.value)}
-              label='Nº de RUPE'
-              maxLength={20}
-            />
-          </div>
-          <div
+          <Space
             style={{
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "center",
               alignItems: "center",
               gap: "10px",
+              marginTop: "10px",
             }}>
-            <label htmlFor='ano'>
-              <select
-                style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
-                }}
-                onChange={(e) => setAno(e.target.value)}>
-                <option value={"Escolha"}>Escolha Ano Lectivo</option>
+            <TextField
+              type='number'
+              label='Valor'
+              style={{
+                width: "200px",
+              }}
+              onChange={(e) => setValor(e.target.value)}
+            />
 
+            <TextField
+              type='number'
+              value={rupe}
+              style={{
+                width: "200px",
+              }}
+              onChange={(e) => setRupe(e.target.value)}
+              label='Nº de RUPE'
+              maxLength={20}
+            />
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>
+                Ano Lectivo
+              </InputLabel>
+              <Select
+                style={{
+                  width: "200px",
+                }}
+                labelId='demo-simple-select-label'
+                label='Ano Lectivo'
+                onChange={(e) => setAno(e.target.value)}
+                id='demo-simple-select'>
                 {anos.map((s) => (
-                  <option value={s.ano} key={s.id}>
+                  <MenuItem value={s.ano} key={s.id}>
                     {s.ano}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </label>
-            <label htmlFor='frequencia'>
-              <select
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>
+                Frequência
+              </InputLabel>
+              <Select
                 style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
+                  width: "200px",
                 }}
-                onChange={(e) => setFrequencia(e.target.value)}>
-                <option value={"Escolha"}>Escolha Frequência</option>
-
-                {frequencias.map((f) => (
-                  <option value={f.ano} key={f.id}>
-                    {f.ano}
-                  </option>
+                labelId='demo-simple-select-label'
+                label='Frequência'
+                onChange={(e) => setFrequencia(e.target.value)}
+                id='demo-simple-select'>
+                {frequencias.map((s) => (
+                  <MenuItem value={s.ano} key={s.id}>
+                    {s.ano}
+                  </MenuItem>
                 ))}
-              </select>
-            </label>
-
-            <label htmlFor='semestre'>
-              <select
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>
+                Semestre
+              </InputLabel>
+              <Select
                 style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
+                  width: "200px",
                 }}
-                onChange={(e) => setSemestre(e.target.value)}>
-                <option value={"Escolha"}>Escolha Semestre</option>
-
+                labelId='demo-simple-select-label'
+                label='Semestre'
+                onChange={(e) => setSemestre(e.target.value)}
+                id='demo-simple-select'>
                 {semestres.map((s) => (
-                  <option value={s.nome} key={s.id}>
+                  <MenuItem value={s.nome} key={s.id}>
                     {s.nome}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </label>
-            <label htmlFor='cadeira'>
-              <select
+              </Select>
+            </FormControl>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>
+                Disciplina
+              </InputLabel>
+              <Select
                 style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
+                  width: "200px",
                 }}
-                onChange={(e) => setDisciplina(e.target.value)}>
-                <option value={"Escolha"}>Escolha a Cadeira</option>
-
-                {disciplinas?.map((s) => (
-                  <option value={s.nome} key={s.id}>
+                labelId='demo-simple-select-label'
+                label='Disciplina'
+                onChange={(e) => setDisciplina(e.target.value)}
+                id='demo-simple-select'>
+                {disciplinas.map((s) => (
+                  <MenuItem value={s.nome} key={s.id}>
                     {s.nome}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </label>
-          </div>
+              </Select>
+            </FormControl>
+          </Space>
         </Space>
 
         <hr />
         {curso && nome && bi && (
           <div
+            className='space'
             style={{
               display: "flex",
               width: "100%",
@@ -528,19 +546,18 @@ const RecursoDashboard = () => {
               }}
             />
 
-            {!ativar && (
-              <button
-                onClick={() => hendleRecurso()}
-                className='btn'
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}>
-                Pagar
-              </button>
-            )}
-            {ativar && <Loader />}
+            <Button
+              loading={ativar}
+              onClick={() => hendleRecurso()}
+              className='btnRecurso'
+              type='primary'
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+              Pagar
+            </Button>
           </div>
         )}
       </div>

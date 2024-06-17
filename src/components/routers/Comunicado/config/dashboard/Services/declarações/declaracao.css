@@ -9,11 +9,9 @@
   width: 98%;
   margin: auto;
   align-items: center;
-  margin-top: 20px;
-
-  padding-bottom: 20px;
+  justify-content: center;
 }
-.conteudo .formBiD {
+.container-declaracao .conteudo .formBiD {
   display: flex;
   width: 100%;
   background-color: #a31543;
@@ -30,7 +28,6 @@
   display: flex;
   width: 100px;
   padding: 10px;
-  /* background-color: #a31543; */
   position: fixed;
   right: 20px;
   bottom: 10px;
@@ -78,13 +75,7 @@ select {
   border: 2px solid #a31543;
   margin-top: 10px;
 }
-.conteudo label {
-  display: flex;
-  font-size: 14pt;
-  align-items: center;
-  justify-content: center;
-  margin-top: 20px;
-}
+
 .search {
   width: 300px;
   height: 30px;
@@ -116,9 +107,12 @@ select {
   font-size: 14pt;
   margin-left: 10px;
 }
-.conteudo .btn {
-  width: 30%;
-  padding: 10px;
+.conteudo .btnDeclaracao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 50%;
   border: none;
   color: #fff;
   background-color: #a31543;
@@ -127,7 +121,8 @@ select {
   margin-top: 20px;
   cursor: pointer;
   opacity: 0.8;
+  padding: 10px 0px;
 }
-.conteudo .btn:hover {
+.conteudo .btnDeclaracao:hover {
   opacity: 1;
 }

@@ -8,7 +8,8 @@
 
 .container-recurso .formBir {
   display: flex;
-  width: 100%;
+  width: 98%;
+  margin: auto;
   background-color: #a31543;
   padding: 10px 0px;
   align-items: center;
@@ -105,13 +106,16 @@ select {
   font-size: 14pt;
 }
 
-.container-recurso .btn {
+.container-recurso .btnRecurso {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
-  width: 30%;
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 50%;
   border: none;
   color: #fff;
   background-color: #a31543;
@@ -120,9 +124,9 @@ select {
   margin-top: 20px;
   cursor: pointer;
   opacity: 0.8;
-  padding: 20px;
+  padding: 10px 0px;
 }
-.container-recurso .btn:hover {
+.container-recurso .btnRecurso:hover {
   opacity: 1;
 }
 .container-recurso .opcoes {

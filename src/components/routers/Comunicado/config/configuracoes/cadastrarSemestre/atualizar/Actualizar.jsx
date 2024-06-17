@@ -13,16 +13,20 @@ import { useDispatch } from "react-redux";
 import UseSucess from "../../../../../hook/massege/sucess/UseSucess";
 import UseErro from "../../../../../hook/massege/Error/UseErro";
 import UseWarning from "../../../../../hook/massege/warning/UseWarning";
+import { TextField } from "@mui/material";
 
-const SEMESTRE = /^([0-9])+º/;
+const SEMESTRE = /^([1-2])+º/;
+const NUMERO = /^([1-2])/;
 
-const Actualizar = () => {
+const ActualizarSemestre = () => {
   const [semestres, setSemestres] = useState([]);
   const [message, setMessage] = useState("");
   const [id, setId] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [ValidSemestre, setValidSemestre] = useState(false);
+  const [validNumber, setValidNumber] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   const [numero, setNumero] = useState(0);
   const [nome, setNome] = useState("");
@@ -33,6 +37,11 @@ const Actualizar = () => {
       setValidSemestre(SEMESTRE.test(nome));
     }
   }, [nome]);
+  useEffect(() => {
+    if (numero) {
+      setValidNumber(NUMERO.test(numero));
+    }
+  }, [numero]);
   useEffect(() => {
     getSemestre();
   }, []);
@@ -101,6 +110,7 @@ const Actualizar = () => {
       setNome(data.data.nome);
       setNumero(data.data.numero);
       setId(data.data.id);
+      setDisabled(true);
     });
   };
 
@@ -109,7 +119,7 @@ const Actualizar = () => {
       <UseSucess />
       <UseErro />
       <UseWarning message={message} />
-      <div className='atualizar'>
+      <div className='atualizarSemestre'>
         <form>
           <div>
             <label
@@ -118,17 +128,13 @@ const Actualizar = () => {
                 position: "relative",
                 flexDirection: "column",
               }}>
-              Nome
-              <Input
+              <TextField
+                label='Semestre'
                 value={nome}
                 onChange={(e) => setNome(e.target.value)}
-                style={
-                  !nome || (nome && !ValidSemestre)
-                    ? { border: "1px solid red", height: "60px" }
-                    : { border: "1px solid green", height: "60px" }
-                }
+                disabled={disabled ? false : true}
               />
-              {!ValidSemestre && nome && (
+              {!ValidSemestre && !nome && (
                 <span
                   style={{
                     color: "red",
@@ -137,7 +143,7 @@ const Actualizar = () => {
                     fontStyle: "italic",
                     top: "86px",
                   }}>
-                  é aceite número seguido <br /> de Símbolo " º "
+                  são aceite números 1 e 2 seguido <br /> de Símbolo " º "
                 </span>
               )}
             </label>
@@ -145,15 +151,30 @@ const Actualizar = () => {
               htmlFor='fre'
               style={{
                 flexDirection: "column",
+                position: "relative",
               }}>
-              Número
-              <Input
+              <TextField
+                label='Nº Correspondente'
                 value={numero}
                 onChange={(e) => setNumero(e.target.value)}
+                disabled={disabled ? false : true}
                 style={{
                   height: "60px",
                 }}
               />
+              {(!validNumber && numero === 0) ||
+                (!numero && (
+                  <span
+                    style={{
+                      color: "red",
+                      position: "absolute",
+                      fontSize: "11pt",
+                      fontStyle: "italic",
+                      top: "86px",
+                    }}>
+                    é aceite os números 1 e 2
+                  </span>
+                ))}
             </label>
           </div>
           <Button
@@ -210,4 +231,4 @@ const Actualizar = () => {
     </>
   );
 };
-export default Actualizar;
+export default ActualizarSemestre;

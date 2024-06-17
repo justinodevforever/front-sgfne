@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./cadeira.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../../../../../../auth/auth";
 import { BiSave } from "react-icons/bi";
 import UseWarning from "../../../../hook/massege/warning/UseWarning";
@@ -12,9 +12,14 @@ import {
   toggleModalError,
   toggleModalWarning,
 } from "../../../../../../store/ui-slice";
-import Actualizar from "./atualizar/Actualizar";
 import { Input, Space } from "antd";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 const Cadeira = () => {
   const [clicCadatrar, setClicCadatrar] = useState(true);
@@ -30,6 +35,7 @@ const Cadeira = () => {
   const dispatchSucess = useDispatch();
   const dispatchError = useDispatch();
   const dispatchWarneng = useDispatch();
+  const navigate = useNavigate();
 
   const toggleCadastrar = (e) => {
     e.preventDefault();
@@ -103,7 +109,10 @@ const Cadeira = () => {
         fk_semestre: semestre,
       })
       .then((data) => {
-        console.log(data.data);
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
         if (data.data.message === "sucess")
           return dispatchSucess(toggleModalConfirmar(true));
         if (data.data.message === "error")
@@ -117,102 +126,92 @@ const Cadeira = () => {
       <UseWarning message={message} />
       <UseErro />
       <UseSucess />
-      <ul className='menuCadeira'>
-        <li>
-          <Link
-            onClick={(e) => toggleCadastrar(e)}
-            className={clicCadatrar ? "ativo" : "link"}>
-            Cadastrar
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleActualizar(e)}
-            className={clicActualizar ? "ativo" : "link"}>
-            Actualizar
-          </Link>
-        </li>
-      </ul>
-      <div className='cadeira'>
-        {clicCadatrar && (
-          <div className='opcoes'>
-            <form onSubmit={(e) => hendleSave(e)}>
-              <Space wrap>
-                <TextField
-                  label='Disciplina'
-                  value={disciplina}
-                  onChange={(e) => setDisciplina(e.target.value)}
-                />
 
-                <select
-                  onChange={(e) => setFrequencia(e.target.value)}
-                  name='fre'
+      <div className='disciplina'>
+        <div className='opcoes'>
+          <form onSubmit={(e) => hendleSave(e)}>
+            <Space
+              wrap
+              style={{
+                marginBottom: "20px",
+              }}>
+              <TextField
+                label='Disciplina'
+                value={disciplina}
+                onChange={(e) => setDisciplina(e.target.value)}
+              />
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Curso
+                </InputLabel>
+                <Select
                   style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
-                  }}>
-                  <option value=''>Ano Frequência</option>
-                  {frequencias.map((c) => (
-                    <option value={c.id} key={c.id}>
-                      {c.ano}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  onChange={(e) => setSemestre(e.target.value)}
-                  name='seme'
-                  style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
-                  }}>
-                  <option value=''>Semestre</option>
-                  {semestres.map((c) => (
-                    <option value={c.id} key={c.id}>
-                      {c.nome}
-                    </option>
-                  ))}
-                </select>
-
-                <select
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
                   onChange={(e) => setCurso(e.target.value)}
-                  name='curso'
-                  style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
-                  }}>
-                  <option value=''>Curso</option>
-                  {cursos.map((c) => (
-                    <option value={c.id} key={c.id}>
-                      {c.curso}
-                    </option>
+                  label='Curso'
+                  id='demo-simple-select'
+                  value={curso}>
+                  {cursos.map((s) => (
+                    <MenuItem value={s.id} key={s.id}>
+                      {s.curso}
+                    </MenuItem>
                   ))}
-                </select>
-              </Space>
-              {semestre && frequencia && curso && disciplina && (
-                <button type='submit'>
-                  <BiSave />
-                  Cadastrar
-                </button>
-              )}
-              <br />
-            </form>
-          </div>
-        )}
+                </Select>
+              </FormControl>
 
-        {clicActualizar && <Actualizar />}
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Frequência
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setFrequencia(e.target.value)}
+                  label='Frequência'
+                  id='demo-simple-select'
+                  value={frequencia}>
+                  {frequencias.map((s) => (
+                    <MenuItem value={s.id} key={s.id}>
+                      {s.ano}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Semestre
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setSemestre(e.target.value)}
+                  label='Frequência'
+                  id='demo-simple-select'
+                  value={semestre}>
+                  {semestres.map((s) => (
+                    <MenuItem value={s.id} key={s.id}>
+                      {s.nome}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Space>
+            {semestre && frequencia && curso && disciplina && (
+              <button type='submit'>
+                <BiSave />
+                Cadastrar
+              </button>
+            )}
+            <br />
+          </form>
+        </div>
       </div>
     </>
   );

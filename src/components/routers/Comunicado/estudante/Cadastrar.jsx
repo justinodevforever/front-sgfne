@@ -38,6 +38,8 @@ const Cadastrar = () => {
   const [cursos, setCursos] = useState([]);
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [turma, setTurma] = useState("");
   let options = [];
 
   const dispatchConfirmar = useDispatch();
@@ -101,8 +103,9 @@ const Cadastrar = () => {
       !nome ||
       !bi ||
       !contato ||
-      !fk_user ||
       curso === "Escolha" ||
+      turma === "" ||
+      !sexo ||
       periodo === ""
     ) {
       setMessage("Existe Campo Vazio!");
@@ -113,10 +116,11 @@ const Cadastrar = () => {
       .post("/estudante", {
         fk_curso,
         nome,
-        bi: userBi,
+        bi,
         contato,
-        fk_user,
-        periodo,
+        regime: periodo,
+        turma,
+        sexo,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -149,30 +153,7 @@ const Cadastrar = () => {
       <UseWarning message={message} />
 
       <div className='container-cadastrar'>
-        <div className='pesquisa'>
-          <Form className='Form' onSubmitCapture={() => getBi()}>
-            <Input.Search
-              type='search'
-              placeholder='Nº de BI do Estudante'
-              required
-              value={bi}
-              onChange={(e) => setBi(e.target.value)}
-              autoFocus
-              maxLength={14}
-              allowClear
-              onSearch={() => getBi()}
-              showCount={true}
-              style={{
-                border: "1px solid #a31543",
-                width: "50%",
-                marginTop: "10px",
-                fontSize: "14pt",
-              }}
-            />
-          </Form>
-        </div>
         <Form className='form-cad'>
-          <h2>Cadastro do Estudante</h2>
           <div className='novos'>
             <FormControl fullWidth>
               <InputLabel htmlFor='demo-simple-select-label'>Curso</InputLabel>
@@ -191,24 +172,37 @@ const Cadastrar = () => {
                 ))}
               </Select>
             </FormControl>
-
+            <TextField
+              type='text'
+              id='nome'
+              label='Turma'
+              value={turma}
+              onChange={(e) => setTurma(e.target.value)}
+              required
+              style={{
+                width: "60%",
+              }}
+            />
             <div className='periodo'>
-              <div>
-                <RadioGroup
-                  name='use-radio-group'
-                  onChange={(e) => setPeriodo(e.target.value)}>
-                  <FormControlLabel
-                    value='Diúrno'
-                    label='Diúrno'
-                    control={<Radio />}
-                  />
-                  <FormControlLabel
-                    value='Pós-Laboral'
-                    label='Pós-Laboral'
-                    control={<Radio />}
-                  />
-                </RadioGroup>
-              </div>
+              <RadioGroup
+                name='use-radio-group'
+                style={{
+                  width: "100%",
+                  fontSize: "10px",
+                }}
+                onChange={(e) => setPeriodo(e.target.value)}>
+                <FormControlLabel
+                  value='Regular'
+                  label='Regular'
+                  control={<Radio />}
+                  defaultChecked={true}
+                />
+                <FormControlLabel
+                  value='Pós-Laboral'
+                  label='Pós-L.'
+                  control={<Radio />}
+                />
+              </RadioGroup>
             </div>
           </div>
           <div
@@ -221,6 +215,35 @@ const Cadastrar = () => {
               justifyContent: "center",
               alignItems: "center",
             }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              Género
+              <RadioGroup
+                tabIndex={1}
+                name='genero'
+                style={{
+                  display: "flex",
+                  fontSize: "10px",
+                }}
+                onChange={(e) => setSexo(e.target.value)}>
+                <FormControlLabel
+                  value='M'
+                  label='Masculino'
+                  control={<Radio />}
+                  defaultChecked={true}
+                />
+                <FormControlLabel
+                  value='F'
+                  label='Feminino'
+                  control={<Radio />}
+                />
+              </RadioGroup>
+            </div>
             <TextField
               type='text'
               id='nome'
@@ -237,9 +260,8 @@ const Cadastrar = () => {
               id='bi'
               label='Nº de BI do Estudante'
               required
-              disabled
-              value={userBi}
-              onChange={(e) => setUserBi(e.target.value)}
+              value={bi}
+              onChange={(e) => setBi(e.target.value)}
               style={{
                 width: "60%",
               }}
@@ -256,7 +278,7 @@ const Cadastrar = () => {
               }}
             />
           </div>
-          {nome && bi && contato && fk_curso && fk_user && periodo && (
+          {nome && bi && contato && periodo && (
             <Button
               onClick={() => hendleEstudante()}
               prefix={<SaveOutlined />}

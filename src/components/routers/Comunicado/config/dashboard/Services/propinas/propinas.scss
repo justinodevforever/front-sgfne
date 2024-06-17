@@ -12,17 +12,16 @@
   align-items: center;
   margin-top: 20px;
 }
-.conteudoProp .formBiPropina {
+.conteudoProp .formBiPropinae {
   display: flex;
   width: 100%;
   background-color: #a31543;
-  padding: 10px 0px;
-  // align-items: center;
   justify-content: space-between;
   color: $white;
+  border-radius: none;
 }
 
-.conteudoProp .formBiPropina .space {
+.conteudoProp .formBiPropinae .space {
   margin-right: 10%;
 }
 .inputDesabled {
@@ -38,7 +37,7 @@
   align-items: center;
   margin-right: 7px;
 }
-.conteudoProp .formBiPropina .inpform {
+.conteudoProp .formBiPropinae .inpform {
   width: 100px;
   border-radius: 5px;
   color: $white;

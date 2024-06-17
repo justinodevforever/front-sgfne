@@ -1,25 +1,22 @@
 @import "../../../../style/variable.scss";
-.container-buscar {
+.container-buscarEstudante {
   display: flex;
-  width: 80%;
+  width: 97%;
   margin: auto;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  border-left: 1px solid $rosa;
-  border-right: 1px solid $rosa;
-  border-bottom: 1px solid $rosa;
-  padding-bottom: 20px;
-  margin-top: 10px;
+
+  margin-top: 30px;
 }
-.container-buscar .form {
+.container-buscarEstudante .form {
   display: flex;
   width: 100%;
   justify-content: center;
   align-items: center;
 }
 
-.container-buscar .pesquisa {
+.container-buscarEstudante .pesquisaEstudante {
   display: flex;
   width: 100%;
   background-color: $rosa;
@@ -28,19 +25,19 @@
   padding: 7px 0px;
 }
 
-.container-buscar .conteudo {
+.container-buscarEstudante .conteudo {
   width: 100%;
   margin: auto;
 }
-.container-buscar table {
+.container-buscarEstudante table {
   border-collapse: collapse;
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
-/* .container-buscar .tBi {
+/* .container-buscarEstudante .tBi {
   conm
 } */
-.container-buscar th,
+.container-buscarEstudante th,
 td {
   padding: 8px;
   text-align: center;
@@ -50,12 +47,12 @@ td {
   border-left: none;
   border-top: none;
 }
-.container-buscar table th {
+.container-buscarEstudante table th {
   background-color: $rosa;
 }
 
 @media (max-width: 800px) {
-  .container-buscar {
+  .container-buscarEstudante {
     display: flex;
     width: 98%;
   }

@@ -1,11 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import "./propinas.scss";
 import { api } from "../../../../../../../../auth/auth";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PiPrinter } from "react-icons/pi";
 import RelatorioPropina from "../relatorios/propina/Propina";
 import { BiSearch } from "react-icons/bi";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setIsClic,
@@ -19,6 +25,7 @@ import UseErro from "../../../../../hook/massege/Error/UseErro";
 import { Form, Input, Space } from "antd";
 import Processing from "../../../../../hook/process/Processing";
 import { useForm } from "react-hook-form";
+import { formatDate, formatDateNumber } from "../../../../../hook/timeout";
 
 const PropinaDashboard = ({ tipo }) => {
   const [bi, setBi] = useState("");
@@ -102,9 +109,9 @@ const PropinaDashboard = ({ tipo }) => {
         setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
-        setPeriodo(data?.data?.periodo);
-        if (data.data?.periodo === "Diúrno") setValor(1900);
-        else if (data.data?.periodo === "Pós-Laboral") setValor(15000);
+        setPeriodo(data?.data?.regime);
+        if (data.data?.regime === "Regular") setValor(1900);
+        else if (data.data?.regime === "Pós-Laboral") setValor(15000);
         setLoading(false);
       })
       .catch((err) => console.log(err));
@@ -122,6 +129,7 @@ const PropinaDashboard = ({ tipo }) => {
       })
       .catch((err) => console.log(err));
   };
+
   const getMes = async () => {
     await api
       .get("/mes")
@@ -218,6 +226,7 @@ const PropinaDashboard = ({ tipo }) => {
         fk_ano: data.fk_ano,
         valor,
         rupe: Number(data.rupe),
+        dataSolicitacao: formatDateNumber(Date.now()),
       })
       .then(async (data) => {
         if (data.data === "Token Invalid") {
@@ -237,21 +246,11 @@ const PropinaDashboard = ({ tipo }) => {
           return;
         }
         if (data.data.message === "sucess") {
-          const response = await api.post("/solicitacao", {
-            fk_estudante,
-            tipoServico: "Propina",
-          });
-          console.log(response.data);
-          if (response.data.message === "error") {
-            dispatchError(toggleModalError(true));
+          dispatch(setIsClic(true));
+          setId(data.data?.response?.id);
+          dispatchConfirmar(toggleModalConfirmar(true));
+          setRupe(0);
 
-            return;
-          }
-          if (response.data.message === "sucess") {
-            dispatch(setIsClic(true));
-            setId(data.data?.response?.id);
-            dispatchConfirmar(toggleModalConfirmar(true));
-          }
           return;
         }
       });
@@ -265,7 +264,7 @@ const PropinaDashboard = ({ tipo }) => {
       {isProcessing && <Processing message={message} />}
       <div className='propina'>
         <div className='conteudoProp'>
-          <Form className='formBiPropina'>
+          <Form className='formBiPropinae'>
             <Space
               wrap
               style={{
@@ -284,30 +283,32 @@ const PropinaDashboard = ({ tipo }) => {
                 style={{ width: "100%", padding: "10px" }}
                 loading={loading}
               />
-              <div className='inputDesabled'>
-                <label htmlFor='valor' style={{ color: "#fff" }}>
-                  Valor:{""}
-                  <Input
-                    type='number'
-                    className='inpform valor'
-                    readOnly
-                    value={valor}
-                    onChange={(e) => setValor(e.target.value)}
-                    style={{ color: "#000" }}
-                  />
-                </label>
-                <label htmlFor='period' style={{ color: "#fff" }}>
-                  Período:{""}
-                  <Input
-                    type='text'
-                    readOnly
-                    value={periodo}
-                    onChange={(e) => setPeriodo(e.target.value)}
-                    className='inpform'
-                    style={{ color: "#000" }}
-                  />
-                </label>
-              </div>
+              {valor && periodo && (
+                <div className='inputDesabled'>
+                  <label htmlFor='valor' style={{ color: "#fff" }}>
+                    Valor:{""}
+                    <Input
+                      type='number'
+                      className='inpform valor'
+                      readOnly
+                      value={valor}
+                      onChange={(e) => setValor(e.target.value)}
+                      style={{ color: "#000" }}
+                    />
+                  </label>
+                  <label htmlFor='period' style={{ color: "#fff" }}>
+                    Período:{""}
+                    <Input
+                      type='text'
+                      readOnly
+                      value={periodo}
+                      onChange={(e) => setPeriodo(e.target.value)}
+                      className='inpform'
+                      style={{ color: "#000" }}
+                    />
+                  </label>
+                </div>
+              )}
             </Space>
           </Form>
           <form className='form' onSubmit={handleSubmit(handlePagamento)}>
@@ -319,90 +320,73 @@ const PropinaDashboard = ({ tipo }) => {
                 paddingBottom: "10px",
                 paddingTop: "10px",
               }}>
-              <label
-                htmlFor='rupe'
+              <TextField
+                type='number'
+                label='Rupe'
+                id='rupe'
+                placeholder='Digite o Número de Rupe'
+                maxLength={24}
+                {...register("rupe")}
                 style={{
-                  alignItems: "center",
-                }}>
-                <TextField
-                  type='number'
-                  label='Rupe'
-                  id='rupe'
-                  placeholder='Digite o Número de Rupe'
-                  maxLength={24}
-                  {...register("rupe")}
-                />
-              </label>
-              <label
-                htmlFor='mes'
-                style={{
-                  alignItems: "center",
-                }}>
-                <select
-                  {...register("fk_mes")}
-                  style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
-                  }}>
-                  <option value={"Escolha"}>Escolha Mês</option>
-                  {meses.map((m) => (
-                    <option value={m.id} key={m.id}>
-                      {m.mes}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  width: "200px",
+                }}
+              />
 
-              <label
-                htmlFor='semestre'
-                style={{
-                  alignItems: "center",
-                }}>
-                <select
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>Mês</InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  label='Mês'
+                  {...register("fk_mes")}
+                  id='demo-simple-select'>
+                  {meses.map((s) => (
+                    <MenuItem value={s.id} key={s.id}>
+                      {s.mes}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Semestre
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  label='Semestre'
                   {...register("fk_semestre")}
-                  style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
-                  }}>
-                  <option value={"Escolha"}>Escolha Semestre</option>
+                  id='demo-simple-select'>
                   {semestres.map((s) => (
-                    <option value={s.id} key={s.id}>
+                    <MenuItem value={s.id} key={s.id}>
                       {s.nome}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-              <label
-                htmlFor='anoLetivo'
-                style={{
-                  alignItems: "center",
-                }}>
-                <select
-                  {...register("fk_ano")}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Ano Lectivo
+                </InputLabel>
+                <Select
                   style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
-                  }}>
-                  <option value={"Escolha"}>Escolha Ano Lectivo</option>
-                  {anos.map((ano) => (
-                    <option value={ano.id} key={ano.id}>
-                      {ano.ano}
-                    </option>
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  label='Ano Lectivo'
+                  {...register("fk_ano")}
+                  id='demo-simple-select'>
+                  {anos.map((s) => (
+                    <MenuItem value={s.id} key={s.id}>
+                      {s.ano}
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
+                </Select>
+              </FormControl>
             </Space>
             <hr />
             {bi !== "" && nome !== "" && curso !== "" ? (
@@ -416,7 +400,6 @@ const PropinaDashboard = ({ tipo }) => {
                 }}>
                 <h2>Dados do Estudante</h2>
 
-                <br />
                 <TextField
                   type='text'
                   value={nome}
@@ -461,19 +444,12 @@ const PropinaDashboard = ({ tipo }) => {
               <></>
             )}
           </form>
-          <div className='imprimirPropina' onClick={() => setVisivel(true)}>
+          <Link className='imprimirPropina' to={`/relatorio_propina/${4}`}>
             <PiPrinter color='#fff' size={20} cursor={"pointer"} />
             <span>Relatório</span>
-          </div>
+          </Link>
         </div>
       </div>
-
-      <RelatorioPropina
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo={tipo}
-        id={id}
-      />
     </>
   );
 };

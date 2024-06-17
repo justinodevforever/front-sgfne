@@ -1,16 +1,13 @@
 @import "../../../../../../style/variable.scss";
 .container-buscar {
   display: flex;
-  width: 100%;
+  width: 97%;
   margin: auto;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  border-left: 1px solid $rosa;
-  border-right: 1px solid $rosa;
-  border-bottom: 1px solid $rosa;
   padding-bottom: 20px;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 .container-buscar .form {
   display: flex;
@@ -28,7 +25,7 @@
   padding: 7px 0px;
 }
 .container-buscar table {
-  width: 98%;
+  width: 100%;
   margin-top: 20px;
 }
 .container-buscar th {

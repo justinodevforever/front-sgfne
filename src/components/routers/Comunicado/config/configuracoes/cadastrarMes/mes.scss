@@ -1,1 +1,63 @@
 @import "../../../../../../style/variable.scss";
+
+.mes {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.menumes {
+  display: flex;
+  width: 50%;
+}
+.mes .opcoes {
+  display: flex;
+  margin: auto;
+  width: 80%;
+}
+
+.mes form {
+  display: flex;
+  flex-direction: column;
+}
+.mes form button {
+  display: flex;
+  width: 50%;
+  padding: 10px;
+  font-size: 14pt;
+  color: $white;
+  margin: auto;
+  background-color: $rosa;
+  text-align: center;
+  justify-content: center;
+  border: none;
+  border-radius: 7px;
+  gap: 4px;
+}
+.menumes li {
+  margin-right: 10px;
+}
+.menumes .ativo {
+  display: flex;
+  width: 90%;
+  background-color: $rosa;
+  color: $white;
+  padding: 7px;
+  border-radius: 5px;
+}
+.menumes .link {
+  display: flex;
+  width: 90%;
+  background-color: $siza;
+  color: $rosa;
+  padding: 7px;
+  border-radius: 5px;
+}
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

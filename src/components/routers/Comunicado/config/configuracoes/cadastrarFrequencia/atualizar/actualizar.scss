@@ -1,5 +1,5 @@
 @import "../../../../../../../style/variable.scss";
-.atualizar form button {
+.atualizarFrequencia form button {
   display: flex;
   width: 150px;
   margin: auto;
@@ -8,17 +8,22 @@
   color: $white;
   background-color: $rosa;
   text-align: center;
+  align-items: center;
   border: none;
   border-radius: 7px;
   gap: 4px;
-  margin-top: 20px;
+  margin-top: 40px;
   margin-bottom: 10px;
   cursor: pointer;
 }
-.atualizar form div {
-  display: flex;
-  margin: auto;
+.atualizarFrequencia {
+  margin-top: 20px;
 }
-.atualizar table th {
+
+.atualizarFrequencia table td {
+  border: none;
+  border-bottom: 1px solid #000;
+}
+.atualizarFrequencia table th {
   background-color: $rosa;
 }

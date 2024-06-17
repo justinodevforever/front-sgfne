@@ -4,6 +4,7 @@
   width: 97%;
   flex-direction: column;
   margin: auto;
+  padding-top: 30px;
 }
 
 .container-estudante ul {
@@ -11,6 +12,8 @@
   width: 80%;
   margin: auto;
   margin-left: 0px;
+  gap: 10px;
+  margin-bottom: 3px;
 }
 .container-estudante .focus {
   color: #fff;

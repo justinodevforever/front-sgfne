@@ -1,0 +1,30 @@
+@import "../../../../../../../style/variable.scss";
+.atualizarMes {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+.atualizarMes form button {
+  background-color: $rosa;
+  width: 30%;
+  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+}
+.atualizarMes form div {
+  display: flex;
+  gap: 20px;
+}
+.atualizarMes table th {
+  background-color: $rosa;
+}
+.atualizarMes table th {
+  border: none;
+}
+.atualizarMes table td {
+  border: none;
+  border-bottom: 1px solid #000;
+}

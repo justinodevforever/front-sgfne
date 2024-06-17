@@ -1,0 +1,23 @@
+.relatorioRegime {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.relatorioRegime div {
+  display: flex;
+  gap: 20px;
+}
+.relatorioRegime button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #a31543;
+}
+table {
+  width: 98%;
+  margin: auto;
+}

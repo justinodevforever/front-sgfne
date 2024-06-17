@@ -53,8 +53,8 @@ const Buscar = () => {
   };
 
   return (
-    <div className='container-buscar'>
-      <div className='pesquisa'>
+    <div className='container-buscarEstudante'>
+      <div className='pesquisaEstudante'>
         <Form className='form' onSubmitCapture={() => getBi()}>
           <Input.Search
             type='search'
@@ -86,7 +86,9 @@ const Buscar = () => {
                   <th>Curso</th>
                   <th>Contacto</th>
                   <th>BI</th>
-                  <th>Período</th>
+                  <th>Regime</th>
+                  <th>Turma</th>
+                  <th>Sexo</th>
                 </tr>
               </thead>
               <tbody>
@@ -95,7 +97,9 @@ const Buscar = () => {
                   <td>{estudante?.curso?.curso}</td>
                   <td>{estudante?.contacto}</td>
                   <td>{estudante?.bi}</td>
-                  <td>{estudante?.periodo}</td>
+                  <td>{estudante?.regime}</td>
+                  <td>{estudante?.truma}</td>
+                  <td>{estudante?.sexo}</td>
                 </tr>
               </tbody>
             </table>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./ActualizarAno.scss";
 import { api } from "../../../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import { BiEdit, BiSave, BiSearch, BiSolidSearch, BiX } from "react-icons/bi";
@@ -11,16 +12,18 @@ import {
   toggleModalError,
 } from "../../../../../../../store/ui-slice";
 import { useDispatch } from "react-redux";
+import { TextField } from "@mui/material";
 
 const ANO = /^([0-9]{4,4})(\/)([0-9]{4}$)/;
 
-const Actualizar = () => {
+const ActualizarAno = () => {
   const [anos, setAnos] = useState([]);
   const [ano, setAno] = useState("");
   const [ValidAno, setValidAno] = useState(false);
   const [message, setMessage] = useState("");
   const [id, setId] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -93,6 +96,7 @@ const Actualizar = () => {
       }
       setAno(data.data.ano);
       setId(data.data.id);
+      setDisabled(true);
     });
   };
   return (
@@ -100,7 +104,7 @@ const Actualizar = () => {
       <UseSucess />
       <UseErro />
       <UseWarning message={message} />
-      <div className='atualizar'>
+      <div className='atualizarAno'>
         <form>
           <div>
             <label
@@ -109,17 +113,14 @@ const Actualizar = () => {
                 position: "relative",
                 flexDirection: "column",
               }}>
-              Ano Lectivo
-              <Input
+              <TextField
+                label='Ano Lectivo'
                 value={ano}
+                required
+                disabled={disabled ? false : true}
                 onChange={(e) => setAno(e.target.value)}
-                style={
-                  !ano || (ano && !ValidAno)
-                    ? { border: "1px solid red", height: "60px" }
-                    : { border: "1px solid green", height: "60px" }
-                }
               />
-              {!ValidAno && (
+              {!ValidAno && !ano && (
                 <span
                   style={{
                     color: "red",
@@ -184,4 +185,4 @@ const Actualizar = () => {
     </>
   );
 };
-export default Actualizar;
+export default ActualizarAno;

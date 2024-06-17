@@ -1,0 +1,78 @@
+.menuCadastro {
+  display: flex;
+  width: 100%;
+}
+.menuCadastro ul {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  padding: 0px 0px 0px 4px;
+}
+.menuCadastro ul .li {
+  display: flex;
+  width: 100%;
+  color: #000;
+  font-weight: 200;
+  height: 30px;
+  text-align: center;
+  padding: 0px 0px 0px 10px;
+  align-items: center;
+  gap: 10px;
+  font-size: 11pt;
+  margin-bottom: 4px;
+}
+.menuCadastro ul a {
+  display: flex;
+  width: 100%;
+  color: #000;
+  font-weight: 200;
+  opacity: 1;
+  position: relative;
+}
+.menuCadastro ul a .isAfr,
+.isAsm,
+.isAdp,
+.isAms,
+.isAcr,
+.isAal,
+.isCurso,
+.isMes {
+  background-color: #f1cfda;
+  display: flex;
+  width: 100%;
+  color: #000;
+  font-weight: 200;
+  height: 30px;
+  text-align: center;
+  padding: 0px 0px 0px 10px;
+  align-items: center;
+  gap: 10px;
+  opacity: 1;
+  font-size: 11pt;
+  margin-bottom: 4px;
+  opacity: 1;
+  position: relative;
+}
+
+.menuCadastro ul a li:hover {
+  background-color: #f7e4ea;
+  color: #000;
+  font-weight: 200;
+  opacity: 1;
+  font-size: 11pt;
+}
+.menuCadastro ul a .isAcr::before,
+.isAdp::before,
+.isAfr::before,
+.isAsm::before,
+.isAal::before,
+.isAms::before {
+  content: "";
+  position: absolute;
+  width: 4px;
+  height: 100%;
+  background-color: #a31543;
+  left: 0;
+}

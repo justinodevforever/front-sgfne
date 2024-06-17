@@ -1,26 +1,24 @@
 @import "../../../../style/variable.scss";
 .container-cadastrar {
   display: flex;
-  width: 100%;
+  width: 97%;
   margin: auto;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  border-left: 1px solid $rosa;
-  border-right: 1px solid $rosa;
-  border-bottom: 1px solid $rosa;
-  padding-bottom: 20px;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .container-cadastrar form .novos {
   display: flex;
-  width: 70%;
-  justify-content: space-between;
+  width: 98%;
+  justify-content: center;
   border: 1px solid $preto;
   padding: 10px;
+  margin-top: 10px;
   border-radius: 7px;
   align-items: center;
+  gap: 80px;
 }
 .container-cadastrar form .periodo div {
   display: flex;
@@ -35,7 +33,7 @@
 
 .container-cadastrar .pesquisa {
   display: flex;
-  width: 100%;
+  width: 98%;
   background-color: $rosa;
   justify-content: center;
   align-items: center;

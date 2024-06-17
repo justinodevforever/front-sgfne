@@ -1,15 +1,30 @@
 @import "../../../../../../../style/variable.scss";
-.atualizar form button {
+.atualizarSemestre {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+.atualizarSemestre form button {
   background-color: $rosa;
   width: 30%;
   margin-top: 30px;
   align-items: center;
   justify-content: center;
 }
-.atualizar form div {
+.atualizarSemestre form div {
   display: flex;
-  margin: auto;
+  gap: 20px;
 }
-.atualizar table th {
+.atualizarSemestre table th {
   background-color: $rosa;
+}
+.atualizarSemestre table th {
+  border: none;
+}
+.atualizarSemestre table td {
+  border: none;
+  border-bottom: 1px solid #000;
 }

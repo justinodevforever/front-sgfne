@@ -2,8 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import "./declaracao.css";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import { api } from "../../../../../../../../auth/auth";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
 
 const DeclaracaoDashboard = () => {
   const [bi, setBi] = useState("");
@@ -24,48 +32,43 @@ const DeclaracaoDashboard = () => {
   const [frequencia, setFrequencia] = useState([]);
   const [disciplina, setDisciplina] = useState([]);
   const [semestre, setSemestre] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [tipos] = useSearchParams();
+  const form = useForm();
+  const { register, handleSubmit } = form;
 
   useEffect(() => {
-    getMes();
-    getSemestre();
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
     getAno();
   }, []);
-  useEffect(() => {
-    buscaSemestre();
-  }, [semestre]);
+
   useEffect(() => {
     if (bi === "") {
       setNome("");
       setCurso("");
     }
   }, [bi]);
-  useEffect(() => {
-    buscaMes();
-  }, [mes]);
+
   useEffect(() => {
     buscaAnoLeivo();
   }, [ano]);
   useEffect(() => {
     buscaAnoLeivo();
-    getDisplina();
   }, [fk_curso && frequencia]);
 
-  const buscarEstudante = async (e) => {
-    e.preventDefault();
+  const buscarEstudante = async () => {
     await api
       .post("/search/estudante/bi", {
         bi,
-        frequencia,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
+        console.log(data.data);
         setCurso(data.data.curso.curso);
         setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
@@ -130,53 +133,6 @@ const DeclaracaoDashboard = () => {
       .catch((err) => console.log(err));
   };
 
-  const getDisplina = async () => {
-    await api
-      .get("/ano/espeficico/", {
-        fk_curso,
-        ano: frequencia,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        console.log(data.data);
-        setDisciplina(data.data);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const buscaMes = async () => {
-    await api
-      .post("/search/mes", {
-        mes,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        setFk_mes(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-  const buscaSemestre = async () => {
-    await api
-      .post("/search/semestre", {
-        nome: semestre,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_semestre(data.data.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
   const buscaAnoLeivo = async () => {
     await api
       .post("/search/letivo", {
@@ -214,47 +170,112 @@ const DeclaracaoDashboard = () => {
 
   return (
     <>
-      <div className='container-declaracao'>
+      <div
+        className='container-declaracao'
+        style={{
+          paddingTop: "20px",
+        }}>
         <div className='conteudo'>
-          <form className='formBiD'>
+          <Form className='formBiD' onSubmitCapture={() => buscarEstudante()}>
             <Input.Search
               placeholder='Número de BI do Estudante'
+              value={bi}
               onChange={(e) => setBi(e.target.value)}
-              className='search'
               autoFocus
               maxLength={14}
-              onSearch={(e) => buscarEstudante(e)}
+              style={{ width: "80%" }}
+              loading={loading}
+              onSearch={() => buscarEstudante()}
             />
-          </form>
+          </Form>
 
-          <label htmlFor='frequencia'>
-            Frequência:
-            <select
-              nome='frequencia'
-              id='frequencia'
-              onChange={(e) => setFrequencia(e.target.value)}>
-              <option value={"Escolhe"}>Escolha...</option>
-
-              {frequencias.map((f) => (
-                <option value={f.ano}>{f.ano}</option>
-              ))}
-            </select>
-          </label>
+          <div
+            style={{
+              display: "flex",
+              margin: "auto",
+              width: "70%",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "10px",
+            }}>
+            <FormControl fullWidth>
+              <InputLabel htmlFor='demo-simple-select-label'>
+                Frequência
+              </InputLabel>
+              <Select
+                style={{
+                  width: "200px",
+                }}
+                labelId='demo-simple-select-label'
+                label='Frequência'
+                onChange={(e) => setFrequencia(e.target.value)}
+                id='demo-simple-select'>
+                {frequencias.map((s) => (
+                  <MenuItem value={s.id} key={s.id}>
+                    {s.ano}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
           <hr />
-          {curso && <h3>Dados do Estudante</h3>}
-          {curso && (
-            <label htmlFor='nome'>
-              Nome:
-              <input type='text' value={nome} disabled className='input' />
-            </label>
+          {curso && bi && nome && (
+            <div
+              className='space'
+              style={{
+                display: "flex",
+                width: "100%",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "10px 0px",
+                gap: "10px",
+              }}>
+              <h3>Dados do Estudante</h3>
+              <br />
+
+              <TextField
+                type='text'
+                value={nome}
+                label='Nome'
+                name='nome'
+                variant='outlined'
+                readOnly
+                style={{
+                  width: "60%",
+                }}
+                {...register("nome")}
+              />
+
+              <TextField
+                type='text'
+                value={curso}
+                label='Curso'
+                readOnly
+                variant='outlined'
+                style={{
+                  width: "60%",
+                }}
+                {...register("curso")}
+              />
+
+              <TextField
+                type='text'
+                value={bi}
+                id='bi n'
+                label='B.I'
+                readOnly
+                variant='outlined'
+                style={{
+                  width: "60%",
+                }}
+                {...register("bi")}
+              />
+
+              <button className='btnDeclaracao' type='submit'>
+                Pagar
+              </button>
+            </div>
           )}
-          {curso && (
-            <label htmlFor='curso'>
-              Curso:
-              <input type='text' value={curso} disabled className='input' />
-            </label>
-          )}
-          {nome && curso && <button className='btn'>Fazer Pagamento</button>}
         </div>
       </div>
     </>

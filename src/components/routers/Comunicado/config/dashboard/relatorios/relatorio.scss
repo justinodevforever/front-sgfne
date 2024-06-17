@@ -1,0 +1,41 @@
+.relatoriosLista {
+  display: flex;
+  width: 100%;
+  height: 98vh;
+  flex-direction: column;
+  padding-top: 4px;
+}
+.tabela {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding-top: 4px;
+}
+.relatoriosLista .tabela table {
+  width: 98%;
+  margin: auto;
+  border: 1px solid #000;
+}
+.relatoriosLista table th {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 10pt;
+}
+.relatoriosLista table td {
+  background-color: #fff;
+  color: #000;
+  align-items: center;
+  justify-content: center;
+  border-bottom: none;
+  font-size: 9pt;
+}
+.relatoriosLista table .r td {
+  border-top: 1px solid #000;
+}
+.relatoriosLista h3 {
+  color: #000;
+}

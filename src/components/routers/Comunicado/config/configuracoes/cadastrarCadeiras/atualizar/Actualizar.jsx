@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { BiEdit, BiSearch, BiSolidSearch, BiX } from "react-icons/bi";
 import Editar from "../editar/Editar";
 import { Button, Modal, Skeleton } from "antd";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
-const Actualizar = () => {
+const ActualizarDisciplina = () => {
   const [frequencias, setFrequencias] = useState([]);
   const [frequencia, setFrequencia] = useState("");
   const [curso, setCurso] = useState("");
@@ -110,68 +111,73 @@ const Actualizar = () => {
     <>
       <Editar isVisible={isVisible} setIsVisible={setIsVisible} id={id} />
 
-      <div className='atualizar'>
+      <div className='atualizarDisciplina'>
         <form>
           <div>
             <Skeleton
               loading={isLoadingCourse && isLoadingS && IsLoandigYear}
               active>
-              <select
-                onChange={(e) => setCurso(e.target.value)}
-                name='curso'
-                style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
-                }}>
-                <option value=''>Curso</option>
-                {cursos.map((c) => (
-                  <option value={c.curso} key={c.id}>
-                    {c.curso}
-                  </option>
-                ))}
-              </select>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Curso
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setCurso(e.target.value)}
+                  label='Curso'
+                  id='demo-simple-select'
+                  value={curso}>
+                  {cursos.map((s) => (
+                    <MenuItem value={s.curso} key={s.id}>
+                      {s.curso}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
-              <select
-                onChange={(e) => setFrequencia(e.target.value)}
-                name='fre'
-                style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
-                }}>
-                <option value=''>Ano de Frequência</option>
-                {frequencias.map((c) => (
-                  <option value={c.ano} key={c.id}>
-                    {c.ano}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                onChange={(e) => setSemestre(e.target.value)}
-                name='seme'
-                style={{
-                  width: "225px",
-                  borderRadius: "5px",
-                  height: "60px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
-                }}>
-                <option value=''>Semestre</option>
-                {semestres.map((c) => (
-                  <option value={c.nome} key={c.id}>
-                    {c.nome}
-                  </option>
-                ))}
-              </select>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Frequência
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setFrequencia(e.target.value)}
+                  label='Frequência'
+                  id='demo-simple-select'
+                  value={frequencia}>
+                  {frequencias.map((s) => (
+                    <MenuItem value={s.ano} key={s.id}>
+                      {s.ano}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Semestre
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setSemestre(e.target.value)}
+                  label='Frequência'
+                  id='demo-simple-select'
+                  value={semestre}>
+                  {semestres.map((s) => (
+                    <MenuItem value={s.nome} key={s.id}>
+                      {s.nome}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Skeleton>
           </div>
           <Button
@@ -225,4 +231,4 @@ const Actualizar = () => {
     </>
   );
 };
-export default Actualizar;
+export default ActualizarDisciplina;

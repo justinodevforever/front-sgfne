@@ -12,16 +12,18 @@ import {
   toggleModalError,
 } from "../../../../../../../store/ui-slice";
 import { useDispatch } from "react-redux";
+import { TextField } from "@mui/material";
 
 const FREQUENCIA = /^([0-9])+º/;
 
-const Actualizar = () => {
+const ActualizarFrequencia = () => {
   const [frequencias, setFrequencias] = useState([]);
   const [frequencia, setFrequencia] = useState("");
   const [ValidFrequencia, setValidFrequencia] = useState(false);
   const [message, setMessage] = useState("");
   const [id, setId] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -96,6 +98,7 @@ const Actualizar = () => {
       }
       setFrequencia(data.data.ano);
       setId(data.data.id);
+      setDisabled(true);
     });
   };
   return (
@@ -103,7 +106,7 @@ const Actualizar = () => {
       <UseSucess />
       <UseErro />
       <UseWarning message={message} />
-      <div className='atualizar'>
+      <div className='atualizarFrequencia'>
         <form>
           <div>
             <label
@@ -111,30 +114,29 @@ const Actualizar = () => {
               style={{
                 flexDirection: "column",
               }}>
-              Ano de Frequência
-              <Input
+              <TextField
+                label='Frequência'
+                required
                 value={frequencia}
+                disabled={disabled ? false : true}
                 onChange={(e) => setFrequencia(e.target.value)}
-                style={
-                  !frequencia || (frequencia && !ValidFrequencia)
-                    ? { border: "1px solid red", height: "60px" }
-                    : { border: "1px solid green", height: "60px" }
-                }
               />
-              {!ValidFrequencia && (
+              {!ValidFrequencia && !frequencia && (
                 <span
                   style={{
                     color: "red",
                     position: "absolute",
                     fontSize: "11pt",
                     fontStyle: "italic",
-                    marginTop: "10px",
+                    marginTop: "120px",
+                    marginBottom: "20px",
                   }}>
                   é aceite número seguido <br /> de Símbolo " º "
                 </span>
               )}
             </label>
           </div>
+
           <Button
             type='primary'
             loading={isLoading}
@@ -183,4 +185,4 @@ const Actualizar = () => {
     </>
   );
 };
-export default Actualizar;
+export default ActualizarFrequencia;

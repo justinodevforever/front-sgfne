@@ -44,7 +44,7 @@ export default function Login() {
         sessionStorage.setItem("id", data.data?.User?.id);
         dispatch(setId(data.data?.User?.id));
         setClick(false);
-        navigate(`/main/comunicado?page=${1}`);
+        navigate(`/dashboard/dados/${1}`);
       })
       .catch((error) => console.log(error));
   }

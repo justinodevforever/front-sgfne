@@ -53,6 +53,7 @@ const Grafico = () => {
         }
 
         setDiurno(data.data);
+        console.log(data.data, "dksjsk");
       })
       .catch((error) => console.log(error));
   };
@@ -66,7 +67,6 @@ const Grafico = () => {
         }
 
         setPosLaboral(data.data);
-        console.log(data.data);
       })
       .catch((error) => console.log(error));
   };
@@ -86,13 +86,21 @@ const Grafico = () => {
               flexDirection: "column",
               marginLeft: "20px",
               padding: "10px",
+              height: "70px",
               background: "#00f",
             }}>
-            <h2>Valor do Diúrno</h2>
+            <h4
+              style={{
+                color: "#fff",
+                fontSize: "10pt",
+              }}>
+              Valor do Diúrno
+            </h4>
             <span
               style={{
                 color: "#fff",
-                fontSize: "20pt",
+                fontSize: "14pt",
+                marginTop: "20px",
               }}>
               Receitas {diurno * 1900} Kz
             </span>
@@ -104,19 +112,21 @@ const Grafico = () => {
               flexDirection: "column",
               marginLeft: "20px",
               padding: "10px",
+              height: "70px",
               background: "#a31543",
             }}>
-            <h2
+            <h4
               style={{
                 color: "#fff",
-                fontSize: "20pt",
+                fontSize: "10pt",
               }}>
               Valor do Pós-Laboral
-            </h2>
+            </h4>
             <span
               style={{
                 color: "#fff",
-                fontSize: "20pt",
+                fontSize: "14pt",
+                marginTop: "20px",
               }}>
               Receitas {posLaboral * 15000} Kz
             </span>

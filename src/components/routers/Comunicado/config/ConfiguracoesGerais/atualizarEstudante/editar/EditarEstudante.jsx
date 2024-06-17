@@ -35,7 +35,7 @@ const EditarEstudante = ({ estudante }) => {
     setCurso(estudante?.fk_curso + " " + estudante?.curso?.curso);
     setcontato(estudante?.contacto);
     setNome(estudante?.nome);
-    setPeriodo(estudante.periodo);
+    setPeriodo(estudante.regime);
   }, [estudante]);
 
   function close(e) {
@@ -69,7 +69,7 @@ const EditarEstudante = ({ estudante }) => {
         nome,
         fk_curso: newCurso,
         contato,
-        periodo,
+        regime: periodo,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -123,7 +123,7 @@ const EditarEstudante = ({ estudante }) => {
                   <select onChange={(e) => setPeriodo(e.target.value)}>
                     <option value={periodo}>{periodo}</option>
                     <option value={"Pós-Laboral"}>Pós-Laboral</option>
-                    <option value={"Diúrno"}>Diúrno</option>
+                    <option value={"Regular"}>Regular</option>
                   </select>
                 </div>
                 <div style={{ color: "#000" }}>
@@ -159,7 +159,6 @@ const EditarEstudante = ({ estudante }) => {
                     <tr>
                       <th>Nome</th>
                       <th>B.I</th>
-                      <th>email</th>
                       <th>Contacto</th>
                       <th>curso</th>
                     </tr>
@@ -168,8 +167,7 @@ const EditarEstudante = ({ estudante }) => {
                     <tr>
                       <td>{estudante?.nome}</td>
                       <td>{estudante?.bi}</td>
-                      <td>{estudante?.user?.email}</td>
-                      <td>{estudante?.user?.contacto}</td>
+                      <td>{estudante?.contacto}</td>
                       <td>{estudante?.curso?.curso}</td>
                     </tr>
                   </tbody>

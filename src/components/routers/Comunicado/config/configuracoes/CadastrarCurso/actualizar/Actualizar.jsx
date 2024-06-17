@@ -12,12 +12,14 @@ import {
   toggleModalError,
 } from "../../../../../../../store/ui-slice";
 import { useDispatch } from "react-redux";
+import { TextField } from "@mui/material";
 
-const Actualizar = () => {
+const ActualizarCurso = () => {
   const [cursos, setCursos] = useState([]);
   const [curso, setCurso] = useState("");
   const [ValidFrequencia, setValidFrequencia] = useState(false);
   const [message, setMessage] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const [id, setId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -87,6 +89,7 @@ const Actualizar = () => {
       }
       setCurso(data.data?.curso);
       setId(data.data.id);
+      setDisabled(true);
     });
   };
   return (
@@ -94,24 +97,20 @@ const Actualizar = () => {
       <UseSucess />
       <UseErro />
       <UseWarning message={message} />
-      <div className='atualizar'>
+      <div className='atualizarCurso'>
         <form>
           <div>
-            <label
-              htmlFor='curso'
+            <TextField
+              label='Curso'
+              required
+              disabled={disabled ? false : true}
+              value={curso}
+              onChange={(e) => setCurso(e.target.value)}
               style={{
-                flexDirection: "column",
-              }}>
-              Nome do Curso
-              <Input
-                value={curso}
-                onChange={(e) => setCurso(e.target.value)}
-                style={{
-                  width: "300px",
-                  height: "60px",
-                }}
-              />
-            </label>
+                width: "300px",
+                height: "60px",
+              }}
+            />
           </div>
           <Button
             type='primary'
@@ -161,4 +160,4 @@ const Actualizar = () => {
     </>
   );
 };
-export default Actualizar;
+export default ActualizarCurso;

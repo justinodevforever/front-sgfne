@@ -6,15 +6,15 @@ import UseWarning from "../../../../hook/massege/warning/UseWarning";
 import { BiSave } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   toggleModalConfirmar,
   toggleModalError,
   toggleModalWarning,
 } from "../../../../../../store/ui-slice";
 import { api } from "../../../../../../../auth/auth";
-import Actualizar from "./actualizar/Actualizar";
-import AnoCurso from "../../../scool/ano/AnoCurso";
+import { TextField } from "@mui/material";
+import { Save } from "@mui/icons-material";
 
 const ANO = /^([0-9]{4,4})(\/)([0-9]{4}$)/;
 const Ano = () => {
@@ -28,6 +28,7 @@ const Ano = () => {
   const [ano, setAno] = useState("");
   const [validAno, setValidAno] = useState(false);
   const [clicCadatrar, setClicCadatrar] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (ano) {
@@ -59,8 +60,11 @@ const Ano = () => {
         ano,
       })
       .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
         setIsLoading(false);
-        console.log(data.data);
         if (data.data.message === "sucess")
           return dispatchSucess(toggleModalConfirmar(true));
         if (data.data.message === "error")
@@ -69,93 +73,62 @@ const Ano = () => {
       .catch((error) => console.log(error));
   };
   return (
-    <div className='frequencia'>
+    <div className='ano'>
       <UseWarning message={message} />
       <UseErro />
       <UseSucess />
-      <ul className='menuCadeira'>
-        <li>
-          <Link
-            onClick={(e) => toggleCadastrar(e)}
-            className={clicCadatrar ? "ativo" : "link"}>
+      <div>
+        <form>
+          <Space
+            wrap
+            style={{
+              display: "flex",
+              marginBottom: "20px",
+            }}>
+            <label
+              htmlFor='semestre'
+              style={{ position: "relative", flexDirection: "column" }}>
+              <TextField
+                label='Ano Lectivo'
+                type='text'
+                placeholder='Designação do semestre Ex. 1º ou 2º'
+                value={ano}
+                onChange={(e) => setAno(e.target.value)}
+                name='semestre'
+              />
+              {ano && !validAno && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11pt",
+                    fontStyle: "italic",
+                    marginTop: "10px",
+                    position: "absolute",
+                    top: "80px",
+                  }}>
+                  Exemplo: 2021/2021
+                </span>
+              )}
+            </label>
+          </Space>
+
+          <Button
+            type='primary'
+            loading={isLoading}
+            onClick={() => hendleSave()}
+            disabled={!validAno}
+            style={
+              ano &&
+              !validAno && {
+                margin: "70px",
+              }
+            }>
+            <Save />
             Cadastrar
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleActualizar(e)}
-            className={clicActualizar ? "ativo" : "link"}>
-            Actualizar
-          </Link>
-        </li>
-      </ul>
-      <div className='semestre'>
-        {clicCadatrar && (
-          <form>
-            <Space
-              wrap
-              style={{
-                display: "flex",
-                width: "1",
-              }}>
-              <label
-                htmlFor='semestre'
-                style={{ position: "relative", flexDirection: "column" }}>
-                Ano Lectivo
-                <Input
-                  type='text'
-                  placeholder='Designação do semestre Ex. 1º ou 2º'
-                  value={ano}
-                  onChange={(e) => setAno(e.target.value)}
-                  name='semestre'
-                  style={
-                    ano && validAno
-                      ? {
-                          border: "1px solid green",
-                          height: "60px",
-                        }
-                      : {
-                          border: "1px solid red",
-                          height: "60px",
-                        }
-                  }
-                />
-                {ano && !validAno && (
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "11pt",
-                      fontStyle: "italic",
-                      marginTop: "10px",
-                      position: "absolute",
-                      top: "80px",
-                    }}>
-                    Exemplo: 2021/2021
-                  </span>
-                )}
-              </label>
-            </Space>
+          </Button>
 
-            <Button
-              type='primary'
-              loading={isLoading}
-              onClick={() => hendleSave()}
-              disabled={!validAno}
-              style={
-                ano &&
-                !validAno && {
-                  margin: "70px",
-                }
-              }>
-              <BiSave style={{ marginRight: "10px" }} />
-              Cadastrar
-            </Button>
-
-            <br />
-          </form>
-        )}
-
-        {clicActualizar && <Actualizar />}
+          <br />
+        </form>
       </div>
     </div>
   );

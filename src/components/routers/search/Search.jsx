@@ -1,9 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
 import "./search.css";
-import MenuBack from "../../page/coment/Menu-Back/MenuBack";
 import { BsArrowLeft } from "react-icons/bs";
 import { CiHome } from "react-icons/ci";
-import SearchPage from "./SearchPage";
 
 export const Search = () => {
   const hendleBack = (e) => {
@@ -14,7 +12,7 @@ export const Search = () => {
     window.history.back();
   };
   return (
-    <div className="search">
+    <div className='search'>
       <nav>
         <ul>
           <Link
@@ -22,7 +20,7 @@ export const Search = () => {
               hendleBack(e);
             }}>
             {" "}
-            <BsArrowLeft size={"25px"} color="#fff" />
+            <BsArrowLeft size={"25px"} color='#fff' />
           </Link>
 
           <li>

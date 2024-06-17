@@ -13,11 +13,13 @@
   margin-top: 20px;
   padding-bottom: 20px;
 }
-.container-reconfirmacao .formBir {
+.formBir {
   display: flex;
-  width: 100%;
+  width: 98%;
+  margin: auto;
   background-color: #a31543;
   padding: 10px 0px;
+  margin-top: 20px;
   align-items: center;
   justify-content: center;
 }
@@ -63,21 +65,7 @@ input,
 select {
   margin-bottom: 10px;
 }
-.container-reconfirmacao select {
-  width: 130px;
-  height: 30px;
-  font-size: 14pt;
-  margin-right: 10px;
-  margin-left: 10px;
-  border: 2px solid #a31543;
-}
-.container-reconfirmacao label {
-  display: flex;
-  font-size: 12pt;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
+
 .search {
   width: 300px;
   height: 30px;
@@ -96,13 +84,6 @@ select {
   margin: auto;
   margin-top: 10px;
 }
-.container-reconfirmacao .opcoes label {
-  display: flex;
-  flex-direction: column;
-  font-size: 14pt;
-  align-items: center;
-  margin-bottom: 20px;
-}
 
 .container-reconfirmacao .input {
   width: 80%;
@@ -111,13 +92,12 @@ select {
   font-size: 14pt;
 }
 
-.container-reconfirmacao .space .btn {
+.container-reconfirmacao .space .btnReconfirmacao {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: auto;
   width: 50%;
-  padding: 10px;
   border: none;
   color: #fff;
   background-color: #a31543;
@@ -126,9 +106,9 @@ select {
   margin-top: 20px;
   cursor: pointer;
   opacity: 0.8;
-  padding: 20px;
+  padding: 10px 0px;
 }
-.container-reconfirmacao .btn:hover {
+.container-reconfirmacao .btnReconfirmacao:hover {
   opacity: 1;
 }
 .container-reconfirmacao .opcoes {

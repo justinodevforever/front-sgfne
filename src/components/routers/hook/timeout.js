@@ -3,6 +3,11 @@ export const formatDate = (createAt) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
   return data.toLocaleDateString("pt-BR", options);
 };
+export const formatDateNumber = (createAt) => {
+  const data = new Date(createAt);
+  const options = { year: "numeric", month: "numeric", day: "numeric" };
+  return data.toLocaleDateString("pt-BR", options);
+};
 export const formaHouser = (createdAt) => {
   const data = new Date(createdAt);
   const options = { hour: "numeric", minute: "numeric" };

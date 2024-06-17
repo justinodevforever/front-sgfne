@@ -17,7 +17,13 @@ import Loader from "../../../../../hook/load/Loader";
 import { Button, Form, Input, Space, Alert, message, Popconfirm } from "antd";
 import { AlertHeading } from "react-bootstrap";
 import Processing from "../../../../../hook/process/Processing";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
 const ExameEspecialDashboard = () => {
   const [bi, setBi] = useState("");
@@ -93,17 +99,21 @@ const ExameEspecialDashboard = () => {
   }, [disciplina]);
 
   const buscarEstudante = async () => {
+    if (!bi) {
+      alert("O Campo B.I é Obrigatório");
+      return;
+    }
+    setLoading(true);
     const { data } = await api.post("/divida", { bi });
 
     if (data?.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
       dispatchWarning(toggleModalWarning(true));
+      setLoading(false);
 
       return;
     }
-
-    setLoading(true);
 
     await api
       .post("/search/estudante/bi", {
@@ -122,6 +132,7 @@ const ExameEspecialDashboard = () => {
           }, 4000);
           setMessage("Estudante com Este Nº de B.I não Existe!");
           setIsProcessing(true);
+          setLoading(false);
           return () => clearInterval(c);
         }
 
@@ -311,6 +322,8 @@ const ExameEspecialDashboard = () => {
         fk_frequencia,
         fk_semestre,
         fk_ano,
+        fk_user: sessionStorage.getItem("id"),
+        dataSolicitacao: formatDateNumber(Date.now()),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -361,18 +374,22 @@ const ExameEspecialDashboard = () => {
           />
         </Form>
 
-        <div
+        <Space
           style={{
             display: "flex",
-            gap: "20px",
-            marginTop: "40px",
+            flexWrap: "wrap",
             justifyContent: "center",
-            marginBottom: "20px",
+            alignItems: "center",
+            gap: "10px",
+            marginTop: "10px",
           }}>
           <TextField
             type='number'
             label='Valor'
             onChange={(e) => setValor(e.target.value)}
+            style={{
+              width: "200px",
+            }}
           />
 
           <TextField
@@ -381,98 +398,85 @@ const ExameEspecialDashboard = () => {
             onChange={(e) => setRupe(e.target.value)}
             label='Nº de RUPE'
             maxLength={20}
+            style={{
+              width: "200px",
+            }}
           />
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "10px",
-            justifyContent: "center",
-            alignItems: "center",
-          }}>
-          <label htmlFor='ano'>
-            <select
+          <FormControl fullWidth>
+            <InputLabel htmlFor='demo-simple-select-label'>
+              Ano Lectivo
+            </InputLabel>
+            <Select
               style={{
-                width: "225px",
-                borderRadius: "5px",
-                height: "60px",
-                fontWeight: "200",
-                fontSize: "20px",
-                border: "1px solid #ddd",
+                width: "200px",
               }}
-              onChange={(e) => setAno(e.target.value)}>
-              <option value={"Escolha"}>Escolha Ano Lectivo</option>
-
+              labelId='demo-simple-select-label'
+              label='Ano Lectivo'
+              onChange={(e) => setAno(e.target.value)}
+              id='demo-simple-select'>
               {anos.map((s) => (
-                <option value={s.ano} key={s.id}>
+                <MenuItem value={s.ano} key={s.id}>
                   {s.ano}
-                </option>
+                </MenuItem>
               ))}
-            </select>
-          </label>
-          <label htmlFor='frequencia'>
-            <select
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel htmlFor='demo-simple-select-label'>
+              Frequência
+            </InputLabel>
+            <Select
               style={{
-                width: "225px",
-                borderRadius: "5px",
-                height: "60px",
-                fontWeight: "200",
-                fontSize: "20px",
-                border: "1px solid #ddd",
+                width: "200px",
               }}
-              onChange={(e) => setFrequencia(e.target.value)}>
-              <option value={"Escolha"}>Escolha Frequência</option>
-
-              {frequencias.map((f) => (
-                <option value={f.ano} key={f.id}>
-                  {f.ano}
-                </option>
+              labelId='demo-simple-select-label'
+              label='Frequência'
+              onChange={(e) => setFrequencia(e.target.value)}
+              id='demo-simple-select'>
+              {frequencias.map((s) => (
+                <MenuItem value={s.ano} key={s.id}>
+                  {s.ano}
+                </MenuItem>
               ))}
-            </select>
-          </label>
-
-          <label htmlFor='semestre'>
-            <select
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel htmlFor='demo-simple-select-label'>Semestre</InputLabel>
+            <Select
               style={{
-                width: "225px",
-                borderRadius: "5px",
-                height: "60px",
-                fontWeight: "200",
-                fontSize: "20px",
-                border: "1px solid #ddd",
+                width: "200px",
               }}
-              onChange={(e) => setSemestre(e.target.value)}>
-              <option value={"Escolha"}>Escolha Semestre</option>
-
+              labelId='demo-simple-select-label'
+              label='Semestre'
+              onChange={(e) => setSemestre(e.target.value)}
+              id='demo-simple-select'>
               {semestres.map((s) => (
-                <option value={s.nome} key={s.id}>
+                <MenuItem value={s.nome} key={s.id}>
                   {s.nome}
-                </option>
+                </MenuItem>
               ))}
-            </select>
-          </label>
-          <label htmlFor='cadeira'>
-            <select
+            </Select>
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel htmlFor='demo-simple-select-label'>
+              Disciplina
+            </InputLabel>
+            <Select
               style={{
-                width: "225px",
-                borderRadius: "5px",
-                height: "60px",
-                fontWeight: "200",
-                fontSize: "20px",
-                border: "1px solid #ddd",
+                width: "200px",
               }}
-              onChange={(e) => setDisciplina(e.target.value)}>
-              <option value={"Escolha"}>Escolha a Cadeira</option>
-
-              {disciplinas?.map((s) => (
-                <option value={s.nome} key={s.id}>
+              labelId='demo-simple-select-label'
+              label='Disciplina'
+              onChange={(e) => setDisciplina(e.target.value)}
+              id='demo-simple-select'>
+              {disciplinas.map((s) => (
+                <MenuItem value={s.nome} key={s.id}>
                   {s.nome}
-                </option>
+                </MenuItem>
               ))}
-            </select>
-          </label>
-        </div>
+            </Select>
+          </FormControl>
+        </Space>
 
         <hr />
         {curso && bi && nome && (
@@ -526,12 +530,7 @@ const ExameEspecialDashboard = () => {
             {!ativar && (
               <button
                 onClick={() => hendleExameEspecial()}
-                className='btn'
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}>
+                className='btnExame'>
                 Pagar
               </button>
             )}

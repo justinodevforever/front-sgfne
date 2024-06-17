@@ -14,11 +14,12 @@ import {
 } from "../../../../../../store/ui-slice";
 import { api } from "../../../../../../../auth/auth";
 import Actualizar from "./actualizar/Actualizar";
+import { TextField } from "@mui/material";
 
 const MES =
   /^(Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro)$/;
 const ALGARISMO = /^(1|2|3|4|5|6|7|8|9|10|11|12){1,1}$/;
-const Ano = () => {
+const Mes = () => {
   const [message, setMessage] = useState("");
   const [clicActualizar, setClicActualizar] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,56 +79,30 @@ const Ano = () => {
       .catch((error) => console.log(error));
   };
   return (
-    <div className='frequencia'>
+    <div className='mes'>
       <UseWarning message={message} />
       <UseErro />
       <UseSucess />
-      <ul className='menuCadeira'>
-        <li>
-          <Link
-            onClick={(e) => toggleCadastrar(e)}
-            className={clicCadatrar ? "ativo" : "link"}>
-            Cadastrar
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleActualizar(e)}
-            className={clicActualizar ? "ativo" : "link"}>
-            Actualizar
-          </Link>
-        </li>
-      </ul>
-      <div className='semestre'>
+
+      <div>
         {clicCadatrar && (
           <form>
             <Space
               wrap
               style={{
                 display: "flex",
-                width: "1",
+                marginBottom: "10px",
               }}>
               <label
                 htmlFor='semestre'
                 style={{ position: "relative", flexDirection: "column" }}>
-                Mês
-                <Input
+                <TextField
+                  label='Mês'
                   type='text'
                   placeholder='Designação do semestre Ex. 1º ou 2º'
                   value={mes}
                   onChange={(e) => setMes(e.target.value)}
                   name='semestre'
-                  style={
-                    mes && validMes
-                      ? {
-                          border: "1px solid green",
-                          height: "60px",
-                        }
-                      : {
-                          border: "1px solid red",
-                          height: "60px",
-                        }
-                  }
                 />
                 {mes && !validMes && (
                   <span
@@ -150,24 +125,13 @@ const Ano = () => {
               <label
                 htmlFor='semestre'
                 style={{ position: "relative", flexDirection: "column" }}>
-                Nº Correspondente
-                <Input
+                <TextField
+                  label='Nº Correspondente'
                   type='number'
                   placeholder='Designação do semestre Ex. 1º ou 2º'
                   value={algarismo}
                   onChange={(e) => setAlgarismo(e.target.value)}
                   name='semestre'
-                  style={
-                    algarismo && validAlgarismo
-                      ? {
-                          border: "1px solid green",
-                          height: "60px",
-                        }
-                      : {
-                          border: "1px solid red",
-                          height: "60px",
-                        }
-                  }
                 />
                 {algarismo && !validAlgarismo && (
                   <span
@@ -207,10 +171,8 @@ const Ano = () => {
             <br />
           </form>
         )}
-
-        {clicActualizar && <Actualizar />}
       </div>
     </div>
   );
 };
-export default Ano;
+export default Mes;

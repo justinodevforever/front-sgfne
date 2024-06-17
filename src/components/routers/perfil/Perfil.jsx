@@ -2,12 +2,6 @@ import { useEffect, useState } from "react";
 import "./perfil.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { api } from "../../../../auth/auth";
-import ContactoUsuario from "../contactoUsuario/ContactoUsuario";
-import BtnMenu from "../anuncios/menu/BtnMenu";
-import LikePublicacao from "../anuncios/likes/Like";
-import Comentario from "../comentarios/Comentario";
-import { ProfilePublication } from "../anuncios/ProfilePublication";
-import UseBtnRemovePerfil from "./btnDelete/UseBtnDelete";
 import { CiEdit } from "react-icons/ci";
 import { Skeleton } from "antd";
 

@@ -175,6 +175,10 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
             onCancel={() => {
               setVisivel(!visivel);
             }}
+            style={{
+              display: "flex",
+              overflowY: "auto",
+            }}
             okText='Imprimir'
             cancelText='Sair'
             onOk={() => {

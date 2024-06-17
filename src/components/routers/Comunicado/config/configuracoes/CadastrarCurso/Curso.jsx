@@ -1,18 +1,19 @@
+import "./curso.scss";
 import { Button, Input, Space } from "antd";
 import UseErro from "../../../../hook/massege/Error/UseErro";
 import UseSucess from "../../../../hook/massege/sucess/UseSucess";
 import UseWarning from "../../../../hook/massege/warning/UseWarning";
-import Actualizar from "./actualizar/Actualizar";
 import { BiSave } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   toggleModalConfirmar,
   toggleModalError,
   toggleModalWarning,
 } from "../../../../../../store/ui-slice";
 import { api } from "../../../../../../../auth/auth";
+import { TextField } from "@mui/material";
 
 const Curso = () => {
   const [message, setMessage] = useState("");
@@ -23,6 +24,7 @@ const Curso = () => {
   const dispatchWarneng = useDispatch();
   const [curso, setCurso] = useState("");
   const [clicCadatrar, setClicCadatrar] = useState(true);
+  const navigate = useNavigate();
 
   const toggleCadastrar = (e) => {
     e.preventDefault();
@@ -48,6 +50,10 @@ const Curso = () => {
         curso,
       })
       .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
         setIsLoading(false);
         setCurso("");
         if (data.data.message === "sucess")
@@ -58,64 +64,45 @@ const Curso = () => {
       .catch((error) => console.log(error));
   };
   return (
-    <div className='frequencia'>
+    <div className='curso'>
       <UseWarning message={message} />
       <UseErro />
       <UseSucess />
-      <ul className='menuCadeira'>
-        <li>
-          <Link
-            onClick={(e) => toggleCadastrar(e)}
-            className={clicCadatrar ? "ativo" : "link"}>
+
+      <div>
+        <form>
+          <Space
+            wrap
+            style={{
+              display: "flex",
+              marginBottom: "20px",
+            }}>
+            <label
+              htmlFor='semestre'
+              style={{ position: "relative", flexDirection: "column" }}>
+              <TextField
+                label='Designação do Curso'
+                type='text'
+                placeholder='Nome do Curso'
+                value={curso}
+                onChange={(e) => setCurso(e.target.value)}
+                name='semestre'
+                style={{ width: "300px", height: "60px" }}
+              />
+            </label>
+          </Space>
+
+          <Button
+            type='primary'
+            loading={isLoading}
+            onClick={() => hendleSave()}
+            disabled={!curso}>
+            <BiSave style={{ marginRight: "10px" }} />
             Cadastrar
-          </Link>
-        </li>
-        <li>
-          <Link
-            onClick={(e) => toggleActualizar(e)}
-            className={clicActualizar ? "ativo" : "link"}>
-            Actualizar
-          </Link>
-        </li>
-      </ul>
-      <div className='semestre'>
-        {clicCadatrar && (
-          <form>
-            <Space
-              wrap
-              style={{
-                display: "flex",
-                width: "1",
-              }}>
-              <label
-                htmlFor='semestre'
-                style={{ position: "relative", flexDirection: "column" }}>
-                Nome do Curso
-                <Input
-                  type='text'
-                  placeholder='Nome do Curso'
-                  value={curso}
-                  onChange={(e) => setCurso(e.target.value)}
-                  name='semestre'
-                  style={{ width: "300px", height: "60px" }}
-                />
-              </label>
-            </Space>
+          </Button>
 
-            <Button
-              type='primary'
-              loading={isLoading}
-              onClick={() => hendleSave()}
-              disabled={!curso}>
-              <BiSave style={{ marginRight: "10px" }} />
-              Cadastrar
-            </Button>
-
-            <br />
-          </form>
-        )}
-
-        {clicActualizar && <Actualizar />}
+          <br />
+        </form>
       </div>
     </div>
   );
