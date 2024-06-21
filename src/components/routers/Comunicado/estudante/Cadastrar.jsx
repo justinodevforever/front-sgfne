@@ -36,6 +36,8 @@ const Cadastrar = () => {
   const [message, setMessage] = useState("");
   const [curso, setCurso] = useState("");
   const [cursos, setCursos] = useState([]);
+  const [frequencias, setFrequencias] = useState([]);
+  const [fk_frequencia, setFk_frequencia] = useState(0);
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
   const [sexo, setSexo] = useState("");
@@ -50,6 +52,7 @@ const Cadastrar = () => {
 
   useEffect(() => {
     getCursos();
+    getFrequencia();
   }, []);
 
   const getBi = async () => {
@@ -75,6 +78,19 @@ const Cadastrar = () => {
         }
 
         setCursos(data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  const getFrequencia = async () => {
+    await api
+      .get("/ano")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigete("/login");
+          return;
+        }
+
+        setFrequencias(data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -121,6 +137,7 @@ const Cadastrar = () => {
         regime: periodo,
         turma,
         sexo,
+        fk_frequencia,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -218,7 +235,7 @@ const Cadastrar = () => {
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
+                gap: "20px",
                 justifyContent: "center",
                 alignItems: "center",
               }}>
@@ -243,6 +260,25 @@ const Cadastrar = () => {
                   control={<Radio />}
                 />
               </RadioGroup>
+              <FormControl fullWidth>
+                <InputLabel htmlFor='demo-simple-select-label'>
+                  Frequência
+                </InputLabel>
+                <Select
+                  style={{
+                    width: "200px",
+                  }}
+                  labelId='demo-simple-select-label'
+                  onChange={(e) => setFk_frequencia(e.target.value)}
+                  label='Frequência'
+                  id='demo-simple-select'>
+                  {frequencias.map((s) => (
+                    <MenuItem value={s.id} key={s.id}>
+                      {s.ano}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </div>
             <TextField
               type='text'

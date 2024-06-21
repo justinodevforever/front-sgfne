@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { Input, Modal, Space, Alert, Button, Form } from "antd";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { PrinterOutlined } from "@ant-design/icons";
+import LogoImg from "./Logo.png";
 
 function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [semestres, setSemestres] = useState([]);
@@ -122,7 +123,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           navigate("/login");
           return;
         }
-
         setIsLoading(false);
         if (data.data) {
           setUserName(data.data?.usuario?.nome);
@@ -148,6 +148,8 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           navigate("/login");
           return;
         }
+        console.log(data.data);
+
         if (data.data) {
           setUserName(data.data?.usuario?.nome);
           setDados(data.data[0]);
@@ -268,12 +270,13 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <span>
                             <strong>Curso: </strong>{" "}
                             {propinasAnual[0]?.estudante?.curso?.curso}/
+                            {propinasAnual[0]?.estudante?.frequencia?.ano} Ano/
                             {propinasAnual[0]?.estudante?.regime}
                           </span>
                         </div>
 
                         <div className='divRecibo'>
-                          <img src='./Logo.png' alt='ISPM' />
+                          <img src={LogoImg} alt='ISPM' />
                           <span className='recibo'>
                             <strong>Recibo Nº.</strong> FR ISPM20
                           </span>
@@ -398,12 +401,13 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <span>
                             <strong>Curso: </strong>{" "}
                             {propinasAnual[0]?.estudante?.curso?.curso}/
+                            {propinasAnual[0]?.estudante?.frequencia?.ano} Ano/
                             {propinasAnual[0]?.estudante?.regime}
                           </span>
                         </div>
 
                         <div className='divRecibo'>
-                          <img src='./Logo.png' alt='ISPM' />
+                          <img src={LogoImg} alt='ISPM' />
                           <span className='recibo'>
                             <strong>Recibo Nº.</strong> FR ISPM20
                           </span>
@@ -610,6 +614,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <span>
                             <strong>Curso: </strong>{" "}
                             {dados?.estudante?.curso?.curso}/
+                            {dados?.estudante?.frequencia?.ano} Ano/
                             {dados?.estudante?.regime}
                           </span>
                         </div>
@@ -741,6 +746,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                           <span>
                             <strong>Curso: </strong>{" "}
                             {dados?.estudante?.curso?.curso}/
+                            {dados?.estudante?.frequencia?.ano} Ano/
                             {dados?.estudante?.regime}
                           </span>
                         </div>

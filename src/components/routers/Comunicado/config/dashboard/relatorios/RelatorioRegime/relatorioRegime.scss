@@ -5,7 +5,11 @@
   justify-content: center;
   align-items: center;
 }
-.relatorioRegime div {
+.relatorioRegime .tabela {
+  display: flex;
+  gap: 20px;
+}
+.relatorioRegime .tabela div {
   display: flex;
   gap: 20px;
 }
@@ -17,7 +21,7 @@
   margin-top: 20px;
   background-color: #a31543;
 }
-table {
+.relatorioRegime table {
   width: 98%;
   margin: auto;
 }

@@ -81,7 +81,7 @@ const RelatorioRegime = () => {
 
   return (
     <div className='relatorioRegime'>
-      <div className='' id='tabela'>
+      <div className='tabela' id='tabela'>
         <h1>RELATÓRIO FINANCEIRO {regime.toUpperCase()} ANUAL</h1>
         {/* {listas && ( */}
         <table>
@@ -214,7 +214,11 @@ const RelatorioRegime = () => {
       </div>
       {/* )} */}
       <br />
-      <div>
+      <div
+        style={{
+          display: "flex",
+          gap: "20px",
+        }}>
         <FormControl>
           <InputLabel>Ano Letivo</InputLabel>
           <Select

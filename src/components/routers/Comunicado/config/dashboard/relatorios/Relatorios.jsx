@@ -141,7 +141,7 @@ const Relatorios = () => {
                     <td>{d?.estudante?.nome}</td>
                     <td>{d?.estudante?.sexo}</td>
                     <td>{d?.estudante?.curso?.curso}</td>
-                    <td>{1}º Ano</td>
+                    <td>{d?.estudante?.frequencia?.ano} Ano</td>
                     <td>
                       {d?.todosMeses?.Janeiro !== 0
                         ? d?.todosMeses?.Janeiro + ".00"
