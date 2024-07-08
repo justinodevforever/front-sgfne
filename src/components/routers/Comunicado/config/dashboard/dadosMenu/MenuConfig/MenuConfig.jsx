@@ -1,22 +1,7 @@
 import { Link, useSearchParams } from "react-router-dom";
 import "./menuConfig.scss";
-import {
-  ArrowCircleRight,
-  CurrencyExchange,
-  ListOutlined,
-  Update,
-} from "@mui/icons-material";
-import {
-  DollarOutlined,
-  DollarTwoTone,
-  PlusOutlined,
-  PrinterFilled,
-  ToolFilled,
-  ArrowRightOutlined,
-  RightCircleFilled,
-  RightOutlined,
-  DownOutlined,
-} from "@ant-design/icons";
+
+import { ToolFilled, RightOutlined, DownOutlined } from "@ant-design/icons";
 import { BiDollar } from "react-icons/bi";
 import { useState } from "react";
 import { ConfigProvider } from "antd";
@@ -25,6 +10,7 @@ import { FaUserClock, FaUserLock } from "react-icons/fa";
 const MenuConfig = ({ config }) => {
   const [reco, setReco] = useState(false);
   const [toogleAjuste, setToogleAjuste] = useState(false);
+  const [toogleAjusteService, setToogleAjusteService] = useState(false);
   const [active] = useSearchParams();
 
   return (
@@ -39,15 +25,23 @@ const MenuConfig = ({ config }) => {
               </li>
             </Link>
             {/* <Link> */}
-            <li className={"li"} onClick={() => setToogleAjuste(!toogleAjuste)}>
+            <li
+              className={"li"}
+              onClick={() => setToogleAjuste(!toogleAjuste)}
+              style={{ cursor: "pointer" }}>
               <ToolFilled />
               Ajuste{" "}
               {toogleAjuste ? (
-                <DownOutlined style={{ marginLeft: "30%" }} />
+                <DownOutlined
+                  style={{ marginLeft: "30%", cursor: "pointer" }}
+                />
               ) : (
-                <RightOutlined style={{ marginLeft: "30%" }} />
+                <RightOutlined
+                  style={{ marginLeft: "30%", cursor: "pointer" }}
+                />
               )}
             </li>
+
             {/* </Link> */}
             {toogleAjuste && (
               <div
@@ -92,6 +86,52 @@ const MenuConfig = ({ config }) => {
                       active.get("active") === "curso" ? "isCurso" : "li"
                     }>
                     Ajustar Curso
+                  </li>
+                </Link>
+              </div>
+            )}
+            <li
+              className={"li"}
+              onClick={() => setToogleAjusteService(!toogleAjusteService)}
+              style={{ cursor: "pointer" }}>
+              <ToolFilled />
+              Ajuste de Serviço{" "}
+              {toogleAjusteService ? (
+                <DownOutlined
+                  style={{ marginLeft: "25%", cursor: "pointer" }}
+                />
+              ) : (
+                <RightOutlined
+                  style={{ marginLeft: "25%", cursor: "pointer" }}
+                />
+              )}
+            </li>
+            {toogleAjusteService && (
+              <div
+                style={{
+                  display: "flex",
+                  width: "90%",
+                  flexDirection: "column",
+                  paddingLeft: "20px",
+                  paddingTop: "10px",
+                  background: "#efefef",
+                }}>
+                <Link to={`atualizar_cadeira_atraso/${6}?active=${"aca"}`}>
+                  <li
+                    className={active.get("active") === "aca" ? "isCda" : "li"}>
+                    Ajustar Cadeira em Atraso
+                  </li>
+                </Link>
+                <Link to={`atualizar_propina/${6}?active=${"apr"}`}>
+                  <li
+                    className={active.get("active") === "apr" ? "isApr" : "li"}>
+                    Ajustar Propina
+                  </li>
+                </Link>
+                <Link to={`atualizar_reconfirmacao/${6}?active=${"arc"}`}>
+                  <li
+                    className={active.get("active") === "arc" ? "isRC" : "li"}>
+                    Ajustar Reconfirmação
                   </li>
                 </Link>
               </div>

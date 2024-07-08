@@ -1,23 +1,30 @@
 import "./sobreCadeira.scss";
 import { BiPrinter, BiSearch, BiX } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { Dayjs } from "dayjs";
 import { formatDate } from "../../../../../../hook/timeout";
 import { api } from "../../../../../../../../../auth/auth";
 import { useEffect, useState } from "react";
 import image from "./Logo.png";
 
-function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
+function RelatorioSobreCadeira() {
   const [cadeira, setCadeira] = useState({});
+  const { id } = useParams();
+  const [tipo] = useSearchParams();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (tipo === "Cadeira em Atraso") {
+    if (tipo.get("tipo") === "Cadeira em Atraso") {
       relatorioCadeiraAtrazo();
-    } else if (tipo === "Exame Especial") {
+    } else if (tipo.get("tipo") === "Exame Especial") {
       relatorioExameEspecial();
-    } else if (tipo === "Recurso") {
+    } else if (tipo.get("tipo") === "Recurso") {
       relatorioRecurso();
     }
   }, [id]);
@@ -27,13 +34,13 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
     const con = document.getElementById("tabela").innerHTML;
     let estilo = "<style>";
     estilo +=
-      "table { border-collapse: collapse; width: 70%;margin:auto; margin-top:10px;}";
+      "table { border-collapse: collapse; width: 100%;margin:auto; margin-top:10px;}";
     estilo +=
       ".extra div{display: flex; flex-direction: column; align-items: center; margin: auto; width:100%;}";
     estilo +=
       ".extra {display: flex; flex-direction: column; align-items: center; margin: auto;}";
     estilo +=
-      "table th,td { padding: 4px;text-align: center;padding-right: 10px; font-size: 10pt;}";
+      "table th,td { padding: 4px;text-align: center;padding-right: 10px; font-size: 13pt;}";
     estilo += "table td ,th {border: 1px solid #000;}";
     estilo += "table th {background-color: #a31543; }";
     estilo +=
@@ -43,6 +50,11 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
     estilo +=
       " hr{ border-top: 2px solid #000;width: 90%;margin: auto;margin-top: 40px; }";
     estilo += " img{width: 50px;height: 50px;position: absolute; right: 0;}";
+    estilo +=
+      " .content{display: flex;width: 100%; justify-content: center; align-items: center; gap: 20px;}";
+    estilo += " .parte1{width: 48%; position: relative;}";
+    estilo += " .parte2{width: 48%;  position: relative;}";
+    estilo += " h4{display: flex; margin: auto;}";
     estilo += "</style>";
 
     const win = window.open();
@@ -57,10 +69,6 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
     win.print();
     win.close();
   };
-  function closed(e) {
-    e.preventDefault();
-    setVisivel(false);
-  }
 
   const relatorioRecurso = async () => {
     await api
@@ -116,33 +124,31 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
 
   return (
     <>
-      {visivel && (
+      <div className='relatorioCadeira'>
+        <div className='opcoesCadeira'>
+          <h2>Relatório </h2>
+
+          <Link onClick={(e) => imprimir(e)} className='LinkImprim'>
+            {" "}
+            <BiPrinter /> Imprimir{" "}
+          </Link>
+        </div>
+
         <>
-          <div className='relatorioCadeira'>
-            <div className='opcoesCadeira'>
-              <h2>Relatório </h2>
-
-              <BiX
-                size={20}
-                color='red'
-                cursor={"pointer"}
-                className='closed'
-                onClick={(e) => closed(e)}
-              />
-            </div>
-
-            <h2 className='h2'>{tipo}</h2>
-
-            <>
-              <div className='tabelaSobreCadeira' id='tabela'>
+          <div className='tabelaSobreCadeira' id='tabela'>
+            <div className='content'>
+              <div className='parte2'>
                 <div className='extra'>
                   <img src={image} alt='ISPM' />
                   <div>
+                    <h4>
+                      <strong>Tipo de Serviço: </strong>
+                      {tipo.get("tipo")}
+                    </h4>
                     <span>Curso: {cadeira?.Curso?.curso}</span>
                     <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
                   </div>
                   <br />
-                  <span className='tipo'>Tipo de Serviço: {tipo} </span>
                 </div>
 
                 <table>
@@ -183,11 +189,11 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                     <tr>
                       <td>Semestre</td>
 
-                      <td>{cadeira?.semestre?.nome}</td>
+                      <td>{cadeira?.semestre?.nome} Semestre</td>
                     </tr>
                     <tr>
                       <td>Ano de Frquência</td>
-                      <td>{cadeira?.AnoFrequncia?.ano}</td>
+                      <td>{cadeira?.AnoFrequencia?.ano} Ano</td>
                     </tr>
                     <tr>
                       <td>Forma de Pagamento</td>
@@ -197,27 +203,39 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                       <td>Solicitado</td>
                       <td>{formatDate(cadeira?.createdAt)}</td>
                     </tr>
+                    <tr>
+                      <td colSpan={2}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}>
+                          <strong
+                            style={{
+                              fontStyle: "italic",
+                            }}>
+                            Respossável:
+                          </strong>{" "}
+                          {cadeira?.usuario?.nome}
+                        </div>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
-                <div className='assinar'>
-                  <div>
-                    <hr />
-                    <span>{"(Assinatura do Estudante)"}</span>
-                  </div>
-                  <div>
-                    <hr />
-                    <span>{"(Assinatura do Operador)"}</span>
-                  </div>
-                </div>
+              </div>
 
-                <hr />
+              <div className='parte1'>
                 <div className='extra'>
+                  <img src={image} alt='ISPM' />
                   <div>
-                    <span>Curso: {cadeira?.curso?.curso}</span>
+                    <h4>
+                      <strong>Tipo de Serviço: </strong>
+                      {tipo.get("tipo")}
+                    </h4>
+                    <span>Curso: {cadeira?.Curso?.curso}</span>
                     <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
                   </div>
                   <br />
-                  <span className='tipo'>Tipo de Serviço: {tipo} </span>
                 </div>
                 <table>
                   <thead>
@@ -257,11 +275,11 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                     <tr>
                       <td>Semestre</td>
 
-                      <td>{cadeira?.semestre?.nome}</td>
+                      <td>{cadeira?.semestre?.nome} Semestre</td>
                     </tr>
                     <tr>
                       <td>Ano de Frquência</td>
-                      <td>{cadeira?.AnoFrequncia?.ano}</td>
+                      <td>{cadeira?.AnoFrequencia?.ano} Ano</td>
                     </tr>
                     <tr>
                       <td>Forma de Pagamento</td>
@@ -271,31 +289,31 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
                       <td>Solicitado</td>
                       <td>{formatDate(cadeira?.createdAt)}</td>
                     </tr>
+                    <tr>
+                      <td colSpan={2}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}>
+                          <strong
+                            style={{
+                              fontStyle: "italic",
+                            }}>
+                            Respossável:
+                          </strong>{" "}
+                          {cadeira?.usuario?.nome}
+                        </div>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
-                <div className='assinar'>
-                  <div>
-                    <hr />
-                    <span>{"(Assinatura do Estudante)"}</span>
-                  </div>
-                  <div>
-                    <hr />
-                    <span>{"(Assinatura do Operador)"}</span>
-                  </div>
-                </div>
               </div>
-
-              <div className='imprimirCadeira'>
-                <Link onClick={(e) => imprimir(e)}>
-                  {" "}
-                  <BiPrinter /> Imprimir{" "}
-                </Link>
-              </div>
-            </>
+            </div>
           </div>
-          <div className='overley'></div>
         </>
-      )}
+      </div>
+      <div className='overley'></div>
     </>
   );
 }

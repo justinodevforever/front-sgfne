@@ -53,7 +53,6 @@ const Grafico = () => {
         }
 
         setDiurno(data.data);
-        console.log(data.data, "dksjsk");
       })
       .catch((error) => console.log(error));
   };

@@ -7,8 +7,9 @@ import EditarPropina from "./editar/Editar";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const AtualizarReconfirmacao = () => {
   const [isClick, setIsClick] = useState(false);
@@ -127,64 +128,55 @@ const AtualizarReconfirmacao = () => {
       <EditarPropina propinas={reconfirmacoes} />
       <div className='atualizarReconfirmacao'>
         <div className='opcoes'>
-          <form className='formBi'>
-            <div className='cc'>
-              <select
+          <div className='ccReconfirmacao'>
+            <FormControl>
+              <InputLabel>Ano Lectivo</InputLabel>
+              <Select
+                label='Ano Lectivo'
                 onChange={(e) => setAno(e.target.value)}
                 style={{
-                  width: "300px",
-                  borderRadius: "5px",
-                  height: "50px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
+                  width: "200px",
                 }}>
-                <option value='Escolha'>Ano Lectivo</option>
-
                 {anos.map((ano) => (
-                  <option value={ano.ano} key={ano.id}>
+                  <MenuItem value={ano.ano} key={ano.id}>
                     {ano.ano}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-              <select
+              </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel>Ano de Frequência</InputLabel>
+              <Select
+                label='Ano de Frequência'
                 onChange={(e) => setFrequencia(e.target.value)}
                 style={{
-                  width: "300px",
-                  borderRadius: "5px",
-                  height: "50px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
+                  width: "200px",
                 }}>
-                <option value='Escolha'>Ano de Frequência</option>
-                {frequencias.map((m) => (
-                  <option value={m.ano} key={m.id}>
-                    {m.ano}
-                  </option>
+                {frequencias.map((ano) => (
+                  <MenuItem value={ano.ano} key={ano.id}>
+                    {ano.ano}
+                  </MenuItem>
                 ))}
-              </select>
-              <select
+              </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel>Semestre</InputLabel>
+              <Select
+                label='Semestre'
                 onChange={(e) => setSemestre(e.target.value)}
                 style={{
-                  width: "300px",
-                  borderRadius: "5px",
-                  height: "50px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
+                  width: "200px",
                 }}>
-                <option value='Escolha'>Semestre</option>
-
                 {semestres.map((s) => (
-                  <option value={s.nome} key={s.id}>
+                  <MenuItem value={s.nome} key={ano.id}>
                     {s.nome}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </div>
-          </form>
-          <form className='form' onSubmitCapture={() => buscaReconfirmacao()}>
+              </Select>
+            </FormControl>
+          </div>
+
+          <Form className='form' onSubmitCapture={() => buscaReconfirmacao()}>
             <div style={{ marginTop: "10px" }}>
               <Input.Search
                 placeholder='Número de BI do Estudante'
@@ -250,7 +242,7 @@ const AtualizarReconfirmacao = () => {
                 </tbody>
               </table>
             )}
-          </form>
+          </Form>
         </div>
       </div>
     </>

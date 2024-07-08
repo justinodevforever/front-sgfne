@@ -19,20 +19,13 @@ const PermissoesUSuario = () => {
   const [salvar, setSalvar] = useState(false);
   const [listar, setListar] = useState(false);
   const [actualizar, setActualizar] = useState(false);
-  const [secretario, setSecretario] = useState(false);
   const [message, setMessage] = useState(false);
   const [fk_user, setFk_user] = useState(0);
   const [todos, setTodos] = useState(false);
   const [permissoes, setPermissoes] = useState([]);
-  const [permissoesSalvar, setPermissoesSalvar] = useState([]);
-  const [permissoesListar, setPermissoesListar] = useState([]);
-  const [permissoesRemover, setPermissoesRemover] = useState([]);
-  const [permissoesMessage, setPermissoesMessage] = useState([]);
-  const [permissoesTodos, setPermissoesTodos] = useState([]);
   const [edicaoId, setEdicaoId] = useState(0);
   const [removerId, setRemoverId] = useState(0);
   const [salverId, setSalverId] = useState(0);
-  const [secretarioId, setSecretarioId] = useState(0);
   const [todosId, setTodosId] = useState(0);
   const [listarId, setListarId] = useState(0);
   const navigate = useNavigate();
@@ -55,9 +48,6 @@ const PermissoesUSuario = () => {
   }, [bi]);
   useEffect(() => {
     pegarPermissoesUsuarioSalvar();
-  }, [bi]);
-  useEffect(() => {
-    pegarPermissoesUsuarioSecretario();
   }, [bi]);
 
   const pegarPermissoes = async (e) => {
@@ -85,7 +75,6 @@ const PermissoesUSuario = () => {
         const permissao = data.data.filter(
           (p) => p?.permission?.permissao === "edição" && p.user?.bi === bi
         );
-        console.log(permissao);
         if (bi !== permissao[0]?.user?.bi) {
           setActualizar(false);
           return;
@@ -172,30 +161,7 @@ const PermissoesUSuario = () => {
       })
       .catch((error) => console.log(error));
   };
-  const pegarPermissoesUsuarioSecretario = async (e) => {
-    await api
-      .get("/permissaousuario")
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
 
-        const permissao = data.data.filter(
-          (p) => p?.permission?.permissao === "secretário" && p?.user?.bi === bi
-        );
-
-        if (bi === permissao[0]?.user.bi) {
-          if (permissao[0]?.permission?.permissao === "secretário") {
-            setSecretario(true);
-            setSecretarioId(permissao[0].id);
-          }
-        } else {
-          setSecretario(false);
-        }
-      })
-      .catch((error) => console.log(error));
-  };
   const pegarPermissoesUsuarioTodos = async (e) => {
     await api
       .get("/permissaousuario")
@@ -357,41 +323,7 @@ const PermissoesUSuario = () => {
       setListar(false);
     }
   };
-  const toggleSecretarioTrue = async (e) => {
-    e.preventDefault();
-    const permissao = permissoes.filter((d) => d.permissao === "secretário");
 
-    if (fk_user === 0 || !permissao[0].id) {
-      setMessage("Sem Usuário Selecionado");
-      dispatchWarning(toggleModalWarning(true));
-      return;
-    }
-
-    setSecretario(true);
-
-    await api
-      .post("/permissaousuario", {
-        fk_user,
-        fk_permission: permissao[0].id,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-      })
-
-      .catch((err) => console.log(err));
-  };
-  const toggleSecretario = async (e) => {
-    e.preventDefault();
-    const permissao = permissoes.filter((d) => d.permissao === "secretário");
-    if (secretarioId !== 0 && permissao[0]?.permissao && fk_user !== 0) {
-      await api.delete(`/permissaousuario/${secretarioId}`);
-
-      setSecretario(false);
-    }
-  };
   const toggleRemoveTrue = async (e) => {
     e.preventDefault();
     const permissao = permissoes.filter((d) => d.permissao === "remover");
@@ -438,7 +370,6 @@ const PermissoesUSuario = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data, "dnjd");
         setNome(data.data.nome);
         setFk_user(data.data.id);
       })
@@ -446,185 +377,160 @@ const PermissoesUSuario = () => {
       .catch((err) => console.log(err));
   };
 
-  const hendlePermissions = async () => {};
   return (
-    <PegarPermissoes permissoes={["admin"]}>
-      <UseWarning message={message} />
-      <div className='permissoesUsuario'>
-        <Form className='form' onClick={(e) => pegarUSuario(e)}>
-          <Input.Search
-            type='search'
-            placeholder='Digite o Número do B.I'
-            value={bi}
-            onChange={(e) => setBi(e.target.value)}
-            autoFocus
-            maxLength={14}
-            style={{
-              width: "90%",
-            }}
-          />
-        </Form>
-        <div className='nome'>{nome && <h2>Nome do Usuário: {nome}</h2>}</div>
-        <div className='div-permissao'>
-          <div>
-            <FaUserLock />
+    <>
+      <PegarPermissoes permissoes={["admin", "salvar"]}>
+        <UseWarning message={message} />
+        <div className='permissoesUsuario'>
+          <Form className='form' onClick={(e) => pegarUSuario(e)}>
+            <Input.Search
+              type='search'
+              placeholder='Digite o Número do B.I'
+              value={bi}
+              onChange={(e) => setBi(e.target.value)}
+              autoFocus
+              maxLength={14}
+              style={{
+                width: "90%",
+              }}
+            />
+          </Form>
+          <div className='nome'>{nome && <h2>Nome do Usuário: {nome}</h2>}</div>
+          <div className='div-permissao'>
+            <div>
+              <FaUserLock />
 
-            <p>
-              Permitir <strong>Todos acessos</strong> para usuário básico
-            </p>
+              <p>
+                Permitir <strong>Todos acessos</strong> para usuário básico
+              </p>
+            </div>
+
+            {!todos && (
+              <BiSolidToggleLeft
+                size={50}
+                color='#cfcfcf'
+                cursor={"pointer"}
+                onClick={(e) => toggleTodosTrue(e)}
+              />
+            )}
+
+            {todos && (
+              <BiSolidToggleRight
+                size={50}
+                color='#a31543'
+                onClick={(e) => toggleTodos(e)}
+                cursor={"pointer"}
+              />
+            )}
+          </div>
+          <div className='div-permissao'>
+            <div>
+              <FaUserClock />
+              <p>
+                Permitir o <strong>acesso</strong> de <strong>Eliminar</strong>{" "}
+                o estudante para usuário básico
+              </p>
+            </div>
+            {!remover && (
+              <BiSolidToggleLeft
+                size={50}
+                color='#cfcfcf'
+                cursor={"pointer"}
+                onClick={(e) => toggleRemoveTrue(e)}
+              />
+            )}
+
+            {remover && (
+              <BiSolidToggleRight
+                size={50}
+                color='red'
+                onClick={(e) => toggleRemove(e)}
+                cursor={"pointer"}
+              />
+            )}
+          </div>
+          <div className='div-permissao'>
+            <div>
+              <FaUserLock />
+              <p>
+                Permitir o <strong>acesso</strong> de <strong>Listar</strong> o
+                estudante para usuário básico
+              </p>
+            </div>
+            {!listar && (
+              <BiSolidToggleLeft
+                size={50}
+                color='#cfcfcf'
+                cursor={"pointer"}
+                onClick={(e) => toggleListTrue(e)}
+              />
+            )}
+
+            {listar && (
+              <BiSolidToggleRight
+                size={50}
+                color='blue'
+                onClick={(e) => toggleList(e)}
+                cursor={"pointer"}
+              />
+            )}
+          </div>
+          <div className='div-permissao'>
+            <div>
+              <FaUserLock />
+              <p>
+                Permitir o <strong>acesso</strong> de <strong>Salvar</strong> o
+                estudante para usuário básico
+              </p>
+            </div>
+            {!salvar && (
+              <BiSolidToggleLeft
+                size={50}
+                color='#cfcfcf'
+                cursor={"pointer"}
+                onClick={(e) => toggleSaveTrue(e)}
+              />
+            )}
+
+            {salvar && (
+              <BiSolidToggleRight
+                size={50}
+                color='green'
+                onClick={(e) => toggleSave(e)}
+                cursor={"pointer"}
+              />
+            )}
           </div>
 
-          {!todos && (
-            <BiSolidToggleLeft
-              size={50}
-              color='#cfcfcf'
-              cursor={"pointer"}
-              onClick={(e) => toggleTodosTrue(e)}
-            />
-          )}
+          <div className='div-permissao'>
+            <div>
+              <FaUserLock />
+              <p>
+                Permitir o <strong>acesso</strong> de{" "}
+                <strong>Actualizar</strong> o estudante para usuário básico
+              </p>
+            </div>
+            {!actualizar && (
+              <BiSolidToggleLeft
+                size={50}
+                color='#cfcfcf'
+                cursor={"pointer"}
+                onClick={(e) => toggleupDateTrue(e)}
+              />
+            )}
 
-          {todos && (
-            <BiSolidToggleRight
-              size={50}
-              color='#a31543'
-              onClick={(e) => toggleTodos(e)}
-              cursor={"pointer"}
-            />
-          )}
-        </div>
-        <div className='div-permissao'>
-          <div>
-            <FaUserClock />
-            <p>
-              Permitir o <strong>acesso</strong> de <strong>Eliminar</strong> o
-              estudante para usuário básico
-            </p>
+            {actualizar && (
+              <BiSolidToggleRight
+                size={50}
+                color='orange'
+                onClick={(e) => toggleupDate(e)}
+                cursor={"pointer"}
+              />
+            )}
           </div>
-          {!remover && (
-            <BiSolidToggleLeft
-              size={50}
-              color='#cfcfcf'
-              cursor={"pointer"}
-              onClick={(e) => toggleRemoveTrue(e)}
-            />
-          )}
-
-          {remover && (
-            <BiSolidToggleRight
-              size={50}
-              color='red'
-              onClick={(e) => toggleRemove(e)}
-              cursor={"pointer"}
-            />
-          )}
         </div>
-        <div className='div-permissao'>
-          <div>
-            <FaUserLock />
-            <p>
-              Permitir o <strong>acesso</strong> de <strong>Listar</strong> o
-              estudante para usuário básico
-            </p>
-          </div>
-          {!listar && (
-            <BiSolidToggleLeft
-              size={50}
-              color='#cfcfcf'
-              cursor={"pointer"}
-              onClick={(e) => toggleListTrue(e)}
-            />
-          )}
-
-          {listar && (
-            <BiSolidToggleRight
-              size={50}
-              color='blue'
-              onClick={(e) => toggleList(e)}
-              cursor={"pointer"}
-            />
-          )}
-        </div>
-        <div className='div-permissao'>
-          <div>
-            <FaUserLock />
-            <p>
-              Permitir o <strong>acesso</strong> de <strong>Salvar</strong> o
-              estudante para usuário básico
-            </p>
-          </div>
-          {!salvar && (
-            <BiSolidToggleLeft
-              size={50}
-              color='#cfcfcf'
-              cursor={"pointer"}
-              onClick={(e) => toggleSaveTrue(e)}
-            />
-          )}
-
-          {salvar && (
-            <BiSolidToggleRight
-              size={50}
-              color='green'
-              onClick={(e) => toggleSave(e)}
-              cursor={"pointer"}
-            />
-          )}
-        </div>
-        <div className='div-permissao'>
-          <div>
-            <FaUserLock />
-            <p>
-              Permitir o Usuário <strong>Exercer</strong> Função{" "}
-              <strong>de Secretário</strong>
-            </p>
-          </div>
-
-          {!secretario && (
-            <BiSolidToggleLeft
-              size={50}
-              color='#cfcfcf'
-              cursor={"pointer"}
-              onClick={(e) => toggleSecretarioTrue(e)}
-            />
-          )}
-
-          {secretario && (
-            <BiSolidToggleRight
-              size={50}
-              color='#a31543'
-              onClick={(e) => toggleSecretario(e)}
-              cursor={"pointer"}
-            />
-          )}
-        </div>
-        <div className='div-permissao'>
-          <div>
-            <FaUserLock />
-            <p>
-              Permitir o <strong>acesso</strong> de <strong>Actualizar</strong>{" "}
-              o estudante para usuário básico
-            </p>
-          </div>
-          {!actualizar && (
-            <BiSolidToggleLeft
-              size={50}
-              color='#cfcfcf'
-              cursor={"pointer"}
-              onClick={(e) => toggleupDateTrue(e)}
-            />
-          )}
-
-          {actualizar && (
-            <BiSolidToggleRight
-              size={50}
-              color='orange'
-              onClick={(e) => toggleupDate(e)}
-              cursor={"pointer"}
-            />
-          )}
-        </div>
-      </div>
-    </PegarPermissoes>
+      </PegarPermissoes>
+    </>
   );
 };
 

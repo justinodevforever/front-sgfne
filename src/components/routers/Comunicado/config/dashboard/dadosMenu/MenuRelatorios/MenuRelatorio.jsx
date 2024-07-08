@@ -42,7 +42,7 @@ const MenuRelatorio = ({ printer }) => {
                 R. Financeiro Por Regime
               </li>
             </Link>
-            <Link>
+            <Link to={`/movimento_financeiro/${4}?ative=${"mv"}`}>
               <li className={"li"}>
                 <PrinterFilled />
                 Movimento Do Caixa

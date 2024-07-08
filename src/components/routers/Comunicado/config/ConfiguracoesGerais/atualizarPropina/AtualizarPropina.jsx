@@ -7,7 +7,10 @@ import EditarPropina from "./editar/Editar";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
-import { Input } from "antd";
+import { Form, Input } from "antd";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import UseSucess from "../../../../hook/massege/sucess/UseSucess";
+import UseErro from "../../../../hook/massege/Error/UseErro";
 
 const AtualizarPropina = () => {
   const [isClick, setIsClick] = useState(false);
@@ -62,7 +65,7 @@ const AtualizarPropina = () => {
       alert("Existe um Campo Vazio!");
       return;
     }
-    setLoading(true);
+    // setLoading(true);
     await api
       .post("/propina/mensal", {
         mes,
@@ -74,6 +77,7 @@ const AtualizarPropina = () => {
           navigate("/login");
           return;
         }
+
         setLoading(false);
         if (data.data) {
           setPropinas(data.data);
@@ -84,7 +88,10 @@ const AtualizarPropina = () => {
           setPropinas([]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log("err");
+        setLoading(false);
+      });
   };
 
   function deletePropina(e) {
@@ -98,46 +105,43 @@ const AtualizarPropina = () => {
   return (
     <>
       {isClick && <UseRemoverConfirm id={id} setIsClick={setIsClick} />}
+
       <EditarPropina propinas={propinas} />
       <div className='atualizarPropinas'>
         <div className='opcoes'>
-          <form className='formBi'>
-            <div className='cc'>
-              <select
+          <div className='formBiPropina'>
+            <FormControl>
+              <InputLabel>Mês</InputLabel>
+              <Select
+                label='Mês'
                 onChange={(e) => setMes(e.target.value)}
                 style={{
-                  width: "300px",
-                  borderRadius: "5px",
-                  height: "50px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
+                  width: "200px",
                 }}>
                 {meses.map((m) => (
-                  <option value={m.mes} key={m.id}>
+                  <MenuItem value={m.mes} key={m.id}>
                     {m.mes}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-              <select
+              </Select>
+            </FormControl>
+            <FormControl>
+              <InputLabel>Ano Lectivo</InputLabel>
+              <Select
+                label='Ano Lectivo'
                 onChange={(e) => setAno(e.target.value)}
                 style={{
-                  width: "300px",
-                  borderRadius: "5px",
-                  height: "50px",
-                  fontWeight: "200",
-                  fontSize: "20px",
-                  border: "1px solid #ddd",
+                  width: "200px",
                 }}>
                 {anos.map((ano) => (
-                  <option value={ano.ano} key={ano.id}>
+                  <MenuItem value={ano.ano} key={ano.id}>
                     {ano.ano}
-                  </option>
+                  </MenuItem>
                 ))}
-              </select>
-            </div>
-          </form>
-          <form className='form' onSubmitCapture={() => buscaPropina()}>
+              </Select>
+            </FormControl>
+          </div>
+          <Form className='form' onSubmitCapture={() => buscaPropina()}>
             <div style={{ marginTop: "10px" }}>
               <Input.Search
                 placeholder='Número de BI do Estudante'
@@ -150,62 +154,61 @@ const AtualizarPropina = () => {
                 style={{ width: "70%" }}
               />
             </div>
-            <hr
-              style={{
-                marginTop: "30px",
-              }}
-            />
+          </Form>
+          <hr
+            style={{
+              marginTop: "30px",
+            }}
+          />
 
-            {propinas?.estudante?.nome && (
-              <table>
-                <thead>
-                  <tr>
-                    <th>Nome</th>
-                    <th>B.I</th>
-                    <th>RUPE</th>
-                    <th>Valor</th>
-                    <th>Mês</th>
-                    <th>Ano Letivo</th>
-                    <PegarPermissoes
-                      permissoes={["admin", "remover", "edição"]}>
-                      <th colSpan={2}>Opções</th>
-                    </PegarPermissoes>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{propinas?.estudante?.nome}</td>
-                    <td>{propinas?.estudante?.bi}</td>
-                    <td>{propinas?.rupe}</td>
-                    <td>{propinas?.valor} Kz</td>
-                    <td>{propinas?.mes?.mes}</td>
-                    <td>{propinas?.anoLectivo?.ano}</td>
-                    <PegarPermissoes permissoes={["admin", "edição"]}>
-                      <td>
-                        <BiEdit
-                          title='Editar Este Mês'
-                          cursor={"pointer"}
-                          color='blue'
-                          onClick={(e) => editarPropina(e)}
-                        />
-                      </td>
-                    </PegarPermissoes>
-                    <PegarPermissoes permissoes={["admin", "remover"]}>
-                      <td>
-                        <BiX
-                          title='Eliminar Este Mês'
-                          color='red'
-                          cursor={"pointer"}
-                          size={20}
-                          onClick={(e) => deletePropina(e)}
-                        />
-                      </td>
-                    </PegarPermissoes>
-                  </tr>
-                </tbody>
-              </table>
-            )}
-          </form>
+          {propinas?.estudante?.nome && (
+            <table>
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>B.I</th>
+                  <th>RUPE</th>
+                  <th>Valor</th>
+                  <th>Mês</th>
+                  <th>Ano Letivo</th>
+                  <PegarPermissoes permissoes={["admin", "remover", "edição"]}>
+                    <th colSpan={2}>Opções</th>
+                  </PegarPermissoes>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{propinas?.estudante?.nome}</td>
+                  <td>{propinas?.estudante?.bi}</td>
+                  <td>{propinas?.rupe}</td>
+                  <td>{propinas?.valor} Kz</td>
+                  <td>{propinas?.mes?.mes}</td>
+                  <td>{propinas?.anoLectivo?.ano}</td>
+                  <PegarPermissoes permissoes={["admin", "edição"]}>
+                    <td>
+                      <BiEdit
+                        title='Editar Este Mês'
+                        cursor={"pointer"}
+                        color='blue'
+                        onClick={(e) => editarPropina(e)}
+                      />
+                    </td>
+                  </PegarPermissoes>
+                  <PegarPermissoes permissoes={["admin", "remover"]}>
+                    <td>
+                      <BiX
+                        title='Eliminar Este Mês'
+                        color='red'
+                        cursor={"pointer"}
+                        size={20}
+                        onClick={(e) => deletePropina(e)}
+                      />
+                    </td>
+                  </PegarPermissoes>
+                </tr>
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </>

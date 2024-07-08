@@ -312,6 +312,10 @@ const RecursoDashboard = () => {
 
       return;
     }
+    const daF = formatDateNumber(Date.now());
+    let dateI = daF.replace(/-/g, "/");
+    const partes = dateI.split("/");
+    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
     setAtivar(true);
     await api
       .post("/recurso", {
@@ -324,7 +328,7 @@ const RecursoDashboard = () => {
         fk_semestre,
         fk_ano,
         fk_user: sessionStorage.getItem("id"),
-        dataSolicitacao: formatDateNumber(Date.now()),
+        dataSolicitacao: di,
       })
       .then(async (data) => {
         if (data.data === "Token Invalid") {
@@ -341,7 +345,7 @@ const RecursoDashboard = () => {
           const response = await api.post("/listarecurso", {
             fk_recurso: data.data.response.id,
           });
-          console.log(response);
+
           if (response.data.messae === "error") {
             return dispatchError(toggleModalError(true));
           }
@@ -349,7 +353,9 @@ const RecursoDashboard = () => {
           let co = 0;
 
           id = setInterval(() => {
-            setVisivel(true);
+            navigate(
+              `/relatorio_service/${data.data.response.id}?tipo=${"Recurso"}`
+            );
             if (co === 4) return clearInterval(id);
             co++;
           }, 4000);
@@ -561,13 +567,6 @@ const RecursoDashboard = () => {
           </div>
         )}
       </div>
-
-      <RelatorioSobreCadeira
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo={"Recurso"}
-        id={id}
-      />
     </>
   );
 };

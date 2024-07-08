@@ -2,25 +2,45 @@ import { useEffect, useState } from "react";
 import "./useRemoverConfirm.scss";
 import { api } from "../../../../../../../../auth/auth";
 import { PiWarning } from "react-icons/pi";
+import { useDispatch } from "react-redux";
+import {
+  toggleModalConfirmar,
+  toggleModalError,
+} from "../../../../../../../store/ui-slice";
+import UseSucess from "../../../../../hook/massege/sucess/UseSucess";
+import UseErro from "../../../../../hook/massege/Error/UseErro";
 
 const UseRemoverConfirm = ({ id, setIsClick }) => {
+  const dispatchError = useDispatch();
+  const dispatchConfirmar = useDispatch();
+
   async function deletePropina(e) {
     e.preventDefault();
     await api
-      .delete(`/propina/${id}`)
+      .delete(`/reconfirmacao/${id}`)
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
-
-        setIsClick(true);
+        if (data.data.message === "sucess") {
+          dispatchConfirmar(toggleModalConfirmar(true));
+          setIsClick(false);
+          return;
+        }
+        if (data.data.message === "error") {
+          dispatchError(toggleModalError(true));
+          setIsClick(false);
+          return;
+        }
       })
       .catch((err) => console.log(err));
   }
 
   return (
     <>
+      <UseSucess />
+      <UseErro />
       <div className='container-RemoverConfirmacao'>
         <h2>Pretendes Eliminar Este Mês?</h2>
         <p>Caso Eliminar Deixará de Existe, Queres Continuar</p>

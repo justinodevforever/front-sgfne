@@ -290,16 +290,13 @@ const Dashboard = () => {
                 width: "90%",
                 justifyContent: "space-between",
               }}>
-              <li>
-                <Input.Search
-                  height={20}
-                  placeholder='Digite o Mês'
-                  style={{ height: "20px" }}
-                />
-              </li>
+              <li></li>
               <li>
                 {image == undefined || null || image.length == 0 ? (
                   <Link
+                    style={{
+                      borderRadius: "50%",
+                    }}
                     className='perfil img'
                     to={`/perfil/${sessionStorage.getItem("id")}`}>
                     <img
@@ -311,6 +308,9 @@ const Dashboard = () => {
                 ) : (
                   <div>
                     <Link
+                      style={{
+                        borderRadius: "50%",
+                      }}
                       className='perfil'
                       to={`/perfil/${sessionStorage.getItem("id")}`}>
                       <img src={image?.nome} alt={""} className='suserImage' />

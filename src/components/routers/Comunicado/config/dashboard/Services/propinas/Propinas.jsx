@@ -215,6 +215,10 @@ const PropinaDashboard = ({ tipo }) => {
       dispatchError(toggleModalError(true));
       return;
     }
+    const daF = formatDateNumber(Date.now());
+    let dateI = daF.replace(/-/g, "/");
+    const partes = dateI.split("/");
+    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
 
     await api
       .post("/propina", {
@@ -226,7 +230,7 @@ const PropinaDashboard = ({ tipo }) => {
         fk_ano: data.fk_ano,
         valor,
         rupe: Number(data.rupe),
-        dataSolicitacao: formatDateNumber(Date.now()),
+        dataSolicitacao: di,
       })
       .then(async (data) => {
         if (data.data === "Token Invalid") {

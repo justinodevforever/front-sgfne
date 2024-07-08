@@ -26,12 +26,12 @@
 }
 .comunicado .openMenu a {
   color: #ffff;
-  font-family: Arial, Helvetica, sans-serif;
   font-size: 14pt;
   width: 100%;
   text-align: left;
   transition: 0.8s;
 }
+
 .comunicado .openMenu a:hover {
   color: #fff;
   background-color: #b5617c;

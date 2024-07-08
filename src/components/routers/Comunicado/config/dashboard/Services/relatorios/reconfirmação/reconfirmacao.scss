@@ -1,14 +1,5 @@
 @import "../../../../../../../../style/variable.scss";
-.overley {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: #000;
-  top: 0;
-  left: 0;
-  opacity: 0.6;
-  z-index: 2;
-}
+
 .extra div {
   display: flex;
   flex-direction: column;
@@ -22,23 +13,19 @@
 
 .relatorioReconformacao {
   display: flex;
-  position: fixed;
   margin: auto;
   flex-direction: column;
-  width: 70%;
-  height: 550px;
+  width: 100%;
+  height: 100%;
   background-color: #fff;
-  top: 80px;
-  z-index: 3;
-  left: 15%;
-  // border-radius: 20px;
+  padding-bottom: 20px;
   overflow-y: auto;
 }
 .relatorioReconformacao .opcoes {
   display: flex;
   justify-content: space-between;
   position: fixed;
-  width: 66%;
+  width: 96%;
   padding: 10px;
   z-index: 3;
 }
@@ -107,29 +94,10 @@
   margin: auto;
   top: -10px;
 }
-.relatorioReconformacao .opcoes a:hover::before {
-  content: "";
-  height: 2px;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background-color: #a31543;
-  animation: outline 0.7s ease-out;
-}
 
-@keyframes outline {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
-}
 .relatorioReconformacao .imprimirReconfirmacao {
   display: flex;
-  padding: 20px;
-  width: 100%;
+  padding-top: 5px;
   align-items: center;
   justify-content: center;
 }
@@ -139,7 +107,7 @@
   color: #fff;
   border-radius: 10px;
   padding: 10px;
-  width: 40%;
+  width: 100px;
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -166,31 +134,8 @@
   justify-content: center;
   justify-content: space-between;
 }
-.relatorioReconformacao .formBi input {
-  display: flex;
-  width: 20%;
-  background-color: #fff;
-  border: none;
-  border-radius: 10px;
-  padding: 2px 4px;
-  color: #000;
-}
+
 .relatorioReconformacao .form {
   width: 100%;
   margin: auto;
-}
-.relatorioReconformacao select {
-  width: 100px;
-  height: 30px;
-  font-size: 14pt;
-  margin-right: 10px;
-  margin-left: 10px;
-  border: 2px solid #a31543;
-}
-.relatorioReconformacao label {
-  display: flex;
-  font-size: 12pt;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
 }

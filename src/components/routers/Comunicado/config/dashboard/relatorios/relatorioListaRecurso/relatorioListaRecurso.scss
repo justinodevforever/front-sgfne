@@ -1,13 +1,19 @@
 .RelatorioListaRecurso {
   display: flex;
+  width: 100%;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding-top: 20px;
+}
+.RelatorioListaRecurso table {
+  margin: auto;
+  width: 90%;
 }
 .RelatorioListaRecurso table td,
 th {
   border: none;
   border-bottom: 1px solid #000;
-  //   border-left: 1px solid #000;
 }
 label {
   color: #000;

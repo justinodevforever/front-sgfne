@@ -95,6 +95,11 @@ function Perfil() {
         <Link to={`/fotos/${id}`} className='linkes'>
           Fotos
         </Link>
+        {user?.id == sessionStorage.getItem("id") && (
+          <Link to={"/editar_perfil"} className='linkes'>
+            Editar Perfil
+          </Link>
+        )}
 
         <Skeleton loading={loading}>
           <div className='dados-perfil'>

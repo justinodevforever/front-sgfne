@@ -22,6 +22,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { formatDateNumber } from "../../../../../hook/timeout";
 
 const ReconfirmacaoDashboard = () => {
   const [bi, setBi] = useState("");
@@ -83,7 +84,7 @@ const ReconfirmacaoDashboard = () => {
     }
     setLoading(true);
     const { data } = await api.post("/divida", { bi });
-    console.log(data);
+
     if (data.message === "está com dívida") {
       setCurso("");
       setMessage(`Está com Dívida de ${data.dividas.length} Meses!`);
@@ -220,6 +221,10 @@ const ReconfirmacaoDashboard = () => {
       dispatchWarning(toggleModalWarning(true));
       return;
     }
+    const daF = formatDateNumber(Date.now());
+    let dateI = daF.replace(/-/g, "/");
+    const partes = dateI.split("/");
+    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
     await api
       .post("/reconfirmacao", {
         fk_curso,
@@ -230,13 +235,14 @@ const ReconfirmacaoDashboard = () => {
         rupe: Number(data.rupe),
         fk_frequencia: data.fk_frequencia,
         fk_user: sessionStorage.getItem("id"),
-        dataSolicitacao: formatDateNumber(Date.now()),
+        dataSolicitacao: di,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
+
         if (data.data?.message === "sucess") {
           dispatchConfirmar(toggleModalConfirmar(true));
           setId(data.data.response.id);
@@ -244,7 +250,7 @@ const ReconfirmacaoDashboard = () => {
           let co = 0;
 
           id = setInterval(() => {
-            setVisivel(true);
+            navigate(`/relatorio_reconfirmacao/${data.data?.response?.id}`);
             if (co === 4) return clearInterval(id);
             co++;
           }, 4000);
@@ -258,11 +264,6 @@ const ReconfirmacaoDashboard = () => {
 
   return (
     <>
-      <RelatorioReconfirmacao
-        setVisivel={setVisivel}
-        visivel={visivel}
-        id={id}
-      />
       <UseWarning message={message} />
       <UseSucess />
       <UseErro />
@@ -423,11 +424,6 @@ const ReconfirmacaoDashboard = () => {
             </button>
           </div>
         )}
-
-        {/* <div className="imprimir" onClick={() => setVisivel(true)}>
-            <PiPrinter color="#fff" size={20} cursor={"pointer"} />
-            <span>Relatório</span>
-          </div> */}
       </form>
     </>
   );

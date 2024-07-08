@@ -23,6 +23,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { formatDateNumber } from "../../../../../hook/timeout";
 
 const SobreCadeirasDashboard = () => {
   const [bi, setBi] = useState("");
@@ -300,6 +301,10 @@ const SobreCadeirasDashboard = () => {
 
       return;
     }
+    const daF = formatDateNumber(Date.now());
+    let dateI = daF.replace(/-/g, "/");
+    const partes = dateI.split("/");
+    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
     setAtivar(true);
     await api
       .post("/cadeira/atraso", {
@@ -312,7 +317,7 @@ const SobreCadeirasDashboard = () => {
         fk_semestre,
         fk_ano,
         fk_user: sessionStorage.getItem("id"),
-        dataSolicitacao: formatDateNumber(Date.now()),
+        dataSolicitacao: di,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -333,7 +338,11 @@ const SobreCadeirasDashboard = () => {
           let co = 0;
 
           id = setInterval(() => {
-            setVisivel(true);
+            navigate(
+              `/relatorio_service/${
+                data.data.response.id
+              }?tipo=${"Cadeira em Atraso"}`
+            );
             if (co === 4) return clearInterval(id);
             co++;
           }, 4000);
@@ -529,13 +538,6 @@ const SobreCadeirasDashboard = () => {
           </div>
         )}
       </div>
-
-      <RelatorioSobreCadeira
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo='Cadeira em Atraso'
-        id={id}
-      />
     </>
   );
 };

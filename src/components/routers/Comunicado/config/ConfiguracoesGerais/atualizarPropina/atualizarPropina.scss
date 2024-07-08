@@ -1,9 +1,8 @@
 @import "../../../../../../style/variable.scss";
 .atualizarPropinas {
   display: flex;
-  width: 98%;
+  width: 97%;
   margin-top: 40px;
-  border: 1px solid $rosa;
   margin-left: 20px;
 }
 .atualizarPropinas .opcoes {
@@ -12,10 +11,11 @@
   width: 100%;
   margin-top: 0px;
 }
-.atualizarPropinas .formBi {
+.atualizarPropinas .formBiPropina {
   display: flex;
-  background-color: $rosa;
-  padding: 10px 0px;
+  width: 100%;
+  gap: 40px;
+  padding: 20px 0px;
 }
 .atualizarPropinas th {
   background-color: $rosa;
@@ -34,14 +34,6 @@
   margin-top: 20px;
 }
 
-.atualizarPropinas .pagamento-propina input {
-  border: 2px solid $rosa;
-  border-radius: 10px;
-  padding: 10px;
-}
-.atualizarPropinas .pagamento-propina input::placeholder {
-  font-size: 12pt;
-}
 .atualizarPropinas .opcoes .cc {
   width: 50%;
   align-items: center;

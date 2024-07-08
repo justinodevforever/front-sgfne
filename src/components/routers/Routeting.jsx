@@ -51,6 +51,10 @@ import Mes from "./Comunicado/config/configuracoes/cadastrarMes/Mes.jsx";
 import PermissoesUSuario from "./Comunicado/config/ConfiguracoesGerais/permissoes/PermissoesUsuario.jsx";
 import RelatorioListaRecurso from "./Comunicado/config/dashboard/relatorios/relatorioListaRecurso/RelatorioListaRecurso.jsx";
 import RelatorioRegime from "./Comunicado/config/dashboard/relatorios/RelatorioRegime/RelatorioRegime.jsx";
+import EditarPerfil from "./perfil/Menu Perfil/editarPErfil/EditarPerfil.jsx";
+import RelatorioReconfirmacao from "./Comunicado/config/dashboard/Services/relatorios/reconfirmação/Reconfirmacao.jsx";
+import RelatorioSobreCadeira from "./Comunicado/config/dashboard/Services/relatorios/SobreCadeira/SobreCadeira.jsx";
+import MovimentoFinanceiro from "./Comunicado/config/dashboard/relatorios/Movimeto Finaceiro/MovimentoFinanceiro.jsx";
 
 const Routeting = () => {
   return (
@@ -59,6 +63,24 @@ const Routeting = () => {
         <Route exact path='/' element={<Root />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/relatorios/:id' element={<Relatorios />} />
+        <Route
+          exact
+          path='/relatorio_reconfirmacao/:id'
+          element={
+            <ProtectRouter>
+              <RelatorioReconfirmacao />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path='/relatorio_service/:id'
+          element={
+            <ProtectRouter>
+              <RelatorioSobreCadeira />
+            </ProtectRouter>
+          }
+        />
         <Route
           exact
           path='/relatorio_listarecurso/:id'
@@ -82,6 +104,11 @@ const Routeting = () => {
           exact
           path='/relatorio_curso/:id'
           element={<RelatorioPropinaCurso />}
+        />
+        <Route
+          exact
+          path='/movimento_financeiro/:id'
+          element={<MovimentoFinanceiro />}
         />
         <Route exact path='/dashboard' element={<Dashboard />}>
           <Route
@@ -312,7 +339,7 @@ const Routeting = () => {
           />
 
           <Route
-            path='atualizar cadeira/:id'
+            path='atualizar_cadeira_atraso/:id'
             element={
               <ProtectRouter>
                 <AtualizarCadeira />
@@ -320,7 +347,7 @@ const Routeting = () => {
             }
           />
           <Route
-            path='atualizar reconfirmacao/:id'
+            path='atualizar_reconfirmacao/:id'
             element={
               <ProtectRouter>
                 <AtualizarReconfirmacao />
@@ -328,7 +355,7 @@ const Routeting = () => {
             }
           />
           <Route
-            path='atualizar propina/:id'
+            path='atualizar_propina/:id'
             element={
               <ProtectRouter>
                 <AtualizarPropina />
@@ -345,6 +372,7 @@ const Routeting = () => {
               </ProtectRouter>
             }
           />
+
           <Route
             exact
             path='permissoes/:id'
@@ -372,6 +400,15 @@ const Routeting = () => {
           element={
             <ProtectRouter>
               <Perfil />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path='/editar_perfil'
+          element={
+            <ProtectRouter>
+              <EditarPerfil />
             </ProtectRouter>
           }
         />

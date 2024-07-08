@@ -9,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Skeleton,
   TextField,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -16,22 +17,10 @@ import { useForm } from "react-hook-form";
 const DeclaracaoDashboard = () => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
-  const [curso, setCurso] = useState("");
-  const [fk_mes, setFk_mes] = useState(0);
+  const [frequencias, setFrequencias] = useState([]);
+  const [frequencia, setFrequencia] = useState("");
   const [fk_estudante, setFk_estudante] = useState(0);
   const [fk_user, setFk_user] = useState(0);
-  const [fk_curso, setFk_curso] = useState(0);
-  const [fk_ano, setFk_ano] = useState(0);
-  const [fk_semestre, setFk_semestre] = useState(0);
-  const [mes, setMes] = useState("");
-  const [meses, setMeses] = useState([]);
-  const [semestres, setSemestres] = useState([]);
-  const [anos, setAnos] = useState([]);
-  const [ano, setAno] = useState("");
-  const [frequencias, setFrequencias] = useState([]);
-  const [frequencia, setFrequencia] = useState([]);
-  const [disciplina, setDisciplina] = useState([]);
-  const [semestre, setSemestre] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [tipos] = useSearchParams();
@@ -39,7 +28,6 @@ const DeclaracaoDashboard = () => {
   const { register, handleSubmit } = form;
 
   useEffect(() => {
-    getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
     getAno();
   }, []);
@@ -47,16 +35,8 @@ const DeclaracaoDashboard = () => {
   useEffect(() => {
     if (bi === "") {
       setNome("");
-      setCurso("");
     }
   }, [bi]);
-
-  useEffect(() => {
-    buscaAnoLeivo();
-  }, [ano]);
-  useEffect(() => {
-    buscaAnoLeivo();
-  }, [fk_curso && frequencia]);
 
   const buscarEstudante = async () => {
     await api
@@ -68,53 +48,9 @@ const DeclaracaoDashboard = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
         setCurso(data.data.curso.curso);
-        setFk_curso(data.data.curso.id);
         setNome(data.data.nome);
         setFk_estudante(data.data.id);
-      })
-      .catch((err) => console.log(err));
-  };
-  const getSemestre = async () => {
-    await api
-      .get("/semestre")
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setSemestre(data.data[0].nome);
-        setSemestres(data.data);
-      })
-      .catch((err) => console.log(err));
-  };
-  const getMes = async () => {
-    await api
-      .get("/mes")
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setMes(data.data[0].mes);
-        console.log(data.data[0].mes);
-        setMeses(data.data);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const getAnoLetivo = async () => {
-    await api
-      .get("/letivo")
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        setAnos(data.data);
-        setAno(data.data[0].ano);
       })
       .catch((err) => console.log(err));
   };
@@ -133,32 +69,22 @@ const DeclaracaoDashboard = () => {
       .catch((err) => console.log(err));
   };
 
-  const buscaAnoLeivo = async () => {
-    await api
-      .post("/search/letivo", {
-        ano,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_ano(data.data.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
   const hendlePagamento = async (e) => {
     e.preventDefault();
+    const daF = formatDateNumber(Date.now());
+    let dateI = daF.replace(/-/g, "/");
+    const partes = dateI.split("/");
+    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
     await api
       .post("/propina", {
-        fk_curso,
+        frequencia,
         fk_estudante,
-        fk_mes,
-        fk_semestre,
         fk_user,
-        fk_ano,
-        valor,
+        dataSolicitacao: di,
+        desc:
+          tipos.get("tipos") === "Linceciatura"
+            ? "Declaração de " + tipos.get("tipos")
+            : "Declaração  " + tipos.get("tipos"),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -193,10 +119,10 @@ const DeclaracaoDashboard = () => {
             style={{
               display: "flex",
               margin: "auto",
-              width: "70%",
               justifyContent: "center",
               alignItems: "center",
               marginTop: "10px",
+              gap: "20px",
             }}>
             <FormControl fullWidth>
               <InputLabel htmlFor='demo-simple-select-label'>
@@ -211,7 +137,7 @@ const DeclaracaoDashboard = () => {
                 onChange={(e) => setFrequencia(e.target.value)}
                 id='demo-simple-select'>
                 {frequencias.map((s) => (
-                  <MenuItem value={s.id} key={s.id}>
+                  <MenuItem value={s.ano} key={s.id}>
                     {s.ano}
                   </MenuItem>
                 ))}
@@ -219,7 +145,7 @@ const DeclaracaoDashboard = () => {
             </FormControl>
           </div>
           <hr />
-          {curso && bi && nome && (
+          {bi && nome && (
             <div
               className='space'
               style={{
@@ -248,7 +174,6 @@ const DeclaracaoDashboard = () => {
 
               <TextField
                 type='text'
-                value={curso}
                 label='Curso'
                 readOnly
                 variant='outlined'

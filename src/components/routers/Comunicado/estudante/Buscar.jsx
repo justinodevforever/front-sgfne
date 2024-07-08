@@ -98,7 +98,7 @@ const Buscar = () => {
                   <td>{estudante?.contacto}</td>
                   <td>{estudante?.bi}</td>
                   <td>{estudante?.regime}</td>
-                  <td>{estudante?.truma}</td>
+                  <td>{estudante?.turma}</td>
                   <td>{estudante?.sexo}</td>
                 </tr>
               </tbody>

@@ -9,6 +9,7 @@ import { toggleModalEdit } from "../../../../../../store/ui-slice";
 import EditarCadeira from "./editar/EditarCadeira";
 import PegarPermissoes from "../../../../../../configs/permissoes/PegarPermissoes";
 import { Input } from "antd";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 const AtualizarCadeira = () => {
   const [isClick, setIsClick] = useState(false);
@@ -293,144 +294,99 @@ const AtualizarCadeira = () => {
                 display: "flex",
                 flexWrap: "wrap",
                 color: "#fff",
+                gap: "20px",
               }}>
-              <label
-                htmlFor='tipo'
-                style={{
-                  color: "#fff",
-                }}>
-                <select
+              <FormControl>
+                <InputLabel>Tipo de Serviço</InputLabel>
+                <Select
+                  label='Tipo de Serviço'
                   onChange={(e) => setTipo(e.target.value)}
                   style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
+                    width: "200px",
                   }}>
-                  <option defaultValue={"Escolha"}>Tipo de Serviço</option>
-
-                  <option value={"Recurso"}>Recurso</option>
-                  <option value={"Exame Especial"}>Exame Especial</option>
-                  <option value={"Cadeira em Atrazo"}>Cadeira em Atrazo</option>
-                </select>
-              </label>
-              <label
-                htmlFor='frequencia'
-                style={{
-                  color: "#fff",
-                }}>
-                <select
+                  <MenuItem value={"Recurso"}>Recurso</MenuItem>
+                  <MenuItem value={"Exame Especial"}>Exame Especial</MenuItem>
+                  <MenuItem value={"Cadeira em Atrazo"}>
+                    Cadeira em Atrazo
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl>
+                <InputLabel>Ano de Frequência</InputLabel>
+                <Select
+                  label='Ano de Frequência'
                   onChange={(e) => setFrequencia(e.target.value)}
                   style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
+                    width: "200px",
                   }}>
-                  <option defaultValue={"Escolha"}>Ano Frequência</option>
-                  {frequencias.map((f) => (
-                    <option value={f.ano} key={f.id}>
-                      {f.ano}
-                    </option>
+                  {frequencias.map((ano) => (
+                    <MenuItem value={ano.ano} key={ano.id}>
+                      {ano.ano}
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-              <label
-                htmlFor='ano'
-                style={{
-                  color: "#fff",
-                }}>
-                <select
+                </Select>
+              </FormControl>
+              <FormControl>
+                <InputLabel>Ano Lectivo</InputLabel>
+                <Select
+                  label='Ano Lectivo'
                   onChange={(e) => setAno(e.target.value)}
                   style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
+                    width: "200px",
                   }}>
-                  <option defaultValue={"Escolha"}>Ano Lectivo</option>
                   {anos.map((ano) => (
-                    <option value={ano.ano} key={ano.id}>
+                    <MenuItem value={ano.ano} key={ano.id}>
                       {ano.ano}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-              <label
-                htmlFor='semestre'
-                style={{
-                  color: "#fff",
-                }}>
-                <select
+                </Select>
+              </FormControl>
+              <FormControl>
+                <InputLabel>Semestre</InputLabel>
+                <Select
+                  label='Semestre'
                   onChange={(e) => setSemestre(e.target.value)}
                   style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
+                    width: "200px",
                   }}>
-                  <option defaultValue={"Escolha"}>Semestre</option>
                   {semestres.map((s) => (
-                    <option value={s.nome} key={s.id}>
+                    <MenuItem value={s.nome} key={ano.id}>
                       {s.nome}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-              <label
-                htmlFor='curso'
-                style={{
-                  color: "#fff",
-                }}>
-                <select
+                </Select>
+              </FormControl>
+
+              <FormControl>
+                <InputLabel>Curso</InputLabel>
+                <Select
+                  label='Curso'
                   onChange={(e) => setCurso(e.target.value)}
                   style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
+                    width: "200px",
                   }}>
-                  <option defaultValue={"Escolha"}>Curso</option>
                   {cursos.map((c) => (
-                    <option value={c.curso} key={c.id}>
+                    <MenuItem value={c.curso} key={c.id}>
                       {c.curso}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
-              <label
-                htmlFor='disciplina'
-                style={{
-                  color: "#fff",
-                }}>
-                <select
+                </Select>
+              </FormControl>
+              <FormControl>
+                <InputLabel>Disciplina</InputLabel>
+                <Select
+                  label='Disciplina'
                   onChange={(e) => setDisciplina(e.target.value)}
                   style={{
-                    width: "225px",
-                    borderRadius: "5px",
-                    height: "60px",
-                    fontWeight: "200",
-                    fontSize: "20px",
-                    border: "1px solid #ddd",
+                    width: "200px",
                   }}>
-                  <option defaultValue={"Escolha"}>Disciplina</option>
-                  {disciplinas.map((d) => (
-                    <option value={d.nome} key={d.id}>
-                      {d.nome}
-                    </option>
+                  {disciplinas.map((c) => (
+                    <MenuItem value={c.nome} key={c.id}>
+                      {c.nome}
+                    </MenuItem>
                   ))}
-                </select>
-              </label>
+                </Select>
+              </FormControl>
             </div>
           </form>
           <div className='form'>

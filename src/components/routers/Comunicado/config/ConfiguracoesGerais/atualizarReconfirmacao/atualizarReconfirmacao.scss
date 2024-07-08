@@ -1,9 +1,8 @@
 @import "../../../../../../style/variable.scss";
 .atualizarReconfirmacao {
   display: flex;
-  width: 98%;
+  width: 90%;
   margin-top: 40px;
-  border: 1px solid $rosa;
   margin-left: 20px;
 }
 .atualizarReconfirmacao .opcoes {
@@ -12,9 +11,8 @@
   width: 100%;
   margin-top: 0px;
 }
-.atualizarReconfirmacao .formBi {
+.atualizarReconfirmacao .formBiReconfirmacao {
   display: flex;
-  background-color: $rosa;
   padding: 10px 0px;
 }
 .atualizarReconfirmacao th {
@@ -42,8 +40,16 @@
 .atualizarReconfirmacao .pagamento-propina input::placeholder {
   font-size: 12pt;
 }
-.atualizarReconfirmacao .opcoes .cc {
-  width: 50%;
+.atualizarReconfirmacao .opcoes .ccReconfirmacao {
+  display: flex;
+  margin: auto;
+  width: 100%;
   align-items: center;
+  justify-content: center;
+  gap: 30px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 20px 8px;
+
   color: $white;
 }

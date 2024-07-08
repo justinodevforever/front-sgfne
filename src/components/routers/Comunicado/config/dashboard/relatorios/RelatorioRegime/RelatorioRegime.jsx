@@ -1,16 +1,21 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import "./relatorioRegime.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../../../../../../../../auth/auth";
 import { Button } from "antd";
+import logo from "../Logo.png";
 import { Filter, Search } from "@mui/icons-material";
 import { PiPrinter } from "react-icons/pi";
+import OvelayLoader from "../../../../../hook/OverlayLoad/OverlayLoader";
+import generatePDF, { Margin, Resolution } from "react-to-pdf";
 
 const RelatorioRegime = () => {
   const [anos, setAnos] = useState([]);
   const [listas, setListas] = useState({});
   const [ano, setAno] = useState("");
   const [regime, setRegime] = useState("");
+  const [loading, setLoading] = useState(false);
+  const documentPrint = useRef();
 
   useEffect(() => {
     getDisciplina();
@@ -26,6 +31,7 @@ const RelatorioRegime = () => {
   };
 
   const relatorio = async () => {
+    setLoading(true);
     await api
       .post("/relatorioregime", {
         regime,
@@ -36,236 +42,228 @@ const RelatorioRegime = () => {
           navigate("/login");
           return;
         }
-        console.log(data.data);
         setListas(data.data);
+        console.log(data.data);
+        setLoading(false);
       });
   };
-  const imprimir = async () => {
-    const con = document.getElementById("tabela").innerHTML;
-    let estilo = "<style>";
-    estilo +=
-      "table { border-collapse: collapse; width: 100%; margin-bottom: 10px;}";
-    estilo +=
-      ".extra div{display: flex; flex-direction: column; align-items: center; margin: auto; width:100%;}";
-    estilo +=
-      ".extra {display: flex; flex-direction: column; align-items: center; margin: auto; margin-bottom: 20px;}";
-    estilo +=
-      "table th,td { padding: 8px;text-align: center; padding-right: 20px; border-bottom: 1px solid #ddd;border-right: none;border-left: none;border-top: none;}";
-    estilo +=
-      "table th,td { padding: 8px;text-align: center; border: 1px solid #000;}";
-    estilo +=
-      " .assinar { display: flex;margin: auto;width: 100%;justify-content: space-between;margin-top: 20px;}";
-    estilo +=
-      ".assinar div{ display: flex;flex-direction: column;width: 40%;align-items:center; }";
-    estilo += ".opc{ display: none; }";
-    estilo +=
-      " hr{ border-top: 2px solid #000;width: 90%;margin: auto;margin-top: 40px;margin-bottom: 20px; }";
-    estilo += "td,th{font-size: 10pt;}";
-    estilo +=
-      ".dividas{display: flex; gap: 20px; margin-top: 20px; font-size: 10pt;}";
-    estilo += " img{width: 50px;height: 50px;marginBottom: 10px;}";
-    estilo += "</style>";
-
-    const win = window.open();
-    win.document.write("<html><head>");
-    win.document.write("<title>ISP_MOXICO Relatório</title>");
-    win.document.write(estilo);
-    win.document.write("</head>");
-    win.document.write("<body>");
-    win.document.write(con);
-    win.document.write("</body>");
-    win.document.write("</html>");
-    win.print();
-    win.close();
+  const option = {
+    method: "open",
+    page: {
+      margin: Margin.MEDIUM,
+      format: "letter",
+      orientation: "andscape",
+    },
   };
 
+  const getId = () => document.getElementById("tabela");
+
   return (
-    <div className='relatorioRegime'>
-      <div className='tabela' id='tabela'>
-        <h1>RELATÓRIO FINANCEIRO {regime.toUpperCase()} ANUAL</h1>
-        {/* {listas && ( */}
-        <table>
-          <thead>
-            <tr>
-              <th>Tipo de Emunumento</th>
-              <th>Janeiro</th>
-              <th>Fevereiro</th>
-              <th>Março</th>
-              <th>Abril</th>
-              <th>Maio</th>
-              <th>Junho</th>
-              <th>Julho</th>
-              <th>Outubro</th>
-              <th>Novembro</th>
-              <th>Dezembro</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Propinas - {regime}</td>
-              <td>{listas?.totalMes?.Janeiro + ".00"}</td>
-              <td>
-                {listas?.totalMes?.Fevereiro !== 0
-                  ? listas?.totalMes?.Fevereiro + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Março !== 0
-                  ? listas?.totalMes?.Março + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Abril !== 0
-                  ? listas?.totalMes?.Abril + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Maio !== 0
-                  ? listas?.totalMes?.Maio + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Junho !== 0
-                  ? listas?.totalMes?.Junho + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Julho !== 0
-                  ? listas?.totalMes?.Julho + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Outubro !== 0
-                  ? listas?.totalMes?.Outubro + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Novembro !== 0
-                  ? listas?.totalMes?.Novembro + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Dezembro !== 0
-                  ? listas?.totalMes?.Dezembro + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalGeral ? listas?.totalGeral + ".00" : "0.00"}
-              </td>
-            </tr>
-            <tr>
-              <td>TOTAL GERAL</td>
-              <td>{listas?.totalMes?.Janeiro + ".00"}</td>
-              <td>
-                {listas?.totalMes?.Fevereiro !== 0
-                  ? listas?.totalMes?.Fevereiro + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Março !== 0
-                  ? listas?.totalMes?.Março + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Abril !== 0
-                  ? listas?.totalMes?.Abril + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Maio !== 0
-                  ? listas?.totalMes?.Maio + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Junho !== 0
-                  ? listas?.totalMes?.Junho + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Julho !== 0
-                  ? listas?.totalMes?.Julho + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Outubro !== 0
-                  ? listas?.totalMes?.Outubro + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Novembro !== 0
-                  ? listas?.totalMes?.Novembro + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalMes?.Dezembro !== 0
-                  ? listas?.totalMes?.Dezembro + ".00"
-                  : " 0.00"}
-              </td>
-              <td>
-                {listas?.totalGeral ? listas?.totalGeral + ".00" : "0.00"}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <>
+      {loading && <OvelayLoader />}
+      <div className='relatorioRegime'>
+        {listas?.totalGeral > 0 && (
+          <Button
+            type='primary'
+            style={{
+              display: "flex",
+              background: "#a31543",
+              marginTop: "10px",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+              fontSize: "14pt",
+              marginLeft: "900px",
+            }}
+            onClick={() => generatePDF(getId, option)}>
+            <PiPrinter /> Imprimir
+          </Button>
+        )}
+        <div className='tabela' id='tabela'>
+          {listas?.totalGeral > 0 && (
+            <img
+              src={logo}
+              alt='logo'
+              style={{
+                display: "flex",
+                float: "right",
+              }}
+            />
+          )}
+          <h3>
+            RELATÓRIO FINANCEIRO {regime.toUpperCase()} | {ano}
+          </h3>
+          {listas?.totalGeral > 0 && (
+            <>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Tipo de Emunumento</th>
+                    <th>Janeiro</th>
+                    <th>Fevereiro</th>
+                    <th>Março</th>
+                    <th>Abril</th>
+                    <th>Maio</th>
+                    <th>Junho</th>
+                    <th>Julho</th>
+                    <th>Outubro</th>
+                    <th>Novembro</th>
+                    <th>Dezembro</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Propinas - {regime}</td>
+                    <td>{listas?.totalMes?.Janeiro + ".00"}</td>
+                    <td>
+                      {listas?.totalMes?.Fevereiro !== 0
+                        ? listas?.totalMes?.Fevereiro + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Março !== 0
+                        ? listas?.totalMes?.Março + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Abril !== 0
+                        ? listas?.totalMes?.Abril + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Maio !== 0
+                        ? listas?.totalMes?.Maio + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Junho !== 0
+                        ? listas?.totalMes?.Junho + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Julho !== 0
+                        ? listas?.totalMes?.Julho + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Outubro !== 0
+                        ? listas?.totalMes?.Outubro + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Novembro !== 0
+                        ? listas?.totalMes?.Novembro + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Dezembro !== 0
+                        ? listas?.totalMes?.Dezembro + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalGeral ? listas?.totalGeral + ".00" : "0.00"}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>TOTAL GERAL</td>
+                    <td>{listas?.totalMes?.Janeiro + ".00"}</td>
+                    <td>
+                      {listas?.totalMes?.Fevereiro !== 0
+                        ? listas?.totalMes?.Fevereiro + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Março !== 0
+                        ? listas?.totalMes?.Março + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Abril !== 0
+                        ? listas?.totalMes?.Abril + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Maio !== 0
+                        ? listas?.totalMes?.Maio + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Junho !== 0
+                        ? listas?.totalMes?.Junho + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Julho !== 0
+                        ? listas?.totalMes?.Julho + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Outubro !== 0
+                        ? listas?.totalMes?.Outubro + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Novembro !== 0
+                        ? listas?.totalMes?.Novembro + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalMes?.Dezembro !== 0
+                        ? listas?.totalMes?.Dezembro + ".00"
+                        : " 0.00"}
+                    </td>
+                    <td>
+                      {listas?.totalGeral ? listas?.totalGeral + ".00" : "0.00"}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br />
+              <span>Rua da Missão, Bairro Zorró</span>
+              <span>Cxa. Postal: Tel: +244 949577832</span>
+            </>
+          )}
+        </div>
         <br />
-        <span>Rua da Missão, Bairro Zorró</span>
-        <span>Cxa. Postal: Tel: +244 949577832</span>
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+          }}>
+          <FormControl>
+            <InputLabel>Ano Letivo</InputLabel>
+            <Select
+              label='Ano Letivo'
+              onChange={(e) => setAno(e.target.value)}
+              style={{
+                width: "200px",
+              }}>
+              {anos.map((a) => (
+                <MenuItem key={a.id} value={a.ano}>
+                  {a.ano}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel>Regime</InputLabel>
+            <Select
+              label='Ano Letivo'
+              onChange={(e) => setRegime(e.target.value)}
+              style={{
+                width: "200px",
+              }}>
+              <MenuItem value={"Pós-Laboral"}>Pós-Laboral</MenuItem>
+              <MenuItem value={"Regular"}>Regular</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <Button onClick={() => relatorio()} type='primary'>
+          <Search /> Filtrar a Propina
+        </Button>
       </div>
-      {/* )} */}
-      <br />
-      <div
-        style={{
-          display: "flex",
-          gap: "20px",
-        }}>
-        <FormControl>
-          <InputLabel>Ano Letivo</InputLabel>
-          <Select
-            label='Ano Letivo'
-            onChange={(e) => setAno(e.target.value)}
-            style={{
-              width: "200px",
-            }}>
-            {anos.map((a) => (
-              <MenuItem key={a.id} value={a.ano}>
-                {a.ano}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl>
-          <InputLabel>Regime</InputLabel>
-          <Select
-            label='Ano Letivo'
-            onChange={(e) => setRegime(e.target.value)}
-            style={{
-              width: "200px",
-            }}>
-            <MenuItem value={"Pós-Laboral"}>Pós-Laboral</MenuItem>
-            <MenuItem value={"Regular"}>Regular</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <Button onClick={() => relatorio()} type='primary'>
-        <Search /> Buscar
-      </Button>
-      <Button
-        type='primary'
-        style={{
-          display: "flex",
-          background: "#a31543",
-          marginTop: "10px",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "10px",
-          fontSize: "14pt",
-          marginRight: "10px",
-        }}
-        onClick={() => imprimir()}>
-        <PiPrinter /> Imprimir
-      </Button>
-    </div>
+    </>
   );
 };
 export default RelatorioRegime;

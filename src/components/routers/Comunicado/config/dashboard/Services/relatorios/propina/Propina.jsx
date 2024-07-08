@@ -342,20 +342,9 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                               {propinasAnual.length * propinasAnual[0].valor}.00
                             </td>
                           </tr>
+
                           <tr>
-                            <td>Crédito</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td>Total/Desconto</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td>Total/Multa</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td colSpan={2}>TOTAL A PAGAR</td>
+                            <td>TOTAL A PAGAR</td>
                             <td>
                               {propinasAnual.length * propinasAnual[0].valor}.00
                             </td>
@@ -475,20 +464,9 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                               .00
                             </td>
                           </tr>
+
                           <tr>
-                            <td>Crédito</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td>Total/Desconto</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td>Total/Multa</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td colSpan={2}>TOTAL A PAGAR</td>
+                            <td>TOTAL A PAGAR</td>
                             <td>
                               {propinasAnual.length * propinasAnual[0].valor}
                               .00

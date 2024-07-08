@@ -38,7 +38,10 @@
 .isSm,
 .isAno,
 .isCurso,
-.isMes {
+.isMes,
+.isCda,
+.isApr,
+.isRC {
   background-color: #f1cfda;
   display: flex;
   width: 100%;
@@ -70,7 +73,10 @@
 .isSm::before,
 .isAno::before,
 .isCurso::before,
-.isMes::before {
+.isMes::before,
+.isCda::before,
+.isApr::before,
+.isRC::before {
   content: "";
   position: absolute;
   width: 4px;

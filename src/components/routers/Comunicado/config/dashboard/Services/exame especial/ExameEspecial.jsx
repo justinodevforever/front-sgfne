@@ -24,6 +24,7 @@ import {
   Select,
   TextField,
 } from "@mui/material";
+import { formatDateNumber } from "../../../../../hook/timeout";
 
 const ExameEspecialDashboard = () => {
   const [bi, setBi] = useState("");
@@ -311,6 +312,10 @@ const ExameEspecialDashboard = () => {
       dispatchWarning(toggleModalWarning(true));
       return;
     }
+    const daF = formatDateNumber(Date.now());
+    let dateI = daF.replace(/-/g, "/");
+    const partes = dateI.split("/");
+    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
     setAtivar(true);
     await api
       .post("/exame/especial", {
@@ -323,7 +328,7 @@ const ExameEspecialDashboard = () => {
         fk_semestre,
         fk_ano,
         fk_user: sessionStorage.getItem("id"),
-        dataSolicitacao: formatDateNumber(Date.now()),
+        dataSolicitacao: di,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -342,7 +347,11 @@ const ExameEspecialDashboard = () => {
           let co = 0;
 
           id = setInterval(() => {
-            setVisivel(true);
+            navigate(
+              `/relatorio_service/${
+                data.data.response.id
+              }?tipo=${"Exame Especial"}`
+            );
             if (co === 4) return clearInterval(id);
             co++;
           }, 4000);
@@ -538,13 +547,6 @@ const ExameEspecialDashboard = () => {
           </div>
         )}
       </div>
-
-      <RelatorioSobreCadeira
-        setVisivel={setVisivel}
-        visivel={visivel}
-        tipo={"Exame Especial"}
-        id={id}
-      />
     </>
   );
 };

@@ -2,8 +2,20 @@ import { useEffect, useState } from "react";
 import "./useRemoverConfirm.scss";
 import { api } from "../../../../../../../../auth/auth";
 import { PiWarning } from "react-icons/pi";
+import UseSucess from "../../../../../hook/massege/sucess/UseSucess";
+import UseErro from "../../../../../hook/massege/Error/UseErro";
+import { useDispatch } from "react-redux";
+import {
+  toggleModalConfirmar,
+  toggleModalError,
+} from "../../../../../../../store/ui-slice";
 
 const UseRemoverConfirm = ({ id, setIsClick }) => {
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const dispatchError = useDispatch();
+  const dispatchConfirmar = useDispatch();
+
   async function deletePropina(e) {
     e.preventDefault();
     await api
@@ -13,14 +25,24 @@ const UseRemoverConfirm = ({ id, setIsClick }) => {
           navigate("/login");
           return;
         }
-
-        setIsClick(true);
+        if (data.data.message === "sucess") {
+          dispatchConfirmar(toggleModalConfirmar(true));
+          setIsClick(false);
+          return;
+        }
+        if (data.data.message === "error") {
+          dispatchError(toggleModalError(true));
+          setIsClick(false);
+          return;
+        }
       })
       .catch((err) => console.log(err));
   }
 
   return (
     <>
+      <UseSucess />
+      <UseErro />
       <div className='container-RemoverConfirm'>
         <h2>Pretendes Eliminar Este Mês?</h2>
         <p>Caso Eliminar Deixará de Existe, na Base de Dados!</p>
@@ -35,7 +57,7 @@ const UseRemoverConfirm = ({ id, setIsClick }) => {
           <button
             className='btnRemover'
             onClick={(e) => {
-              deletePropina(e), setIsClick(false);
+              deletePropina(e);
             }}>
             SIM
           </button>

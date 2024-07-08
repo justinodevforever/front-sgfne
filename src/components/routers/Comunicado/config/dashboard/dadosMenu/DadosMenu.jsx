@@ -58,7 +58,7 @@ const DadosMenu = ({ pay, config, register, printer }) => {
                 D. Com Nota
               </li>
             </Link>
-            <Link to={`declaracao/${2}?tipos=${"Sem Nota"}&active=${"dn"}`}>
+            <Link to={`declaracao/${2}?tipos=${"Sem Nota"}&active=${"ds"}`}>
               <li className={active.get("active") === "ds" ? "isSem" : "li"}>
                 <BiDollar />
                 D. Sem Nota

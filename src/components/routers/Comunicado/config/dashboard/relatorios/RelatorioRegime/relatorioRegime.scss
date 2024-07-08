@@ -1,7 +1,7 @@
 .relatorioRegime {
   display: flex;
-  flex-direction: column;
   width: 100%;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -24,4 +24,10 @@
 .relatorioRegime table {
   width: 98%;
   margin: auto;
+}
+.relatorioRegime table td,
+th {
+  font-size: 10pt;
+  background-color: #fff;
+  padding: 4px;
 }

@@ -2,8 +2,17 @@ import { useEffect, useState } from "react";
 import "./useRemoverConfirm.scss";
 import { api } from "../../../../../../../../auth/auth";
 import { PiWarning } from "react-icons/pi";
+import {
+  toggleModalConfirmar,
+  toggleModalError,
+} from "../../../../../../../store/ui-slice";
+import { useDispatch } from "react-redux";
+import UseErro from "../../../../../hook/massege/Error/UseErro";
+import UseSucess from "../../../../../hook/massege/sucess/UseSucess";
 
 const UseRemoverConfirm = ({ id, setIsClick }) => {
+  const dispatchError = useDispatch();
+  const dispatchConfirmar = useDispatch();
   async function deletePropina(e) {
     e.preventDefault();
     await api
@@ -14,8 +23,15 @@ const UseRemoverConfirm = ({ id, setIsClick }) => {
           return;
         }
 
-        if (data.data) {
-          setIsClick(true);
+        if (data.data.message === "sucess") {
+          dispatchConfirmar(toggleModalConfirmar(true));
+          setIsClick(false);
+          return;
+        }
+        if (data.data.message === "error") {
+          dispatchError(toggleModalError(true));
+          setIsClick(false);
+          return;
         }
       })
       .catch((err) => console.log(err));
@@ -23,6 +39,8 @@ const UseRemoverConfirm = ({ id, setIsClick }) => {
 
   return (
     <>
+      <UseSucess />
+      <UseErro />
       <div className='container-RemoverCadeira'>
         <h2>Pretendes Eliminar Este Mês?</h2>
         <p>Caso Eliminar Deixará deixará de Existe, Queres Continuar?</p>

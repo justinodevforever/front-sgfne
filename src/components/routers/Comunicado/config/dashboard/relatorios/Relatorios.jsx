@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./relatorio.scss";
 import { api } from "../../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
@@ -7,22 +7,27 @@ import { Button, DatePicker } from "antd";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { PiPrinter } from "react-icons/pi";
 import OvelayLoader from "../../../../hook/OverlayLoad/OverlayLoader";
+import { useReactToPrint } from "react-to-print";
 
 const Relatorios = () => {
   const [list, setList] = useState([]);
   const [ano, setAno] = useState("");
   const [loding, setLoding] = useState(false);
   const [anos, setAnos] = useState([]);
+  const [cursos, setCursos] = useState([]);
+  const [curso, setCurso] = useState("");
   const [totalMes, setTotalMes] = useState({});
   const [totalGeral, setTotalGeral] = useState(0);
   const navigate = useNavigate();
+  const document = useRef();
 
   useEffect(() => {
     buscaAnoLeivo();
+    buscaCursos();
   }, []);
   const listaEstudante = async () => {
     setLoding(true);
-    await api.post("/lista", { ano }).then((data) => {
+    await api.post("/lista", { ano, curso }).then((data) => {
       if (data.data === "Token Invalid") {
         navigate("/login");
         return;
@@ -33,44 +38,11 @@ const Relatorios = () => {
       setLoding(false);
     });
   };
-  const imprimir = async () => {
-    const con = document.getElementById("tabela").innerHTML;
-    let estilo = "<style>";
-    estilo +=
-      "table { border-collapse: collapse; width: 100%; margin-bottom: 10px;}";
-    estilo +=
-      ".extra div{display: flex; flex-direction: column; align-items: center; margin: auto; width:100%;}";
-    estilo +=
-      ".extra {display: flex; flex-direction: column; align-items: center; margin: auto; margin-bottom: 20px;}";
-    estilo +=
-      "table th,td { padding: 8px;text-align: center; padding-right: 20px; border-bottom: 1px solid #ddd;border-right: none;border-left: none;border-top: none;}";
-    estilo +=
-      "table th,td { padding: 8px;text-align: center; border: 1px solid #000;}";
-    estilo +=
-      " .assinar { display: flex;margin: auto;width: 100%;justify-content: space-between;margin-top: 20px;}";
-    estilo +=
-      ".assinar div{ display: flex;flex-direction: column;width: 40%;align-items:center; }";
-    estilo += ".opc{ display: none; }";
-    estilo +=
-      " hr{ border-top: 2px solid #000;width: 90%;margin: auto;margin-top: 40px;margin-bottom: 20px; }";
-    estilo += "td,th{font-size: 10pt;}";
-    estilo +=
-      ".dividas{display: flex; gap: 20px; margin-top: 20px; font-size: 10pt;}";
-    estilo += " img{width: 50px;height: 50px;marginBottom: 10px;}";
-    estilo += "</style>";
-
-    const win = window.open();
-    win.document.write("<html><head>");
-    win.document.write("<title>ISP_MOXICO Relatório</title>");
-    win.document.write(estilo);
-    win.document.write("</head>");
-    win.document.write("<body>");
-    win.document.write(con);
-    win.document.write("</body>");
-    win.document.write("</html>");
-    win.print();
-    win.close();
-  };
+  const imprimir = useReactToPrint({
+    content: () => document.current,
+    documentTitle: "ISPM",
+    copyStyles: true,
+  });
   const buscaAnoLeivo = async () => {
     await api
       .get("/letivo")
@@ -83,11 +55,46 @@ const Relatorios = () => {
       })
       .catch((err) => console.log(err));
   };
+  const buscaCursos = async () => {
+    await api
+      .get("/curso")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+        setCursos(data.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className='relatoriosLista'>
       {loding && <OvelayLoader />}
-      <div className='tabela' id='tabela'>
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "end",
+          alignItems: "end",
+        }}>
+        <Button
+          type='primary'
+          style={{
+            display: "flex",
+            background: "#a31543",
+            marginTop: "10px",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+            fontSize: "14pt",
+            marginRight: "10px",
+          }}
+          onClick={() => imprimir()}>
+          <PiPrinter /> Imprimir
+        </Button>
+      </div>
+      <div className='tabela' id='tabela' ref={document}>
         <img
           src={logo}
           alt='logo'
@@ -109,7 +116,10 @@ const Relatorios = () => {
             justifyContent: "center",
             alignItems: "center",
           }}>
-          <h3> Lista de Todos Estudantes | {ano}</h3>
+          <h3>
+            {" "}
+            Lista de Todos Estudantes |{curso}| {ano}
+          </h3>
         </div>
         {list.length > 0 ? (
           <>
@@ -138,7 +148,12 @@ const Relatorios = () => {
                 {list.map((d, i) => (
                   <tr key={d.id}>
                     <td>{i + 1}</td>
-                    <td>{d?.estudante?.nome}</td>
+                    <td
+                      style={{
+                        textAlign: "left",
+                      }}>
+                      {d?.estudante?.nome}
+                    </td>
                     <td>{d?.estudante?.sexo}</td>
                     <td>{d?.estudante?.curso?.curso}</td>
                     <td>{d?.estudante?.frequencia?.ano} Ano</td>
@@ -200,7 +215,13 @@ const Relatorios = () => {
                   </tr>
                 ))}
                 <tr>
-                  <td colSpan={5}>SOMA GERAL</td>
+                  <td
+                    colSpan={5}
+                    style={{
+                      textAlign: "left",
+                    }}>
+                    SOMA GERAL
+                  </td>
                   <td>
                     {totalMes?.Janeiro !== 0
                       ? totalMes?.Janeiro + ".00"
@@ -262,25 +283,48 @@ const Relatorios = () => {
           alignItems: "center",
           marginTop: "30px",
         }}>
-        <FormControl>
-          <InputLabel htmlFor='demo-simple-select-label'>
-            Ano Lectivo
-          </InputLabel>
-          <Select
-            style={{
-              width: "200px",
-            }}
-            labelId='demo-simple-select-label'
-            label='Ano Lectivo'
-            onChange={(e) => setAno(e.target.value)}
-            id='demo-simple-select'>
-            {anos.map((s) => (
-              <MenuItem value={s.ano} key={s.id}>
-                {s.ano}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+          }}>
+          <FormControl>
+            <InputLabel htmlFor='demo-simple-select-label'>
+              Ano Lectivo
+            </InputLabel>
+            <Select
+              style={{
+                width: "200px",
+              }}
+              labelId='demo-simple-select-label'
+              label='Ano Lectivo'
+              onChange={(e) => setAno(e.target.value)}
+              id='demo-simple-select'>
+              {anos.map((s) => (
+                <MenuItem value={s.ano} key={s.id}>
+                  {s.ano}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl>
+            <InputLabel htmlFor='demo-simple-select-label'>Curso</InputLabel>
+            <Select
+              style={{
+                width: "200px",
+              }}
+              labelId='demo-simple-select-label'
+              label='Curso'
+              onChange={(e) => setCurso(e.target.value)}
+              id='demo-simple-select'>
+              {cursos.map((s) => (
+                <MenuItem value={s.curso} key={s.id}>
+                  {s.curso}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
         <Button
           type='primary'
           style={{
@@ -290,29 +334,6 @@ const Relatorios = () => {
           onClick={() => listaEstudante()}>
           Buscar Histórico
         </Button>
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "end",
-            alignItems: "end",
-          }}>
-          <Button
-            type='primary'
-            style={{
-              display: "flex",
-              background: "#a31543",
-              marginTop: "10px",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "10px",
-              fontSize: "14pt",
-              marginRight: "10px",
-            }}
-            onClick={() => imprimir()}>
-            <PiPrinter /> Imprimir
-          </Button>
-        </div>
       </div>
     </div>
   );
