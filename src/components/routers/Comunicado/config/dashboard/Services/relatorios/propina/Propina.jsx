@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Input, Modal, Space, Alert, Button, Form } from "antd";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { PrinterOutlined } from "@ant-design/icons";
-import LogoImg from "./Logo.png";
+import logo from "./Logo.png";
 
 function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
   const [semestres, setSemestres] = useState([]);
@@ -128,8 +128,9 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           setUserName(data.data?.usuario?.nome);
           setDados(data.data);
           setPropinasMensal([...propinasMensal, data.data]);
+          setTotal(propinasMensal.length * data.data?.valor);
         }
-        setTotal(propinasMensal.length * data.data.valor);
+        console.log(data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -148,7 +149,6 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
           navigate("/login");
           return;
         }
-        console.log(data.data);
 
         if (data.data) {
           setUserName(data.data?.usuario?.nome);
@@ -276,7 +276,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         </div>
 
                         <div className='divRecibo'>
-                          <img src={LogoImg} alt='ISPM' />
+                          <img src={logo} alt='ISPM' />
                           <span className='recibo'>
                             <strong>Recibo Nº.</strong> FR ISPM20
                           </span>
@@ -396,7 +396,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         </div>
 
                         <div className='divRecibo'>
-                          <img src={LogoImg} alt='ISPM' />
+                          <img src={logo} alt='ISPM' />
                           <span className='recibo'>
                             <strong>Recibo Nº.</strong> FR ISPM20
                           </span>
@@ -539,7 +539,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                       id='demo-simple-select'
                       onChange={(e) => setAno(e.target.value)}>
                       {anos.map((s) => (
-                        <MenuItem value={s.ano} key={s.id}>
+                        <MenuItem value={s.ano} key={s?.id}>
                           {s.ano}
                         </MenuItem>
                       ))}
@@ -598,7 +598,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         </div>
 
                         <div className='divRecibo'>
-                          <img src='./Logo.png' alt='ISPM' />
+                          <img src={logo} alt='ISPM' />
                           <span className='recibo'>
                             <strong>Recibo Nº.</strong> FR ISPM20
                           </span>
@@ -632,7 +632,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                                   size={20}
                                   color='red'
                                   cursor={"pointer"}
-                                  onClick={(e) => hendleRemove(e, prop.id)}
+                                  onClick={(e) => hendleRemove(e, prop?.id)}
                                 />
                               </td>
                             </tr>
@@ -643,7 +643,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         <thead>
                           <tr>
                             <th>FORMA DE PAGAMENTO RUPE</th>
-                            <th colSpan={2}>RESUMO DE PAGAMENTO</th>
+                            <th colSpan={3}>RESUMO DE PAGAMENTO</th>
                           </tr>
                         </thead>
 
@@ -667,24 +667,13 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                                 Valor <strong>{dados?.valor} Akz</strong>
                               </span>
                             </td>
-                            <td>Quantia Entregue</td>
-                            <td>{propinasMensal.length * dados.valor}.00</td>
+                            <td colSpan={2}>Quantia Entregue</td>
+                            <td>{propinasMensal.length * dados?.valor}.00</td>
                           </tr>
-                          <tr>
-                            <td>Crédito</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td>Total/Desconto</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td>Total/Multa</td>
-                            <td>0.00</td>
-                          </tr>
+
                           <tr>
                             <td colSpan={2}>TOTAL A PAGAR</td>
-                            <td>{propinasMensal.length * dados.valor}.00</td>
+                            <td>{propinasMensal.length * dados?.valor}.00</td>
                           </tr>
                           <td colSpan={3} style={{ fontStyle: "italic" }}>
                             <strong>Responsável:</strong> {dados?.usuario?.nome}
@@ -730,7 +719,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         </div>
 
                         <div className='divRecibo'>
-                          <img src='./Logo.png' alt='ISPM' />
+                          <img src={logo} alt='ISPM' />
                           <span className='recibo'>
                             <strong>Recibo Nº.</strong> FR ISPM20
                           </span>
@@ -776,7 +765,7 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                         <thead>
                           <tr>
                             <th>FORMA DE PAGAMENTO RUPE</th>
-                            <th colSpan={2}>RESUMO DE PAGAMENTO</th>
+                            <th colSpan={3}>RESUMO DE PAGAMENTO</th>
                           </tr>
                         </thead>
 
@@ -800,24 +789,13 @@ function RelatorioPropina({ propinas, setVisivel, visivel, tipo }) {
                                 Valor <strong>{dados?.valor} Akz</strong>
                               </span>
                             </td>
-                            <td>Quantia Entregue</td>
-                            <td>{propinasMensal.length * dados.valor}.00</td>
+                            <td colSpan={2}>Quantia Entregue</td>
+                            <td>{propinasMensal.length * dados?.valor}.00</td>
                           </tr>
-                          <tr>
-                            <td>Crédito</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td>Total/Desconto</td>
-                            <td>0.00</td>
-                          </tr>
-                          <tr>
-                            <td>Total/Multa</td>
-                            <td>0.00</td>
-                          </tr>
+
                           <tr>
                             <td colSpan={2}>TOTAL A PAGAR</td>
-                            <td>{propinasMensal.length * dados.valor}.00</td>
+                            <td>{propinasMensal.length * dados?.valor}.00</td>
                           </tr>
                           <tr>
                             <td colSpan={3} style={{ fontStyle: "italic" }}>

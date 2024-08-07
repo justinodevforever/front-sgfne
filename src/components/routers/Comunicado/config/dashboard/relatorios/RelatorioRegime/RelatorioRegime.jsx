@@ -1,4 +1,13 @@
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import "./relatorioRegime.scss";
 import { useEffect, useRef, useState } from "react";
 import { api } from "../../../../../../../../auth/auth";
@@ -8,6 +17,8 @@ import { Filter, Search } from "@mui/icons-material";
 import { PiPrinter } from "react-icons/pi";
 import OvelayLoader from "../../../../../hook/OverlayLoad/OverlayLoader";
 import generatePDF, { Margin, Resolution } from "react-to-pdf";
+import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { useReactToPrint } from "react-to-print";
 
 const RelatorioRegime = () => {
   const [anos, setAnos] = useState([]);
@@ -43,20 +54,14 @@ const RelatorioRegime = () => {
           return;
         }
         setListas(data.data);
-        console.log(data.data);
         setLoading(false);
       });
   };
-  const option = {
-    method: "open",
-    page: {
-      margin: Margin.MEDIUM,
-      format: "letter",
-      orientation: "andscape",
-    },
-  };
-
-  const getId = () => document.getElementById("tabela");
+  const imprimir = useReactToPrint({
+    content: () => documentPrint.current,
+    documentTitle: "ISPM",
+    copyStyles: true,
+  });
 
   return (
     <>
@@ -75,11 +80,11 @@ const RelatorioRegime = () => {
               fontSize: "14pt",
               marginLeft: "900px",
             }}
-            onClick={() => generatePDF(getId, option)}>
+            onClick={() => imprimir()}>
             <PiPrinter /> Imprimir
           </Button>
         )}
-        <div className='tabela' id='tabela'>
+        <div className='tabela' id='tabela' ref={documentPrint}>
           {listas?.totalGeral > 0 && (
             <img
               src={logo}

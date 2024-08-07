@@ -1,0 +1,40 @@
+.relatorioInscricao {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.relatorioInscricao .divInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 20px;
+}
+.relatorioInscricao .tabela {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  // margin-top: 30px;
+}
+.relatorioInscricao .tabela .dados {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.relatorioInscricao .divInput input {
+  width: 70%;
+  height: 50px;
+}
+.relatorioInscricao table {
+  border-collapse: collapse;
+}
+.relatorioInscricao th {
+  border: 1px solid #000;
+}

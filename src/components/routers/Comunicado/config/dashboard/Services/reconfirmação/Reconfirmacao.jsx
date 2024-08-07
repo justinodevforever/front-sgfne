@@ -16,13 +16,17 @@ import { Form, Input, Space, Alert, Button } from "antd";
 import Processing from "../../../../../hook/process/Processing";
 import {
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   TextField,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { formatDateNumber } from "../../../../../hook/timeout";
+import SobreCadeiras from "../../../../Services/sobre cadeiras/SobreCadeiras";
 
 const ReconfirmacaoDashboard = () => {
   const [bi, setBi] = useState("");
@@ -253,7 +257,7 @@ const ReconfirmacaoDashboard = () => {
             navigate(`/relatorio_reconfirmacao/${data.data?.response?.id}`);
             if (co === 4) return clearInterval(id);
             co++;
-          }, 4000);
+          }, 5000);
         }
         if (data.data?.message === "error") {
           dispatchError(toggleModalError(true));
@@ -367,6 +371,7 @@ const ReconfirmacaoDashboard = () => {
           </FormControl>
         </Space>
         <hr />
+
         {curso && bi && nome && (
           <div
             className='space'

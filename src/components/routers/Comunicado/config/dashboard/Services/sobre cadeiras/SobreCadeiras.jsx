@@ -48,7 +48,7 @@ const SobreCadeirasDashboard = () => {
   const [disciplinas, setDisciplinas] = useState([]);
   const [semestre, setSemestre] = useState("");
   const navigate = useNavigate();
-  const [valor, setValor] = useState("");
+  const [valor, setValor] = useState(0);
   const [ativar, setAtivar] = useState(false);
   const [loading, setLoading] = useState(false);
   const [visivel, setVisivel] = useState(false);
@@ -301,14 +301,11 @@ const SobreCadeirasDashboard = () => {
 
       return;
     }
-    const daF = formatDateNumber(Date.now());
-    let dateI = daF.replace(/-/g, "/");
-    const partes = dateI.split("/");
-    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
+
     setAtivar(true);
     await api
       .post("/cadeira/atraso", {
-        valor,
+        valor: parseFloat(valor),
         rupe,
         fk_curso,
         fk_disciplina,
@@ -317,7 +314,6 @@ const SobreCadeirasDashboard = () => {
         fk_semestre,
         fk_ano,
         fk_user: sessionStorage.getItem("id"),
-        dataSolicitacao: di,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
@@ -345,7 +341,7 @@ const SobreCadeirasDashboard = () => {
             );
             if (co === 4) return clearInterval(id);
             co++;
-          }, 4000);
+          }, 5000);
         }
       })
       .catch((error) => {

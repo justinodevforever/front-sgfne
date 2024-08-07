@@ -3,11 +3,10 @@ import "./relatorio.scss";
 import { api } from "../../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import logo from "./Logo.png";
-import { Button, DatePicker } from "antd";
+import { Button } from "antd";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { PiPrinter } from "react-icons/pi";
 import OvelayLoader from "../../../../hook/OverlayLoad/OverlayLoader";
-import { useReactToPrint } from "react-to-print";
 
 const Relatorios = () => {
   const [list, setList] = useState([]);
@@ -15,34 +14,34 @@ const Relatorios = () => {
   const [loding, setLoding] = useState(false);
   const [anos, setAnos] = useState([]);
   const [cursos, setCursos] = useState([]);
+  const [frequencias, setFrequencias] = useState([]);
+  const [frequencia, setFrequencia] = useState("");
   const [curso, setCurso] = useState("");
   const [totalMes, setTotalMes] = useState({});
   const [totalGeral, setTotalGeral] = useState(0);
   const navigate = useNavigate();
-  const document = useRef();
+  const url = import.meta.env.VITE_API_URL_SOCKET;
 
   useEffect(() => {
     buscaAnoLeivo();
     buscaCursos();
+    buscaAnoFrequencia();
   }, []);
   const listaEstudante = async () => {
     setLoding(true);
-    await api.post("/lista", { ano, curso }).then((data) => {
-      if (data.data === "Token Invalid") {
-        navigate("/login");
-        return;
-      }
-      setTotalMes(data.data?.totalMes);
-      setTotalGeral(data.data?.totalGeral);
-      setList(data.data?.response);
-      setLoding(false);
-    });
+    await api
+      .post("/lista", { ano, curso, anoFrequencia: frequencia })
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+        setTotalMes(data.data?.totalMes);
+        setTotalGeral(data.data?.totalGeral);
+        setList(data.data?.response);
+        setLoding(false);
+      });
   };
-  const imprimir = useReactToPrint({
-    content: () => document.current,
-    documentTitle: "ISPM",
-    copyStyles: true,
-  });
   const buscaAnoLeivo = async () => {
     await api
       .get("/letivo")
@@ -52,6 +51,18 @@ const Relatorios = () => {
           return;
         }
         setAnos(data.data);
+      })
+      .catch((err) => console.log(err));
+  };
+  const buscaAnoFrequencia = async () => {
+    await api
+      .get("/ano")
+      .then((data) => {
+        if (data.data === "Token Invalid") {
+          navigate("/login");
+          return;
+        }
+        setFrequencias(data.data);
       })
       .catch((err) => console.log(err));
   };
@@ -67,33 +78,60 @@ const Relatorios = () => {
       })
       .catch((err) => console.log(err));
   };
+  const imprimir = async () => {
+    const con = document.getElementById("tabela").innerHTML;
+    let estilo = "<style>";
+    estilo += ".tabela { display: flex; width: 100%;}";
+    estilo +=
+      "table { border-collapse: collapse; width: 100%; margin-bottom: 10px;}";
+    estilo +=
+      "table th,td {padding: 4px; font-size: 11pt; text-align: center; border: 1px solid #000;font-weight: 500;}";
+    estilo += " img{width: 50px;height: 50px; right: 0;}";
+    estilo += "h3 {display: flex; margin: auto;}";
+    estilo += "</style>";
+
+    const win = window.open(url, "", "height=1700px,width=1300px");
+    win.document.write("<html><head>");
+    win.document.write("<title>ISP_MOXICO</title>");
+    win.document.write(estilo);
+    win.document.write("</head>");
+    win.document.write("<body>");
+    win.document.write(con);
+    win.document.write("</body>");
+    win.document.write("</html>");
+    win.print();
+    win.close();
+  };
 
   return (
     <div className='relatoriosLista'>
       {loding && <OvelayLoader />}
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "end",
-          alignItems: "end",
-        }}>
-        <Button
-          type='primary'
+
+      {list.length > 0 && (
+        <div
           style={{
             display: "flex",
-            background: "#a31543",
-            marginTop: "10px",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "10px",
-            fontSize: "14pt",
-            marginRight: "10px",
-          }}
-          onClick={() => imprimir()}>
-          <PiPrinter /> Imprimir
-        </Button>
-      </div>
+            width: "100%",
+            justifyContent: "end",
+            alignItems: "end",
+          }}>
+          <Button
+            type='primary'
+            style={{
+              display: "flex",
+              background: "#a31543",
+              marginTop: "10px",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+              fontSize: "14pt",
+              marginRight: "10px",
+            }}
+            onClick={() => imprimir()}>
+            <PiPrinter /> Imprimir
+          </Button>
+        </div>
+      )}
       <div className='tabela' id='tabela' ref={document}>
         <img
           src={logo}
@@ -101,6 +139,7 @@ const Relatorios = () => {
           style={{
             display: "flex",
             float: "right",
+            marginTop: "40px",
           }}
         />
         <div
@@ -324,16 +363,37 @@ const Relatorios = () => {
               ))}
             </Select>
           </FormControl>
+          <FormControl>
+            <InputLabel htmlFor='demo-simple-select-label'>
+              Frequência
+            </InputLabel>
+            <Select
+              style={{
+                width: "200px",
+              }}
+              labelId='demo-simple-select-label'
+              label='Frequência'
+              onChange={(e) => setFrequencia(e.target.value)}
+              id='demo-simple-select'>
+              {frequencias.map((f) => (
+                <MenuItem value={f?.ano} key={f.id}>
+                  {f?.ano}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </div>
-        <Button
-          type='primary'
-          style={{
-            background: "#a31543",
-            marginTop: "10px",
-          }}
-          onClick={() => listaEstudante()}>
-          Buscar Histórico
-        </Button>
+        {curso && ano && frequencia && (
+          <Button
+            type='primary'
+            style={{
+              background: "#a31543",
+              marginTop: "10px",
+            }}
+            onClick={() => listaEstudante()}>
+            Buscar Histórico
+          </Button>
+        )}
       </div>
     </div>
   );

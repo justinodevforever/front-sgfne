@@ -18,13 +18,13 @@
   display: flex;
   gap: 20px;
 }
-.atualizarMes table th {
-  background-color: $rosa;
+.atualizarMes table {
+  width: 100%;
+  border-collapse: collapse;
 }
 .atualizarMes table th {
-  border: none;
+  border: 1px solid #000;
 }
 .atualizarMes table td {
-  border: none;
   border-bottom: 1px solid #000;
 }

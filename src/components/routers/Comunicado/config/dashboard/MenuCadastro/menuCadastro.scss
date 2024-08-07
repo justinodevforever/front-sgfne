@@ -38,6 +38,7 @@
 .isAcr,
 .isAal,
 .isCurso,
+.isServico,
 .isMes {
   background-color: #f1cfda;
   display: flex;
@@ -68,6 +69,7 @@
 .isAfr::before,
 .isAsm::before,
 .isAal::before,
+.isServico::before,
 .isAms::before {
   content: "";
   position: absolute;

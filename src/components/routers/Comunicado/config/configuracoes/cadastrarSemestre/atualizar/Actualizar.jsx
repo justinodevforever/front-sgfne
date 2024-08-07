@@ -155,6 +155,7 @@ const ActualizarSemestre = () => {
               }}>
               <TextField
                 label='Nº Correspondente'
+                type='number'
                 value={numero}
                 onChange={(e) => setNumero(e.target.value)}
                 disabled={disabled ? false : true}
@@ -180,7 +181,7 @@ const ActualizarSemestre = () => {
           <Button
             type='primary'
             loading={isLoading}
-            disabled={!ValidSemestre || !numero}
+            disabled={!ValidSemestre || !validNumber}
             onClick={() => upDateSemestre()}
             style={{
               marginTop: "70px",

@@ -302,11 +302,11 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                     onChange={(e) => setFrequencia(e.target.value)}>
                     <option
                       value={
-                        cadeiraAtraso?.AnoFrequncia?.ano +
+                        cadeiraAtraso?.AnoFrequencia?.ano +
                         "," +
                         cadeiraAtraso?.fk_frequencia
                       }>
-                      {cadeiraAtraso?.AnoFrequncia?.ano}
+                      {cadeiraAtraso?.AnoFrequencia?.ano}
                     </option>
 
                     {frequencias.map((f) => (
@@ -385,7 +385,7 @@ const EditarCadeira = ({ cadeiraAtraso, tipo }) => {
                       <td>{cadeiraAtraso?.estudante?.nome}</td>
                       <td>{cadeiraAtraso?.estudante?.bi}</td>
                       <td>{cadeiraAtraso?.disciplina?.nome}</td>
-                      <td>{cadeiraAtraso?.AnoFrequncia?.ano}</td>
+                      <td>{cadeiraAtraso?.AnoFrequencia?.ano}</td>
                       <td>{cadeiraAtraso?.anoLectivo?.ano}</td>
                       <td>{cadeiraAtraso?.Curso?.curso}</td>
                       <td>{cadeiraAtraso?.semestre?.nome}</td>

@@ -37,7 +37,10 @@
 .isLince,
 .isCadeira,
 .isNota,
-.isSem {
+.isSem,
+.isPF,
+.isMat,
+.isInsc {
   background-color: #f1cfda;
   display: flex;
   width: 90%;
@@ -66,7 +69,10 @@
 .isLince::before,
 .isCadeira::before,
 .isNota::before,
-.isSem::before {
+.isSem::before,
+.isPF::before,
+.isInsc::before,
+.isMat::before {
   content: "";
   position: absolute;
   width: 4px;

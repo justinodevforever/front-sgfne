@@ -30,11 +30,11 @@
   display: flex;
   gap: 20px;
 }
-.atualizarDisciplina table th {
-  background-color: $rosa;
-  border: none;
+.atualizarDisciplina table {
+  width: 100%;
+  border-collapse: collapse;
 }
-.atualizarDisciplina table td {
-  border: none;
+.atualizarDisciplina table td,
+th {
   border-bottom: 1px solid #000;
 }

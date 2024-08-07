@@ -63,3 +63,15 @@
   flex-direction: column;
   // overflow-y: auto;
 }
+.imgLogo {
+  animation: animate 2s ease-in infinite;
+}
+
+@keyframes animate {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 190deg;
+  }
+}

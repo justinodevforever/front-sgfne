@@ -39,6 +39,12 @@ const MenuCadastro = ({ register }) => {
                 Adicionar Semestre
               </li>
             </Link>
+            <Link to={`cadastrar_servico/${3}?cd=${"servico"}`}>
+              <li className={cd.get("cd") === "servico" ? "isServico" : "li"}>
+                <Add />
+                Adicionar Serviço
+              </li>
+            </Link>
             <Link to={`cadastrar_mes/${3}?cd=${"ams"}`}>
               <li className={cd.get("cd") === "ams" ? "isAms" : "li"}>
                 <Add />

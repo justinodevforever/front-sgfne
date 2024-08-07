@@ -26,32 +26,31 @@ import { Form, Input, Space } from "antd";
 import Processing from "../../../../../hook/process/Processing";
 import { useForm } from "react-hook-form";
 import { formatDate, formatDateNumber } from "../../../../../hook/timeout";
+import Ispm from "../../../../../hook/Ispm";
 
-const PropinaDashboard = ({ tipo }) => {
+const PropinaDashboard = () => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
-  const [fk_mes, setFk_mes] = useState("");
   const [fk_estudante, setFk_estudante] = useState("");
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
-  const [fk_ano, setFk_ano] = useState("");
   const [valor, setValor] = useState("");
   const [rupe, setRupe] = useState(0);
-  const [fk_semestre, setFk_semestre] = useState("");
+  const [frequencia, setFrequencia] = useState("");
   const [mes, setMes] = useState("");
   const [meses, setMeses] = useState([]);
   const [semestres, setSemestres] = useState([]);
   const [anos, setAnos] = useState([]);
   const [ano, setAno] = useState("");
   const [semestre, setSemestre] = useState("");
-  const [visivel, setVisivel] = useState(false);
   const navigate = useNavigate();
   const [periodo, setPeriodo] = useState("");
   const [id, setId] = useState("");
   const [message, setMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const form = useForm();
   const { register, handleSubmit } = form;
 
@@ -65,23 +64,16 @@ const PropinaDashboard = ({ tipo }) => {
     getSemestre();
     getAnoLetivo();
     setFk_user(sessionStorage.getItem("id"));
+    setIsLoading(false);
     // tiposServicos();
   }, []);
-  useEffect(() => {
-    buscaSemestre();
-  }, [semestre]);
+
   useEffect(() => {
     if (bi === "") {
       setNome("");
       setCurso("");
     }
   }, [bi]);
-  useEffect(() => {
-    buscaMes();
-  }, [mes]);
-  useEffect(() => {
-    buscaAnoLeivo();
-  }, [ano]);
 
   const buscarEstudante = async () => {
     setLoading(true);
@@ -105,10 +97,11 @@ const PropinaDashboard = ({ tipo }) => {
           return () => clearInterval(c);
         }
 
-        setCurso(data.data.curso.curso);
-        setFk_curso(data.data.curso.id);
-        setNome(data.data.nome);
-        setFk_estudante(data.data.id);
+        setFrequencia(data.data?.frequencia?.ano);
+        setCurso(data.data?.curso?.curso);
+        setFk_curso(data.data?.curso?.id);
+        setNome(data.data?.nome);
+        setFk_estudante(data.data?.id);
         setPeriodo(data?.data?.regime);
         if (data.data?.regime === "Regular") setValor(1900);
         else if (data.data?.regime === "Pós-Laboral") setValor(15000);
@@ -159,57 +152,13 @@ const PropinaDashboard = ({ tipo }) => {
       .catch((err) => console.log(err));
   };
 
-  const buscaMes = async () => {
-    await api
-      .post("/search/mes", {
-        mes,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-
-        setFk_mes(data.data?.id);
-      })
-      .catch((err) => console.log(err));
-  };
-  const buscaSemestre = async () => {
-    await api
-      .post("/search/semestre", {
-        nome: semestre,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_semestre(data.data.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const buscaAnoLeivo = async () => {
-    await api
-      .post("/search/letivo", {
-        ano,
-      })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigate("/login");
-          return;
-        }
-        setFk_ano(data.data.id);
-      })
-      .catch((err) => console.log(err));
-  };
-
   const handlePagamento = async (data) => {
     if (
       data.fk_mes === undefined ||
       data.fk_ano === undefined ||
       data.fk_semestre === undefined ||
       data.rupe === 0 ||
+      !frequencia ||
       !data.rupe
     ) {
       dispatchError(toggleModalError(true));
@@ -231,6 +180,7 @@ const PropinaDashboard = ({ tipo }) => {
         valor,
         rupe: Number(data.rupe),
         dataSolicitacao: di,
+        frequencia,
       })
       .then(async (data) => {
         if (data.data === "Token Invalid") {
@@ -262,6 +212,7 @@ const PropinaDashboard = ({ tipo }) => {
 
   return (
     <>
+      {isLoading && <Ispm />}
       <UseWarning message={message} />
       <UseSucess />
       <UseErro />

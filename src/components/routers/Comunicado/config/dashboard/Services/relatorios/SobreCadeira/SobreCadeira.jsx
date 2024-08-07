@@ -14,6 +14,7 @@ import image from "./Logo.png";
 
 function RelatorioSobreCadeira() {
   const [cadeira, setCadeira] = useState({});
+  const [fechar, setFechar] = useState(true);
   const { id } = useParams();
   const [tipo] = useSearchParams();
 
@@ -124,196 +125,206 @@ function RelatorioSobreCadeira() {
 
   return (
     <>
-      <div className='relatorioCadeira'>
-        <div className='opcoesCadeira'>
-          <h2>Relatório </h2>
-
-          <Link onClick={(e) => imprimir(e)} className='LinkImprim'>
-            {" "}
-            <BiPrinter /> Imprimir{" "}
-          </Link>
-        </div>
-
+      {fechar && (
         <>
-          <div className='tabelaSobreCadeira' id='tabela'>
-            <div className='content'>
-              <div className='parte2'>
-                <div className='extra'>
-                  <img src={image} alt='ISPM' />
-                  <div>
-                    <h4>
-                      <strong>Tipo de Serviço: </strong>
-                      {tipo.get("tipo")}
-                    </h4>
-                    <span>Curso: {cadeira?.Curso?.curso}</span>
-                    <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
-                  </div>
-                  <br />
-                </div>
+          <div className='relatorioCadeira'>
+            <div className='opcoesCadeira'>
+              <h2>Relatório </h2>
 
-                <table>
-                  <thead>
-                    <tr className='estudante'>
-                      <th colSpan={6}> Dados de Estudante</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>Estudante</td>
-                      <td>{cadeira?.estudante?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Bilhete de Identidade</td>
-                      <td>{cadeira?.estudante?.bi}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <br />
-                <table>
-                  <thead>
-                    <tr className='estudante'>
-                      <th colSpan={6}> Dados da Cadeira</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>Cadeira</td>
-                      <td>{cadeira?.disciplina?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Total Pago</td>
-                      <td>{cadeira?.valor} Kz</td>
-                    </tr>
-                    <tr>
-                      <td>Semestre</td>
-
-                      <td>{cadeira?.semestre?.nome} Semestre</td>
-                    </tr>
-                    <tr>
-                      <td>Ano de Frquência</td>
-                      <td>{cadeira?.AnoFrequencia?.ano} Ano</td>
-                    </tr>
-                    <tr>
-                      <td>Forma de Pagamento</td>
-                      <td>Por RUPE {cadeira?.rupe}</td>
-                    </tr>
-                    <tr>
-                      <td>Solicitado</td>
-                      <td>{formatDate(cadeira?.createdAt)}</td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}>
-                          <strong
-                            style={{
-                              fontStyle: "italic",
-                            }}>
-                            Respossável:
-                          </strong>{" "}
-                          {cadeira?.usuario?.nome}
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div className='parte1'>
-                <div className='extra'>
-                  <img src={image} alt='ISPM' />
-                  <div>
-                    <h4>
-                      <strong>Tipo de Serviço: </strong>
-                      {tipo.get("tipo")}
-                    </h4>
-                    <span>Curso: {cadeira?.Curso?.curso}</span>
-                    <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
-                  </div>
-                  <br />
-                </div>
-                <table>
-                  <thead>
-                    <tr className='estudante'>
-                      <th colSpan={6}> Dados de Estudante</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>Estudante</td>
-                      <td>{cadeira?.estudante?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Bilhete de Identidade</td>
-                      <td>{cadeira?.estudante?.bi}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <br />
-                <table>
-                  <thead>
-                    <tr className='estudante'>
-                      <th colSpan={6}> Dados da Cadeira</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>Cadeira</td>
-                      <td>{cadeira?.disciplina?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Total Pago</td>
-                      <td>{cadeira?.valor} Kz</td>
-                    </tr>
-                    <tr>
-                      <td>Semestre</td>
-
-                      <td>{cadeira?.semestre?.nome} Semestre</td>
-                    </tr>
-                    <tr>
-                      <td>Ano de Frquência</td>
-                      <td>{cadeira?.AnoFrequencia?.ano} Ano</td>
-                    </tr>
-                    <tr>
-                      <td>Forma de Pagamento</td>
-                      <td>Por RUPE {cadeira?.rupe}</td>
-                    </tr>
-                    <tr>
-                      <td>Solicitado</td>
-                      <td>{formatDate(cadeira?.createdAt)}</td>
-                    </tr>
-                    <tr>
-                      <td colSpan={2}>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                          }}>
-                          <strong
-                            style={{
-                              fontStyle: "italic",
-                            }}>
-                            Respossável:
-                          </strong>{" "}
-                          {cadeira?.usuario?.nome}
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <Link onClick={(e) => imprimir(e)} className='LinkImprim'>
+                {" "}
+                <BiPrinter /> Imprimir{" "}
+              </Link>
+              <Link
+                to={`/dashboard/cadeira%20de%20atraso/${2}?active=cad`}
+                className='LinkFechar'>
+                {" "}
+                Fechar{" "}
+              </Link>
             </div>
+
+            <>
+              <div className='tabelaSobreCadeira' id='tabela'>
+                <div className='content'>
+                  <div className='parte2'>
+                    <div className='extra'>
+                      <img src={image} alt='ISPM' />
+                      <div>
+                        <h4>
+                          <strong>Tipo de Serviço: </strong>
+                          {tipo.get("tipo")}
+                        </h4>
+                        <span>Curso: {cadeira?.Curso?.curso}</span>
+                        <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
+                      </div>
+                      <br />
+                    </div>
+
+                    <table>
+                      <thead>
+                        <tr className='estudante'>
+                          <th colSpan={6}> Dados de Estudante</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>Estudante</td>
+                          <td>{cadeira?.estudante?.nome}</td>
+                        </tr>
+                        <tr>
+                          <td>Bilhete de Identidade</td>
+                          <td>{cadeira?.estudante?.bi}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <br />
+                    <table>
+                      <thead>
+                        <tr className='estudante'>
+                          <th colSpan={6}> Dados da Cadeira</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>Cadeira</td>
+                          <td>{cadeira?.disciplina?.nome}</td>
+                        </tr>
+                        <tr>
+                          <td>Total Pago</td>
+                          <td>{cadeira?.valor} Kz</td>
+                        </tr>
+                        <tr>
+                          <td>Semestre</td>
+
+                          <td>{cadeira?.semestre?.nome} Semestre</td>
+                        </tr>
+                        <tr>
+                          <td>Ano de Frquência</td>
+                          <td>{cadeira?.AnoFrequencia?.ano} Ano</td>
+                        </tr>
+                        <tr>
+                          <td>Forma de Pagamento</td>
+                          <td>Por RUPE {cadeira?.rupe}</td>
+                        </tr>
+                        <tr>
+                          <td>Solicitado</td>
+                          <td>{formatDate(cadeira?.createdAt)}</td>
+                        </tr>
+                        <tr>
+                          <td colSpan={2}>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}>
+                              <strong
+                                style={{
+                                  fontStyle: "italic",
+                                }}>
+                                Respossável:
+                              </strong>{" "}
+                              {cadeira?.usuario?.nome}
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className='parte1'>
+                    <div className='extra'>
+                      <img src={image} alt='ISPM' />
+                      <div>
+                        <h4>
+                          <strong>Tipo de Serviço: </strong>
+                          {tipo.get("tipo")}
+                        </h4>
+                        <span>Curso: {cadeira?.Curso?.curso}</span>
+                        <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
+                      </div>
+                      <br />
+                    </div>
+                    <table>
+                      <thead>
+                        <tr className='estudante'>
+                          <th colSpan={6}> Dados de Estudante</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>Estudante</td>
+                          <td>{cadeira?.estudante?.nome}</td>
+                        </tr>
+                        <tr>
+                          <td>Bilhete de Identidade</td>
+                          <td>{cadeira?.estudante?.bi}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <br />
+                    <table>
+                      <thead>
+                        <tr className='estudante'>
+                          <th colSpan={6}> Dados da Cadeira</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>Cadeira</td>
+                          <td>{cadeira?.disciplina?.nome}</td>
+                        </tr>
+                        <tr>
+                          <td>Total Pago</td>
+                          <td>{cadeira?.valor} Kz</td>
+                        </tr>
+                        <tr>
+                          <td>Semestre</td>
+
+                          <td>{cadeira?.semestre?.nome} Semestre</td>
+                        </tr>
+                        <tr>
+                          <td>Ano de Frquência</td>
+                          <td>{cadeira?.AnoFrequencia?.ano} Ano</td>
+                        </tr>
+                        <tr>
+                          <td>Forma de Pagamento</td>
+                          <td>Por RUPE {cadeira?.rupe}</td>
+                        </tr>
+                        <tr>
+                          <td>Solicitado</td>
+                          <td>{formatDate(cadeira?.createdAt)}</td>
+                        </tr>
+                        <tr>
+                          <td colSpan={2}>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}>
+                              <strong
+                                style={{
+                                  fontStyle: "italic",
+                                }}>
+                                Respossável:
+                              </strong>{" "}
+                              {cadeira?.usuario?.nome}
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </>
           </div>
+          <div className='overley'></div>
         </>
-      </div>
-      <div className='overley'></div>
+      )}
     </>
   );
 }

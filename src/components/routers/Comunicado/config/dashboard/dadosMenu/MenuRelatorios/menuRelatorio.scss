@@ -37,7 +37,9 @@
 .isLince,
 .isCadeira,
 .isNota,
-.isSem {
+.isSem,
+.reIns,
+.reMa {
   background-color: #f1cfda;
   display: flex;
   width: 100%;
@@ -66,7 +68,9 @@
 .isLince::before,
 .isCadeira::before,
 .isNota::before,
-.isSem::before {
+.reIns::before,
+.isSem::before,
+.reMa::before {
   content: "";
   position: absolute;
   width: 4px;

@@ -1,5 +1,36 @@
-table {
+@import "../../../../../../../style/variable.scss";
+.movimentoFinanceiro {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.movimentoFinanceiro table {
   margin: auto;
   width: 90%;
   border-collapse: collapse;
+}
+.movimentoFinanceiro th {
+  border: 1px solid #000;
+}
+.movimentoFinanceiro .imprimirFinanca {
+  display: flex;
+  width: 100%;
+  position: relative;
+  padding: 10px;
+}
+.movimentoFinanceiro .imprimirFinanca a {
+  display: flex;
+  color: $white;
+  background-color: $rosa;
+  padding: 10px;
+  opacity: 0.8;
+  border-radius: 10px;
+  gap: 10px;
+  position: absolute;
+  right: 20px;
+}
+.movimentoFinanceiro .imprimirFinanca a:hover {
+  opacity: 1;
 }

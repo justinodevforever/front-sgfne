@@ -4,6 +4,7 @@ import { CurrencyExchange } from "@mui/icons-material";
 import { DollarOutlined, DollarTwoTone } from "@ant-design/icons";
 import { BiDollar } from "react-icons/bi";
 import { useState } from "react";
+import { PiStudentDuotone } from "react-icons/pi";
 
 const DadosMenu = ({ pay, config, register, printer }) => {
   const [reco, setReco] = useState(false);
@@ -24,6 +25,18 @@ const DadosMenu = ({ pay, config, register, printer }) => {
               <li className={active.get("active") === "reco" ? "isReco" : "li"}>
                 <BiDollar />
                 Reconfirmação
+              </li>
+            </Link>
+            <Link to={`matricula/${2}?active=${"mat"}`}>
+              <li className={active.get("active") === "mat" ? "isMat" : "li"}>
+                <PiStudentDuotone />
+                Matrícula
+              </li>
+            </Link>
+            <Link to={`inscrincao/${2}?active=${"insc"}`}>
+              <li className={active.get("active") === "insc" ? "isInsc" : "li"}>
+                <BiDollar />
+                Inscrições
               </li>
             </Link>
             <Link to={`recurso/${2}?active=${"rec"}`}>
@@ -64,8 +77,8 @@ const DadosMenu = ({ pay, config, register, printer }) => {
                 D. Sem Nota
               </li>
             </Link>
-            <Link to={`folha/${2}?active=${"fl"}`}>
-              <li className={active.get("active") === "fl" ? "isPag" : "li"}>
+            <Link to={`pagamento_folha/${2}?active=${"pf"}`}>
+              <li className={active.get("active") === "pf" ? "isPF" : "li"}>
                 <BiDollar />
                 Pagamento de Folha
               </li>

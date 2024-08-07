@@ -5,6 +5,7 @@ import { Dayjs } from "dayjs";
 import { formatDate } from "../../../../hook/timeout";
 import { api } from "../../../../../../../auth/auth";
 import { useEffect, useState } from "react";
+import { Button } from "antd";
 
 function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
   const [semestres, setSemestres] = useState([]);
@@ -124,175 +125,173 @@ function RelatorioSobreCadeira({ propinas, setVisivel, visivel, tipo, id }) {
 
   return (
     <>
-      {visivel && (
-        <>
-          <div className='relatorioCadeira'>
-            <div className='opcoes'>
-              <h2>Relatório </h2>
+      <>
+        <div className='relatorioCadeira'>
+          <div className='opcoes'>
+            <h2>Relatório </h2>
 
-              <BiX
-                size={20}
-                color='red'
-                cursor={"pointer"}
-                className='closed'
-                onClick={(e) => closed(e)}
-              />
+            <BiX
+              size={20}
+              color='red'
+              cursor={"pointer"}
+              className='closed'
+              onClick={(e) => closed(e)}
+            />
+          </div>
+
+          <h2 className='h2'>{tipo}</h2>
+
+          <>
+            <div className='tabelaSobreCadeira' id='tabela'>
+              <div className='extra'>
+                <img src='./Logo.png' alt='ISPM' />
+                <div>
+                  <span>Curso: {cadeira?.Curso?.curso}</span>
+                  <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
+                </div>
+                <br />
+                <span className='tipo'>Tipo de Serviço: {tipo} </span>
+              </div>
+
+              <table>
+                <thead>
+                  <tr className='estudante'>
+                    <th colSpan={6}> Dados de Estudante</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>Estudante</td>
+                    <td>{cadeira?.estudante?.nome}</td>
+                  </tr>
+                  <tr>
+                    <td>Bilhete de Identidade</td>
+                    <td>{cadeira?.estudante?.bi}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <br />
+              <table>
+                <thead>
+                  <tr className='estudante'>
+                    <th colSpan={6}> Dados da Cadeira</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>Cadeira</td>
+                    <td>{cadeira?.disciplina?.nome}</td>
+                  </tr>
+                  <tr>
+                    <td>Total Pago</td>
+                    <td>{cadeira?.valor} Kz</td>
+                  </tr>
+                  <tr>
+                    <td>Semestre</td>
+
+                    <td>{cadeira?.semestre?.nome}</td>
+                  </tr>
+                  <tr>
+                    <td>Ano de Frquência</td>
+                    <td>{cadeira?.AnoFrequncia?.ano}</td>
+                  </tr>
+                  <tr>
+                    <td>Solicitado</td>
+                    <td>{formatDate(cadeira?.createdAt)}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className='assinar'>
+                <div>
+                  <hr />
+                  <span>{"(Assinatura do Estudante)"}</span>
+                </div>
+                <div>
+                  <hr />
+                  <span>{"(Assinatura do Operador)"}</span>
+                </div>
+              </div>
+
+              <hr />
+              <div className='extra'>
+                <div>
+                  <span>Curso: {cadeira?.curso?.curso}</span>
+                  <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
+                </div>
+                <br />
+                <span className='tipo'>Tipo de Serviço: {tipo} </span>
+              </div>
+              <table>
+                <thead>
+                  <tr className='estudante'>
+                    <th colSpan={6}> Dados de Estudante</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>Estudante</td>
+                    <td>{cadeira?.estudante?.nome}</td>
+                  </tr>
+                  <tr>
+                    <td>Bilhete de Identidade</td>
+                    <td>{cadeira?.estudante?.bi}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <br />
+              <table>
+                <thead>
+                  <tr className='estudante'>
+                    <th colSpan={6}> Dados da Cadeira</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>Cadeira</td>
+                    <td>{cadeira?.disciplina?.nome}</td>
+                  </tr>
+                  <tr>
+                    <td>Total Pago</td>
+                    <td>{cadeira?.valor} Kz</td>
+                  </tr>
+                  <tr>
+                    <td>Semestre</td>
+
+                    <td>{cadeira?.semestre?.nome}</td>
+                  </tr>
+                  <tr>
+                    <td>Ano de Frquência</td>
+                    <td>{cadeira?.AnoFrequncia?.ano}</td>
+                  </tr>
+                  <tr>
+                    <td>Solicitado</td>
+                    <td>{formatDate(cadeira?.createdAt)}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className='assinar'>
+                <div>
+                  <hr />
+                  <span>{"(Assinatura do Estudante)"}</span>
+                </div>
+                <div>
+                  <hr />
+                  <span>{"(Assinatura do Operador)"}</span>
+                </div>
+              </div>
             </div>
 
-            <h2 className='h2'>{tipo}</h2>
-
-            <>
-              <div className='tabelaSobreCadeira' id='tabela'>
-                <div className='extra'>
-                  <img src='./Logo.png' alt='ISPM' />
-                  <div>
-                    <span>Curso: {cadeira?.Curso?.curso}</span>
-                    <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
-                  </div>
-                  <br />
-                  <span className='tipo'>Tipo de Serviço: {tipo} </span>
-                </div>
-
-                <table>
-                  <thead>
-                    <tr className='estudante'>
-                      <th colSpan={6}> Dados de Estudante</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>Estudante</td>
-                      <td>{cadeira?.estudante?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Bilhete de Identidade</td>
-                      <td>{cadeira?.estudante?.bi}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <br />
-                <table>
-                  <thead>
-                    <tr className='estudante'>
-                      <th colSpan={6}> Dados da Cadeira</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>Cadeira</td>
-                      <td>{cadeira?.disciplina?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Total Pago</td>
-                      <td>{cadeira?.valor} Kz</td>
-                    </tr>
-                    <tr>
-                      <td>Semestre</td>
-
-                      <td>{cadeira?.semestre?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Ano de Frquência</td>
-                      <td>{cadeira?.AnoFrequncia?.ano}</td>
-                    </tr>
-                    <tr>
-                      <td>Solicitado</td>
-                      <td>{formatDate(cadeira?.createdAt)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className='assinar'>
-                  <div>
-                    <hr />
-                    <span>{"(Assinatura do Estudante)"}</span>
-                  </div>
-                  <div>
-                    <hr />
-                    <span>{"(Assinatura do Operador)"}</span>
-                  </div>
-                </div>
-
-                <hr />
-                <div className='extra'>
-                  <div>
-                    <span>Curso: {cadeira?.curso?.curso}</span>
-                    <span>Ano Lectivo: {cadeira?.anoLectivo?.ano}</span>
-                  </div>
-                  <br />
-                  <span className='tipo'>Tipo de Serviço: {tipo} </span>
-                </div>
-                <table>
-                  <thead>
-                    <tr className='estudante'>
-                      <th colSpan={6}> Dados de Estudante</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>Estudante</td>
-                      <td>{cadeira?.estudante?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Bilhete de Identidade</td>
-                      <td>{cadeira?.estudante?.bi}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <br />
-                <table>
-                  <thead>
-                    <tr className='estudante'>
-                      <th colSpan={6}> Dados da Cadeira</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    <tr>
-                      <td>Cadeira</td>
-                      <td>{cadeira?.disciplina?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Total Pago</td>
-                      <td>{cadeira?.valor} Kz</td>
-                    </tr>
-                    <tr>
-                      <td>Semestre</td>
-
-                      <td>{cadeira?.semestre?.nome}</td>
-                    </tr>
-                    <tr>
-                      <td>Ano de Frquência</td>
-                      <td>{cadeira?.AnoFrequncia?.ano}</td>
-                    </tr>
-                    <tr>
-                      <td>Solicitado</td>
-                      <td>{formatDate(cadeira?.createdAt)}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className='assinar'>
-                  <div>
-                    <hr />
-                    <span>{"(Assinatura do Estudante)"}</span>
-                  </div>
-                  <div>
-                    <hr />
-                    <span>{"(Assinatura do Operador)"}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className='imprimir'>
-                <Link onClick={(e) => imprimir(e)}>Imprimir</Link>
-              </div>
-            </>
-          </div>
-          <div className='overley'></div>
-        </>
-      )}
+            <div className='imprimir'>
+              <Link onClick={(e) => imprimir(e)}>Imprimir</Link>
+            </div>
+          </>
+        </div>
+        <div className='overley'></div>
+      </>
     </>
   );
 }

@@ -102,6 +102,7 @@ export default function Login() {
               <button>Entrar</button>
               <div className='link'>
                 <Link
+                  to={"/alterar/senha"}
                   style={{
                     fontStyle: "italic",
                     fontSize: "11pt",

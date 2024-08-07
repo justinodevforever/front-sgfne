@@ -125,6 +125,24 @@
   margin-bottom: 10px;
   gap: 10px;
 }
+.LinkFechar {
+  display: flex;
+  color: red;
+  border-radius: 50%;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+.LinkFechar:hover {
+  display: flex;
+  background-color: red;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
 .relatorioCadeira .tipo {
   display: flex;
   margin-top: 30px;

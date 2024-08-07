@@ -8,6 +8,9 @@
 .extra {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
   margin: auto;
 }
 
@@ -44,11 +47,15 @@
   border-radius: 50%;
 }
 .tabelaReconfirmacao {
+  display: flex;
   margin-top: 40px;
+}
+.tabelaReconfirmacao div {
+  width: 70%;
 }
 .tabelaReconfirmacao table {
   border-collapse: collapse;
-  width: 78%;
+  width: 90%;
   margin: auto;
   margin-top: 20px;
 }
@@ -85,6 +92,7 @@
   color: #000;
   border: none;
   border: 1px solid #000;
+  text-align: left;
 }
 .relatorioReconformacao .opcoes a {
   color: #a31543;
@@ -101,7 +109,7 @@
   align-items: center;
   justify-content: center;
 }
-.relatorioReconformacao .imprimirReconfirmacao a {
+.relatorioReconformacao .imprimirReconfirmacao .linkImprimir {
   display: flex;
   background-color: #a31543;
   color: #fff;
@@ -112,7 +120,26 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
+  margin-right: 40px;
   gap: 10px;
+}
+.LinkFechar {
+  display: flex;
+  color: red;
+  border-radius: 50%;
+  padding: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+.LinkFechar:hover {
+  display: flex;
+  background-color: red;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
 }
 .relatorioReconformacao img {
   width: 50px;

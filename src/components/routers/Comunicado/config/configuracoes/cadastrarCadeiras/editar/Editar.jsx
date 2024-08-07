@@ -190,8 +190,8 @@ const Editar = ({ isVisible, setIsVisible, id }) => {
                 fontSize: "20px",
                 border: "1px solid #ddd",
               }}>
-              <option value={disciplina?.frequencia?.id}>
-                {disciplina?.frequencia?.ano}
+              <option value={disciplina?.AnoFrequencia?.id}>
+                {disciplina?.AnoFrequencia?.ano}
               </option>
               {frequencias.map((c) => (
                 <option value={c.id} key={c.id}>

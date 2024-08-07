@@ -25,6 +25,8 @@ import imageUser from "./emptyImage.jpg";
 import MenuPerfil from "../../../../navbar/Menu Perfil/MenuPerfil";
 import { CiLogout } from "react-icons/ci";
 import MenuCadastro from "./MenuCadastro/MenuCadastro";
+import PegarPermissoes from "../../../../../configs/permissoes/PegarPermissoes";
+import Logout from "./menuLogout/Logout";
 
 const Dashboard = () => {
   const [isClosed, setIsClosed] = useState(false);
@@ -34,7 +36,7 @@ const Dashboard = () => {
   const [pay, setPay] = useState(false);
   const [student, setstudent] = useState(false);
   const [cadastro, setCadastro] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
   const [dash, setDash] = useState(false);
   const [image, setImage] = useState([]);
   const [admin, setAdmin] = useState({});
@@ -82,10 +84,11 @@ const Dashboard = () => {
   }
   function logaut(e) {
     e.preventDefault();
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("id");
-    sessionStorage.removeItem("user");
-    navigate("/login");
+    // localStorage.removeItem("token");
+    // sessionStorage.removeItem("id");
+    // sessionStorage.removeItem("user");
+    // navigate("/login");
+    setIsLogout(true);
   }
 
   const varify = () => {
@@ -141,189 +144,221 @@ const Dashboard = () => {
   };
 
   return (
-    <div className='containerDashboard'>
-      <div className={!dash ? "menu" : "offBorder"}>
-        <div
-          className='user'
-          style={{
-            color: "#fff",
-            background: "#000",
-            padding: "0px",
-          }}>
+    <>
+      {isLogout && <Logout setIsLogout={setIsLogout} />}
+
+      <div className='containerDashboard'>
+        <div className={!dash ? "menu" : "offBorder"}>
+          <div
+            className='user'
+            style={{
+              color: "#fff",
+              background: "#000",
+              padding: "0px",
+            }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                color: "#fff",
+                background: "#000",
+                marginBottom: "10px",
+              }}>
+              <img
+                src={imageLogo}
+                alt='image'
+                // className='imgLogo'
+                style={{ width: "70px", height: "70px", opacity: 1 }}
+              />
+              <h3
+                style={{
+                  margin: "15px 10px 0px 0px",
+                }}>
+                SGF
+              </h3>
+              <CiLogout
+                style={{
+                  margin: "15px 10px 0px 0px",
+                  transform: "rotate(180deg)",
+                }}
+                size={25}
+                color='red'
+                onClick={(e) => {
+                  logaut(e);
+                }}
+                cursor={"pointer"}
+                title='Sair'
+              />
+            </div>
+            <div
+              className='opcoes'
+              style={{
+                color: "#fff",
+                padding: "0px",
+              }}>
+              <div className={dash ? "isDash" : "offDash"}>
+                <DashboardOutlined
+                  title='Psinel'
+                  cursor={"pointer"}
+                  onClick={() => {
+                    setDash(true);
+                    setPay(false);
+                    setPrinter(false);
+                    setRegister(false);
+                    setConfig(false);
+                    setstudent(false);
+                    navigate(`/dashboard/dados/${1}`);
+                  }}
+                />
+              </div>
+              <PegarPermissoes permissoes={["admin", "salvar"]}>
+                <div className={pay ? "isPay" : "offPay"}>
+                  <Payment
+                    cursor={"pointer"}
+                    onClick={() => {
+                      setPay(true);
+                      setPrinter(false);
+                      setRegister(false);
+                      setConfig(false);
+                      setstudent(false);
+                      setDash(false);
+                    }}
+                    title='Serviços'
+                  />
+                </div>
+              </PegarPermissoes>
+              <PegarPermissoes permissoes={["admin", "salvar"]}>
+                <div className={register ? "isRegiter" : "offRegiter"}>
+                  <AppRegistrationRounded
+                    cursor={"pointer"}
+                    onClick={() => {
+                      setRegister(true);
+                      setPrinter(false);
+                      setPay(false);
+                      setConfig(false);
+                      setstudent(false);
+                      setDash(false);
+                    }}
+                    title='Cadastrar'
+                  />
+                </div>
+              </PegarPermissoes>
+              <PegarPermissoes permissoes={["admin"]}>
+                <div className={printer ? "isPrinter" : "offPrinter"}>
+                  <PrintRounded
+                    cursor={"pointer"}
+                    onClick={() => {
+                      setPrinter(true);
+                      setRegister(false);
+                      setPay(false);
+                      setConfig(false);
+                      setstudent(false);
+                      setDash(false);
+                    }}
+                    title='Relatório'
+                  />
+                </div>
+              </PegarPermissoes>
+              <PegarPermissoes permissoes={["admin", "salvar", "listar"]}>
+                <div className={student ? "isStudent" : "offStudent"}>
+                  <PiStudentBold
+                    size={25}
+                    cursor={"pointer"}
+                    onClick={() => {
+                      setstudent(true);
+                      setConfig(false);
+                      setPay(false);
+                      setPrinter(false);
+                      setRegister(false);
+                      setDash(false);
+                    }}
+                    title='Estudante'
+                  />
+                </div>
+              </PegarPermissoes>
+              <PegarPermissoes permissoes={["admin"]}>
+                <div className={config || id === 6 ? "isConfig" : "offConfig"}>
+                  <Settings
+                    cursor={"pointer"}
+                    onClick={() => {
+                      setConfig(true);
+                      setPay(false);
+                      setPrinter(false);
+                      setRegister(false);
+                      setstudent(false);
+                      setDash(false);
+                    }}
+                    title='Configurações'
+                  />
+                </div>
+              </PegarPermissoes>
+            </div>
+          </div>
+          <div className='ul'>
+            <DadosMenu pay={pay} />
+            <MenuRelatorio printer={printer} />
+            <MenuEstudante studente={student} />
+            <MenuConfig config={config} />
+            <MenuCadastro register={register} />
+          </div>
+        </div>
+
+        <div className='main'>
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
-              color: "#fff",
-              background: "#000",
-              marginBottom: "10px",
+              flexDirection: "column",
+              paddingTop: "40px",
+              overflowY: "auto",
             }}>
-            <img src={imageLogo} alt='image' />
-            <h3
-              style={{
-                margin: "15px 10px 0px 0px",
-              }}>
-              SGF
-            </h3>
-            <CiLogout
-              style={{
-                margin: "15px 10px 0px 0px",
-                transform: "rotate(180deg)",
-              }}
-              size={25}
-              color='red'
-              onClick={(e) => {
-                logaut(e);
-              }}
-              cursor={"pointer"}
-            />
-          </div>
-          <div
-            className='opcoes'
-            style={{
-              color: "#fff",
-              padding: "0px",
-            }}>
-            <div className={dash ? "isDash" : "offDash"}>
-              <DashboardOutlined
-                cursor={"pointer"}
-                onClick={() => {
-                  setDash(true);
-                  setPay(false);
-                  setPrinter(false);
-                  setRegister(false);
-                  setConfig(false);
-                  setstudent(false);
-                  navigate(`/dashboard/dados/${1}`);
-                }}
-              />
-            </div>
-            <div className={pay ? "isPay" : "offPay"}>
-              <Payment
-                cursor={"pointer"}
-                onClick={() => {
-                  setPay(true);
-                  setPrinter(false);
-                  setRegister(false);
-                  setConfig(false);
-                  setstudent(false);
-                  setDash(false);
-                }}
-              />
-            </div>
-            <div className={register ? "isRegiter" : "offRegiter"}>
-              <AppRegistrationRounded
-                cursor={"pointer"}
-                onClick={() => {
-                  setRegister(true);
-                  setPrinter(false);
-                  setPay(false);
-                  setConfig(false);
-                  setstudent(false);
-                  setDash(false);
-                }}
-              />
-            </div>
-            <div className={printer ? "isPrinter" : "offPrinter"}>
-              <PrintRounded
-                cursor={"pointer"}
-                onClick={() => {
-                  setPrinter(true);
-                  setRegister(false);
-                  setPay(false);
-                  setConfig(false);
-                  setstudent(false);
-                }}
-              />
-            </div>
-            <div className={student ? "isStudent" : "offStudent"}>
-              <PiStudentBold
-                size={25}
-                cursor={"pointer"}
-                onClick={() => {
-                  setstudent(true);
-                  setConfig(false);
-                  setPay(false);
-                  setPrinter(false);
-                  setRegister(false);
-                  setDash(false);
-                }}
-              />
-            </div>
-            <div className={config || id === 6 ? "isConfig" : "offConfig"}>
-              <Settings
-                cursor={"pointer"}
-                onClick={() => {
-                  setConfig(true);
-                  setPay(false);
-                  setPrinter(false);
-                  setRegister(false);
-                  setstudent(false);
-                  setDash(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        <div className='ul'>
-          <DadosMenu pay={pay} />
-          <MenuRelatorio printer={printer} />
-          <MenuEstudante studente={student} />
-          <MenuConfig config={config} />
-          <MenuCadastro register={register} />
-        </div>
-      </div>
-
-      <div className='main'>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            paddingTop: "40px",
-            overflowY: "auto",
-          }}>
-          <div className='navBar'>
-            <ul
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                width: "90%",
-                justifyContent: "space-between",
-              }}>
-              <li></li>
-              <li>
-                {image == undefined || null || image.length == 0 ? (
-                  <Link
-                    style={{
-                      borderRadius: "50%",
-                    }}
-                    className='perfil img'
-                    to={`/perfil/${sessionStorage.getItem("id")}`}>
-                    <img
-                      src={`../../../image/emptyImage.jpg`}
-                      alt={""}
-                      className='userImage'
-                    />
-                  </Link>
-                ) : (
-                  <div>
+            <div className='navBar'>
+              <ul
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "90%",
+                  justifyContent: "space-between",
+                }}>
+                <li></li>
+                <li>
+                  {image == undefined || null || image.length == 0 ? (
                     <Link
                       style={{
                         borderRadius: "50%",
                       }}
-                      className='perfil'
+                      className='perfil img'
                       to={`/perfil/${sessionStorage.getItem("id")}`}>
-                      <img src={image?.nome} alt={""} className='suserImage' />
+                      <img
+                        src={`../../../image/emptyImage.jpg`}
+                        alt={""}
+                        className='userImage'
+                      />
                     </Link>
-                  </div>
-                )}
-              </li>
-            </ul>
+                  ) : (
+                    <div>
+                      <Link
+                        style={{
+                          borderRadius: "50%",
+                        }}
+                        className='perfil'
+                        to={`/perfil/${sessionStorage.getItem("id")}`}>
+                        <img
+                          src={image?.nome}
+                          alt={""}
+                          className='suserImage'
+                        />
+                      </Link>
+                    </div>
+                  )}
+                </li>
+              </ul>
+            </div>
+
+            <Outlet />
           </div>
-          <Outlet />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import NavBar from "../navbar/navbar";
 import "./home.css";
-import Ispm from "./hook/Ispm";
 import Principal from "./Comunicado/Principal";
 import "dotenv";
-import Draw from "./draws/Draw";
-import { Outlet } from "react-router-dom";
 
 function Home() {
   const [mostrar, setMostrar] = useState(false);

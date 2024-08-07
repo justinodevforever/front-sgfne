@@ -13,6 +13,7 @@ import { api } from "../../../../../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Card } from "@mui/material";
+import imageLogo from "../../../../../../public/image/logoSgf.png";
 
 const Grafico = () => {
   const navigate = useNavigate();

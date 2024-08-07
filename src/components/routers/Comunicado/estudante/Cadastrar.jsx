@@ -38,36 +38,24 @@ const Cadastrar = () => {
   const [cursos, setCursos] = useState([]);
   const [frequencias, setFrequencias] = useState([]);
   const [fk_frequencia, setFk_frequencia] = useState(0);
+  const [rupe, setRupe] = useState(0);
   const [fk_user, setFk_user] = useState("");
   const [fk_curso, setFk_curso] = useState("");
   const [sexo, setSexo] = useState("");
-  const [turma, setTurma] = useState("");
+  const [valor, setValor] = useState("");
   let options = [];
 
   const dispatchConfirmar = useDispatch();
   const dispatchError = useDispatch();
   const dispatchWarning = useDispatch();
 
-  const navigete = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getCursos();
     getFrequencia();
   }, []);
 
-  const getBi = async () => {
-    await api
-      .post("/user/bi", { bi })
-      .then((data) => {
-        if (data.data === "Token Invalid") {
-          navigete("/login");
-          return;
-        }
-        setUserBi(data.data.bi);
-        setFk_user(data.data.id);
-      })
-      .catch((err) => console.log(err));
-  };
   const getCursos = async () => {
     await api
       .get("/curso")
@@ -120,28 +108,30 @@ const Cadastrar = () => {
       !bi ||
       !contato ||
       curso === "Escolha" ||
-      turma === "" ||
       !sexo ||
-      periodo === ""
+      periodo === "" ||
+      valor === 0
     ) {
       setMessage("Existe Campo Vazio!");
       dispatchWarning(toggleModalWarning(true));
       return;
     }
     await api
-      .post("/estudante", {
+      .post("/matricula", {
         fk_curso,
         nome,
         bi,
         contato,
         regime: periodo,
-        turma,
         sexo,
         fk_frequencia,
+        valor: parseFloat(valor),
+        fk_user: sessionStorage.getItem("id"),
+        rupe,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
-          navigete("/login");
+          navigate("/login");
           return;
         }
         if (data.data.message === "exist") {
@@ -155,11 +145,21 @@ const Cadastrar = () => {
 
           return;
         }
-        dispatchConfirmar(toggleModalConfirmar(true));
-        setBi("");
-        setNome("");
-        setContato("");
-        setUserBi("");
+        if (data.data.message === "sucess") {
+          dispatchConfirmar(toggleModalConfirmar(true));
+          setBi("");
+          setNome("");
+          setContato("");
+          setUserBi("");
+          let id = null;
+          let co = 0;
+
+          id = setInterval(() => {
+            navigate(`/recibo_matricula/${data.data?.response?.id}`);
+            if (co === 4) return clearInterval(id);
+            co++;
+          }, 5000);
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -190,11 +190,11 @@ const Cadastrar = () => {
               </Select>
             </FormControl>
             <TextField
-              type='text'
-              id='nome'
-              label='Turma'
-              value={turma}
-              onChange={(e) => setTurma(e.target.value)}
+              type='number'
+              id='valor'
+              label='Valor'
+              value={valor}
+              onChange={(e) => setValor(e.target.value)}
               required
               style={{
                 width: "60%",
@@ -260,6 +260,17 @@ const Cadastrar = () => {
                   control={<Radio />}
                 />
               </RadioGroup>
+              <TextField
+                type='number'
+                id='rupe'
+                label='Rupe'
+                value={rupe}
+                onChange={(e) => setRupe(e.target.value)}
+                required
+                style={{
+                  width: "100%",
+                }}
+              />
               <FormControl fullWidth>
                 <InputLabel htmlFor='demo-simple-select-label'>
                   Frequência

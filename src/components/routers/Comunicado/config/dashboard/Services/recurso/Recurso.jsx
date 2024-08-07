@@ -47,7 +47,7 @@ const RecursoDashboard = () => {
   const [disciplinas, setDisciplinas] = useState([]);
   const [semestre, setSemestre] = useState("");
   const navigate = useNavigate();
-  const [valor, setValor] = useState("");
+  const [valor, setValor] = useState(0);
   const [ativar, setAtivar] = useState(false);
   const [visivel, setVisivel] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -312,14 +312,11 @@ const RecursoDashboard = () => {
 
       return;
     }
-    const daF = formatDateNumber(Date.now());
-    let dateI = daF.replace(/-/g, "/");
-    const partes = dateI.split("/");
-    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
+
     setAtivar(true);
     await api
       .post("/recurso", {
-        valor,
+        valor: parseFloat(valor),
         fk_curso,
         rupe,
         fk_disciplina,
@@ -328,13 +325,13 @@ const RecursoDashboard = () => {
         fk_semestre,
         fk_ano,
         fk_user: sessionStorage.getItem("id"),
-        dataSolicitacao: di,
       })
       .then(async (data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
+
         setAtivar(false);
         if (data.data?.message === "error") {
           return dispatchError(toggleModalError(true));

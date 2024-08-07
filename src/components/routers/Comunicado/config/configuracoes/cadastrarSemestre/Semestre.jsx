@@ -40,7 +40,7 @@ const Semestre = () => {
   }, [nome]);
   useEffect(() => {
     if (numero) {
-      setValidNumber(NUMERO.test(nome));
+      setValidNumber(NUMERO.test(numero));
     }
   }, [numero]);
 
@@ -62,7 +62,7 @@ const Semestre = () => {
       dispatchWarneng(toggleModalWarning(true));
       return;
     }
-    console.log(numero, nome);
+
     setIsLoading(true);
     await api
       .post("/semestre", {
@@ -135,7 +135,7 @@ const Semestre = () => {
               }}>
               <TextField
                 label='Nº Correspondente'
-                type='text'
+                type='number'
                 placeholder='Designação em Algarismo Ex. 1 ou 2'
                 value={numero}
                 onChange={(e) => setNumero(e.target.value)}
@@ -165,7 +165,7 @@ const Semestre = () => {
             type='primary'
             loading={isLoading}
             onClick={() => hendleSave()}
-            disabled={!validSemestre || !numero}
+            disabled={!validSemestre || !validNumber}
             style={
               !validSemestre && {
                 margin: "40px",

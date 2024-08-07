@@ -64,6 +64,7 @@
 }
 .editarPropina .formBi div input {
   width: 25%;
+  height: 30px;
   margin-left: 10px;
   margin-top: 4px;
   border-radius: 7px;
@@ -74,10 +75,15 @@
   margin-top: 20px;
   width: 98%;
   color: #fff;
+  border-collapse: collapse;
 }
 .editarPropina th {
   background-color: $rosa;
   border: none;
+}
+.editarPropina td {
+  color: #000;
+  // border: none;
 }
 
 .editarPropina button {
@@ -108,6 +114,7 @@
 }
 .editarPropina .formBi .cc select {
   width: 100px;
+  height: 40px;
 }
 .editarPropina .formBi .cc label {
   display: flex;

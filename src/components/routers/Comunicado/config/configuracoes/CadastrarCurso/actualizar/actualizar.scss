@@ -1,4 +1,10 @@
 @import "../../../../../../../style/variable.scss";
+.atualizarCurso {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .atualizarCurso form button {
   display: flex;
   width: 150px;
@@ -18,13 +24,13 @@
   cursor: pointer;
 }
 
-.atualizarCurso table th {
-  background-color: $rosa;
-  border: none;
+table {
+  width: 60%;
+  border-collapse: collapse;
 }
-.atualizarCurso table td {
-  border: none;
-  border-bottom: 1px solid #000;
+table td,
+th {
+  border: 1px solid #000;
 }
 .atualizarCurso {
   margin-top: 20px;

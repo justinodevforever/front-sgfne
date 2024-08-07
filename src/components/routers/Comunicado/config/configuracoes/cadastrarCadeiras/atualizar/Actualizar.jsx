@@ -83,7 +83,7 @@ const ActualizarDisciplina = () => {
           navigate("/login");
           return;
         }
-
+        console.log(data.data);
         setDisciplinas(data.data);
         setIsLoading(false);
       })
@@ -203,9 +203,9 @@ const ActualizarDisciplina = () => {
               {disciplinas?.map((d) => (
                 <tr key={d.id}>
                   <td>{d?.nome}</td>
-                  <td>{d?.frequencia.ano}</td>
-                  <td>{d?.curso.curso}</td>
-                  <td>{d?.semestre.nome}</td>
+                  <td>{d?.frequencia?.ano}</td>
+                  <td>{d?.curso?.curso}</td>
+                  <td>{d?.semestre?.nome}</td>
                   <td>
                     <BiX
                       color='red'

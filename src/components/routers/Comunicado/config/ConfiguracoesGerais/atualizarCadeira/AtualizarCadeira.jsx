@@ -459,7 +459,7 @@ const AtualizarCadeira = () => {
                     <td>{cadeiraAtraso?.estudante?.nome}</td>
                     <td>{cadeiraAtraso?.estudante?.bi}</td>
                     <td>{cadeiraAtraso?.disciplina?.nome}</td>
-                    <td>{cadeiraAtraso?.AnoFrequncia?.ano}</td>
+                    <td>{cadeiraAtraso?.AnoFrequencia?.ano}</td>
                     <td>{cadeiraAtraso?.anoLectivo?.ano}</td>
                     <td>{cadeiraAtraso?.Curso?.curso}</td>
                     <td>{cadeiraAtraso?.semestre?.nome}</td>

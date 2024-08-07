@@ -28,7 +28,6 @@ const RelatorioListaRecurso = () => {
   const [loading, setLoading] = useState(false);
   const [dados, setDados] = useState({});
   const navigate = useNavigate();
-  const documentPrint = useRef();
 
   useEffect(() => {
     getDisciplina();
@@ -91,9 +90,30 @@ const RelatorioListaRecurso = () => {
         setLista(data.data);
       });
   };
-  const imprimir = useReactToPrint({
-    content: () => documentPrint.current,
-  });
+  const imprimir = async () => {
+    const con = document.getElementById("tabela").innerHTML;
+    let estilo = "<style>";
+    estilo += ".tabela { display: flex; width: 100%;}";
+    estilo +=
+      "table { border-collapse: collapse; width: 100%; margin-bottom: 10px;}";
+    estilo +=
+      "table th,td {padding: 4px; font-size: 11pt; text-align: center; border: 1px solid #000;font-weight: 500;}";
+    estilo += " img{width: 50px;height: 50px; right: 0;}";
+    estilo += "h3 {display: flex; margin: auto;}";
+    estilo += "</style>";
+
+    const win = window.open();
+    win.document.write("<html><head>");
+    win.document.write("<title>ISP_MOXICO</title>");
+    win.document.write(estilo);
+    win.document.write("</head>");
+    win.document.write("<body>");
+    win.document.write(con);
+    win.document.write("</body>");
+    win.document.write("</html>");
+    win.print();
+    win.close();
+  };
   return (
     <>
       {loading && <OvelayLoader />}
@@ -118,15 +138,13 @@ const RelatorioListaRecurso = () => {
           </Button>
         )}
         <div
-          ref={documentPrint}
+          id='tabela'
           style={{
             display: "flex",
             width: "100%",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            paddingTop: "10px",
-            margin: "0px 10px",
           }}>
           {lista?.length > 0 && (
             <img
@@ -134,8 +152,8 @@ const RelatorioListaRecurso = () => {
               alt='logo'
               style={{
                 display: "flex",
-                float: "left",
-                marginBottom: "10px",
+                float: "right",
+                // marginRight: "20px",
               }}
             />
           )}
@@ -178,7 +196,7 @@ const RelatorioListaRecurso = () => {
                   width: "100%",
                   justifyContent: "start",
                   alignItems: "start",
-                  marginTop: "20px",
+                  marginTop: "10px",
                   color: "#000",
                 }}>
                 <h2

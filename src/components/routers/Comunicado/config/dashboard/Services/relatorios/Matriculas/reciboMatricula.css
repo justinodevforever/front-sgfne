@@ -1,0 +1,57 @@
+.relatorioMatricula {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.relatorioMatricula .imprimirMatricula {
+  display: flex;
+  padding: 20px;
+  margin: auto;
+  gap: 10px;
+}
+.relatorioMatricula .div {
+  display: flex;
+  width: 100%;
+}
+.relatorioMatricula .tabelaMatricula {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.tabelaMatricula div {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.relatorioMatricula table {
+  width: 97%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.relatorioMatricula .extra {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: start;
+  text-align: left;
+}
+.relatorioMatricula .linkImprimir {
+  display: flex;
+  background-color: #a31543;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-right: 40px;
+  gap: 10px;
+}

@@ -22,7 +22,6 @@ const RelatorioPropinaCurso = () => {
   const [dataFinal, setDataFinal] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const document = useRef();
 
   useEffect(() => {
     getDisciplina();
@@ -37,13 +36,9 @@ const RelatorioPropinaCurso = () => {
     });
   };
   const relatorio = async () => {
+    if (!regime || !ano || !dataFinal || !dataInicial)
+      return alert("Existe Campos Vazios");
     setLoading(true);
-    let dateI = dataInicial.replace(/-/g, "/");
-    const partes = dateI.split("/");
-    const di = `${partes[1]}/${partes[2]}/${partes[0]}`;
-    let dateF = dataFinal.replace(/-/g, "/");
-    const lados = dateF.split("/");
-    const df = `${lados[1]}/${lados[2]}/${lados[0]}`;
 
     await api
       .post("/relatorioCurso", {
@@ -57,16 +52,40 @@ const RelatorioPropinaCurso = () => {
           navigate("/login");
           return;
         }
+        console.log(data.data);
         setListas(data.data.dados);
         setAnoFrequencia(data.data.anos);
         setEstudanteMatriculado(data.data.estudanteMatriculado);
-        console.log(data.data.estudanteMatriculado);
         setLoading(false);
-      });
+      })
+      .catch((error) => console.log(error));
   };
-  const imprimir = useReactToPrint({
-    content: () => document.current,
-  });
+
+  const imprimir = async () => {
+    const con = document.getElementById("tabela").innerHTML;
+    let estilo = "<style>";
+    estilo += ".tabela { display: flex; width: 100%;}";
+    estilo +=
+      "table { border-collapse: collapse; width: 90%; margin-bottom: 10px;}";
+    estilo +=
+      "table th,td {padding: 4px; font-size: 11pt; text-align: center; border: 1px solid #000;font-weight: 500;}";
+    estilo += " img{width: 50px;height: 50px; right: 0;}";
+    estilo += "h3 {display: flex; margin: auto;}";
+    estilo += "</style>";
+
+    const win = window.open("http://localhost:2000");
+    win.document.write("<html><head>");
+    win.document.write("<title>ISP_MOXICO</title>");
+    win.document.write(estilo);
+    win.document.write("</head>");
+    win.document.write("<body>");
+    win.document.write(con);
+    win.document.write("</body>");
+    win.document.write("</html>");
+    win.print();
+    win.close();
+  };
+
   return (
     <>
       {loading && <OvelayLoader />}
@@ -89,7 +108,7 @@ const RelatorioPropinaCurso = () => {
             <Print /> Imprimir
           </Button>
         )}
-        <div ref={document}>
+        <div id='tabela' className='tabela'>
           <img
             src={logo}
             alt='logo'
@@ -110,7 +129,10 @@ const RelatorioPropinaCurso = () => {
           </h3>
           {listas?.length > 0 && (
             <>
-              <table>
+              <table
+                style={{
+                  width: "97%",
+                }}>
                 <thead>
                   <tr>
                     <th>Data Início: {dataInicial}</th>
@@ -177,7 +199,7 @@ const RelatorioPropinaCurso = () => {
                     <th>Qtda.</th>
                     <th>Valor</th>
                     <th>Qtda.</th>
-                    <th>Paamentos</th>
+                    <th>Pagamentos</th>
                   </tr>
                 </thead>
 
@@ -215,7 +237,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Janeiro
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes?.Janeiro
-                                      ?.totalPago + ".00"}
+                                      ?.totalPago + ",00"}
                                 </td>
 
                                 <td>
@@ -228,7 +250,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes
                                     ?.Fevereiro?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes
-                                      ?.Fevereiro?.totalPago + ".00"}
+                                      ?.Fevereiro?.totalPago + ",00"}
                                 </td>
 
                                 <td>
@@ -241,7 +263,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Março
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes?.Março
-                                      ?.totalPago + ".00"}
+                                      ?.totalPago + ",00"}
                                 </td>
                                 <td>
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Abril
@@ -253,7 +275,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Abril
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes?.Abril
-                                      ?.totalPago + ".00"}
+                                      ?.totalPago + ",00"}
                                 </td>
                                 <td>
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Maio
@@ -265,7 +287,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Maio
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes?.Maio
-                                      ?.totalPago + ".00"}
+                                      ?.totalPago + ",00"}
                                 </td>
                                 <td>
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Junho
@@ -277,7 +299,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Junho
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes?.Junho
-                                      ?.totalPago + ".00"}
+                                      ?.totalPago + ",00"}
                                 </td>
                                 <td>
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Julho
@@ -289,7 +311,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Julho
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes?.Julho
-                                      ?.totalPago + ".00"}
+                                      ?.totalPago + ",00"}
                                 </td>
                                 <td>
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Outubro
@@ -301,7 +323,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Outubro
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes?.Outubro
-                                      ?.totalPago + ".00"}
+                                      ?.totalPago + ",00"}
                                 </td>
                                 <td>
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Novembro
@@ -313,7 +335,7 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Novembro
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes
-                                      ?.Novembro?.totalPago + ".00"}
+                                      ?.Novembro?.totalPago + ",00"}
                                 </td>
                                 <td>
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Dezembro
@@ -325,13 +347,13 @@ const RelatorioPropinaCurso = () => {
                                   {c?.frequencia?.Ano1º?.pagamentosMes?.Dezembro
                                     ?.totalPago &&
                                     c?.frequencia?.Ano1º?.pagamentosMes
-                                      ?.Dezembro?.totalPago + ".00"}
+                                      ?.Dezembro?.totalPago + ",00"}
                                 </td>
 
                                 <td>{c?.frequencia?.Ano1º?.qtdAno}</td>
                                 <td>
                                   {c?.frequencia?.Ano1º?.totalMesAno &&
-                                    c?.frequencia?.Ano1º?.totalMesAno + ".00"}
+                                    c?.frequencia?.Ano1º?.totalMesAno + ",00"}
                                 </td>
                               </>
                             )}
@@ -357,7 +379,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Janeiro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Janeiro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
 
                               <td>
@@ -370,7 +392,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Fevereiro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Fevereiro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
 
                               <td>
@@ -383,7 +405,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Março
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Março
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Abril
@@ -395,7 +417,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Abril
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Abril
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Maio
@@ -407,7 +429,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Maio
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Maio
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Junho
@@ -419,7 +441,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Junho
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Junho
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Julho
@@ -431,7 +453,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Julho
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Julho
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Outubro
@@ -443,7 +465,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Outubro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Outubro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Novembro
@@ -455,7 +477,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Novembro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Novembro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Dezembro
@@ -467,12 +489,12 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano2º?.pagamentosMes?.Dezembro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano2º?.pagamentosMes?.Dezembro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>{c?.frequencia?.Ano2º?.qtdAno}</td>
                               <td>
                                 {c?.frequencia?.Ano2º?.totalMesAno &&
-                                  c?.frequencia?.Ano2º?.totalMesAno + ".00"}
+                                  c?.frequencia?.Ano2º?.totalMesAno + ",00"}
                               </td>
                             </tr>
                           )}
@@ -497,7 +519,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Janeiro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Janeiro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
 
                               <td>
@@ -510,7 +532,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Fevereiro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Fevereiro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
 
                               <td>
@@ -523,7 +545,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Março
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Março
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Abril
@@ -535,7 +557,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Abril
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Abril
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Maio
@@ -547,7 +569,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Maio
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Maio
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Junho
@@ -559,7 +581,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Junho
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Junho
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Julho
@@ -571,7 +593,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Julho
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Julho
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Outubro
@@ -583,7 +605,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Outubro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Outubro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Novembro
@@ -595,7 +617,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Novembro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Novembro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Dezembro
@@ -607,12 +629,12 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano3º?.pagamentosMes?.Dezembro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano3º?.pagamentosMes?.Dezembro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>{c?.frequencia?.Ano3º?.qtdAno}</td>
                               <td>
                                 {c?.frequencia?.Ano3º?.totalMesAno &&
-                                  c?.frequencia?.Ano3º?.totalMesAno + ".00"}
+                                  c?.frequencia?.Ano3º?.totalMesAno + ",00"}
                               </td>
                             </tr>
                           )}
@@ -637,7 +659,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Janeiro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Janeiro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
 
                               <td>
@@ -650,7 +672,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Fevereiro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Fevereiro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
 
                               <td>
@@ -663,7 +685,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Março
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Março
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Abril
@@ -675,7 +697,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Abril
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Abril
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Maio
@@ -687,7 +709,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Maio
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Maio
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Junho
@@ -699,7 +721,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Junho
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Junho
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Julho
@@ -711,7 +733,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Julho
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Julho
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Outubro
@@ -723,7 +745,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Outubro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Outubro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Novembro
@@ -735,7 +757,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Novembro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Novembro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Dezembro
@@ -747,12 +769,12 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano4º?.pagamentosMes?.Dezembro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano4º?.pagamentosMes?.Dezembro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>{c?.frequencia?.Ano4º?.qtdAno}</td>
                               <td>
                                 {c?.frequencia?.Ano4º?.totalMesAno &&
-                                  c?.frequencia?.Ano4º?.totalMesAno + ".00"}
+                                  c?.frequencia?.Ano4º?.totalMesAno + ",00"}
                               </td>
                             </tr>
                           )}
@@ -777,7 +799,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Janeiro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Janeiro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
 
                               <td>
@@ -790,7 +812,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Fevereiro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Fevereiro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
 
                               <td>
@@ -803,7 +825,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Março
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Março
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Abril
@@ -815,7 +837,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Abril
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Abril
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Maio
@@ -827,7 +849,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Maio
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Maio
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Junho
@@ -839,7 +861,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Junho
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Junho
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Julho
@@ -851,7 +873,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Julho
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Julho
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Outubro
@@ -863,7 +885,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Outubro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Outubro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Novembro
@@ -875,7 +897,7 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Novembro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Novembro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Dezembro
@@ -887,12 +909,12 @@ const RelatorioPropinaCurso = () => {
                                 {c?.frequencia?.Ano5º?.pagamentosMes?.Dezembro
                                   ?.totalPago &&
                                   c?.frequencia?.Ano5º?.pagamentosMes?.Dezembro
-                                    ?.totalPago + ".00"}
+                                    ?.totalPago + ",00"}
                               </td>
                               <td>{c?.frequencia?.Ano5º?.qtdAno}</td>
                               <td>
                                 {c?.frequencia?.Ano5º?.totalMesAno &&
-                                  c?.frequencia?.Ano5º?.totalMesAno + ".00"}
+                                  c?.frequencia?.Ano5º?.totalMesAno + ",00"}
                               </td>
                             </tr>
                           )}
@@ -912,57 +934,57 @@ const RelatorioPropinaCurso = () => {
                             <td>{c?.dados?.totalPorMes?.Janeiro?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Janeiro?.valor &&
-                                c?.dados?.totalPorMes?.Janeiro?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Janeiro?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Fevereiro?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Fevereiro?.valor &&
-                                c?.dados?.totalPorMes?.Fevereiro?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Fevereiro?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Março?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Março?.valor &&
-                                c?.dados?.totalPorMes?.Março?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Março?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Abril?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Abril?.valor &&
-                                c?.dados?.totalPorMes?.Abril?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Abril?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Maio?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Maio?.valor &&
-                                c?.dados?.totalPorMes?.Maio?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Maio?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Junho?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Junho?.valor &&
-                                c?.dados?.totalPorMes?.Junho?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Junho?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Julho?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Julho?.valor &&
-                                c?.dados?.totalPorMes?.Julho?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Julho?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Outubro?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Outubro?.valor &&
-                                c?.dados?.totalPorMes?.Outubro?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Outubro?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Novembro?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Novembro?.valor &&
-                                c?.dados?.totalPorMes?.Novembro?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Novembro?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.totalPorMes?.Dezembro?.qtd}</td>
                             <td>
                               {c?.dados?.totalPorMes?.Dezembro?.valor &&
-                                c?.dados?.totalPorMes?.Dezembro?.valor + ".00"}
+                                c?.dados?.totalPorMes?.Dezembro?.valor + ",00"}
                             </td>
                             <td>{c?.dados?.qtdGeral}</td>
                             <td>
                               {c?.dados?.totaGeralCurso &&
-                                c?.dados?.totaGeralCurso + ".00"}
+                                c?.dados?.totaGeralCurso + ",00"}
                             </td>
                           </tr>
                         </tbody>
@@ -973,7 +995,7 @@ const RelatorioPropinaCurso = () => {
               <div
                 style={{
                   display: "flex",
-                  width: "98%",
+                  width: "96%",
                   justifyContent: "space-between",
                   alignItems: "center",
                   border: "1px solid #000",
@@ -993,7 +1015,7 @@ const RelatorioPropinaCurso = () => {
                   <thead>
                     <tr>
                       <th>FREQUÊNCIA</th>
-                      <th>MATRICULADO</th>
+                      <th>MATRICULADOS</th>
                       <th>QUANTIDADE</th>
                       <th>VALORES TOTAL</th>
                     </tr>
@@ -1002,32 +1024,52 @@ const RelatorioPropinaCurso = () => {
                     <tr>
                       <td>1º Ano</td>
                       <td>{estudanteMatriculado?.ano1º}</td>
-                      <td>{anoFrequencia?.ano1º?.totalEstudanteAno}</td>
-                      <td>{anoFrequencia?.ano1º?.totalPagamentoAno}</td>
+                      <td>{anoFrequencia?.ano1º?.totalEstudanteAno || 0}</td>
+                      <td>
+                        {anoFrequencia?.ano1º?.totalPagamentoAno
+                          ? anoFrequencia?.ano1º?.totalPagamentoAno + ",00"
+                          : "0,00"}
+                      </td>
                     </tr>
                     <tr>
                       <td>2º Ano</td>
                       <td>{estudanteMatriculado?.ano2º}</td>
-                      <td>{anoFrequencia?.ano2º?.totalEstudanteAno}</td>
-                      <td>{anoFrequencia?.ano2º?.totalPagamentoAno}</td>
+                      <td>{anoFrequencia?.ano2º?.totalEstudanteAno || 0}</td>
+                      <td>
+                        {anoFrequencia?.ano2º?.totalPagamentoAno
+                          ? anoFrequencia?.ano2º?.totalPagamentoAno + ",00"
+                          : "0,00"}
+                      </td>
                     </tr>
                     <tr>
                       <td>3º Ano</td>
                       <td>{estudanteMatriculado?.ano3º}</td>
-                      <td>{anoFrequencia?.ano3º?.totalEstudanteAno}</td>
-                      <td>{anoFrequencia?.ano3º?.totalPagamentoAno}</td>
+                      <td>{anoFrequencia?.ano3º?.totalEstudanteAno || 0}</td>
+                      <td>
+                        {anoFrequencia?.ano3º?.totalPagamentoAno
+                          ? anoFrequencia?.ano3º?.totalPagamentoAno + ",00"
+                          : "0,00"}
+                      </td>
                     </tr>
                     <tr>
                       <td>4º Ano</td>
                       <td>{estudanteMatriculado?.ano4º}</td>
-                      <td>{anoFrequencia?.ano4º?.totalEstudanteAno}</td>
-                      <td>{anoFrequencia?.ano4º?.totalPagamentoAno}</td>
+                      <td>{anoFrequencia?.ano4º?.totalEstudanteAno || 0}</td>
+                      <td>
+                        {anoFrequencia?.ano4º?.totalPagamentoAno
+                          ? anoFrequencia?.ano4º?.totalPagamentoAno + ",00"
+                          : "0,00"}
+                      </td>
                     </tr>
                     <tr>
                       <td>5º Ano</td>
                       <td>{estudanteMatriculado?.ano5º}</td>
-                      <td>{anoFrequencia?.ano5º?.totalEstudanteAno}</td>
-                      <td>{anoFrequencia?.ano5º?.totalPagamentoAno}</td>
+                      <td>{anoFrequencia?.ano5º?.totalEstudanteAno || 0}</td>
+                      <td>
+                        {anoFrequencia?.ano5º?.totalPagamentoAno
+                          ? anoFrequencia?.ano5º?.totalPagamentoAno + ",00"
+                          : "0,00"}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -1043,6 +1085,7 @@ const RelatorioPropinaCurso = () => {
           <FormControl>
             <InputLabel>Ano Letivo</InputLabel>
             <Select
+              required
               label='Ano Letivo'
               onChange={(e) => setAno(e.target.value)}
               style={{
@@ -1058,6 +1101,7 @@ const RelatorioPropinaCurso = () => {
           <FormControl>
             <InputLabel>Regime</InputLabel>
             <Select
+              required
               label='Ano Letivo'
               onChange={(e) => setRegime(e.target.value)}
               style={{
@@ -1073,10 +1117,11 @@ const RelatorioPropinaCurso = () => {
             display: "flex",
             flexDirection: "column",
             width: "70%",
-            gap: "20px",
+            gap: "10px",
           }}>
           Data Inicial
           <input
+            required
             type='date'
             style={{
               width: "100%",
@@ -1086,6 +1131,7 @@ const RelatorioPropinaCurso = () => {
           />
           Data Final
           <input
+            required
             type='date'
             style={{
               width: "100%",
@@ -1095,7 +1141,7 @@ const RelatorioPropinaCurso = () => {
           />
         </div>
         <Button onClick={() => relatorio()} type='primary'>
-          <Search /> Buscar
+          <Search /> Buscar Histórico
         </Button>
       </div>
     </>

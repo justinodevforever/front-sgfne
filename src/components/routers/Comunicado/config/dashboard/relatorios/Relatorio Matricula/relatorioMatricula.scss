@@ -1,0 +1,40 @@
+.relatorioMatricula {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.relatorioMatricula .divInput {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 20px;
+}
+.relatorioMatricula .tabela {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  // margin-top: 30px;
+}
+.relatorioMatricula .tabela .dados {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.relatorioMatricula .divInput input {
+  width: 70%;
+  height: 50px;
+}
+.relatorioMatricula table {
+  border-collapse: collapse;
+}
+.relatorioMatricula th {
+  border: 1px solid #000;
+}

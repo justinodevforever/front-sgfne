@@ -17,13 +17,18 @@
   cursor: pointer;
 }
 .atualizarFrequencia {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
 }
 
-.atualizarFrequencia table td {
-  border: none;
-  border-bottom: 1px solid #000;
+table {
+  width: 60%;
+  border-collapse: collapse;
 }
-.atualizarFrequencia table th {
-  background-color: $rosa;
+table td,
+th {
+  border: 1px solid #000;
 }

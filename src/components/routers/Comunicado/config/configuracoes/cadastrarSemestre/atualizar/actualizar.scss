@@ -18,13 +18,11 @@
   display: flex;
   gap: 20px;
 }
-.atualizarSemestre table th {
-  background-color: $rosa;
+table {
+  width: 60%;
+  border-collapse: collapse;
 }
-.atualizarSemestre table th {
-  border: none;
-}
-.atualizarSemestre table td {
-  border: none;
-  border-bottom: 1px solid #000;
+table td,
+th {
+  border: 1px solid #000;
 }

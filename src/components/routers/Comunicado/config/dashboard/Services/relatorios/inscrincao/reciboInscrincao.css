@@ -1,0 +1,57 @@
+.reciboInscrincao {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.reciboInscrincao .imprimirInscrincao {
+  display: flex;
+  padding: 20px;
+  margin: auto;
+  gap: 10px;
+}
+.reciboInscrincao .div {
+  display: flex;
+  width: 100%;
+}
+.reciboInscrincao .tabelaInscrincao {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.tabelaInscrincao div {
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.reciboInscrincao table {
+  width: 97%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.reciboInscrincao .extra {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: start;
+  text-align: left;
+}
+.reciboInscrincao .linkImprimir {
+  display: flex;
+  background-color: #a31543;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 100px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-right: 40px;
+  gap: 10px;
+}

@@ -4,16 +4,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 .RelatorioListaRecurso table {
   margin: auto;
   width: 90%;
+  border-collapse: collapse;
 }
 .RelatorioListaRecurso table td,
 th {
   border: none;
-  border-bottom: 1px solid #000;
+  border: 1px solid #000;
+  opacity: 1;
 }
 label {
   color: #000;

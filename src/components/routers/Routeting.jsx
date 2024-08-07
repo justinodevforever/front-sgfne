@@ -55,6 +55,16 @@ import EditarPerfil from "./perfil/Menu Perfil/editarPErfil/EditarPerfil.jsx";
 import RelatorioReconfirmacao from "./Comunicado/config/dashboard/Services/relatorios/reconfirmação/Reconfirmacao.jsx";
 import RelatorioSobreCadeira from "./Comunicado/config/dashboard/Services/relatorios/SobreCadeira/SobreCadeira.jsx";
 import MovimentoFinanceiro from "./Comunicado/config/dashboard/relatorios/Movimeto Finaceiro/MovimentoFinanceiro.jsx";
+import PagamentoFolha from "./Comunicado/config/dashboard/Services/Pagamento de Folha/PagamentoFolha.jsx";
+import AlterarSenha from "./login/alterarSenha/AlterarSenha.jsx";
+import Inscrincao from "./Comunicado/config/dashboard/Services/inscricao/Inscrincao.jsx";
+import ReciboInscrincao from "./Comunicado/config/dashboard/Services/relatorios/inscrincao/ReciboInscrincao.jsx";
+import RelatorioInscricao from "./Comunicado/config/dashboard/relatorios/Relatorio Inscricao/RelatorioInscricao.jsx";
+import ReciboMatricula from "./Comunicado/config/dashboard/Services/relatorios/Matriculas/ReciboMatricula.jsx";
+import RelatorioMatricula from "./Comunicado/config/dashboard/relatorios/Relatorio Matricula/RelatorioMatricula.jsx";
+import RelatorioDeclaracao from "./Comunicado/config/dashboard/Services/relatorios/relatorioDeclaracao/RelatorioDeclaracao.jsx";
+import ActualizarServico from "./Comunicado/config/configuracoes/cadastrarServico/actualizar/Actualizar.jsx";
+import Servico from "./Comunicado/config/configuracoes/cadastrarServico/Servico.jsx";
 
 const Routeting = () => {
   return (
@@ -62,6 +72,7 @@ const Routeting = () => {
       <Routes>
         <Route exact path='/' element={<Root />} />
         <Route exact path='/login' element={<Login />} />
+        <Route exact path='/alterar/senha' element={<AlterarSenha />} />
         <Route exact path='/relatorios/:id' element={<Relatorios />} />
         <Route
           exact
@@ -84,12 +95,20 @@ const Routeting = () => {
         <Route
           exact
           path='/relatorio_listarecurso/:id'
-          element={<RelatorioListaRecurso />}
+          element={
+            <ProtectRouter>
+              <RelatorioListaRecurso />
+            </ProtectRouter>
+          }
         />
         <Route
           exact
           path='/relatorio_regime/:id'
-          element={<RelatorioRegime />}
+          element={
+            <ProtectRouter>
+              <RelatorioRegime />
+            </ProtectRouter>
+          }
         />
         <Route
           exact
@@ -103,14 +122,75 @@ const Routeting = () => {
         <Route
           exact
           path='/relatorio_curso/:id'
-          element={<RelatorioPropinaCurso />}
+          element={
+            <ProtectRouter>
+              <RelatorioPropinaCurso />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path='/recibo_matricula/:id'
+          element={
+            <ProtectRouter>
+              <ReciboMatricula />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path='/recibo_inscrincao/:id'
+          element={
+            <ProtectRouter>
+              <ReciboInscrincao />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path='/relatorio_inscricao/:id'
+          element={
+            <ProtectRouter>
+              <RelatorioInscricao />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path='/relatorio_matricula/:id'
+          element={
+            <ProtectRouter>
+              <RelatorioMatricula />
+            </ProtectRouter>
+          }
+        />
+        <Route
+          exact
+          path='/relatorio_declaracao/:id'
+          element={
+            <ProtectRouter>
+              <RelatorioDeclaracao />
+            </ProtectRouter>
+          }
         />
         <Route
           exact
           path='/movimento_financeiro/:id'
-          element={<MovimentoFinanceiro />}
+          element={
+            <ProtectRouter>
+              <MovimentoFinanceiro />
+            </ProtectRouter>
+          }
         />
-        <Route exact path='/dashboard' element={<Dashboard />}>
+
+        <Route
+          exact
+          path='/dashboard'
+          element={
+            <ProtectRouter>
+              <Dashboard />
+            </ProtectRouter>
+          }>
           <Route
             exact
             path='dados/:id'
@@ -135,6 +215,15 @@ const Routeting = () => {
             element={
               <ProtectRouter>
                 <Ano />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='cadastrar_servico/:id'
+            element={
+              <ProtectRouter>
+                <Servico />
               </ProtectRouter>
             }
           />
@@ -212,6 +301,15 @@ const Routeting = () => {
           />
           <Route
             exact
+            path='atualizar_servico/:id'
+            element={
+              <ProtectRouter>
+                <ActualizarServico />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
             path='atualizar_semestre/:id'
             element={
               <ProtectRouter>
@@ -282,6 +380,15 @@ const Routeting = () => {
               </ProtectRouter>
             }
           />
+          <Route
+            exact
+            path='inscrincao/:id'
+            element={
+              <ProtectRouter>
+                <Inscrincao />
+              </ProtectRouter>
+            }
+          />
 
           <Route
             exact
@@ -334,6 +441,15 @@ const Routeting = () => {
             element={
               <ProtectRouter>
                 <ReconfirmacaoDashboard />
+              </ProtectRouter>
+            }
+          />
+          <Route
+            exact
+            path='pagamento_folha/:id'
+            element={
+              <ProtectRouter>
+                <PagamentoFolha />
               </ProtectRouter>
             }
           />

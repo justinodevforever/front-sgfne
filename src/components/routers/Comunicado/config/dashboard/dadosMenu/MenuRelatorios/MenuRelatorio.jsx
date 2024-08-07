@@ -42,6 +42,18 @@ const MenuRelatorio = ({ printer }) => {
                 R. Financeiro Por Regime
               </li>
             </Link>
+            <Link to={`/relatorio_matricula/${4}?ative=${"reMa"}`}>
+              <li className={"li"}>
+                <PrinterFilled />
+                Relatório de Matrícula
+              </li>
+            </Link>
+            <Link to={`/relatorio_inscricao/${4}?ative=${"reIns"}`}>
+              <li className={"li"}>
+                <PrinterFilled />
+                Relatório de Inscrição
+              </li>
+            </Link>
             <Link to={`/movimento_financeiro/${4}?ative=${"mv"}`}>
               <li className={"li"}>
                 <PrinterFilled />

@@ -34,21 +34,14 @@
   width: 100%;
   margin: auto;
 }
-/* .container-buscarEstudante .tBi {
-  conm
-} */
+
 .container-buscarEstudante th,
 td {
-  padding: 8px;
+  padding: 2px;
+  font-size: 11pt;
   text-align: center;
   padding-right: 20px;
-  border-bottom: 1px solid $siza;
-  border-right: none;
-  border-left: none;
-  border-top: none;
-}
-.container-buscarEstudante table th {
-  background-color: $rosa;
+  border: 1px solid #000;
 }
 
 @media (max-width: 800px) {

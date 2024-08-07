@@ -22,13 +22,13 @@ function RelatorioReconfirmacao() {
     const con = document.getElementById("tabela").innerHTML;
     let estilo = "<style>";
     estilo +=
-      "table { border-collapse: collapse; width: 70%;margin:auto; margin-top:20px;}";
+      "table { border-collapse: collapse; width: 90%;margin:auto; margin-top:20px;}";
     estilo +=
       ".extra div{display: flex; flex-direction: column; align-items: center; margin: auto; width:100%;}";
     estilo +=
-      ".extra {display: flex; flex-direction: column; align-items: center; margin: auto;}";
+      ".extra {display: flex; flex-direction: column; align-items: center; text-align: left; margin: auto;}";
     estilo +=
-      "table th,td { padding: 8px;text-align: center;padding-right: 20px; }";
+      "table th,td {padding: 8px;text-align: center; padding-right: 20px; font-size: 12px;}";
     estilo += "table td ,th {border: 1px solid #000; font-size: 10pt;}";
     estilo += "table th {background-color: #a31543; }";
     estilo +=
@@ -38,6 +38,9 @@ function RelatorioReconfirmacao() {
     estilo +=
       " hr{ border-top: 2px solid #000;width: 90%;margin: auto;margin-top: 40px; }";
     estilo += " img{width: 50px;height: 50px;position: absolute; right: 0;}";
+    estilo += ".tabelaReconfirmacao{display: flex; flex-direction: row;}";
+    estilo += ".tabelaReconfirmacao div{width: 70%;}";
+    estilo += "table td { text-align: left;}";
     estilo += "</style>";
 
     const win = window.open();
@@ -52,10 +55,6 @@ function RelatorioReconfirmacao() {
     win.print();
     win.close();
   };
-  function closed(e) {
-    e.preventDefault();
-    setVisivel(!visivel);
-  }
 
   const relatorioReconfirmacao = async () => {
     await api
@@ -82,174 +81,191 @@ function RelatorioReconfirmacao() {
           <h2>Relatório </h2>
 
           <div className='imprimirReconfirmacao'>
-            <Link onClick={(e) => imprimir(e)}>
+            <Link onClick={(e) => imprimir(e)} className='linkImprimir'>
               {" "}
               <BiPrinter /> Imprimir{" "}
+            </Link>
+            <Link
+              style={{
+                padding: "10px",
+              }}
+              to={`/dashboard/reconfirmacao/${2}?active=reco`}
+              className='LinkFechar'>
+              fechar{" "}
             </Link>
           </div>
         </div>
 
         {abrir && (
-          <div>
-            <div className='tabelaReconfirmacao' id='tabela'>
-              <img src={image} alt='ISPM' />
-              <div className='extra'>
-                <h4>
-                  <strong>Tipo de Serviço:</strong> Reconfirmação
-                </h4>
-                <div>
-                  <span>{reconfirmacao?.curso?.curso}</span>
-                  <span>Ano Lectivo: {reconfirmacao?.anoLectivo?.ano}</span>
+          <div id='tabela'>
+            <div className='tabelaReconfirmacao'>
+              <div>
+                <img src={image} alt='ISPM' />
+                <div className='extra'>
+                  <h4>Tipo de Serviço: Reconfirmação</h4>
+                  <div>
+                    <span>
+                      Curso: <strong>{reconfirmacao?.curso?.curso}</strong>
+                    </span>
+                    <span>
+                      Ano Lectivo:{" "}
+                      <strong>{reconfirmacao?.anoLectivo?.ano}</strong>
+                    </span>
+                  </div>
+                  <br />
                 </div>
-                <br />
+
+                <table>
+                  <thead>
+                    <tr className='estudante'>
+                      <th colSpan={6}> Dados de Estudante</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td>Estudante</td>
+                      <td>{reconfirmacao?.estudante?.nome}</td>
+                    </tr>
+                    <tr>
+                      <td>Bilhete de Identidade</td>
+                      <td>{reconfirmacao?.estudante?.bi}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table>
+                  <thead>
+                    <tr className='estudante'>
+                      <th colSpan={6}> Dados de Reconfirmação</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td>Semestre</td>
+
+                      <td>{reconfirmacao?.semestre?.nome} Semestre</td>
+                    </tr>
+                    <tr>
+                      <td>Total Pago</td>
+                      <td>{reconfirmacao?.valor} Kz</td>
+                    </tr>
+                    <tr>
+                      <td>Ano de Frquência</td>
+                      <td>{reconfirmacao?.frequencia?.ano} Ano</td>
+                    </tr>
+                    <tr>
+                      <td>Forma de Pagamento</td>
+                      <td>Por Rupe {reconfirmacao?.rupe}</td>
+                    </tr>
+                    <tr>
+                      <td>Solicitado</td>
+                      <td>{formatDate(reconfirmacao?.createdAt)}</td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}>
+                          <strong
+                            style={{
+                              fontStyle: "italic",
+                            }}>
+                            Respossável:
+                          </strong>{" "}
+                          {reconfirmacao?.usuario?.nome}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
-              <table>
-                <thead>
-                  <tr className='estudante'>
-                    <th colSpan={6}> Dados de Estudante</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td>Estudante</td>
-                    <td>{reconfirmacao?.estudante?.nome}</td>
-                  </tr>
-                  <tr>
-                    <td>Bilhete de Identidade</td>
-                    <td>{reconfirmacao?.estudante?.bi}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <table>
-                <thead>
-                  <tr className='estudante'>
-                    <th colSpan={6}> Dados de Reconfirmação</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td>Semestre</td>
-
-                    <td>{reconfirmacao?.semestre?.nome} Semestre</td>
-                  </tr>
-                  <tr>
-                    <td>Total Pago</td>
-                    <td>{reconfirmacao?.valor} Kz</td>
-                  </tr>
-                  <tr>
-                    <td>Ano de Frquência</td>
-                    <td>{reconfirmacao?.frequencia?.ano} Ano</td>
-                  </tr>
-                  <tr>
-                    <td>Forma de Pagamento</td>
-                    <td>Por Rupe {reconfirmacao?.rupe}</td>
-                  </tr>
-                  <tr>
-                    <td>Solicitado</td>
-                    <td>{formatDate(reconfirmacao?.createdAt)}</td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}>
-                        <strong
-                          style={{
-                            fontStyle: "italic",
-                          }}>
-                          Respossável:
-                        </strong>{" "}
-                        {reconfirmacao?.usuario?.nome}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <hr />
-              <img src={image} alt='ISPM' />
-              <div className='extra'>
-                <h4>
-                  <strong>Tipo de Serviço:</strong> Reconfirmação
-                </h4>
-                <div>
-                  <span>{reconfirmacao?.curso?.curso}</span>
-                  <span>Ano Lectivo: {reconfirmacao?.anoLectivo?.ano}</span>
+              <div>
+                <img src={image} alt='ISPM' />
+                <div className='extra'>
+                  <h4>Tipo de Serviço: Reconfirmação</h4>
+                  <div>
+                    <span>
+                      Curso: <strong>{reconfirmacao?.curso?.curso}</strong>
+                    </span>
+                    <span>
+                      Ano Lectivo:{" "}
+                      <strong>{reconfirmacao?.anoLectivo?.ano}</strong>
+                    </span>
+                  </div>
+                  <br />
                 </div>
-                <br />
-              </div>
 
-              <table>
-                <thead>
-                  <tr className='estudante'>
-                    <th colSpan={6}> Dados de Estudante</th>
-                  </tr>
-                </thead>
+                <table>
+                  <thead>
+                    <tr className='estudante'>
+                      <th colSpan={6}> Dados de Estudante</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  <tr>
-                    <td>Estudante</td>
-                    <td>{reconfirmacao?.estudante?.nome}</td>
-                  </tr>
-                  <tr>
-                    <td>Bilhete de Identidade</td>
-                    <td>{reconfirmacao?.estudante?.bi}</td>
-                  </tr>
-                </tbody>
-              </table>
-              <table>
-                <thead>
-                  <tr className='estudante'>
-                    <th colSpan={6}> Dados de Reconfirmação</th>
-                  </tr>
-                </thead>
+                  <tbody>
+                    <tr>
+                      <td>Estudante</td>
+                      <td>{reconfirmacao?.estudante?.nome}</td>
+                    </tr>
+                    <tr>
+                      <td>Bilhete de Identidade</td>
+                      <td>{reconfirmacao?.estudante?.bi}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <table>
+                  <thead>
+                    <tr className='estudante'>
+                      <th colSpan={6}> Dados de Reconfirmação</th>
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  <tr>
-                    <td>Semestre</td>
+                  <tbody>
+                    <tr>
+                      <td>Semestre</td>
 
-                    <td>{reconfirmacao?.semestre?.nome} Semestre</td>
-                  </tr>
-                  <tr>
-                    <td>Total Pago</td>
-                    <td>{reconfirmacao?.valor} Kz</td>
-                  </tr>
-                  <tr>
-                    <td>Ano de Frquência</td>
-                    <td>{reconfirmacao?.frequencia?.ano} Ano</td>
-                  </tr>
-                  <tr>
-                    <td>Forma de Pagamento</td>
-                    <td>Por Rupe {reconfirmacao?.rupe}</td>
-                  </tr>
-                  <tr>
-                    <td>Solicitado</td>
-                    <td>{formatDate(reconfirmacao?.createdAt)}</td>
-                  </tr>
-                  <tr>
-                    <td colSpan={2}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}>
-                        <strong
+                      <td>{reconfirmacao?.semestre?.nome} Semestre</td>
+                    </tr>
+                    <tr>
+                      <td>Total Pago</td>
+                      <td>{reconfirmacao?.valor} Kz</td>
+                    </tr>
+                    <tr>
+                      <td>Ano de Frquência</td>
+                      <td>{reconfirmacao?.frequencia?.ano} Ano</td>
+                    </tr>
+                    <tr>
+                      <td>Forma de Pagamento</td>
+                      <td>Por Rupe {reconfirmacao?.rupe}</td>
+                    </tr>
+                    <tr>
+                      <td>Solicitado</td>
+                      <td>{formatDate(reconfirmacao?.createdAt)}</td>
+                    </tr>
+                    <tr>
+                      <td colSpan={2}>
+                        <div
                           style={{
-                            fontStyle: "italic",
+                            display: "flex",
+                            justifyContent: "space-between",
                           }}>
-                          Respossável:
-                        </strong>{" "}
-                        {reconfirmacao?.usuario?.nome}
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                          <strong
+                            style={{
+                              fontStyle: "italic",
+                            }}>
+                            Respossável:
+                          </strong>{" "}
+                          {reconfirmacao?.usuario?.nome}
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         )}

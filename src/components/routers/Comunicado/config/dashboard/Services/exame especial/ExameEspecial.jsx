@@ -49,12 +49,12 @@ const ExameEspecialDashboard = () => {
   const [disciplinas, setDisciplinas] = useState([]);
   const [semestre, setSemestre] = useState("");
   const navigate = useNavigate();
-  const [valor, setValor] = useState("");
+  const [valor, setValor] = useState(0);
   const [ativar, setAtivar] = useState(false);
   const [visivel, setVisivel] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(0);
+  const [isProcessing, setIsProcessing] = useState(false);
   const [message, setMessage] = useState("");
 
   const dispatchError = useDispatch();
@@ -312,14 +312,11 @@ const ExameEspecialDashboard = () => {
       dispatchWarning(toggleModalWarning(true));
       return;
     }
-    const daF = formatDateNumber(Date.now());
-    let dateI = daF.replace(/-/g, "/");
-    const partes = dateI.split("/");
-    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
+
     setAtivar(true);
     await api
       .post("/exame/especial", {
-        valor,
+        valor: parseFloat(valor),
         fk_curso,
         rupe,
         fk_disciplina,
@@ -328,7 +325,6 @@ const ExameEspecialDashboard = () => {
         fk_semestre,
         fk_ano,
         fk_user: sessionStorage.getItem("id"),
-        dataSolicitacao: di,
       })
       .then((data) => {
         if (data.data === "Token Invalid") {

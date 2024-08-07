@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./declaracao.css";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
-import { Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 import { api } from "../../../../../../../../auth/auth";
 import {
   FormControl,
@@ -13,17 +13,32 @@ import {
   TextField,
 } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import {
+  toggleModalConfirmar,
+  toggleModalError,
+} from "../../../../../../../store/ui-slice";
+import UseSucess from "../../../../../hook/massege/sucess/UseSucess";
+import UseErro from "../../../../../hook/massege/Error/UseErro";
+import Processing from "../../../../../hook/process/Processing";
+import Ispm from "../../../../../hook/Ispm";
 
 const DeclaracaoDashboard = () => {
   const [bi, setBi] = useState("");
   const [nome, setNome] = useState("");
+  const [curso, setCurso] = useState("");
   const [frequencias, setFrequencias] = useState([]);
-  const [frequencia, setFrequencia] = useState("");
+  const [fk_frequencia, setFk_frequencia] = useState("");
   const [fk_estudante, setFk_estudante] = useState(0);
   const [fk_user, setFk_user] = useState(0);
+  const [valor, setValor] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const [tipos] = useSearchParams();
+  const dispatch = useDispatch();
   const form = useForm();
   const { register, handleSubmit } = form;
 
@@ -39,6 +54,7 @@ const DeclaracaoDashboard = () => {
   }, [bi]);
 
   const buscarEstudante = async () => {
+    setLoading(true);
     await api
       .post("/search/estudante/bi", {
         bi,
@@ -48,9 +64,20 @@ const DeclaracaoDashboard = () => {
           navigate("/login");
           return;
         }
-        setCurso(data.data.curso.curso);
-        setNome(data.data.nome);
-        setFk_estudante(data.data.id);
+        if (!data.data || data.data === null) {
+          let c = 0;
+          c = setInterval(() => {
+            setIsProcessing(false);
+          }, 4000);
+          setMessage("Estudante com Este Nº de B.I não Existe!");
+          setIsProcessing(true);
+          setLoading(false);
+          return () => clearInterval(c);
+        }
+        setCurso(data.data?.curso?.curso);
+        setNome(data.data?.nome);
+        setFk_estudante(data.data?.id);
+        setLoading(false);
       })
       .catch((err) => console.log(err));
   };
@@ -65,37 +92,59 @@ const DeclaracaoDashboard = () => {
         }
 
         setFrequencias(data.data);
+        setIsLoading(false);
       })
       .catch((err) => console.log(err));
   };
 
-  const hendlePagamento = async (e) => {
-    e.preventDefault();
-    const daF = formatDateNumber(Date.now());
-    let dateI = daF.replace(/-/g, "/");
-    const partes = dateI.split("/");
-    const di = `${partes[1]}/${partes[0]}/${partes[2]}`;
+  const hendlePagamento = async () => {
     await api
-      .post("/propina", {
-        frequencia,
+      .post("/declaracoes", {
+        fk_frequencia,
         fk_estudante,
-        fk_user,
-        dataSolicitacao: di,
-        desc:
+        valor: parseFloat(valor),
+        fk_user: sessionStorage.getItem("id"),
+        tipoDeclaracao:
           tipos.get("tipos") === "Linceciatura"
             ? "Declaração de " + tipos.get("tipos")
-            : "Declaração  " + tipos.get("tipos"),
+            : "Declaração " + tipos.get("tipos"),
       })
       .then((data) => {
         if (data.data === "Token Invalid") {
           navigate("/login");
           return;
         }
+
+        if (data.data.message === "sucess") {
+          dispatch(toggleModalConfirmar(true));
+          let id = null;
+          let co = 0;
+
+          id = setInterval(() => {
+            navigate(
+              `/relatorio_declaracao/${
+                data.data?.response?.id
+              }?tipo=${tipos.get("tipos")}`
+            );
+            if (co === 4) return clearInterval(id);
+            co++;
+          }, 5000);
+          return;
+        }
+        if (data.data.message === "error")
+          return dispatch(toggleModalError(true));
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
   return (
     <>
+      {isLoading && <Ispm />}
+      <UseSucess />
+      <UseErro />
+      {isProcessing && <Processing message={message} />}
       <div
         className='container-declaracao'
         style={{
@@ -134,15 +183,20 @@ const DeclaracaoDashboard = () => {
                 }}
                 labelId='demo-simple-select-label'
                 label='Frequência'
-                onChange={(e) => setFrequencia(e.target.value)}
+                onChange={(e) => setFk_frequencia(e.target.value)}
                 id='demo-simple-select'>
                 {frequencias.map((s) => (
-                  <MenuItem value={s.ano} key={s.id}>
+                  <MenuItem value={s.id} key={s.id}>
                     {s.ano}
                   </MenuItem>
                 ))}
               </Select>
             </FormControl>
+            <TextField
+              label='Valor'
+              type='number'
+              onChange={(e) => setValor(e.target.value)}
+            />
           </div>
           <hr />
           {bi && nome && (
@@ -175,6 +229,7 @@ const DeclaracaoDashboard = () => {
               <TextField
                 type='text'
                 label='Curso'
+                value={curso}
                 readOnly
                 variant='outlined'
                 style={{
@@ -196,9 +251,12 @@ const DeclaracaoDashboard = () => {
                 {...register("bi")}
               />
 
-              <button className='btnDeclaracao' type='submit'>
+              <Button
+                className='btnDeclaracao'
+                type='primary'
+                onClick={() => hendlePagamento()}>
                 Pagar
-              </button>
+              </Button>
             </div>
           )}
         </div>

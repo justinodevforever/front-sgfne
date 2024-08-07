@@ -89,7 +89,6 @@ const Propina = ({ tipo }) => {
           return;
         }
 
-        setCurso(data.data.curso.curso);
         setBi(data.data.bi);
         setFk_curso(data.data.curso.id);
         setNome(data.data.nome);

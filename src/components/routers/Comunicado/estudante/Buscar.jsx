@@ -88,6 +88,7 @@ const Buscar = () => {
                   <th>BI</th>
                   <th>Regime</th>
                   <th>Turma</th>
+                  <th>Frequência</th>
                   <th>Sexo</th>
                 </tr>
               </thead>
@@ -99,6 +100,7 @@ const Buscar = () => {
                   <td>{estudante?.bi}</td>
                   <td>{estudante?.regime}</td>
                   <td>{estudante?.turma}</td>
+                  <td>{estudante?.frequencia?.ano}</td>
                   <td>{estudante?.sexo}</td>
                 </tr>
               </tbody>

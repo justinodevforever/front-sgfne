@@ -4,16 +4,12 @@ import "./ispm.css";
 const Ispm = ({ isClic }) => {
   useEffect(() => {
     function animacao() {
-      let an = null;
       let pos = 0;
       const i = document.getElementById("i");
       const s = document.getElementById("s");
       const p = document.getElementById("p");
       const m = document.getElementById("m");
-      const cr = document.getElementById("cr");
-      const cr1 = document.getElementById("cr1");
-      const cr2 = document.getElementById("cr2");
-      const cr3 = document.getElementById("cr3");
+
       let anim = 0;
       if (isClic) {
         let leng = 0;
@@ -46,29 +42,22 @@ const Ispm = ({ isClic }) => {
   }, [isClic]);
   return (
     <>
-      {isClic && (
-        <div className='container-ispm'>
-          <div className='carregar' id='cr'></div>
-          <div className='carregar' id='cr1'></div>
-          <div className='carregar' id='cr2'></div>
-          <div className='carregar' id='cr3'></div>
-
-          <div className='conteudo-ispm'>
-            <div className='letras i'>
-              <h1 id='i'>I</h1>
-            </div>
-            <div className='letras s'>
-              <h1 id='s'>S</h1>
-            </div>
-            <div className='letras p'>
-              <h1 id='p'>P</h1>
-            </div>
-            <div className='letras m'>
-              <h1 id='m'>M</h1>
-            </div>
+      <div className='container-ispm'>
+        <div className='conteudo-ispm'>
+          <div className='letras i'>
+            <h1 id='i'>I</h1>
+          </div>
+          <div className='letras s'>
+            <h1 id='s'>S</h1>
+          </div>
+          <div className='letras p'>
+            <h1 id='p'>P</h1>
+          </div>
+          <div className='letras m'>
+            <h1 id='m'>M</h1>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 };
