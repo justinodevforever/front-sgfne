@@ -27,6 +27,7 @@ import Processing from "../../../../../hook/process/Processing";
 import { useForm } from "react-hook-form";
 import { formatDate, formatDateNumber } from "../../../../../hook/timeout";
 import Ispm from "../../../../../hook/Ispm";
+const RUPE = / .{8,21}$/;
 
 const PropinaDashboard = () => {
   const [bi, setBi] = useState("");
@@ -51,6 +52,7 @@ const PropinaDashboard = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [valid, setValid] = useState(false);
   const form = useForm();
   const { register, handleSubmit } = form;
 
@@ -67,6 +69,13 @@ const PropinaDashboard = () => {
     setIsLoading(false);
     // tiposServicos();
   }, []);
+
+  useEffect(() => {
+    if (rupe) {
+      setValid(RUPE.test(rupe));
+      console.log(RUPE.test(rupe));
+    }
+  }, [rupe]);
 
   useEffect(() => {
     if (bi === "") {
@@ -275,73 +284,114 @@ const PropinaDashboard = () => {
                 paddingBottom: "10px",
                 paddingTop: "10px",
               }}>
-              <TextField
-                type='number'
-                label='Rupe'
-                id='rupe'
-                placeholder='Digite o Número de Rupe'
-                maxLength={24}
-                {...register("rupe")}
+              <div
                 style={{
+                  display: "flex",
+                  flexDirection: "column",
                   width: "200px",
-                }}
-              />
+                }}>
+                <TextField
+                  type='number'
+                  label='Rupe'
+                  id='rupe'
+                  onChange={(e) => setRupe(e.target.value)}
+                  placeholder='Digite o Número de Rupe'
+                  maxLength={24}
+                  // {...register("rupe")}
+                  style={{
+                    width: "100%",
+                    marginTop: "14px",
+                  }}
+                />
 
-              <FormControl fullWidth>
-                <InputLabel htmlFor='demo-simple-select-label'>Mês</InputLabel>
-                <Select
-                  style={{
-                    width: "200px",
-                  }}
-                  labelId='demo-simple-select-label'
-                  label='Mês'
-                  {...register("fk_mes")}
-                  id='demo-simple-select'>
-                  {meses.map((s) => (
-                    <MenuItem value={s.id} key={s.id}>
-                      {s.mes}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl fullWidth>
-                <InputLabel htmlFor='demo-simple-select-label'>
-                  Semestre
-                </InputLabel>
-                <Select
-                  style={{
-                    width: "200px",
-                  }}
-                  labelId='demo-simple-select-label'
-                  label='Semestre'
-                  {...register("fk_semestre")}
-                  id='demo-simple-select'>
-                  {semestres.map((s) => (
-                    <MenuItem value={s.id} key={s.id}>
-                      {s.nome}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl fullWidth>
-                <InputLabel htmlFor='demo-simple-select-label'>
-                  Ano Lectivo
-                </InputLabel>
-                <Select
-                  style={{
-                    width: "200px",
-                  }}
-                  labelId='demo-simple-select-label'
-                  label='Ano Lectivo'
-                  {...register("fk_ano")}
-                  id='demo-simple-select'>
-                  {anos.map((s) => (
-                    <MenuItem value={s.id} key={s.id}>
-                      {s.ano}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                {valid && (
+                  <p
+                    style={{
+                      marginTop: "8",
+                      color: "red",
+                    }}>
+                    O Rupe é Inválido
+                  </p>
+                )}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "200px",
+                }}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor='demo-simple-select-label'>
+                    Mês
+                  </InputLabel>
+                  <Select
+                    style={{
+                      width: "200px",
+                    }}
+                    labelId='demo-simple-select-label'
+                    label='Mês'
+                    {...register("fk_mes")}
+                    id='demo-simple-select'>
+                    {meses.map((s) => (
+                      <MenuItem value={s.id} key={s.id}>
+                        {s.mes}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "200px",
+                }}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor='demo-simple-select-label'>
+                    Semestre
+                  </InputLabel>
+                  <Select
+                    style={{
+                      width: "200px",
+                    }}
+                    labelId='demo-simple-select-label'
+                    label='Semestre'
+                    {...register("fk_semestre")}
+                    id='demo-simple-select'>
+                    {semestres.map((s) => (
+                      <MenuItem value={s.id} key={s.id}>
+                        {s.nome}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "200px",
+                }}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor='demo-simple-select-label'>
+                    Ano Lectivo
+                  </InputLabel>
+                  <Select
+                    style={{
+                      width: "200px",
+                    }}
+                    labelId='demo-simple-select-label'
+                    label='Ano Lectivo'
+                    {...register("fk_ano")}
+                    id='demo-simple-select'>
+                    {anos.map((s) => (
+                      <MenuItem value={s.id} key={s.id}>
+                        {s.ano}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
             </Space>
             <hr />
             {bi !== "" && nome !== "" && curso !== "" ? (

@@ -24,6 +24,7 @@ export default function Login() {
 
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
+  let l = "";
 
   async function handleLogar(data) {
     setClick(true);
@@ -44,7 +45,7 @@ export default function Login() {
         sessionStorage.setItem("id", data.data?.User?.id);
         dispatch(setId(data.data?.User?.id));
         setClick(false);
-        navigate(`/dashboard/dados/${1}`);
+        navigate(`/dashboard/dados/${1}`, { replace: true });
       })
       .catch((error) => console.log(error));
   }
