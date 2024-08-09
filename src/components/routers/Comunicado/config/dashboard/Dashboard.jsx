@@ -335,20 +335,14 @@ const Dashboard = () => {
                       />
                     </Link>
                   ) : (
-                    <div>
-                      <Link
-                        style={{
-                          borderRadius: "50%",
-                        }}
-                        className='perfil'
-                        to={`/perfil/${sessionStorage.getItem("id")}`}>
-                        <img
-                          src={image?.nome}
-                          alt={""}
-                          className='suserImage'
-                        />
-                      </Link>
-                    </div>
+                    <Link
+                      style={{
+                        borderRadius: "50%",
+                      }}
+                      className='perfil'
+                      to={`/perfil/${sessionStorage.getItem("id")}`}>
+                      <img src={image?.nome} alt={""} className='suserImage' />
+                    </Link>
                   )}
                 </li>
               </ul>

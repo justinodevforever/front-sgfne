@@ -297,7 +297,7 @@ const PropinaDashboard = () => {
                   onChange={(e) => setRupe(e.target.value)}
                   placeholder='Digite o Número de Rupe'
                   maxLength={24}
-                  // {...register("rupe")}
+                  {...register("rupe")}
                   style={{
                     width: "100%",
                     marginTop: "14px",
